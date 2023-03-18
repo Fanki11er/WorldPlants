@@ -12,6 +12,8 @@
         public bool AddPlants { get; set; }
         public bool RemovePlants { get; set;}
         public bool EditPlants { get; set; }
+        public virtual User User { get; set; }
+        public Guid UserId { get; set; }
 
     }
 }
