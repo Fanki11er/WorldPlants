@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using WorldPlants.Entities;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<WorldPLantsDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("WorldPlantsDb")));
 
 var app = builder.Build();
 
