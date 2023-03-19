@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
+using WorldPlants.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<WorldPLantsDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("WorldPlantsDb")));
+
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 

@@ -10,6 +10,7 @@
         public string AccountType { get; set; }
         public virtual UserSettings UserSettings { get; set; }
         public virtual Space Space { get; set; }
+        public Guid SpaceId { get; set; }
 
     }
 }
