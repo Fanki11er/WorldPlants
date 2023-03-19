@@ -1,10 +1,10 @@
-using FlashCards;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WorldPlants;
 using WorldPlants.Entities;
 using WorldPlants.Models;
 using WorldPlants.Models.Validators;
@@ -12,13 +12,16 @@ using WorldPlants.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var authenticationSettings = new AuthenticationSettings();
-var wordPlantsTokenKey = builder.Configuration["WorldPlants:TokenKey"];
+var authenticationSettings = new AuthenticationSettings
+{
+    JwtKey = builder.Configuration["WorldPlants:TokenKey"]
+};
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddSingleton(authenticationSettings);
 
 builder.Services.AddAuthentication(option =>
 {
@@ -33,7 +36,7 @@ builder.Services.AddAuthentication(option =>
     {
         ValidIssuer = authenticationSettings.JwtIssuer,
         ValidAudience = authenticationSettings.JwtIssuer,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(wordPlantsTokenKey)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
 
     };
 });
@@ -44,6 +47,7 @@ builder.Services.AddDbContext<WorldPLantsDbContext>(
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
+builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
 
 var app = builder.Build();
 

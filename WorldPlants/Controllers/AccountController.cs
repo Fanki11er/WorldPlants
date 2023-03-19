@@ -28,5 +28,13 @@ namespace WorldPlants.Controllers
             return Ok();
         }
 
+        [HttpPost("Login")]
+
+        public ActionResult LoginUser([FromBody] LoginUserDto dto)
+        {
+            var token = _accountService.GenerateJWT(dto);
+            return Ok(token);
+        }
+
     }
 }

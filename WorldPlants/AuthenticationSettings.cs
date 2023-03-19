@@ -1,4 +1,4 @@
-﻿namespace FlashCards
+﻿namespace WorldPlants
 {
     public class AuthenticationSettings
     {
