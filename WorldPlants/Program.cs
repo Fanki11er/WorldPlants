@@ -1,6 +1,10 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
+using WorldPlants.Models;
+using WorldPlants.Models.Validators;
 using WorldPlants.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,11 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddDbContext<WorldPLantsDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("WorldPlantsDb")));
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 
 var app = builder.Build();
 

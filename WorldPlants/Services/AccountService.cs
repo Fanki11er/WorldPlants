@@ -24,15 +24,7 @@ namespace WorldPlants.Services
         public void RegisterOwnerUser(RegisterUserDto dto)
         {
             string accountType = "Owner";
-            if (!CheckIfPasswordAndRepeatedPasswordAreTheSame(dto.Password, dto.RepeatedPassword))
-            {
-                throw new ArgumentException("Passwords are not the same");
-            }
-            if (UserWithGivenEmailExists(dto.Email))
-            {
-                throw new ArgumentException("Email exists");
-            };
-
+        
             var spaceId = AddToDatabaseUserSpace();
             var userId = AddUserToDatabase(dto, spaceId, accountType);
             AddToDatabaseUserSettings(accountType, userId);
@@ -41,30 +33,12 @@ namespace WorldPlants.Services
         public void RegisterGuestUser(RegisterUserDto dto, Guid spaceId)
         {
             string accountType = "Guest";
-            if (!CheckIfPasswordAndRepeatedPasswordAreTheSame(dto.Password, dto.RepeatedPassword))
-            {
-                throw new ArgumentException("Passwords are not the same");
-            };
-            if (UserWithGivenEmailExists(dto.Email))
-            {
-                throw new ArgumentException("Email exists");
-            };
-
-
+     
             var userId = AddUserToDatabase(dto, spaceId, accountType);
 
             AddToDatabaseUserSettings(accountType, userId);
 
 
-        }
-
-        private bool CheckIfPasswordAndRepeatedPasswordAreTheSame(string password, string repeatedPassword)
-        {
-            if (password == repeatedPassword)
-            {
-                return true;
-            }
-            return false;
         }
 
         private Guid AddUserToDatabase(RegisterUserDto dto, Guid spaceId, string accountType)
@@ -91,15 +65,15 @@ namespace WorldPlants.Services
             var userSettings = new UserSettings()
             {
                 UserId = userId,
-                ReceiveEmails = accountType == "Owner" ? true : false,
+                ReceiveEmails = accountType == "Owner",
                 CanWaterPlants = true,
                 CanMistPlants = true,
-                CanFertilizePlants = accountType == "Owner" ? true : false,
-                CanRepotPlants = accountType == "Owner" ? true : false,
-                CanMovePlants = accountType == "Owner" ? true : false,
-                AddPlants = accountType == "Owner" ? true : false,
-                RemovePlants = accountType == "Owner" ? true : false,
-                EditPlants = accountType == "Owner" ? true : false
+                CanFertilizePlants = accountType == "Owner",
+                CanRepotPlants = accountType == "Owner",
+                CanMovePlants = accountType == "Owner",
+                AddPlants = accountType == "Owner",
+                RemovePlants = accountType == "Owner",
+                EditPlants = accountType == "Owner"
             };
             _context.UserSettings.Add(userSettings);
             _context.SaveChanges();
@@ -114,10 +88,5 @@ namespace WorldPlants.Services
             return id;
         }
 
-        private bool UserWithGivenEmailExists(string email)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email );
-            return user != null? true: false;
-        }
     }
 }
