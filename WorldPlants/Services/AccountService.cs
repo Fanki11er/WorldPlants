@@ -1,4 +1,5 @@
-﻿using WorldPlants.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using WorldPlants.Entities;
 using WorldPlants.Models;
 
 namespace WorldPlants.Services
@@ -13,10 +14,12 @@ namespace WorldPlants.Services
     public class AccountService: IAccountService
     {
         private readonly WorldPLantsDbContext _context;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AccountService(WorldPLantsDbContext context)
+        public AccountService(WorldPLantsDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
         public void RegisterOwnerUser(RegisterUserDto dto)
         {
@@ -66,16 +69,18 @@ namespace WorldPlants.Services
 
         private Guid AddUserToDatabase(RegisterUserDto dto, Guid spaceId, string accountType)
         {
+            
             var user = new User()
             {
                 Name = dto.Name,
                 Email = dto.Email,
                 AccountType = accountType,
                 SpaceId = spaceId,
-                Password = dto.Password,
-                
-
             };
+
+            var hashedPassword = _passwordHasher.HashPassword(user, dto.Password);
+            user.Password = hashedPassword;
+
             var id = _context.Users.Add(user).Entity.Id;
             _context.SaveChanges();
             return id;
