@@ -11,6 +11,7 @@ using WorldPlants.Middleware;
 using WorldPlants.Models;
 using WorldPlants.Models.Validators;
 using WorldPlants.Services;
+using WorldPlants.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +49,10 @@ builder.Services.AddDbContext<WorldPLantsDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("WorldPlantsDb")));
 
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IOwnerUserService, OwnerUserService>();
+builder.Services.AddScoped<IGuestUsertService, GuestUserService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
 builder.Services.AddScoped<ErrorHandelingMiddleware>();

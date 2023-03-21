@@ -15,21 +15,7 @@ namespace WorldPlants.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost("RegisterOwner")]
-        public ActionResult RegisterOwnerUser([FromBody] RegisterUserDto dto)
-        {
-            _accountService.RegisterOwnerUser(dto);
-            return Ok();
-        }
-        [HttpPost("RegisterGuest")]
-        public ActionResult RegisterGuestUser([FromBody] RegisterUserDto dto)
-        {
-            // _accountService.RegisterUser(dto,)
-            return Ok();
-        }
-
         [HttpPost("Login")]
-
         public ActionResult LoginUser([FromBody] LoginUserDto dto)
         {
             var token = _accountService.GenerateJWT(dto);
