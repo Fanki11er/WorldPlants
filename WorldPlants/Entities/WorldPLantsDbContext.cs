@@ -10,5 +10,6 @@ namespace WorldPlants.Entities
         }
         public DbSet<User> Users { get; set; }
         public DbSet<UserSettings> UserSettings { get; set; }
+        public DbSet<Space> Spaces { get; set; }
     }
 }

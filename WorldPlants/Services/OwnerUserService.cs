@@ -20,6 +20,8 @@ namespace WorldPlants.Services
             string accountType = "Owner";
 
             var spaceId = _databaseUtils.AddToDatabaseUserSpace();
+            _databaseUtils.CheckIfSpaceExists(spaceId);
+
             var userId = _databaseUtils.AddUserToDatabase(dto, spaceId, accountType);
             _databaseUtils.AddToDatabaseUserSettings(accountType, userId);
         }

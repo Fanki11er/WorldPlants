@@ -1,16 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Models;
+using WorldPlants.Services;
 
 namespace WorldPlants.Controllers
 {
-    [Route("Guest")]
+    [Route("{spaceId}/Guest")]
     [ApiController]
     public class GuestUserController : Controller
     {
-        [HttpPost("Register")]
-        public ActionResult RegisterGuestUser([FromBody] RegisterUserDto dto)
+        private readonly IGuestUsertService _guestUsertService;
+
+        public GuestUserController(IGuestUsertService guestUsertService)
         {
-            // _accountService.RegisterUser(dto,)
+            _guestUsertService = guestUsertService;
+        }
+
+        [HttpPost("Register")]
+        public ActionResult RegisterGuestUser([FromRoute] Guid spaceId, [FromBody] RegisterUserDto dto)
+        {
+            _guestUsertService.RegisterGuestUser(dto, spaceId);
             return Ok();
         }
 

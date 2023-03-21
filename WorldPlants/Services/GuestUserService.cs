@@ -21,6 +21,8 @@ namespace WorldPlants.Services
         {
             string accountType = "Guest";
 
+            _databaseUtils.CheckIfSpaceExists(spaceId);
+
             var userId = _databaseUtils.AddUserToDatabase(dto, spaceId, accountType);
 
             _databaseUtils.AddToDatabaseUserSettings(accountType, userId);

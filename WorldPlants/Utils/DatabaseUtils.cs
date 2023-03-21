@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
+using WorldPlants.Exceptions;
 using WorldPlants.Models;
 
 namespace WorldPlants.Utils
@@ -10,6 +11,7 @@ namespace WorldPlants.Utils
         Guid AddUserToDatabase(RegisterUserDto dto, Guid spaceId, string accountType);
         void AddToDatabaseUserSettings(string accountType, Guid userId);
         public Guid AddToDatabaseUserSpace();
+        public void CheckIfSpaceExists(Guid spaceId);
     }
 
 
@@ -70,6 +72,15 @@ namespace WorldPlants.Utils
             var id = _context.Add(userSpace).Entity.Id;
             _context.SaveChanges();
             return id;
+        }
+
+        public void CheckIfSpaceExists(Guid spaceId)
+        {
+            var space = _context.Spaces.Any(s=> s.Id == spaceId);
+            if (!space)
+            {
+                throw new NotFoundException("Nie znaleziono przestrzeni użytkownika");
+            }
         }
     }
 }
