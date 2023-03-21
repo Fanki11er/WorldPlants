@@ -21,5 +21,11 @@ namespace WorldPlants.Controllers
             _ownerUserService.RegisterOwnerUser(dto);
             return Ok();
         }
+        [HttpDelete()]
+        public ActionResult DeleteUserAndAppAccount([FromBody] DeleteUserAndAccountDto dto)
+        {
+           _ownerUserService.DeleteUserAndAppAccount(dto);
+            return NoContent();
+        }
     }
 }

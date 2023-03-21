@@ -30,7 +30,7 @@ namespace WorldPlants.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Space");
+                    b.ToTable("Spaces");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.User", b =>

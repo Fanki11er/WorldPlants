@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WorldPlants.Entities;
 using WorldPlants.Models;
 using WorldPlants.Services;
 
@@ -20,6 +21,19 @@ namespace WorldPlants.Controllers
         {
             _guestUsertService.RegisterGuestUser(dto, spaceId);
             return Ok();
+        }
+
+        [HttpGet()]
+        public ActionResult<IEnumerable<SanitizedGuestUserDto>> GetGuestUser([FromRoute] Guid spaceId) {
+
+           var spaceGuestUsers =  _guestUsertService.GetGuestUsers(spaceId);
+            return Ok(spaceGuestUsers);
+        }
+        [HttpDelete()]
+        public ActionResult<IEnumerable<SanitizedGuestUserDto>> DeleteGuestUser([FromQuery] Guid spaceId, [FromBody] Guid userId)
+        {
+            _guestUsertService.DeleteGuestUser(spaceId, userId);
+            return NoContent();
         }
 
     }

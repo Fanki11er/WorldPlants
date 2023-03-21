@@ -56,6 +56,7 @@ builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
 builder.Services.AddScoped<ErrorHandelingMiddleware>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
