@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WorldPlants.Entities;
+using WorldPlants.Exceptions;
 using WorldPlants.Models;
 
 namespace WorldPlants.Services
@@ -47,7 +48,6 @@ namespace WorldPlants.Services
 
             AddToDatabaseUserSettings(accountType, userId);
 
-
         }
 
         public string GenerateJWT(LoginUserDto dto)
@@ -56,14 +56,12 @@ namespace WorldPlants.Services
 
             if (user is null)
             {
-                throw new Exception();
-                //throw new BadRequestException("Błędne imię lub hasło");
+                throw new BadRequestException("Błędne imię lub hasło");
             }
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, dto.Password);
             if (result == PasswordVerificationResult.Failed)
             {
-                throw new Exception();
-                //throw new BadRequestException("Błędne imię lub hasło");
+                throw new BadRequestException("Błędne imię lub hasło");
             }
 
             var claims = new List<Claim>()
