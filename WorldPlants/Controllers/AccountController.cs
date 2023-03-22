@@ -16,10 +16,10 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Login")]
-        public ActionResult LoginUser([FromBody] LoginUserDto dto)
+        public ActionResult<LoggedUserDto> LoginUser([FromBody] LoginUserDto dto)
         {
-            var token = _accountService.GenerateJWT(dto);
-            return Ok(token);
+            var loggedUserDto = _accountService.LoginUser(dto);
+            return Ok(loggedUserDto);
         }
 
     }

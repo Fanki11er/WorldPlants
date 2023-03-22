@@ -11,7 +11,7 @@ namespace WorldPlants.Utils
         Guid AddUserToDatabase(RegisterUserDto dto, Guid spaceId, string accountType);
         void AddToDatabaseUserSettings(string accountType, Guid userId);
         public Guid AddToDatabaseUserSpace();
-        public void CheckIfSpaceExists(Guid spaceId);
+        public void CheckIfSpaceExists(string spaceId);
     }
 
 
@@ -41,9 +41,9 @@ namespace WorldPlants.Utils
             var hashedPassword = _passwordHasher.HashPassword(user, dto.Password);
             user.Password = hashedPassword;
 
-            var id = _context.Users.Add(user).Entity.Id;
+            _context.Users.Add(user);
             _context.SaveChanges();
-            return id;
+            return user.Id;
         }
 
         public void AddToDatabaseUserSettings(string accountType, Guid userId)
@@ -74,9 +74,9 @@ namespace WorldPlants.Utils
             return id;
         }
 
-        public void CheckIfSpaceExists(Guid spaceId)
+        public void CheckIfSpaceExists(string spaceId)
         {
-            var space = _context.Spaces.Any(s=> s.Id == spaceId);
+            var space = _context.Spaces.Any(s=> s.Id.ToString() == spaceId);
             if (!space)
             {
                 throw new NotFoundException("Nie znaleziono przestrzeni użytkownika");

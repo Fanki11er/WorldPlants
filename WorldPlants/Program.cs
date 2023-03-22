@@ -20,6 +20,10 @@ var authenticationSettings = new AuthenticationSettings
     JwtKey = builder.Configuration["WorldPlants:TokenKey"]
 };
 
+builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
+
+
+
 // Add services to the container.
 builder.Host.UseNLog();
 builder.Services.AddControllersWithViews();
@@ -57,6 +61,8 @@ builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator
 builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
 builder.Services.AddScoped<ErrorHandelingMiddleware>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -72,6 +78,7 @@ app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthorization();
 
 
 app.MapControllerRoute(

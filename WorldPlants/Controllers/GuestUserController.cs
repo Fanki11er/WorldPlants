@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Entities;
 using WorldPlants.Models;
 using WorldPlants.Services;
 
 namespace WorldPlants.Controllers
 {
-    [Route("{spaceId}/Guest")]
+    [Route("Guest")]
     [ApiController]
+    [Authorize(Roles = "Owner")]
     public class GuestUserController : Controller
     {
         private readonly IGuestUsertService _guestUsertService;
@@ -17,22 +19,22 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Register")]
-        public ActionResult RegisterGuestUser([FromRoute] Guid spaceId, [FromBody] RegisterUserDto dto)
+        public ActionResult RegisterGuestUser([FromBody] RegisterUserDto dto)
         {
-            _guestUsertService.RegisterGuestUser(dto, spaceId);
+            _guestUsertService.RegisterGuestUser(dto);
             return Ok();
         }
 
         [HttpGet()]
-        public ActionResult<IEnumerable<SanitizedGuestUserDto>> GetGuestUser([FromRoute] Guid spaceId) {
-
-           var spaceGuestUsers =  _guestUsertService.GetGuestUsers(spaceId);
+        public ActionResult<IEnumerable<SanitizedGuestUserDto>> GetGuestUser() {
+            
+           var spaceGuestUsers =  _guestUsertService.GetGuestUsers();
             return Ok(spaceGuestUsers);
         }
-        [HttpDelete()]
-        public ActionResult<IEnumerable<SanitizedGuestUserDto>> DeleteGuestUser([FromQuery] Guid spaceId, [FromBody] Guid userId)
+        [HttpDelete("{userId}")]
+        public ActionResult<IEnumerable<SanitizedGuestUserDto>> DeleteGuestUser([FromQuery] string userId)
         {
-            _guestUsertService.DeleteGuestUser(spaceId, userId);
+            _guestUsertService.DeleteGuestUser(userId);
             return NoContent();
         }
 

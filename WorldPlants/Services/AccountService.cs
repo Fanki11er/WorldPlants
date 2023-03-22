@@ -12,7 +12,7 @@ namespace WorldPlants.Services
 
     public interface IAccountService
     {
-        public string GenerateJWT(LoginUserDto dto);
+        public LoggedUserDto LoginUser(LoginUserDto dto);
     };
 
     public class AccountService : IAccountService
@@ -28,7 +28,7 @@ namespace WorldPlants.Services
             _authenticationSettings = authenticationSettings;
         }
 
-        public string GenerateJWT(LoginUserDto dto)
+        public LoggedUserDto LoginUser(LoginUserDto dto)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == dto.Email);
 
@@ -37,17 +37,33 @@ namespace WorldPlants.Services
                 throw new BadRequestException("Błędne imię lub hasło");
             }
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, dto.Password);
+           
             if (result == PasswordVerificationResult.Failed)
             {
                 throw new BadRequestException("Błędne imię lub hasło");
             }
 
+            var token = GenerateJWT(user);
+
+            var loggedUserDto = new LoggedUserDto()
+            {
+                Name = user.Name,
+                Token = token,
+            };
+
+            return loggedUserDto;
+
+        }
+
+        private string GenerateJWT(User user)
+        {
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, $"{user.Name}"),
                 new Claim(ClaimTypes.Email, $"{user.Email}"),
-                new Claim(ClaimTypes.Role, $"{user.AccountType}")
+                new Claim(ClaimTypes.Role, $"{user.AccountType}"),
+                new Claim("SpaceIdentifier", $"{user.SpaceId}")
 
             };
 

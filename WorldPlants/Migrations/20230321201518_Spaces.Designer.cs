@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorldPlants.Entities;
 
@@ -11,9 +12,11 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPLantsDbContext))]
-    partial class WorldPLantsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230321201518_Spaces")]
+    partial class Spaces
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +66,8 @@ namespace WorldPlants.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SpaceId");
+                    b.HasIndex("SpaceId")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -115,8 +119,8 @@ namespace WorldPlants.Migrations
             modelBuilder.Entity("WorldPlants.Entities.User", b =>
                 {
                     b.HasOne("WorldPlants.Entities.Space", "Space")
-                        .WithMany("Users")
-                        .HasForeignKey("SpaceId")
+                        .WithOne("User")
+                        .HasForeignKey("WorldPlants.Entities.User", "SpaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -136,7 +140,8 @@ namespace WorldPlants.Migrations
 
             modelBuilder.Entity("WorldPlants.Entities.Space", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.User", b =>

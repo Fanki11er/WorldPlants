@@ -3,6 +3,6 @@
     public class Space
     {
         public Guid Id { get; set; }
-        public virtual User User { get; set; }
+        public virtual IEnumerable<User> Users { get; set; }
     }
 }
