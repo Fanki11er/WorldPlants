@@ -59,6 +59,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
+builder.Services.AddScoped<IValidator<UserChangePasswordDto>, UserChangePasswordValidator>();
 builder.Services.AddScoped<ErrorHandelingMiddleware>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUserContextService, UserContextService>();

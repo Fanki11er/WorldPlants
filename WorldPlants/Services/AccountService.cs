@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,6 +14,7 @@ namespace WorldPlants.Services
     public interface IAccountService
     {
         public LoggedUserDto LoginUser(LoginUserDto dto);
+        public LoggedUserDto ChangeUserPassword(UserChangePasswordDto dto);
     };
 
     public class AccountService : IAccountService
@@ -20,11 +22,13 @@ namespace WorldPlants.Services
         private readonly WorldPLantsDbContext _context;
         private readonly AuthenticationSettings _authenticationSettings;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IUserContextService _userContextService;
 
-        public AccountService(WorldPLantsDbContext context, IPasswordHasher<User> passwordHasher, AuthenticationSettings authenticationSettings)
+        public AccountService(WorldPLantsDbContext context, IPasswordHasher<User> passwordHasher, IUserContextService userContextService, AuthenticationSettings authenticationSettings)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            _userContextService = userContextService;
             _authenticationSettings = authenticationSettings;
         }
 
@@ -36,13 +40,41 @@ namespace WorldPlants.Services
             {
                 throw new BadRequestException("Błędne imię lub hasło");
             }
-            var result = _passwordHasher.VerifyHashedPassword(user, user.Password, dto.Password);
-           
-            if (result == PasswordVerificationResult.Failed)
+
+            VeryfiPassword(user, dto.Password, "Błędne imię lub hasło");
+
+            var token = GenerateJWT(user);
+
+            var loggedUserDto = new LoggedUserDto()
             {
-                throw new BadRequestException("Błędne imię lub hasło");
+                Name = user.Name,
+                Token = token,
+            };
+
+            return loggedUserDto;
+
+        }
+
+        public LoggedUserDto ChangeUserPassword(UserChangePasswordDto dto)
+        {
+            var userId = _userContextService.GetUserId;
+
+            if (userId is null)
+            {
+                throw new ForbidException("Brak uprawnień do wykonania akcji");
             }
 
+            var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == userId);
+
+            if (user is null)
+            {
+                throw new ForbidException("Brak uprawnień do wykonania akcji");
+            }
+
+            VeryfiPassword(user, dto.Password, "Błędne imię lub hasło");
+
+            user.Password = _passwordHasher.HashPassword(user, dto.NewPassword);
+            
             var token = GenerateJWT(user);
 
             var loggedUserDto = new LoggedUserDto()
@@ -79,6 +111,16 @@ namespace WorldPlants.Services
 
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
+        }
+
+        private void VeryfiPassword(User user, string passwordToVeryfy, string errorMessage)
+        {
+            var result = _passwordHasher.VerifyHashedPassword(user, user.Password,passwordToVeryfy);
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                throw new BadRequestException(errorMessage);
+            }
         }
 
     }

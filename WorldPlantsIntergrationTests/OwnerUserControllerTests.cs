@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using WorldPlants.Entities;
 using WorldPlants.Models;
+using WorldPlants.Utils;
 using Xunit;
 
 namespace WorldPlantsIntergrationTests

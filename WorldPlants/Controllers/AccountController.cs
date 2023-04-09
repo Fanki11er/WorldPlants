@@ -22,5 +22,14 @@ namespace WorldPlants.Controllers
             return Ok(loggedUserDto);
         }
 
+        [HttpPost("ChangeUserPassword")]
+
+        public ActionResult<LoggedUserDto> ChangeUserPassword([FromBody] UserChangePasswordDto dto)
+        {
+            var loggedUserDto = _accountService.ChangeUserPassword(dto);
+
+            return Ok(loggedUserDto);
+        }
+
     }
 }
