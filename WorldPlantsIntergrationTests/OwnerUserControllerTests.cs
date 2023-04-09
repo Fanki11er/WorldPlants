@@ -37,19 +37,7 @@ namespace WorldPlantsIntergrationTests
 
         public OwnerUserControllerTests(WebApplicationFactory<Program> factory)
         {
-            _client = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    var dbContextOptions = services.
-                      SingleOrDefault(services => services.ServiceType == typeof(DbContextOptions<WorldPLantsDbContext>));
-
-                    services.Remove(dbContextOptions!);
-
-                    services.AddDbContext<WorldPLantsDbContext>(options => options.UseInMemoryDatabase("WorldPlantsTestDb"));
-                });
-            })
-            .CreateClient();
+            _client = new FakeHttpClient(factory).FakeHttpClinet;
         }
 
         [Theory]
