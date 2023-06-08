@@ -9,10 +9,10 @@ namespace WorldPlants.Utils
 {
     public class FakeHttpClient
     {
-        public HttpClient FakeHttpClinet { get; }
+        public HttpClient fakeHttpClient { get; }
         public FakeHttpClient(WebApplicationFactory<Program> factory)
         {
-            FakeHttpClinet = factory.WithWebHostBuilder(builder =>
+            fakeHttpClient = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {

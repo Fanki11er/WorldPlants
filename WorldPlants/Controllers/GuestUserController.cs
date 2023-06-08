@@ -11,30 +11,30 @@ namespace WorldPlants.Controllers
     [Authorize(Roles = "Owner")]
     public class GuestUserController : Controller
     {
-        private readonly IGuestUsertService _guestUsertService;
+        private readonly IGuestUsertService _guestUserService;
 
-        public GuestUserController(IGuestUsertService guestUsertService)
+        public GuestUserController(IGuestUsertService guestUserService)
         {
-            _guestUsertService = guestUsertService;
+            _guestUserService = guestUserService;
         }
 
         [HttpPost("Register")]
         public ActionResult RegisterGuestUser([FromBody] RegisterUserDto dto)
         {
-            _guestUsertService.RegisterGuestUser(dto);
+            _guestUserService.RegisterGuestUser(dto);
             return Ok();
         }
 
         [HttpGet()]
         public ActionResult<IEnumerable<SanitizedGuestUserDto>> GetGuestUser() {
             
-           var spaceGuestUsers =  _guestUsertService.GetGuestUsers();
+           var spaceGuestUsers =  _guestUserService.GetGuestUsers();
             return Ok(spaceGuestUsers);
         }
         [HttpDelete("{userId}")]
         public ActionResult<IEnumerable<SanitizedGuestUserDto>> DeleteGuestUser([FromQuery] string userId)
         {
-            _guestUsertService.DeleteGuestUser(userId);
+            _guestUserService.DeleteGuestUser(userId);
             return NoContent();
         }
 

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System.Text.RegularExpressions;
 using WorldPlants.Entities;
 
 namespace WorldPlants.Models.Validators
@@ -23,6 +24,14 @@ namespace WorldPlants.Models.Validators
 
             RuleFor(u => u.Password).MinimumLength(8);
             RuleFor(u => u.RepeatedPassword).Equal(u => u.Password);
+            RuleFor(u => u.PhoneNumber).Custom((value, context) => {
+                string pattern = @"^\d{9}$";
+                if (value != null && !Regex.IsMatch(value, pattern))
+                {
+                    context.AddFailure("PhoneNumber", "Podany numer jest nie prawidłowy");
+                }
+           
+            });
         }
     }
 }

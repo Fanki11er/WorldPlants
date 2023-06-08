@@ -6,20 +6,20 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorldPlants.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Space",
+                name: "Spaces",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Space", x => x.Id);
+                    table.PrimaryKey("PK_Spaces", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -32,15 +32,16 @@ namespace WorldPlants.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     AccountType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Space_SpaceId",
+                        name: "FK_Users_Spaces_SpaceId",
                         column: x => x.SpaceId,
-                        principalTable: "Space",
+                        principalTable: "Spaces",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -51,14 +52,15 @@ namespace WorldPlants.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ReceiveEmails = table.Column<bool>(type: "bit", nullable: false),
+                    ReceiveSms = table.Column<bool>(type: "bit", nullable: false),
                     CanWaterPlants = table.Column<bool>(type: "bit", nullable: false),
                     CanMistPlants = table.Column<bool>(type: "bit", nullable: false),
                     CanFertilizePlants = table.Column<bool>(type: "bit", nullable: false),
                     CanRepotPlants = table.Column<bool>(type: "bit", nullable: false),
                     CanMovePlants = table.Column<bool>(type: "bit", nullable: false),
-                    AddPlants = table.Column<bool>(type: "bit", nullable: false),
-                    RemovePlants = table.Column<bool>(type: "bit", nullable: false),
-                    EditPlants = table.Column<bool>(type: "bit", nullable: false),
+                    CanAddPlants = table.Column<bool>(type: "bit", nullable: false),
+                    CanRemovePlants = table.Column<bool>(type: "bit", nullable: false),
+                    CanEditPlants = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -75,8 +77,7 @@ namespace WorldPlants.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_SpaceId",
                 table: "Users",
-                column: "SpaceId",
-                unique: true);
+                column: "SpaceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserSettings_UserId",
@@ -95,7 +96,7 @@ namespace WorldPlants.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Space");
+                name: "Spaces");
         }
     }
 }

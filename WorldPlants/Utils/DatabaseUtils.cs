@@ -36,6 +36,7 @@ namespace WorldPlants.Utils
                 Email = dto.Email,
                 AccountType = accountType,
                 SpaceId = spaceId,
+                PhoneNumber = dto.PhoneNumber,
             };
 
             var hashedPassword = _passwordHasher.HashPassword(user, dto.Password);
@@ -52,14 +53,15 @@ namespace WorldPlants.Utils
             {
                 UserId = userId,
                 ReceiveEmails = accountType == "Owner",
+                ReceiveSms = accountType == "Owner",
                 CanWaterPlants = true,
                 CanMistPlants = true,
                 CanFertilizePlants = accountType == "Owner",
                 CanRepotPlants = accountType == "Owner",
                 CanMovePlants = accountType == "Owner",
-                AddPlants = accountType == "Owner",
-                RemovePlants = accountType == "Owner",
-                EditPlants = accountType == "Owner"
+                CanAddPlants = accountType == "Owner",
+                CanRemovePlants = accountType == "Owner",
+                CanEditPlants = accountType == "Owner"
             };
             _context.UserSettings.Add(userSettings);
             _context.SaveChanges();

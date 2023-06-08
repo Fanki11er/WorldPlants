@@ -58,6 +58,9 @@ namespace WorldPlants.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("SpaceId")
                         .HasColumnType("uniqueidentifier");
 
@@ -74,7 +77,10 @@ namespace WorldPlants.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("AddPlants")
+                    b.Property<bool>("CanAddPlants")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanEditPlants")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanFertilizePlants")
@@ -86,19 +92,19 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanMovePlants")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("CanRemovePlants")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("CanRepotPlants")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanWaterPlants")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EditPlants")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("ReceiveEmails")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("RemovePlants")
+                    b.Property<bool>("ReceiveSms")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("UserId")

@@ -12,8 +12,8 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPLantsDbContext))]
-    [Migration("20230322214145_changedRelationInSpace")]
-    partial class changedRelationInSpace
+    [Migration("20230608190356_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,9 @@ namespace WorldPlants.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("SpaceId")
                         .HasColumnType("uniqueidentifier");
 
@@ -77,7 +80,10 @@ namespace WorldPlants.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("AddPlants")
+                    b.Property<bool>("CanAddPlants")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanEditPlants")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanFertilizePlants")
@@ -89,19 +95,19 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanMovePlants")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("CanRemovePlants")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("CanRepotPlants")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanWaterPlants")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EditPlants")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("ReceiveEmails")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("RemovePlants")
+                    b.Property<bool>("ReceiveSms")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("UserId")
