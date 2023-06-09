@@ -3,11 +3,12 @@ import backgroundSvg from "../../Assets/HeroPageBackground.svg"
 import heroImage from "../../Assets/HeroImage.svg"
 
 export const LandingViewWrapper = styled.div`
-    background-image: url("${backgroundSvg}");
+    background-image: url(${backgroundSvg});
     background-size: cover;
     background-position: center;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
 `;
 
 export const HeaderWrapper = styled.div`
@@ -20,7 +21,7 @@ export const HeaderWrapper = styled.div`
 
 export const HeroImageWrapper = styled.div`
     width: 100%;
-    background-image: url("${heroImage}");
+    background-image: url(${heroImage});
     background-size: 60%;
     background-repeat: no-repeat;
     background-position: center;

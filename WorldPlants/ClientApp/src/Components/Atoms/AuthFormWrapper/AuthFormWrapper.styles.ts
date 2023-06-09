@@ -21,5 +21,5 @@ export const ImgAuth = styled.img`
     position: absolute;
     right: 0;
     left: 230px;
-    top:10%;
+    top: 7%;
 `

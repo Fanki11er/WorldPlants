@@ -14,12 +14,6 @@ const LoginForm = () => {
                 <ImgAuth src={ImgAuthSunFlower} alt="ImgAuthSunFlowers"/>
                 <AuthFormHeader>Logowanie</AuthFormHeader>
                <FormInputsWrapper>
-               <InputField
-                    name="name"
-                    placeholder="Imię"
-                    label="Imię"
-                    type="name"
-                />
                 <InputField
                     name="email"
                     placeholder="Email"
@@ -45,3 +39,4 @@ const LoginForm = () => {
 }
 
 export default LoginForm;
+

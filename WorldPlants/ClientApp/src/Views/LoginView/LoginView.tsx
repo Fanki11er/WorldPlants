@@ -1,11 +1,14 @@
+import { ViewWrapper } from "../../Components/Atoms/ViewWrapper/ViewWrapper";
+import UnauthorizedNavigation from "../../Components/Molecules/UnauthorizedNavigation/UnauthorizedNavigation";
 import LoginForm from "../../Components/Organisms/LoginForm/LoginForm";
-import { LoginViewWrapper } from "./LoginView.styles";
+
 
 const LoginView = () => {
     return(
-        <LoginViewWrapper>
+        <ViewWrapper>
+            <UnauthorizedNavigation/>
             <LoginForm/>
-        </LoginViewWrapper>
+        </ViewWrapper>
     )
 }
 

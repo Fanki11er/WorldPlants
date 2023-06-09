@@ -10,7 +10,7 @@ export const theme: Theme = {
     purple: "rgba(49, 32, 97, 1)",
     blue: "rgba(17, 84, 230, 1)",
     gray: "rgba(88, 94, 114, 1)",
-   
+    purpleLight: "rgba(78, 78, 165, 1)"
   },
   fontSizes: {
     small: "14px",
@@ -40,6 +40,7 @@ export type Theme = {
     purple: string;
     blue: string;
     gray: string;
+    purpleLight: string;
   };
   fontSizes: {
     small: string;

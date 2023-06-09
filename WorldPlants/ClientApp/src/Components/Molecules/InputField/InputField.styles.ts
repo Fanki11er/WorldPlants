@@ -27,9 +27,14 @@ export const Input = styled.input`
     border-radius: 25px;
     outline: none;
     border: 2px solid transparent;
-
-    :hover {
+    color:  ${(props: AppTheme) => props.theme.colors.white};
+   /* :hover {
         color:  ${(props: AppTheme) => props.theme.colors.white};
-    }
+    }*/
    
+`;
+
+export const Required = styled.sup`
+    color: red;
+    margin-left: 2px;
 `;

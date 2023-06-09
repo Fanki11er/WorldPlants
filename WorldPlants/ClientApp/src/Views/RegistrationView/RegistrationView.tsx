@@ -1,11 +1,14 @@
+import { ViewWrapper } from "../../Components/Atoms/ViewWrapper/ViewWrapper";
+import UnauthorizedNavigation from "../../Components/Molecules/UnauthorizedNavigation/UnauthorizedNavigation";
 import RegistrationForm from "../../Components/Organisms/RegistrationForm/RegistrationForm";
-import { RegistrationViewWrapper } from "./RegistrationView.styles";
+
 
 const RegistrationView = () => {
     return(
-        <RegistrationViewWrapper>
+        <ViewWrapper>
+            <UnauthorizedNavigation/>
             <RegistrationForm/>
-        </RegistrationViewWrapper>
+        </ViewWrapper>
     )
 }
 
