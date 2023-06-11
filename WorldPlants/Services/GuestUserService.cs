@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using WorldPlants.Entities;
+using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
 using WorldPlants.Utils;
@@ -15,12 +15,12 @@ namespace WorldPlants.Services
     };
     public class GuestUserService : IGuestUsertService
     {
-        private readonly WorldPLantsDbContext _context;
+        private readonly WorldPlantsDbContext _context;
         private readonly IDatabaseUtils _databaseUtils;
         private readonly IMapper _mapper;
         private readonly IUserContextService _userContextService;
 
-        public GuestUserService(WorldPLantsDbContext context, IDatabaseUtils databaseUtils, IMapper mapper, IUserContextService userContextService)
+        public GuestUserService(WorldPlantsDbContext context, IDatabaseUtils databaseUtils, IMapper mapper, IUserContextService userContextService)
         {
             _context = context;
             _databaseUtils = databaseUtils;
@@ -29,7 +29,7 @@ namespace WorldPlants.Services
         }
         public void RegisterGuestUser(RegisterUserDto dto)
         {
-            string accountType = "Guest";
+            string accountType = UserRoles.Geust.ToString();
 
             var spaceId = CheckIfSpaceIdIsNotNull();
 

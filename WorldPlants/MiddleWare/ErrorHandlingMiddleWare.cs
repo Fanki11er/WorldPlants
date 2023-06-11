@@ -1,12 +1,12 @@
 ﻿using WorldPlants.Exceptions;
 
-namespace WorldPlants.Middleware
+namespace WorldPlants.MiddleWare
 {
-    public class ErrorHandelingMiddleware : IMiddleware
+    public class ErrorHandlingMiddleWare : IMiddleware
     {
-        private readonly ILogger<ErrorHandelingMiddleware> _logger;
+        private readonly ILogger<ErrorHandlingMiddleWare> _logger;
 
-        public ErrorHandelingMiddleware(ILogger<ErrorHandelingMiddleware> logger)
+        public ErrorHandlingMiddleWare(ILogger<ErrorHandlingMiddleWare> logger)
         {
             _logger = logger;
         }
@@ -29,7 +29,12 @@ namespace WorldPlants.Middleware
             catch(BadRequestException badRequestException)
             {
                 context.Response.StatusCode = 400;
-                await context.Response.WriteAsJsonAsync(badRequestException.Message);
+                await context.Response.WriteAsync(badRequestException.Message);
+            }
+            catch(UserSiteNotFoundException userSiteNotFoundException)
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync(userSiteNotFoundException.Message);
             }
             catch (Exception ex)
             {

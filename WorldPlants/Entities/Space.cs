@@ -4,5 +4,8 @@
     {
         public Guid Id { get; set; }
         public virtual IEnumerable<User> Users { get; set; }
+        public virtual IEnumerable<UserSite> UserSites { get; set; }
+
+
     }
 }

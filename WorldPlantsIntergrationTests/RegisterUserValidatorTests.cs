@@ -11,12 +11,12 @@ namespace WorldPlantsIntergrationTests
 {
     public class RegisterUserValidatorTests
     {
-        private readonly WorldPLantsDbContext _dbContext;
+        private readonly WorldPlantsDbContext _dbContext;
         public RegisterUserValidatorTests()
         {
-            var builder = new  DbContextOptionsBuilder<WorldPLantsDbContext>();
+            var builder = new  DbContextOptionsBuilder<WorldPlantsDbContext>();
             builder.UseInMemoryDatabase("TestDatabase");
-            _dbContext = new WorldPLantsDbContext(builder.Options);
+            _dbContext = new WorldPlantsDbContext(builder.Options);
             Seed();
 
          

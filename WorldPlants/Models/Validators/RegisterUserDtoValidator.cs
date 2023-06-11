@@ -6,7 +6,7 @@ namespace WorldPlants.Models.Validators
 {
     public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
     {
-        public RegisterUserDtoValidator(WorldPLantsDbContext dbContext)
+        public RegisterUserDtoValidator(WorldPlantsDbContext dbContext)
         {
             RuleFor(u => u.Email)
                 .NotEmpty()

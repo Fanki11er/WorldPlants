@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
+using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
 using WorldPlants.Utils;
@@ -15,10 +16,10 @@ namespace WorldPlants.Services
     public class OwnerUserService : IOwnerUserService
     {
         private readonly IDatabaseUtils _databaseUtils;
-        private readonly WorldPLantsDbContext _context;
+        private readonly WorldPlantsDbContext _context;
         private readonly IUserContextService _userContextService;
 
-        public OwnerUserService(IDatabaseUtils databaseUtils, WorldPLantsDbContext context, IUserContextService userContextService)
+        public OwnerUserService(IDatabaseUtils databaseUtils, WorldPlantsDbContext context, IUserContextService userContextService)
         {
             _databaseUtils = databaseUtils;
             _context = context;
@@ -26,7 +27,7 @@ namespace WorldPlants.Services
         }
         public void RegisterOwnerUser(RegisterUserDto dto)
         {
-            string accountType = "Owner";
+            string accountType = UserRoles.Owner.ToString();
 
             var spaceId = _databaseUtils.AddToDatabaseUserSpace();
             _databaseUtils.CheckIfSpaceExists(spaceId.ToString());

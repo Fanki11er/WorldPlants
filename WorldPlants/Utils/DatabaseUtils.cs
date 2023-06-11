@@ -17,10 +17,10 @@ namespace WorldPlants.Utils
 
     public class DatabaseUtils : IDatabaseUtils
     {
-        private readonly WorldPLantsDbContext _context;
+        private readonly WorldPlantsDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public DatabaseUtils(WorldPLantsDbContext context, IPasswordHasher<User> passwordHasher)
+        public DatabaseUtils(WorldPlantsDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
             _passwordHasher = passwordHasher;

@@ -17,11 +17,11 @@ namespace WorldPlants.Utils
                 builder.ConfigureServices(services =>
                 {
                     var dbContextOptions = services.
-                      SingleOrDefault(services => services.ServiceType == typeof(DbContextOptions<WorldPLantsDbContext>));
+                      SingleOrDefault(services => services.ServiceType == typeof(DbContextOptions<WorldPlantsDbContext>));
 
                     services.Remove(dbContextOptions!);
 
-                    services.AddDbContext<WorldPLantsDbContext>(options => options.UseInMemoryDatabase("WorldPlantsTestDb"));
+                    services.AddDbContext<WorldPlantsDbContext>(options => options.UseInMemoryDatabase("WorldPlantsTestDb"));
                 });
             })
            .CreateClient();

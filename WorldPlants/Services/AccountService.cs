@@ -19,12 +19,12 @@ namespace WorldPlants.Services
 
     public class AccountService : IAccountService
     {
-        private readonly WorldPLantsDbContext _context;
+        private readonly WorldPlantsDbContext _context;
         private readonly AuthenticationSettings _authenticationSettings;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IUserContextService _userContextService;
 
-        public AccountService(WorldPLantsDbContext context, IPasswordHasher<User> passwordHasher, IUserContextService userContextService, AuthenticationSettings authenticationSettings)
+        public AccountService(WorldPlantsDbContext context, IPasswordHasher<User> passwordHasher, IUserContextService userContextService, AuthenticationSettings authenticationSettings)
         {
             _context = context;
             _passwordHasher = passwordHasher;

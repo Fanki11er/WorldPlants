@@ -6,8 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using NLog.Web;
 using System.Text;
 using WorldPlants;
+using WorldPlants.DbSeeders;
 using WorldPlants.Entities;
-using WorldPlants.Middleware;
+using WorldPlants.MiddleWare;
 using WorldPlants.Models;
 using WorldPlants.Models.Validators;
 using WorldPlants.Services;
@@ -49,23 +50,27 @@ builder.Services.AddAuthentication(option =>
     };
 });
 
-builder.Services.AddDbContext<WorldPLantsDbContext>(
+builder.Services.AddDbContext<WorldPlantsDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("WorldPlantsDb")));
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IOwnerUserService, OwnerUserService>();
 builder.Services.AddScoped<IGuestUsertService, GuestUserService>();
+builder.Services.AddScoped<ISiteService, SitesService>();
+builder.Services.AddScoped<DbSeeder, DbSeeder>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
 builder.Services.AddScoped<IValidator<UserChangePasswordDto>, UserChangePasswordValidator>();
-builder.Services.AddScoped<ErrorHandelingMiddleware>();
+builder.Services.AddScoped<ErrorHandlingMiddleWare>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+SeedDatabase();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -74,7 +79,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseMiddleware<ErrorHandelingMiddleware>();
+app.UseMiddleware<ErrorHandlingMiddleWare>();
 app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -89,5 +94,15 @@ app.MapControllerRoute(
 app.MapFallbackToFile("index.html"); ;
 
 app.Run();
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<DbSeeder>();
+        dbInitializer.Seed();
+    };
+}
 
 public partial class Program { }
+
+
