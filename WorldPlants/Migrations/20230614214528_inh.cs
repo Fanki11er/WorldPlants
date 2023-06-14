@@ -6,11 +6,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorldPlants.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class inh : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "DefaultSites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<int>(type: "int", nullable: false),
+                    WarmPeriodMinTemperature = table.Column<int>(type: "int", nullable: false),
+                    WarmPeriodMaxTemperature = table.Column<int>(type: "int", nullable: false),
+                    ColdPeriodMinTemperature = table.Column<int>(type: "int", nullable: false),
+                    ColdPeriodMaxTemperature = table.Column<int>(type: "int", nullable: false),
+                    HasRoof = table.Column<bool>(type: "bit", nullable: false),
+                    CanChangeHasRoof = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DefaultSites", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Spaces",
                 columns: table => new
@@ -63,7 +83,7 @@ namespace WorldPlants.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DefaultSites",
+                name: "UserSites",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -76,22 +96,20 @@ namespace WorldPlants.Migrations
                     ColdPeriodMaxTemperature = table.Column<int>(type: "int", nullable: false),
                     HasRoof = table.Column<bool>(type: "bit", nullable: false),
                     CanChangeHasRoof = table.Column<bool>(type: "bit", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SunExposureId = table.Column<int>(type: "int", nullable: true),
-                    UserSpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    SunExposureId = table.Column<int>(type: "int", nullable: false),
+                    SpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DefaultSites", x => x.Id);
+                    table.PrimaryKey("PK_UserSites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DefaultSites_Spaces_SpaceId",
+                        name: "FK_UserSites_Spaces_SpaceId",
                         column: x => x.SpaceId,
                         principalTable: "Spaces",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DefaultSites_SunExposures_SunExposureId",
+                        name: "FK_UserSites_SunExposures_SunExposureId",
                         column: x => x.SunExposureId,
                         principalTable: "SunExposures",
                         principalColumn: "Id",
@@ -139,15 +157,15 @@ namespace WorldPlants.Migrations
                 {
                     table.PrimaryKey("PK_Plants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Plants_DefaultSites_UserSiteId",
+                        name: "FK_Plants_UserSites_UserSiteId",
                         column: x => x.UserSiteId,
-                        principalTable: "DefaultSites",
+                        principalTable: "UserSites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Task",
+                name: "ActiveTasks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -157,9 +175,9 @@ namespace WorldPlants.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Task", x => x.Id);
+                    table.PrimaryKey("PK_ActiveTasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Task_Plants_PlantId",
+                        name: "FK_ActiveTasks_Plants_PlantId",
                         column: x => x.PlantId,
                         principalTable: "Plants",
                         principalColumn: "Id",
@@ -167,24 +185,14 @@ namespace WorldPlants.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DefaultSites_SpaceId",
-                table: "DefaultSites",
-                column: "SpaceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DefaultSites_SunExposureId",
-                table: "DefaultSites",
-                column: "SunExposureId");
+                name: "IX_ActiveTasks_PlantId",
+                table: "ActiveTasks",
+                column: "PlantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Plants_UserSiteId",
                 table: "Plants",
                 column: "UserSiteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Task_PlantId",
-                table: "Task",
-                column: "PlantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_SpaceId",
@@ -196,13 +204,26 @@ namespace WorldPlants.Migrations
                 table: "UserSettings",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSites_SpaceId",
+                table: "UserSites",
+                column: "SpaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSites_SunExposureId",
+                table: "UserSites",
+                column: "SunExposureId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Task");
+                name: "ActiveTasks");
+
+            migrationBuilder.DropTable(
+                name: "DefaultSites");
 
             migrationBuilder.DropTable(
                 name: "UserSettings");
@@ -214,7 +235,7 @@ namespace WorldPlants.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "DefaultSites");
+                name: "UserSites");
 
             migrationBuilder.DropTable(
                 name: "Spaces");

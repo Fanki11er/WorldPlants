@@ -12,8 +12,8 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPlantsDbContext))]
-    [Migration("20230611201656_init")]
-    partial class init
+    [Migration("20230614214528_inh")]
+    partial class inh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,10 +42,6 @@ namespace WorldPlants.Migrations
                     b.Property<int>("ColdPeriodMinTemperature")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("HasRoof")
                         .HasColumnType("bit");
 
@@ -65,10 +61,6 @@ namespace WorldPlants.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DefaultSites");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("DefaultSite");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.Plant", b =>
@@ -149,7 +141,7 @@ namespace WorldPlants.Migrations
 
                     b.HasIndex("PlantId");
 
-                    b.ToTable("Task");
+                    b.ToTable("ActiveTasks");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.User", b =>
@@ -239,7 +231,30 @@ namespace WorldPlants.Migrations
 
             modelBuilder.Entity("WorldPlants.Entities.UserSite", b =>
                 {
-                    b.HasBaseType("WorldPlants.Entities.DefaultSite");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("CanChangeHasRoof")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ColdPeriodMaxTemperature")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ColdPeriodMinTemperature")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("HasRoof")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Location")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("SpaceId")
                         .HasColumnType("uniqueidentifier");
@@ -247,14 +262,19 @@ namespace WorldPlants.Migrations
                     b.Property<int>("SunExposureId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserSpaceId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("WarmPeriodMaxTemperature")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WarmPeriodMinTemperature")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SpaceId");
 
                     b.HasIndex("SunExposureId");
 
-                    b.HasDiscriminator().HasValue("UserSite");
+                    b.ToTable("UserSites");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.Plant", b =>

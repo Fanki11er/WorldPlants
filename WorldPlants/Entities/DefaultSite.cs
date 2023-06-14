@@ -2,6 +2,7 @@
 
 namespace WorldPlants.Entities
 {
+  
     public class DefaultSite
     {
         public int Id { get; set; }

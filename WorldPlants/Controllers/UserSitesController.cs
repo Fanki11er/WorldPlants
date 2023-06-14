@@ -15,8 +15,6 @@ namespace WorldPlants.Controllers
             _siteService = siteService;
         }
 
-      
-
         [HttpGet]
         public ActionResult<UserSiteWithPlantsAndTasksDto> GetUserSiteWithPlantsAndTasksDtos()
         {
@@ -37,5 +35,14 @@ namespace WorldPlants.Controllers
             var sunExposures = _siteService.GetSunExposures(locationId);
             return Ok(sunExposures);
         }
+
+        [HttpPost("Add")]
+        public ActionResult AddNewUserSite([FromBody] NewUserSiteDto newUserSiteDto)
+        {
+            _siteService.AddNewUserSite(newUserSiteDto);
+
+            return Ok();
+        }
+
     }
 }
