@@ -1,6 +1,6 @@
 ﻿namespace WorldPlants.Entities
 {
-    public class Task
+    public class ActiveTask
     {
         public int Id { get; set; }
        // public int TaskTypeId { get; set; }

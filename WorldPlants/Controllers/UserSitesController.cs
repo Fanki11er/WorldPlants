@@ -21,6 +21,12 @@ namespace WorldPlants.Controllers
             var userSites = _siteService.GetUserSitesWithPlants();
             return Ok(userSites);
         }
+        [HttpGet("Site/{siteId}")]
+        public ActionResult<SiteWithPlantsDto> GetSiteWithPlants([FromRoute]int siteId)
+        {
+            var siteWithPlantsDto  = _siteService.GetSiteWithPlants(siteId);
+            return Ok(siteWithPlantsDto);
+        }
 
         [HttpGet("DefaultSites")]
         public ActionResult<SiteWithIdAndNameDto> GetDefaultSites()

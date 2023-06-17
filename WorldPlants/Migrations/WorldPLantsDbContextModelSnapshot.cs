@@ -22,6 +22,27 @@ namespace WorldPlants.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("WorldPlants.Entities.ActiveTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PlantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlantId");
+
+                    b.ToTable("ActiveTasks");
+                });
+
             modelBuilder.Entity("WorldPlants.Entities.DefaultSite", b =>
                 {
                     b.Property<int>("Id")
@@ -67,6 +88,10 @@ namespace WorldPlants.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -118,27 +143,6 @@ namespace WorldPlants.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SunExposures");
-                });
-
-            modelBuilder.Entity("WorldPlants.Entities.Task", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlantId");
-
-                    b.ToTable("ActiveTasks");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.User", b =>
@@ -274,6 +278,17 @@ namespace WorldPlants.Migrations
                     b.ToTable("UserSites");
                 });
 
+            modelBuilder.Entity("WorldPlants.Entities.ActiveTask", b =>
+                {
+                    b.HasOne("WorldPlants.Entities.Plant", "Plant")
+                        .WithMany("ActiveTasks")
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plant");
+                });
+
             modelBuilder.Entity("WorldPlants.Entities.Plant", b =>
                 {
                     b.HasOne("WorldPlants.Entities.UserSite", "UserSite")
@@ -283,17 +298,6 @@ namespace WorldPlants.Migrations
                         .IsRequired();
 
                     b.Navigation("UserSite");
-                });
-
-            modelBuilder.Entity("WorldPlants.Entities.Task", b =>
-                {
-                    b.HasOne("WorldPlants.Entities.Plant", "Plant")
-                        .WithMany("ActiveTasks")
-                        .HasForeignKey("PlantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Plant");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.User", b =>

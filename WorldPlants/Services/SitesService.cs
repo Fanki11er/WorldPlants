@@ -9,9 +9,9 @@ namespace WorldPlants.Services
     public interface ISiteService
     {
         public List<UserSiteWithPlantsAndTasksDto> GetUserSitesWithPlants();
+        public SiteWithPlantsDto GetSiteWithPlants(int siteId);
         public List<SiteWithIdAndNameDto> GetDefaultSites();
         public List<SunExposureDto> GetSunExposures(int locationId);
-
         public void AddNewUserSite(NewUserSiteDto dto);
     }
     public class SitesService : ISiteService
@@ -46,12 +46,41 @@ namespace WorldPlants.Services
                     Id = plant.Id,
                     Name = plant.Name,
                     NumberOfTasks = plant.ActiveTasks.Count,
-                    imageUrl = ""
+                    ImageUrl = ""
                 }).ToList()
             }).ToList();
 
             return userSiteDtos;
 
+        }
+
+        public SiteWithPlantsDto GetSiteWithPlants(int siteId)
+        {
+            var site = _dbContext.UserSites.Include(i => i.Plants).ThenInclude(i=> i.ActiveTasks).FirstOrDefault(s => s.Id == siteId);
+            if(site == null)
+            {
+                throw new UserSiteNotFoundException("Nie odznaleziono przestrzeni uzytkownika");
+            }
+            var siteWithPlantsDto = new SiteWithPlantsDto()
+            {
+                Id = site.Id,
+                Name = site.Name,
+                Plants = site.Plants.Select(p => new PlantInformationDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SiteName = p.Name,
+                    NumberOfTasks= p.ActiveTasks.Count,
+                    ImageUrl = p.ImageURL,
+                    TasksInformation = p.ActiveTasks.Select(t => new ActiveTaskInformationDto()
+                    {
+                        IsDelayed = false,
+                        Name = "We will addd it later"
+                    }).ToList(),       
+
+                }).ToList()
+            };
+            return siteWithPlantsDto;
         }
 
         public List<SiteWithIdAndNameDto> GetDefaultSites()
@@ -116,28 +145,3 @@ namespace WorldPlants.Services
 
     }
 }
-
-/*
- SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_DefaultSites_Spaces_SpaceId". The conflict occurred in database "WorldPlantsDb", table "dbo.Spaces", column 'Id'.
- */
-/*
-  public class UserSite: DefaultSite
-    {
-        public SunExposure SunExposure { get; set; }
-        public  Guid UserSpaceId { get; set; }
-        public Space Space { get; set; }
-        public IEnumerable<Plant> Plants { get; set; }
-
- public int Id { get; set; }
-        public string Name { get; set; }
-        public Locations Location { get; set; }
-        public int WarmPeriodMinTemperature { get; set; }
-        public int WarmPeriodMaxTemperature { get; set; }
-        public int ColdPeriodMinTemperature { get; set; }
-        public int ColdPeriodMaxTemperature { get; set; }
-        public bool HasRoof { get; set; }
-        public bool CanChangeHasRoof { get; set;}
-
-
-    }
- */

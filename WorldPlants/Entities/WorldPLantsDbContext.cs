@@ -15,7 +15,7 @@ namespace WorldPlants.Entities
         public DbSet<DefaultSite> DefaultSites { get; set; }
         public DbSet<UserSite> UserSites { get; set; }
         public DbSet<Plant> Plants { get; set; }
-        public DbSet<Task> ActiveTasks { get; set; }
+        public DbSet<ActiveTask> ActiveTasks { get; set; }
         //public DbSet<Task> TasksHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
