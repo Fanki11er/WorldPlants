@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using WorldPlants.Models;
 using WorldPlants.Services;
 
@@ -6,6 +8,7 @@ namespace WorldPlants.Controllers
 {
     [Route("UserSites")]
     [ApiController]
+    [Authorize]
     public class UserSitesController : Controller
     {
         private readonly ISiteService _siteService;
@@ -29,6 +32,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("DefaultSites")]
+        [Authorize(Roles = "Owner")]
         public ActionResult<SiteWithIdAndNameDto> GetDefaultSites()
         {
             var defaultSites = _siteService.GetDefaultSites();
@@ -36,6 +40,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("SunExposures/{locationId}")]
+        [Authorize(Roles = "Owner")]
         public ActionResult<SunExposureDto> GetSunExposures([FromRoute] int locationId)
         {
             var sunExposures = _siteService.GetSunExposures(locationId);
@@ -43,6 +48,8 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Add")]
+        [Authorize(Roles = "Owner")]
+        
         public ActionResult AddNewUserSite([FromBody] NewUserSiteDto newUserSiteDto)
         {
             _siteService.AddNewUserSite(newUserSiteDto);

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Authorization.Policy;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Http;
 using WorldPlants.Entities;
+using WorldPlantsIntergrationTests.Helpers;
 
 namespace WorldPlants.Utils
 {
@@ -22,6 +24,10 @@ namespace WorldPlants.Utils
                     services.Remove(dbContextOptions!);
 
                     services.AddDbContext<WorldPlantsDbContext>(options => options.UseInMemoryDatabase("WorldPlantsTestDb"));
+
+                    services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
+
+                    services.AddMvc(options => options.Filters.Add(new FakeUserFilter()));
                 });
             })
            .CreateClient();
