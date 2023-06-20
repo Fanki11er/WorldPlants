@@ -20,7 +20,7 @@ namespace WorldPlants.Services
 
         public ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
         public string? GetUserId => User?.FindFirstValue(ClaimTypes.NameIdentifier);
-        public string? GetSpaceId => User?.FindFirst(c => c.Type == "SpaceIdentifier")?.Value;
+        public string? GetSpaceId => User?.FindFirstValue("SpaceIdentifier");
         
     }
 }

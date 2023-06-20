@@ -11,10 +11,14 @@ namespace WorldPlants.Utils
 {
     public class FakeHttpClient
     {
-        public HttpClient fakeHttpClient { get; }
+        //public HttpClient fakeHttpClient { get; }
+        public WebApplicationFactory<Program> _factory { get; }
+        public HttpClient _fakeClient { get; }
+
+        public WorldPlantsDbContext _dbContext { get; }
         public FakeHttpClient(WebApplicationFactory<Program> factory)
         {
-            fakeHttpClient = factory.WithWebHostBuilder(builder =>
+            _factory = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
@@ -29,8 +33,14 @@ namespace WorldPlants.Utils
 
                     services.AddMvc(options => options.Filters.Add(new FakeUserFilter()));
                 });
-            })
-           .CreateClient();
+            });
+
+            _fakeClient = _factory.CreateClient();
+
+            var scopeFactory = _factory.Services.GetService<IServiceScopeFactory>();
+            var scope = scopeFactory.CreateScope();
+            _dbContext =scope.ServiceProvider.GetService<WorldPlantsDbContext>();
+           
         }
     }
 }

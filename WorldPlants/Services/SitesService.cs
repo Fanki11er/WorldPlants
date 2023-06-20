@@ -100,6 +100,10 @@ namespace WorldPlants.Services
 
         public void AddNewUserSite(NewUserSiteDto dto)
         {
+            //var userId = _userContextService.GetUserId;
+            //var user = _dbContext.Users.Include(i => i.Space).FirstOrDefault(u => u.Id.ToString().Equals(userId));
+            //var userSpaceId = user.SpaceId;
+
             var userSpaceId = _userContextService.GetSpaceId;
 
             if(userSpaceId == null)
@@ -132,7 +136,7 @@ namespace WorldPlants.Services
                 ColdPeriodMaxTemperature = defaultSite.ColdPeriodMaxTemperature,
                 HasRoof = defaultSite.HasRoof,
                 CanChangeHasRoof = defaultSite.CanChangeHasRoof,
-                SpaceId = new Guid(userSpaceId),
+                SpaceId = new Guid(userSpaceId.ToString()),
             };
 
             _dbContext.UserSites.Add(newUserSite);

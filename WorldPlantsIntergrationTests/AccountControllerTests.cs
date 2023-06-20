@@ -11,7 +11,7 @@ namespace WorldPlantsIntergrationTests
 
         public AccountControllerTests(WebApplicationFactory<Program> factory)
         {
-            _client = new FakeHttpClient(factory).fakeHttpClient;
+            //_client = new FakeHttpClient(factory).fakeHttpClient;
         }
     }
 

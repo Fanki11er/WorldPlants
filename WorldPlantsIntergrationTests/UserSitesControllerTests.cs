@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using WorldPlants.Entities;
 using WorldPlants.Models;
 using WorldPlants.Utils;
+using WorldPlantsIntergrationTests.Helpers;
 using Xunit;
 
 namespace WorldPlantsIntergrationTests
@@ -14,14 +17,19 @@ namespace WorldPlantsIntergrationTests
     public class UserSitesControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
+        private readonly FakeHttpClient _clientFactory;
+        private readonly WorldPlantsDbContext _dbContext;
 
         public UserSitesControllerTests(WebApplicationFactory<Program> factory)
         {
-            _client = new FakeHttpClient(factory).fakeHttpClient;
-        }
 
+            _clientFactory = new FakeHttpClient(factory);
+            _client = _clientFactory._fakeClient;
+            _dbContext = _clientFactory._dbContext;
+
+        }
         [Fact]
-        public async Task AddNewUserSite_with_valid_model_returns_status_200()
+        public async Task AddNewUserSite_with_valid_model_and_not_existing_userSpace_returns_NotFound()
         {
             var model = new NewUserSiteDto()
             {
@@ -29,16 +37,65 @@ namespace WorldPlantsIntergrationTests
                 SunExposureId = 1,
                 Name = "Test",
             };
-            
-            var json = JsonConvert.SerializeObject(model);
 
-            var httpContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            var httpContent = model.ToJsonHttpContent();
+
+            var response = await _client.PostAsync("/UserSites/Add", httpContent);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+
+        }
+
+        [Fact]
+        public async Task AddNewUserSite_with_valid_model_returns_status_OK()
+        {
+            var model = new NewUserSiteDto()
+            {
+                DefaultSiteId = 1,
+                SunExposureId = 1,
+                Name = "Test",
+            };
+
+            var testUser = new User()
+            {
+                Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                Email = "test@test.pl",
+                Password = "Test",
+                PhoneNumber = "456345678",
+                Name = "Test",
+                IsActive = true,
+                AccountType = "Owner",
+                UserSettings = new UserSettings(),
+                Space = new Space() { 
+                    Id = new Guid("11111111-1111-1111-1111-111111111111") 
+                }
+            };
+
+            _dbContext.Add(testUser);
+            _dbContext.SaveChanges();
+
+            var httpContent = model.ToJsonHttpContent();
 
             var response = await _client.PostAsync("/UserSites/Add", httpContent);
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            response.Headers.Location.Should().NotBeNull();
 
+        }
+        [Fact]
+        public async Task AddNewUserSite_with_not_valid_model_returns_badRequest()
+        {
+            var model = new NewUserSiteDto()
+            {
+                DefaultSiteId = 1,
+                Name = "",
+            };
+
+            var httpContent = model.ToJsonHttpContent();
+
+            var response = await _client.PostAsync("/UserSites/Add", httpContent);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
     }
 }

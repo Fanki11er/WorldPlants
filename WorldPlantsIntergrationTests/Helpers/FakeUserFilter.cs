@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WorldPlants.Enums;
@@ -13,8 +14,9 @@ namespace WorldPlantsIntergrationTests.Helpers
             claimsPrincipal.AddIdentity(new ClaimsIdentity(
                 new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, "1"),
-                    new Claim(ClaimTypes.Role, UserRoles.Owner.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, new Guid("11111111-1111-1111-1111-111111111111").ToString()),
+                    new Claim(ClaimTypes.Role, UserRoles.Owner.ToString()),
+                    new Claim("SpaceIdentifier", new Guid("11111111-1111-1111-1111-111111111111").ToString())
                 }
                 
             ));
