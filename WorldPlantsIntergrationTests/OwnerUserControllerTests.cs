@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,9 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using WorldPlants.Entities;
 using WorldPlants.Models;
 using WorldPlants.Utils;
+using WorldPlantsIntergrationTests.Helpers;
 using Xunit;
 
 namespace WorldPlantsIntergrationTests
@@ -68,33 +71,37 @@ namespace WorldPlantsIntergrationTests
 
         [Theory]
         [MemberData(nameof(InvalidRegisterDtos))]
-        public void RegisterOwnerUser_withInvalidModel_throwException(RegisterUserDto dto)
+        public async Task RegisterOwnerUser_withInvalidModel_throwException(RegisterUserDto dto)
+        {
+           
+            var httpContext = dto.ToJsonHttpContent();
+            var response = await _client.PostAsync("/Owner/Register", httpContext);
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+
+        }
+
+        [Theory]
+        [MemberData(nameof(ValidRegisterDtos))]
+        public async void RegisterOwnerUser_withValidModel_returns_OK(RegisterUserDto dto)
+        {
+
+            var httpContext = dto.ToJsonHttpContent();
+
+            var response = await _client.PostAsync("/Owner/Register", httpContext);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        }
+    }
+}
+
+
+/*
+  public void RegisterOwnerUser_withInvalidModel_throwException(RegisterUserDto dto)
         {
             var json = JsonConvert.SerializeObject(dto);
             var httpContext = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
             Assert.ThrowsAsync<Exception>(() => _client.PostAsync("/Owner/Register", httpContext));
         }
-
-      /* [Theory]
-        [MemberData(nameof(ValidRegisterDtos))]
-        public async void RegisterOwnerUser_withValidModel_do_not_throwException(RegisterUserDto dto)
-        {
-            var json = JsonConvert.SerializeObject(dto);
-            var httpContext = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-
-            Exception exception = null;
-            try
-            {
-                var response = await _client.PostAsync("/Owner/Register", httpContext);
-                response.EnsureSuccessStatusCode();
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-            }
-
-            Assert.Null(exception);
-        }*/
-    }
-}
+ */
