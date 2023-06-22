@@ -15,7 +15,7 @@ namespace WorldPlantsIntergrationTests
           
         }
 
-        /*[Fact]
+        /*z[Fact]
         public void Get_authenticated_user_properties_from_claims()
         {
             var userId = _userContextService.GetUserId;

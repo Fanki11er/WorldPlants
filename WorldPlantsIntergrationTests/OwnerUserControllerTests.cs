@@ -94,14 +94,3 @@ namespace WorldPlantsIntergrationTests
         }
     }
 }
-
-
-/*
-  public void RegisterOwnerUser_withInvalidModel_throwException(RegisterUserDto dto)
-        {
-            var json = JsonConvert.SerializeObject(dto);
-            var httpContext = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-
-            Assert.ThrowsAsync<Exception>(() => _client.PostAsync("/Owner/Register", httpContext));
-        }
- */

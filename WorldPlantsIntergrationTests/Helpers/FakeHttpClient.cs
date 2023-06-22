@@ -5,13 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Http;
 using WorldPlants.Entities;
+using WorldPlants.Services;
 using WorldPlantsIntergrationTests.Helpers;
 
 namespace WorldPlants.Utils
 {
     public class FakeHttpClient
     {
-        //public HttpClient fakeHttpClient { get; }
         public WebApplicationFactory<Program> _factory { get; }
         public HttpClient _fakeClient { get; }
 
@@ -32,6 +32,7 @@ namespace WorldPlants.Utils
                     services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
 
                     services.AddMvc(options => options.Filters.Add(new FakeUserFilter()));
+
                 });
             });
 
