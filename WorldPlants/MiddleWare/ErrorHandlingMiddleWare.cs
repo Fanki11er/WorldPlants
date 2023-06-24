@@ -36,6 +36,11 @@ namespace WorldPlants.MiddleWare
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(userSiteNotFoundException.Message);
             }
+            catch(SiteWithPlantsException siteWithPlantsException)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(siteWithPlantsException.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);

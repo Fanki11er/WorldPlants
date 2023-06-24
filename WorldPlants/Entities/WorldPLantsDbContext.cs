@@ -21,6 +21,25 @@ namespace WorldPlants.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
+            /*modelBuilder.Entity<User>(eb =>
+            {
+                eb.HasOne(u => u.Space)
+                .WithMany(u => u.Users)
+                .HasForeignKey(u => u.SpaceId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+            });*/
+
+            modelBuilder.Entity<UserSite>(eb =>
+            {
+                eb.HasOne(s => s.Space).WithMany(sp => sp.UserSites).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Space>(eb =>
+            {
+                eb.HasMany(eb => eb.UserSites).WithOne(s => s.Space).OnDelete(DeleteBehavior.Cascade);
+            });
+
            /* modelBuilder.Entity<Plant>(eb =>
             {
                 eb.HasMany(at => at.ActiveTasks).WithOne(p => p.Plant);

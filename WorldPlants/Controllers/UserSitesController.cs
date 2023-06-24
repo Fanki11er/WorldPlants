@@ -56,6 +56,13 @@ namespace WorldPlants.Controllers
 
             return Ok();
         }
+        [HttpDelete("Delete/{siteId}")]
+        public ActionResult DeleteUserSite([FromRoute] int siteId)
+        {
+            _siteService.DeleteUserSite(siteId);
+
+            return NoContent();
+        }
 
     }
 }

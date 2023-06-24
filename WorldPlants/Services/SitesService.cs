@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
@@ -13,6 +14,7 @@ namespace WorldPlants.Services
         public List<SiteWithIdAndNameDto> GetDefaultSites();
         public List<SunExposureDto> GetSunExposures(int locationId);
         public void AddNewUserSite(NewUserSiteDto dto);
+        public void DeleteUserSite(int siteId);
     }
     public class SitesService : ISiteService
     {
@@ -140,6 +142,37 @@ namespace WorldPlants.Services
             _dbContext.SaveChanges();
             
 
+        }
+
+        public void DeleteUserSite( int siteId)
+        {
+            var userSpaceId = _userContextService.GetSpaceId;
+
+            if (userSpaceId == null)
+            {
+                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni użytkownika");
+            }
+
+            var userSite = _dbContext.UserSites.Include(i => i.Plants).FirstOrDefault(s => s.Id == siteId);
+
+            if (userSite == null)
+            {
+                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni o podanym id");
+            }
+
+            if(userSite.SpaceId.ToString() != userSpaceId)
+            {
+                throw new ForbidException("Nie jesteś właścicielem przestrzeni o podanym id");
+            }
+
+            if(userSite.Plants.Count() > 0)
+            {
+                throw new SiteWithPlantsException("Nie możesz usunąć przestrzeni jeśli znajdują się w niej rośliny");
+            }
+
+            _dbContext.Remove(userSite);
+            _dbContext.SaveChanges();
+       
         }
 
 
