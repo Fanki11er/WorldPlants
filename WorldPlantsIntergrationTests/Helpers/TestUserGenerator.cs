@@ -3,23 +3,26 @@ using WorldPlants.Entities;
 
 namespace WorldPlantsIntergrationTests.Helpers
 {
-    public static class TestUserGenerator
+    public class TestUserGenerator
     {
-       public static  User GenerateTestUser()
+       public  User GenerateTestUser(Guid userId)
         {
             User testUser = new User()
             {
-                Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                Id = userId,
                 Email = "test@test.pl",
                 Password = "Test",
                 PhoneNumber = "456345678",
                 Name = "Test",
                 IsActive = true,
                 AccountType = "Owner",
-                UserSettings = new UserSettings(),
+                UserSettings = new UserSettings()
+                {
+                    UserId = userId,
+                },
                 Space = new Space()
                 {
-                    Id = new Guid("11111111-1111-1111-1111-111111111111")
+                    Id = userId
                 }
             };
             return testUser;

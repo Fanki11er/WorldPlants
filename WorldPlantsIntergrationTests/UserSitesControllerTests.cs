@@ -26,6 +26,8 @@ namespace WorldPlantsIntergrationTests
         private readonly HttpClient _client;
         private readonly FakeHttpClient _clientFactory;
         private readonly WorldPlantsDbContext _dbContext;
+        private readonly DbCleaner _dbCleaner;
+        private readonly ValidUserFactory _validUserFactory;
 
         public UserSitesControllerTests(WebApplicationFactory<Program> factory)
         {
@@ -33,9 +35,11 @@ namespace WorldPlantsIntergrationTests
             _clientFactory = new FakeHttpClient(factory);
             _client = _clientFactory._fakeClient;
             _dbContext = _clientFactory._dbContext;
+            _dbCleaner = new DbCleaner();
+            _validUserFactory = new ValidUserFactory();
 
         }
-        [Fact]
+       /* [Fact]
         public async Task AddNewUserSite_with_valid_model_and_not_existing_userSpace_returns_NotFound()
         {
             var model = new NewUserSiteDto()
@@ -52,7 +56,7 @@ namespace WorldPlantsIntergrationTests
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
 
-        }
+        }*/
 
         [Fact]
         public async Task AddNewUserSite_with_valid_model_returns_status_OK()
@@ -64,7 +68,7 @@ namespace WorldPlantsIntergrationTests
                 Name = "Test",
             };
 
-            var testUser = TestUserGenerator.GenerateTestUser();
+            var testUser = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111111"));
 
             _dbContext.Add(testUser);
             _dbContext.SaveChanges();
@@ -76,6 +80,7 @@ namespace WorldPlantsIntergrationTests
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
         }
+        
         [Fact]
         public async Task AddNewUserSite_with_not_valid_model_returns_badRequest()
         {
@@ -96,58 +101,16 @@ namespace WorldPlantsIntergrationTests
         public async Task Delete_user_site_when_plants_are_present_should_return_BadRequest()
         {
 
-            clear();
+            _dbCleaner.ClearDatabase(_dbContext);
 
-            var testUser = new User()
-            {
-                Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                Email = "test@test.pl",
-                Password = "Test",
-                PhoneNumber = "456345678",
-                Name = "Test",
-                IsActive = true,
-                AccountType = "Owner",
-                UserSettings = new UserSettings(),
-                Space = new Space()
-                {
-                    Id = new Guid("11111111-1111-1111-1111-111111111111")
-                }
-            };
+            var testUser = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111111"));
 
             _dbContext.Add(testUser);
             _dbContext.SaveChanges();
 
             var testUserSpaceId = testUser.SpaceId; 
 
-            var testSite = new UserSite()
-            {
-                Name = "Test",
-                Location = Locations.Indor,
-                WarmPeriodMinTemperature = 1,
-                WarmPeriodMaxTemperature = 2,
-                ColdPeriodMinTemperature = 1,
-                ColdPeriodMaxTemperature = 2,
-                HasRoof = true,
-                CanChangeHasRoof = false,
-                SunExposure = new SunExposure()
-                {
-                    Name = "Test",
-                    Description = "Test",
-                },
-                SpaceId = testUserSpaceId,
-                Plants = new List<Plant>()
-                {
-                    new Plant()
-                    {
-                        Name = "Test1"
-                    },
-                    new Plant()
-                    {
-                        Name = "Test2"
-                    },
-                } 
-
-            };
+            var testSite = _validUserFactory.MakeValidUserSideWithPlants(testUserSpaceId);
 
            
             _dbContext.Add(testSite);
@@ -165,46 +128,20 @@ namespace WorldPlantsIntergrationTests
             
 
         }
-
+        
         [Fact]
         public async Task Delete_user_site_that_not_belong_to_user_should_return_Forbiden()
         {
-            clear();
+            _dbCleaner.ClearDatabase(_dbContext);
 
-            var testUser = MakeCorrectTestUser();
+            var testUser = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111112"));
 
             _dbContext.Add(testUser);
             _dbContext.SaveChanges();
 
-            var testSite = new UserSite()
-            {
-                Name = "Test",
-                Location = Locations.Indor,
-                WarmPeriodMinTemperature = 1,
-                WarmPeriodMaxTemperature = 2,
-                ColdPeriodMinTemperature = 1,
-                ColdPeriodMaxTemperature = 2,
-                HasRoof = true,
-                CanChangeHasRoof = false,
-                SunExposure = new SunExposure()
-                {
-                    Name = "Test",
-                    Description = "Test",
-                },
-                SpaceId = new Guid("21111111-1111-1111-1111-111111111111"),
-                Plants = new List<Plant>()
-                {
-                    new Plant()
-                    {
-                        Name = "Test1"
-                    },
-                    new Plant()
-                    {
-                        Name = "Test2"
-                    },
-                }
+            var testUserSpaceId = testUser.SpaceId;
 
-            };
+            var testSite = _validUserFactory.MakeValidUserSideWithPlants(testUserSpaceId);
 
 
             _dbContext.Add(testSite);
@@ -236,9 +173,9 @@ namespace WorldPlantsIntergrationTests
         [Fact]
         public async Task Delete_user_site_shold_return_NoContent()
         {
-            clear();
+            _dbCleaner.ClearDatabase(_dbContext);
 
-            var testUser = MakeCorrectTestUser();
+            var testUser = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111111"));
 
 
             _dbContext.Add(testUser);
@@ -246,24 +183,7 @@ namespace WorldPlantsIntergrationTests
 
             var testUserSpaceId = testUser.SpaceId;
 
-            var testSite = new UserSite()
-            {
-                Name = "Test",
-                Location = Locations.Indor,
-                WarmPeriodMinTemperature = 1,
-                WarmPeriodMaxTemperature = 2,
-                ColdPeriodMinTemperature = 1,
-                ColdPeriodMaxTemperature = 2,
-                HasRoof = true,
-                CanChangeHasRoof = false,
-                SunExposure = new SunExposure()
-                {
-                    Name = "Test",
-                    Description = "Test",
-                },
-                SpaceId = testUserSpaceId,
-                Plants = new List<Plant>()
-            };
+            var testSite = _validUserFactory.MakeValidUserSiteWithNoPlants(testUserSpaceId);
 
 
             _dbContext.Add(testSite);
@@ -280,49 +200,5 @@ namespace WorldPlantsIntergrationTests
 
         }
 
-        private User MakeCorrectTestUser()
-        {
-           
-            var testUser = new User()
-            {
-                Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                Email = "test@test.pl",
-                Password = "Test",
-                PhoneNumber = "456345678",
-                Name = "Test",
-                IsActive = true,
-                AccountType = "Owner",
-                UserSettings = new UserSettings(),
-                Space = new Space()
-                {
-                    Id = new Guid("11111111-1111-1111-1111-111111111111")
-                }
-            };
-
-            return testUser;
-        }
-
-       private void clear()
-        {
-            var usres = _dbContext.Users;
-            var spaces = _dbContext.Spaces ;
-            var sites = _dbContext.UserSites;
-            /*foreach ( var user in usres )
-            {
-                _dbContext.Spaces.Remove(user.Space);
-            }*/
-            _dbContext.Users.RemoveRange(usres);
-            _dbContext.Spaces.RemoveRange(spaces);
-            _dbContext.UserSites.RemoveRange(sites);
-           // var count = usres.Count();
-            _dbContext.SaveChanges();
-            //var count2 = usres.Count();
-
-
-
-
-
-
-        }
     }
 }

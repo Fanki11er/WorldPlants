@@ -1,4 +1,6 @@
-﻿using FluentValidation.TestHelper;
+﻿// Ignore Spelling: dto Validator
+
+using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using WorldPlants.Entities;
@@ -13,12 +15,12 @@ namespace WorldPlantsIntergrationTests
         private readonly WorldPlantsDbContext _dbContext;
         public RegisterUserValidatorTests()
         {
-            var builder = new  DbContextOptionsBuilder<WorldPlantsDbContext>();
+            var builder = new DbContextOptionsBuilder<WorldPlantsDbContext>();
             builder.UseInMemoryDatabase("TestDatabase");
             _dbContext = new WorldPlantsDbContext(builder.Options);
             Seed();
 
-         
+
 
         }
         private static IEnumerable<object[]> InvalidRegisterDtos()
@@ -96,7 +98,7 @@ namespace WorldPlantsIntergrationTests
         public void Validate_for_valid_dto(RegisterUserDto dto)
         {
             var validator = new RegisterUserDtoValidator(_dbContext);
-            var result  = validator.TestValidate(dto);
+            var result = validator.TestValidate(dto);
             result.ShouldNotHaveAnyValidationErrors();
         }
         [Theory]

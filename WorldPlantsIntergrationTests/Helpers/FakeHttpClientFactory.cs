@@ -12,13 +12,13 @@ namespace WorldPlants.Utils
 {
     public class FakeHttpClient
     {
-        public WebApplicationFactory<Program> _factory { get; }
+        public WebApplicationFactory<Program> factory { get; }
         public HttpClient _fakeClient { get; }
 
         public WorldPlantsDbContext _dbContext { get; }
-        public FakeHttpClient(WebApplicationFactory<Program> factory)
+        public FakeHttpClient(WebApplicationFactory<Program> webApplicationFactory)
         {
-            _factory = factory.WithWebHostBuilder(builder =>
+            factory = webApplicationFactory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
@@ -36,9 +36,9 @@ namespace WorldPlants.Utils
                 });
             });
 
-            _fakeClient = _factory.CreateClient();
+            _fakeClient = factory.CreateClient();
 
-            var scopeFactory = _factory.Services.GetService<IServiceScopeFactory>();
+            var scopeFactory = factory.Services.GetService<IServiceScopeFactory>();
             var scope = scopeFactory.CreateScope();
             _dbContext =scope.ServiceProvider.GetService<WorldPlantsDbContext>();
            

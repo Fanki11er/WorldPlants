@@ -46,7 +46,12 @@ namespace WorldPlants.Services
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
             }
 
-            var space = _context.Spaces.FirstOrDefault(s => s.Id.ToString() == spaceId);
+            var space = _context.Spaces
+                .Include(i => i.Users)
+                .ThenInclude(i => i.UserSettings)
+                .Include(i => i.UserSites)
+                .ThenInclude(i => i.Plants)
+                .FirstOrDefault(s => s.Id.ToString() == spaceId);
             
             if (space == null)
             {
