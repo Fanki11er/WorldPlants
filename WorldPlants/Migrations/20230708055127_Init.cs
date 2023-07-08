@@ -78,7 +78,8 @@ namespace WorldPlants.Migrations
                         name: "FK_Users_Spaces_SpaceId",
                         column: x => x.SpaceId,
                         principalTable: "Spaces",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

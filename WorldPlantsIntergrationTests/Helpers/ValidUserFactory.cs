@@ -49,9 +49,11 @@ namespace WorldPlantsIntergrationTests.Helpers
                 CanChangeHasRoof = false,
                 SunExposure = new SunExposure()
                 {
+                    Id = 1,
                     Name = "Test",
                     Description = "Test",
                 },
+                SunExposureId = 1,
                 SpaceId = userSpaceId,
                 Plants = new List<Plant>()
                 {
@@ -83,9 +85,11 @@ namespace WorldPlantsIntergrationTests.Helpers
                 CanChangeHasRoof = false,
                 SunExposure = new SunExposure()
                 {
+                    Id = 1,
                     Name = "Test",
                     Description = "Test",
                 },
+                SunExposureId = 1,
                 SpaceId = spaceId,
                 Plants = new List<Plant>()
             };

@@ -200,5 +200,51 @@ namespace WorldPlantsIntergrationTests
 
         }
 
+        [Fact]
+        public async Task Edit_site_editing_site_in_proper_way()
+        {
+            _dbCleaner.ClearDatabase(_dbContext);
+
+            var testUser = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111112"));
+
+            _dbContext.Add(testUser);
+            _dbContext.SaveChanges();
+
+            var testUserSpaceId = testUser.SpaceId;
+
+            var testSite = _validUserFactory.MakeValidUserSideWithPlants(testUserSpaceId);
+
+
+            _dbContext.Add(testSite);
+            _dbContext.SaveChanges();
+
+            var siteId = testSite.Id;
+
+            var model = new EditUserSiteDto()
+            {
+                Name = "Test Site",
+                ColdPeriodMinTemperature = 5,
+                ColdPeriodMaxTemperature = 10,
+                WarmPeriodMaxTemperature = 35,
+                WarmPeriodMinTemperature = 20,
+                SunExposureId = 3
+            };
+
+            var httpContent = model.ToJsonHttpContent();
+
+            var response = await _client.PostAsync($"/UserSites/Edit/{siteId}", httpContent);
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            testSite.Name.Should().Be(model.Name);
+            testSite.ColdPeriodMinTemperature.Should().Be(model.ColdPeriodMinTemperature);
+            testSite.ColdPeriodMaxTemperature.Should().Be(model.ColdPeriodMaxTemperature);
+            testSite.WarmPeriodMinTemperature.Should().Be(model.WarmPeriodMinTemperature);
+            testSite.WarmPeriodMaxTemperature.Should().Be(model.ColdPeriodMaxTemperature);
+            testSite.SunExposureId.Should().Be(model.SunExposureId);
+
+
+        }
+
+        
     }
 }

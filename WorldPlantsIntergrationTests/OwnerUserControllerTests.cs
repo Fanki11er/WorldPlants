@@ -114,7 +114,7 @@ namespace WorldPlantsIntergrationTests
         }
 
         [Fact]
-        public async void Delete_OwnerUser_should_delete_all_connected_wiith_account_data()
+        public async void Delete_OwnerUser_should_delete_all_connected_with_account_data()
         {
             _dbCleaner.ClearDatabase(_dbContext);
 
@@ -149,6 +149,5 @@ namespace WorldPlantsIntergrationTests
            
         }
 
-        // Make tests for deleting all items when delete owner account
     }
 }

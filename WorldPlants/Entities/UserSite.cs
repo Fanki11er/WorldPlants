@@ -15,6 +15,7 @@ namespace WorldPlants.Entities
         public bool HasRoof { get; set; }
         public bool CanChangeHasRoof { get; set; }
         public SunExposure SunExposure { get; set; }
+        public int SunExposureId { get; set; }
         public  Guid SpaceId { get; set; }
         public Space Space { get; set; }
         public IEnumerable<Plant> Plants { get; set; }
