@@ -53,20 +53,27 @@ builder.Services.AddAuthentication(option =>
 builder.Services.AddDbContext<WorldPlantsDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("WorldPlantsDb")));
 
+//Services
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IOwnerUserService, OwnerUserService>();
 builder.Services.AddScoped<IGuestUsertService, GuestUserService>();
 builder.Services.AddScoped<ISiteService, SitesService>();
-builder.Services.AddScoped<DbSeeder, DbSeeder>();
-builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+//
+
+//Validators
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
 builder.Services.AddScoped<IValidator<UserChangePasswordDto>, UserChangePasswordValidator>();
 builder.Services.AddScoped<IValidator<NewUserSiteDto>, NewUserSiteValidator>();
+builder.Services.AddScoped<IValidator<EditUserSiteDto>, EditUserSiteValidator>();
+//
+
+builder.Services.AddScoped<DbSeeder, DbSeeder>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
 builder.Services.AddScoped<ErrorHandlingMiddleWare>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();

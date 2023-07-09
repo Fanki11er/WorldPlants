@@ -14,17 +14,22 @@ namespace WorldPlants.Models.Validators
 
             RuleFor(s => s.ColdPeriodMinTemperature)
                 .NotNull()
-                .GreaterThanOrEqualTo(s => s.ColdPeriodMaxTemperature);
+                .LessThanOrEqualTo(s => s.ColdPeriodMaxTemperature)
+                .GreaterThanOrEqualTo(-45);
 
             RuleFor(s => s.ColdPeriodMaxTemperature)
-                .NotNull();
+                .NotNull()
+                .LessThanOrEqualTo(50);
+
 
             RuleFor(s=> s.WarmPeriodMinTemperature)
                 .NotNull()
-                .GreaterThanOrEqualTo(s => s.WarmPeriodMaxTemperature);
+                .LessThanOrEqualTo(s => s.WarmPeriodMaxTemperature)
+                .GreaterThanOrEqualTo(-45);
 
-            RuleFor(s => s.ColdPeriodMaxTemperature)
-                .NotNull();
+            RuleFor(s => s.WarmPeriodMaxTemperature)
+                .NotNull()
+                .LessThanOrEqualTo(50);
 
             RuleFor(s => s.SunExposureId)
                 .Custom((value, context) =>
