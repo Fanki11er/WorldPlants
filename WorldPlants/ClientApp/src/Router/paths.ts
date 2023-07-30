@@ -1,5 +1,8 @@
 export const paths = {
   rootPath: "/",
-  login: "/login",
-  registration: "/registration",
+  //recognizerPath: "Recognizer",
+  //sensorPath: "Sensor",
+  registration: `/Unauthorized/Registration`,
+  login: "/Unauthorized/Login",
+  plantsTasks: "/Authorized/PlantsTasks",
 };

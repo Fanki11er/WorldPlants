@@ -20,7 +20,7 @@ DotNetEnv.Env.Load();
 
 var authenticationSettings = new AuthenticationSettings
 {
-    JwtKey = builder.Configuration["WorldPlants:TokenKey"]
+    JwtKey = Environment.GetEnvironmentVariable("JWTKEY")!
 };
 
 builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);

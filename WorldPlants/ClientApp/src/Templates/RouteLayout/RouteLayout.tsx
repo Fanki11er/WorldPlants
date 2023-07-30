@@ -1,14 +1,15 @@
 import { Outlet } from "react-router-dom";
-import Footer from "../../Components/Molecules/Footer/Footer";
+import AuthProvider from "../../Providers/AuthProvider";
 import { RouteLayoutWrapper } from "./RouteLayout.styles";
 
 const RouteLayout = () => {
   return (
-     <RouteLayoutWrapper>
-         <Outlet/>
-        <Footer/>
-     </RouteLayoutWrapper>
-  )
+    <RouteLayoutWrapper>
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
+    </RouteLayoutWrapper>
+  );
 };
 
 export default RouteLayout;

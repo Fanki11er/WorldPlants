@@ -9,14 +9,25 @@ import RegistrationView from "../Views/RegistrationView/RegistrationView";
 
 import { paths } from "./paths";
 import LandingView from "../Views/LandingView/LandingView";
-const { rootPath, login, registration } = paths;
+import MainLayout from "../Templates/MainLayout/MainLayout";
+import UnauthorizedUserLayout from "../Templates/UnauthorizedUserLayout/UnauthorizedUserLayout";
+import TasksView from "../Views/TasksView/TasksView";
+
+const { rootPath, login, registration, plantsTasks } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
-          <Route path={rootPath} element={<RouteLayout />}>
-              <Route index element={<LandingView/>}/>
-              <Route path={login} element={<LoginView/>}/>
-              <Route path={registration} element={<RegistrationView/>}/>
-          </Route>)
+    <Route element={<RouteLayout />}>
+      <Route path={rootPath} element={<LandingView />} />
+      <Route element={<UnauthorizedUserLayout />}>
+        <Route index path={login} element={<LoginView />} />
+        <Route path={registration} element={<RegistrationView />} />
+      </Route>
+      <Route element={<MainLayout />}>
+        <Route path={plantsTasks} element={<TasksView />} />
+      </Route>
+      <Route path={"*"} element={<LandingView />} />
+    </Route>
+  )
 );
 
 export default router;

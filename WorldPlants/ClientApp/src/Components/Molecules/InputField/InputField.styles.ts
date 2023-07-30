@@ -1,11 +1,16 @@
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
+import {Field} from "formik";
 
+interface ErrorProps {
+    iserror: string;
+  }
+  
 export const InputFieldWrapper = styled.div`
     width: fit-content;
     height: auto;
     display: grid;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: 1fr auto auto;
    
    
 `;
@@ -18,7 +23,7 @@ export const InputLabel = styled.label`
    
 `;
 
-export const Input = styled.input`
+export const Input = styled(Field)`
     width: fit-content;
     height: auto;
     padding: 5px 10px;
@@ -26,7 +31,7 @@ export const Input = styled.input`
     background-color: ${(props: AppTheme) => props.theme.colors.purple};
     border-radius: 25px;
     outline: none;
-    border: 2px solid transparent;
+    border: 2px solid ${(props: ErrorProps & AppTheme)=> props.iserror? props.theme.colors.errorRed : "transparent"};
     color:  ${(props: AppTheme) => props.theme.colors.white};
    /* :hover {
         color:  ${(props: AppTheme) => props.theme.colors.white};
