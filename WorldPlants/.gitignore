@@ -233,3 +233,7 @@ _Pvt_Extensions
 
 #Store
 Store/
+
+#Env
+.env
+*.env

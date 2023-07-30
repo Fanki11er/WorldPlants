@@ -16,6 +16,8 @@ using WorldPlants.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
+DotNetEnv.Env.Load();
+
 var authenticationSettings = new AuthenticationSettings
 {
     JwtKey = builder.Configuration["WorldPlants:TokenKey"]
@@ -30,6 +32,10 @@ builder.Host.UseNLog();
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSingleton(authenticationSettings);
+builder.Services.AddCors(p => p.AddPolicy("CORS", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 
 
 builder.Services.AddAuthentication(option =>
@@ -59,6 +65,7 @@ builder.Services.AddScoped<IOwnerUserService, OwnerUserService>();
 builder.Services.AddScoped<IGuestUsertService, GuestUserService>();
 builder.Services.AddScoped<ISiteService, SitesService>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddScoped<IRecognizerService, RecognizerService>();
 //
 
 //Validators
@@ -92,6 +99,7 @@ app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors("CORS");
 app.UseAuthorization();
 
 
@@ -110,7 +118,6 @@ void SeedDatabase()
         dbInitializer.Seed();
     };
 }
-
 public partial class Program { }
 
 

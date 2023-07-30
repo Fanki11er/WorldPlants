@@ -15,6 +15,8 @@ namespace WorldPlants.Services
         public List<SunExposureDto> GetSunExposures(int locationId);
         public void AddNewUserSite(NewUserSiteDto dto);
         public void DeleteUserSite(int siteId);
+
+        public void EditUserSite(EditUserSiteDto dto);
     }
     public class SitesService : ISiteService
     {
@@ -31,10 +33,7 @@ namespace WorldPlants.Services
         {
             var userSpaceId = _userContextService.GetSpaceId;
 
-            if (userSpaceId == null)
-            {
-                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni użytkownika");
-            }
+            CheckIfUserSpaceIdIsNotNull(userSpaceId);
 
             var userSites = _dbContext.UserSites.Include(i => i.Plants).ThenInclude(p => p.ActiveTasks) 
                 .Where(us => us.SpaceId.Equals(userSpaceId)).ToList();
@@ -59,10 +58,9 @@ namespace WorldPlants.Services
         public SiteWithPlantsDto GetSiteWithPlants(int siteId)
         {
             var site = _dbContext.UserSites.Include(i => i.Plants).ThenInclude(i=> i.ActiveTasks).FirstOrDefault(s => s.Id == siteId);
-            if(site == null)
-            {
-                throw new UserSiteNotFoundException("Nie odznaleziono przestrzeni uzytkownika");
-            }
+
+            CheckIfUserSiteExists(site);
+
             var siteWithPlantsDto = new SiteWithPlantsDto()
             {
                 Id = site.Id,
@@ -105,10 +103,7 @@ namespace WorldPlants.Services
 
             var userSpaceId = _userContextService.GetSpaceId;
 
-            if(userSpaceId == null)
-            {
-                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni użytkownika");
-            }
+            CheckIfUserSpaceIdIsNotNull(userSpaceId);
 
             DefaultSite? defaultSite = _dbContext.DefaultSites.FirstOrDefault(s => s.Id == dto.DefaultSiteId);
 
@@ -148,22 +143,13 @@ namespace WorldPlants.Services
         {
             var userSpaceId = _userContextService.GetSpaceId;
 
-            if (userSpaceId == null)
-            {
-                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni użytkownika");
-            }
+            CheckIfUserSpaceIdIsNotNull(userSpaceId);
 
             var userSite = _dbContext.UserSites.Include(i => i.Plants).FirstOrDefault(s => s.Id == siteId);
 
-            if (userSite == null)
-            {
-                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni o podanym id");
-            }
+            CheckIfUserSiteExists(userSite);
 
-            if(userSite.SpaceId.ToString() != userSpaceId)
-            {
-                throw new ForbidException("Nie jesteś właścicielem przestrzeni o podanym id");
-            }
+            CheckIfUserIsOwnerOfSite(userSite, userSpaceId);
 
             if(userSite.Plants.Count() > 0)
             {
@@ -175,7 +161,52 @@ namespace WorldPlants.Services
        
         }
 
+        public void EditUserSite(EditUserSiteDto dto)
+        {
+            var userSpaceId = _userContextService.GetSpaceId;
+        
+            CheckIfUserSpaceIdIsNotNull(userSpaceId);
+
+            var userSite = _dbContext.UserSites.FirstOrDefault(s => s.Id == dto.Id);
+
+            CheckIfUserSiteExists(userSite);
+
+            CheckIfUserIsOwnerOfSite(userSite, userSpaceId);
+
+           //  userSite.ColdPeriodMinTemperature = dto.ColdPeriodMinTemperature;
+           // userSite.ColdPeriodMaxTemperature = dto.ColdPeriodMaxTemperature;
+           // userSite.WarmPeriodMinTemperature = dto.WarmPeriodMinTemperature;
+           // userSite.WarmPeriodMaxTemperature = dto.WarmPeriodMaxTemperature;
+            userSite.Name = dto.Name;
+           // userSite.SunExposureId = dto.SunExposureId;
+            _dbContext.Update(userSite);
+            var wtf = _dbContext.SaveChanges();
+
+        }
 
 
+        private void CheckIfUserSpaceIdIsNotNull(string userSpaceId)
+        {
+            if (userSpaceId == null)
+            {
+                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni użytkownika");
+            }
+        }
+
+        private void CheckIfUserSiteExists(UserSite userSite)
+        {
+            if (userSite == null)
+            {
+                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni o podanym id");
+            }
+        }
+
+        private void CheckIfUserIsOwnerOfSite(UserSite userSite, string userSpaceId)
+        {
+            if (userSite.SpaceId.ToString() != userSpaceId)
+            {
+                throw new ForbidException("Nie jesteś właścicielem przestrzeni o podanym id");
+            }
+        }
     }
 }

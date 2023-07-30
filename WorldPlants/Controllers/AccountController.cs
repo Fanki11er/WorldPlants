@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// Ignore Spelling: dto
+
+using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Models;
 using WorldPlants.Services;
 

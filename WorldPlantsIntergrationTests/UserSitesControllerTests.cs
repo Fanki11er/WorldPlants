@@ -61,10 +61,23 @@ namespace WorldPlantsIntergrationTests
         [Fact]
         public async Task AddNewUserSite_with_valid_model_returns_status_OK()
         {
+            _dbCleaner.ClearDatabase(_dbContext);
+
+            var testsunExposure = new SunExposure()
+            {
+                Name = "Test",
+                Description = "Test",
+                SunScale = SunScale.Low,
+                ForSiteType = Locations.Indor
+            };
+
+            _dbContext.Add(testsunExposure);
+            _dbContext.SaveChanges();
+
             var model = new NewUserSiteDto()
             {
                 DefaultSiteId = 1,
-                SunExposureId = 1,
+                SunExposureId = testsunExposure.Id,
                 Name = "Test",
             };
 
@@ -205,6 +218,66 @@ namespace WorldPlantsIntergrationTests
         {
             _dbCleaner.ClearDatabase(_dbContext);
 
+            var testSunExposure = _validUserFactory.MakeValidSunExposure(3);
+
+            _dbContext.Add(testSunExposure);
+            _dbContext.SaveChanges();
+
+            var testUser = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111111"));
+
+            _dbContext.Add(testUser);
+            _dbContext.SaveChanges();
+
+            var testUserSpaceId = testUser.SpaceId;
+
+            var testSite = _validUserFactory.MakeValidUserSideWithPlants(testUserSpaceId);
+
+
+            _dbContext.Add(testSite);
+            _dbContext.SaveChanges();
+
+
+            var model = new EditUserSiteDto()
+            {
+                Id = testSite.Id,
+                Name = "Test Site",
+                ColdPeriodMinTemperature = 5,
+                ColdPeriodMaxTemperature = 10,
+                WarmPeriodMaxTemperature = 35,
+                WarmPeriodMinTemperature = 20,
+                SunExposureId = 3
+            };
+
+            var httpContent = model.ToJsonHttpContent();
+
+            var response = await _client.PostAsync("/UserSites/Edit", httpContent);
+            var updatedTestSite = _dbContext.UserSites.FirstOrDefault(s => s.Id == testSite.Id);
+
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+           
+
+            updatedTestSite.Name.Should().Be(model.Name);
+            updatedTestSite.ColdPeriodMinTemperature.Should().Be(model.ColdPeriodMinTemperature);
+            updatedTestSite.ColdPeriodMaxTemperature.Should().Be(model.ColdPeriodMaxTemperature);
+            updatedTestSite.WarmPeriodMinTemperature.Should().Be(model.WarmPeriodMinTemperature);
+            updatedTestSite.WarmPeriodMaxTemperature.Should().Be(model.ColdPeriodMaxTemperature);
+            updatedTestSite.SunExposureId.Should().Be(model.SunExposureId);
+
+
+        }
+
+        [Fact]
+        public async Task Edit_not_existing_site_throws_NotFound()
+        {
+            _dbCleaner.ClearDatabase(_dbContext);
+
+            var testSunExposure = _validUserFactory.MakeValidSunExposure(3);
+
+            _dbContext.Add(testSunExposure);
+            _dbContext.SaveChanges();
+
             var testUser = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111112"));
 
             _dbContext.Add(testUser);
@@ -218,10 +291,9 @@ namespace WorldPlantsIntergrationTests
             _dbContext.Add(testSite);
             _dbContext.SaveChanges();
 
-            var siteId = testSite.Id;
-
             var model = new EditUserSiteDto()
             {
+                Id = 999,
                 Name = "Test Site",
                 ColdPeriodMinTemperature = 5,
                 ColdPeriodMaxTemperature = 10,
@@ -232,19 +304,63 @@ namespace WorldPlantsIntergrationTests
 
             var httpContent = model.ToJsonHttpContent();
 
-            var response = await _client.PostAsync($"/UserSites/Edit/{siteId}", httpContent);
+            var response = await _client.PostAsync("/UserSites/Edit", httpContent);
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            testSite.Name.Should().Be(model.Name);
-            testSite.ColdPeriodMinTemperature.Should().Be(model.ColdPeriodMinTemperature);
-            testSite.ColdPeriodMaxTemperature.Should().Be(model.ColdPeriodMaxTemperature);
-            testSite.WarmPeriodMinTemperature.Should().Be(model.WarmPeriodMinTemperature);
-            testSite.WarmPeriodMaxTemperature.Should().Be(model.ColdPeriodMaxTemperature);
-            testSite.SunExposureId.Should().Be(model.SunExposureId);
-
-
+            responseContent.Should().Be("Nie odnaleziono przestrzeni o podanym id");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
         }
 
-        
+
+        [Fact]
+        public async Task Edit_not_user_site_throws_NotFound()
+        {
+            _dbCleaner.ClearDatabase(_dbContext);
+
+            var testSunExposure = _validUserFactory.MakeValidSunExposure(3);
+
+            _dbContext.Add(testSunExposure);
+            _dbContext.SaveChanges();
+
+            var testUser1 = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111111"));
+            var testUser2 = _validUserFactory.MakeCorrectTestUser(new Guid("11111111-1111-1111-1111-111111111112"));
+
+            _dbContext.Add(testUser1);
+            _dbContext.Add(testUser2);
+            _dbContext.SaveChanges();
+
+            var testUserSpaceId1 = testUser1.SpaceId;
+            var testUserSpaceId2 = testUser2.SpaceId;
+
+            var testSite1 = _validUserFactory.MakeValidUserSideWithPlants(testUserSpaceId1);
+            var testSite2 = _validUserFactory.MakeValidUserSideWithPlants(testUserSpaceId2);
+
+
+            _dbContext.Add(testSite1);
+            _dbContext.Add(testSite2);
+
+            _dbContext.SaveChanges();
+
+            var siteId2 = testSite2.Id;
+
+            var model = new EditUserSiteDto()
+            {
+                Id = siteId2,
+                Name = "Test Site",
+                ColdPeriodMinTemperature = 5,
+                ColdPeriodMaxTemperature = 10,
+                WarmPeriodMaxTemperature = 35,
+                WarmPeriodMinTemperature = 20,
+                SunExposureId = 3
+            };
+
+            var httpContent = model.ToJsonHttpContent();
+
+            var response = await _client.PostAsync("/UserSites/Edit", httpContent);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            responseContent.Should().Be("Nie jesteś właścicielem przestrzeni o podanym id");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Ignore Spelling: Utils dto
+
+using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;

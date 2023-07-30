@@ -1,13 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WorldPlants.Models;
+using WorldPlants.Services;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WorldPlants.Controllers
 {
     [ApiController]
-    [Route("recognizer")]
+    [Route("Recognizer")]
+    [AllowAnonymous]
     public class RecognizerController : Controller
     {
+        private readonly IRecognizerService _recognizerService;
+        public RecognizerController(IRecognizerService recognizerService)
+        {
+            _recognizerService = recognizerService;
+        }
 
         [HttpPost]
+        public async Task<ActionResult<RecognizedPlantDto>> RecognizePlant([FromForm] List<IFormFile> images)
+        {
+           
+          var result = await _recognizerService.RecognizePlant(images);
+         
+          return Ok(result);
+        }
+
+        [HttpPost("AdditionalInformation")]
+        public async Task<ActionResult> RecognizeAndGetPlantAdditionalInformation([FromForm] List<IFormFile> images)
+        {
+            var result = await _recognizerService.RecognizeAndGetPlantAdditionalInformation(images);
+            return Ok(result);
+        }
+
+
+        /*[HttpPost]
         public async Task<IActionResult> UploadImage(IFormFile image)
         {
             var hash = Guid.NewGuid().ToString();
@@ -19,8 +46,12 @@ namespace WorldPlants.Controllers
             }
 
             return PhysicalFile(filePath, "image/png");
-        }
+        }*/
     }
+
+
+
+   }
 
     /*
      A simple way to make HTTP-Request out of a .NET-Application is the System.Net.Http.HttpClient (MSDN). An example usage would look something like this:
@@ -49,4 +80,4 @@ var responseString = await response.Content.ReadAsStringAsync();
 // To read the response as json
 var responseJson = await response.Content.ReadAsAsync<ResponseObject>();
      */
-}
+

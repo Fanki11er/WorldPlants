@@ -8,7 +8,7 @@ namespace WorldPlants.Models.Validators
 
         public EditUserSiteValidator(WorldPlantsDbContext dbContext)
         {
-            RuleFor(s => s.Name)
+           RuleFor(s => s.Name)
                 .NotEmpty()
                 .MinimumLength(3);
 

@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿// Ignore Spelling: Validator Dto Validators
+
+using FluentValidation;
 using System.Text.RegularExpressions;
 using WorldPlants.Entities;
 
@@ -11,6 +13,7 @@ namespace WorldPlants.Models.Validators
             RuleFor(u => u.Email)
                 .NotEmpty()
                 .EmailAddress();
+            RuleFor(u => u.Name).MinimumLength(2);
 
             RuleFor(u => u.Email)
                 .Custom((value, context) =>

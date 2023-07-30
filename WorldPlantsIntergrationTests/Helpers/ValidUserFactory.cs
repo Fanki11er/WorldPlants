@@ -47,12 +47,6 @@ namespace WorldPlantsIntergrationTests.Helpers
                 ColdPeriodMaxTemperature = 2,
                 HasRoof = true,
                 CanChangeHasRoof = false,
-                SunExposure = new SunExposure()
-                {
-                    Id = 1,
-                    Name = "Test",
-                    Description = "Test",
-                },
                 SunExposureId = 1,
                 SpaceId = userSpaceId,
                 Plants = new List<Plant>()
@@ -83,18 +77,26 @@ namespace WorldPlantsIntergrationTests.Helpers
                 ColdPeriodMaxTemperature = 2,
                 HasRoof = true,
                 CanChangeHasRoof = false,
-                SunExposure = new SunExposure()
-                {
-                    Id = 1,
-                    Name = "Test",
-                    Description = "Test",
-                },
                 SunExposureId = 1,
                 SpaceId = spaceId,
                 Plants = new List<Plant>()
             };
 
             return testSite;
+        }
+
+        public SunExposure MakeValidSunExposure(int Id)
+        {
+            var testSunExposure = new SunExposure()
+            {
+                Id = Id,
+                Description = "Test",
+                Name = "Test",
+                ForSiteType = Locations.Indor,
+                SunScale = SunScale.Low
+            };
+
+            return testSunExposure;
         }
     }
 }

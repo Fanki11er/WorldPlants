@@ -63,7 +63,16 @@ namespace WorldPlants.Controllers
 
             return NoContent();
         }
-        // Test for EditUserSiteValidator
+
+        [HttpPost("Edit")]
+        public ActionResult EditUserSite([FromBody] EditUserSiteDto dto)
+        {
+            _siteService.EditUserSite(dto);
+
+            return Ok();
+        }
+
+
         // EditSite Path
         // Endpoint for sending existing data to editSiteForm
     }

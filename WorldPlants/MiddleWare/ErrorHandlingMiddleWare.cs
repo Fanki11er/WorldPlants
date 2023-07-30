@@ -16,36 +16,41 @@ namespace WorldPlants.MiddleWare
             {
                 await next.Invoke(context);
             }
-            catch(ForbidException forbidException)
+            catch (ForbidException forbidException)
             {
                 context.Response.StatusCode = 403;
                 await context.Response.WriteAsync(forbidException.Message);
             }
-            catch(NotFoundException notFoundException)
+            catch (NotFoundException notFoundException)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFoundException.Message);
             }
-            catch(BadRequestException badRequestException)
+            catch (BadRequestException badRequestException)
             {
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(badRequestException.Message);
             }
-            catch(UserSiteNotFoundException userSiteNotFoundException)
+            catch (UserSiteNotFoundException userSiteNotFoundException)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(userSiteNotFoundException.Message);
             }
-            catch(SiteWithPlantsException siteWithPlantsException)
+            catch (SiteWithPlantsException siteWithPlantsException)
             {
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(siteWithPlantsException.Message);
+            }
+            catch (RecognizerException recognizerException)
+            {
+                context.Response.StatusCode = 408;
+                await context.Response.WriteAsync(recognizerException.Message);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Coś się wykrzaczyło");
+                await context.Response.WriteAsync("Coś się wykrzaczyło" + ex.Message);
             }
         }
     }

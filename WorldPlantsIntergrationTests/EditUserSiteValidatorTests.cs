@@ -1,12 +1,14 @@
-﻿// Ignore Spelling: Validator
+﻿// Ignore Spelling: Validator Dto
 
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WorldPlants.Entities;
 using WorldPlants.Models;
 using WorldPlants.Models.Validators;
+using WorldPlantsIntergrationTests.Helpers;
 using Xunit;
 
 namespace WorldPlantsIntergrationTests
@@ -14,27 +16,46 @@ namespace WorldPlantsIntergrationTests
     public class EditUserSiteValidatorTests
     {
         private readonly WorldPlantsDbContext _dbContext;
+        private readonly DbCleaner _dbCleaner;
         public EditUserSiteValidatorTests()
         {
             var builder = new DbContextOptionsBuilder<WorldPlantsDbContext>();
             builder.UseInMemoryDatabase( new Guid().ToString());
             _dbContext = new WorldPlantsDbContext(builder.Options);
+            _dbCleaner = new DbCleaner();
+
+            _dbCleaner.ClearDatabase(_dbContext);
 
             var testSunExposure = new SunExposure()
             {
+                Id = 1,
                 Name = "Test",
                 Description = "Test",
             };
 
+            var testUserSite = new UserSite()
+            {
+                Id = 1,
+                Name = "Test",
+                SunExposureId = 1,
+                ColdPeriodMinTemperature = -5,
+                ColdPeriodMaxTemperature = 0,
+                WarmPeriodMinTemperature = 10,
+                WarmPeriodMaxTemperature = 30,
+                SpaceId = new Guid()
+            };
+
             _dbContext.SunExposures.Add(testSunExposure);
+            _dbContext.UserSites.Add(testUserSite);
             _dbContext.SaveChanges();
-            //Seed();
+           
         }
         [Fact]
         public void Valid_dto_pass_validation()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
             {
+                Id = 1,
                 Name = "Test",
                 SunExposureId = 1,
                 ColdPeriodMinTemperature = -10,
@@ -53,6 +74,7 @@ namespace WorldPlantsIntergrationTests
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
             {
+                Id = 1,
                 Name = "Test",
                 SunExposureId = 999,
                 ColdPeriodMinTemperature = -10,
@@ -71,6 +93,7 @@ namespace WorldPlantsIntergrationTests
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
             {
+                Id = 1,
                 Name = "Test",
                 SunExposureId = 1,
                 ColdPeriodMinTemperature = 0,
@@ -89,6 +112,7 @@ namespace WorldPlantsIntergrationTests
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
             {
+                Id = 1,
                 Name = "Test",
                 SunExposureId = 1,
                 ColdPeriodMinTemperature = 0,
@@ -107,6 +131,7 @@ namespace WorldPlantsIntergrationTests
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
             {
+                Id = 1,
                 Name = "T",
                 SunExposureId = 1,
                 ColdPeriodMinTemperature = 0,
@@ -125,6 +150,7 @@ namespace WorldPlantsIntergrationTests
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
             {
+                Id = 1,
                 Name = null,
                 SunExposureId = 1,
                 ColdPeriodMinTemperature = 0,
@@ -142,7 +168,7 @@ namespace WorldPlantsIntergrationTests
         public void Dto_With_TooHigh_WarmPeriodMaxTemperature_should_throw_error()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
-            {
+            {   Id = 1,
                 Name = "Test",
                 SunExposureId = 1,
                 ColdPeriodMinTemperature = 0,
@@ -160,7 +186,7 @@ namespace WorldPlantsIntergrationTests
         public void Dto_With_too_low_ColdPeriodMaxTemperature_should_throw_error()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
-            {
+            {   Id = 1,
                 Name = "Test",
                 SunExposureId = 1,
                 ColdPeriodMinTemperature = -60,
@@ -173,5 +199,6 @@ namespace WorldPlantsIntergrationTests
             var result = validator.TestValidate(testDto);
             result.ShouldHaveValidationErrorFor(e => e.ColdPeriodMinTemperature);
         }
+
     }
 }
