@@ -12,8 +12,11 @@ import LandingView from "../Views/LandingView/LandingView";
 import MainLayout from "../Templates/MainLayout/MainLayout";
 import UnauthorizedUserLayout from "../Templates/UnauthorizedUserLayout/UnauthorizedUserLayout";
 import TasksView from "../Views/TasksView/TasksView";
+import PlacesView from "../Views/PlacesView/PlacesView";
+import SunExposureView from "../Views/SunExposureView/SunExposureView";
 
-const { rootPath, login, registration, plantsTasks } = paths;
+const { rootPath, login, registration, plantsTasks, plantsPlace, sunExposure } =
+  paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RouteLayout />}>
@@ -24,6 +27,8 @@ const router = createBrowserRouter(
       </Route>
       <Route element={<MainLayout />}>
         <Route path={plantsTasks} element={<TasksView />} />
+        <Route path={plantsPlace} element={<PlacesView />} />
+        <Route path={sunExposure} element={<SunExposureView />} />
       </Route>
       <Route path={"*"} element={<LandingView />} />
     </Route>

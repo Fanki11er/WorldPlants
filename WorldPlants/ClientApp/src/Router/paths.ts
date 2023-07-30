@@ -5,4 +5,6 @@ export const paths = {
   registration: `/Unauthorized/Registration`,
   login: "/Unauthorized/Login",
   plantsTasks: "/Authorized/PlantsTasks",
+  plantsPlace: "Authorized/PlacePlants",
+  sunExposure: "Authorized/SunExposure"
 };

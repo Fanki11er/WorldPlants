@@ -13,6 +13,8 @@ export const ActionButton = styled.button`
         border: none;
         padding: 5px 10px;
         color: ${(props: AppTheme) => props.theme.colors.white};
+        font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
+        
         :hover {
             background-color: ${(props: AppTheme) => props.theme.colors.orange};
             cursor: pointer;
@@ -34,6 +36,8 @@ export const NavigationLink = styled(NavLink)`
         display: flex;
         justify-content: center;
         align-items: center;
+        font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
+
         :hover:not(.active){
             background-color: ${(props: AppTheme) => props.theme.colors.orange};
             cursor: pointer;

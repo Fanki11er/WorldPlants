@@ -3,7 +3,7 @@ export const theme: Theme = {
     mainBlue: "rgba(4, 17, 45, 1)",
     darkBlue: "rgba(4, 16, 41, 1)",
     navyBlue: "rgba(7, 29, 83, 1)",
-    gradientPurple: "linear-gradient(rgba(40, 41, 123, 1), rgba(49, 32, 97, 1))",
+    gradientPurple: "linear-gradient(137deg, #28297B 0%, #312061 100%)",
     orange: "rgba(254, 122, 53, 1)",
     green: "rgba(59, 214, 166, 1)",
     white: "rgba(255, 255, 255, 1)",
@@ -13,7 +13,11 @@ export const theme: Theme = {
     purpleLight: "rgba(78, 78, 165, 1)",
     yellow: "rgba(255, 198, 67,1)",
     turquoise: "rgba(31, 204, 151, 1)",
-    errorRed: "rgba(255, 131, 131, 1)",
+    red: "rgba(217,20,36, 0.9)",
+    //pink: "rgba(255, 185, 185, 1)",
+    //errorRed: "rgba(232, 169, 169, 1)",
+    pink: "rgba(231,171, 152, 1)",
+   // red: "rgba(223, 92 ,94 ,1)"
   },
   fontSizes: {
     small: "14px",
@@ -30,6 +34,7 @@ export const theme: Theme = {
 
   fontFamilies: {
     Roboto: "Roboto, sans-serif",
+    Inter: "Inter, sans-serif",
   },
 };
 
@@ -48,7 +53,8 @@ export type Theme = {
     purpleLight: string;
     yellow: string;
     turquoise: string;
-    errorRed: string;
+    pink: string;
+    red: string;
   };
   fontSizes: {
     small: string;
@@ -65,6 +71,7 @@ export type Theme = {
 
   fontFamilies: {
     Roboto: string;
+    Inter: string;
   };
 };
 

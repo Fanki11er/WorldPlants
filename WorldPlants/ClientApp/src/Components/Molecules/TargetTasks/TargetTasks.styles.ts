@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const TargetTasksWrapper = styled.div`
-    background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
+    background: ${(props: AppTheme) => props.theme.colors.gradientPurple};
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

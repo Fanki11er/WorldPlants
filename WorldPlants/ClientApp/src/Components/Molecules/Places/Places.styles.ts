@@ -21,6 +21,7 @@ export const HeaderAndImgPlaceWrapper = styled.div`
 export const HeaderPlace = styled.h2`
     color: ${(props: AppTheme) => props.theme.colors.orange};
     font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
+    font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 `;
 
 export const ImgPlace = styled.img`

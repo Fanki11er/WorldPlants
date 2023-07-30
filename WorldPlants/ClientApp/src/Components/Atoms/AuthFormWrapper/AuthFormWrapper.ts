@@ -14,6 +14,7 @@ export const AuthFormWrapper = styled(Form)`
     min-width: 350px;
     max-width: 450px;
     position: relative;
+  //  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 `;
 
 export const ImgAuth = styled.img`

@@ -31,8 +31,9 @@ export const Input = styled(Field)`
     background-color: ${(props: AppTheme) => props.theme.colors.purple};
     border-radius: 25px;
     outline: none;
-    border: 2px solid ${(props: ErrorProps & AppTheme)=> props.iserror? props.theme.colors.errorRed : "transparent"};
+    border: 2px solid ${(props: ErrorProps & AppTheme)=> props.iserror? props.theme.colors.red : "transparent"};
     color:  ${(props: AppTheme) => props.theme.colors.white};
+
    /* :hover {
         color:  ${(props: AppTheme) => props.theme.colors.white};
     }*/

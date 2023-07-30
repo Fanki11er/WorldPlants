@@ -22,6 +22,7 @@ export const HeaderAndImgSunExposureWrapper = styled.div`
 export const HeaderSunExposure= styled.h2`
     color: ${(props: AppTheme) => props.theme.colors.orange};
     font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
+    font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 `;
 
 export const ImgSunExposure = styled.img`
@@ -33,4 +34,5 @@ export const ImgSunExposure = styled.img`
 export const TextSunExposure = styled.p`
      font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
      color: ${(props: AppTheme) => props.theme.colors.green};
+     font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 `;
