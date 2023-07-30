@@ -9,13 +9,15 @@ import RegistrationView from "../Views/RegistrationView/RegistrationView";
 
 import { paths } from "./paths";
 import LandingView from "../Views/LandingView/LandingView";
-const { rootPath, login, registration } = paths;
+import MainLayout from "../Templates/MainLayout/MainLayout";
+const { rootPath, login, registration, main } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
           <Route path={rootPath} element={<RouteLayout />}>
               <Route index element={<LandingView/>}/>
               <Route path={login} element={<LoginView/>}/>
               <Route path={registration} element={<RegistrationView/>}/>
+              <Route path={main} element={<MainLayout/>}/>
           </Route>)
 );
 
