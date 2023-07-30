@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
+import {Form} from 'formik'
 
-export const AuthFormWrapper = styled.form`
+export const AuthFormWrapper = styled(Form)`
     background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
     display: grid;
     grid-template-columns: 1fr;
