@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { AuthFormHeader } from "../../Atoms/AuthFormHeader/AuthFormHeader";
-import { AuthFormWrapper, ImgAuth } from "../../Atoms/AuthFormWrapper/AuthFormWrapper.styles";
+import { AuthFormWrapper, ImgAuth } from "../../Atoms/AuthFormWrapper/AuthFormWrapper";
 import { ActionButton} from "../../Atoms/Buttons/Buttons";
 import InputField from "../../Molecules/InputField/InputField";
 import ImgAuthSunFlower from "../../../Assets/SunFlower.svg";

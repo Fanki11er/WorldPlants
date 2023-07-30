@@ -21,7 +21,7 @@ export const ActionButton = styled.button`
         `;
 
 export const NavigationLink = styled(NavLink)`
-        min-width: 130px;
+        min-width: 110px;
         width: fit-content;
         min-height: 35px;
         background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
@@ -42,5 +42,22 @@ export const NavigationLink = styled(NavLink)`
         &.active {
             color: ${(props: AppTheme) => props.theme.colors.orange};
             cursor: not-allowed;
+        }
+`;
+
+export const OrangeButton = styled.button`
+     min-width: 110px;
+        width: fit-content;
+        min-height: 35px;
+        background-color: ${(props: AppTheme) => props.theme.colors.orange};
+        border-radius: 25px;
+        outline: none;
+        padding: 5px 10px;
+        color: ${(props: AppTheme) => props.theme.colors.white};
+        border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+        :hover {
+            background-color: transparent;
+            cursor: pointer;
+            transition: all 0.5s;
         }
 `;

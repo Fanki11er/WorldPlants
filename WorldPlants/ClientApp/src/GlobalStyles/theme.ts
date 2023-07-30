@@ -10,10 +10,15 @@ export const theme: Theme = {
     purple: "rgba(49, 32, 97, 1)",
     blue: "rgba(17, 84, 230, 1)",
     gray: "rgba(88, 94, 114, 1)",
-    purpleLight: "rgba(78, 78, 165, 1)"
+    purpleLight: "rgba(78, 78, 165, 1)",
+    yellow: "rgba(255, 198, 67,1)",
+    turquoise: "rgba(31, 204, 151, 1)",
+    errorRed: "rgba(255, 131, 131, 1)",
   },
   fontSizes: {
     small: "14px",
+    medium:"16px",
+    large: "20px",
   },
 
   /*devices: {
@@ -41,9 +46,14 @@ export type Theme = {
     blue: string;
     gray: string;
     purpleLight: string;
+    yellow: string;
+    turquoise: string;
+    errorRed: string;
   };
   fontSizes: {
     small: string;
+    medium: string;
+    large: string;
   };
 
   /*devices: {
