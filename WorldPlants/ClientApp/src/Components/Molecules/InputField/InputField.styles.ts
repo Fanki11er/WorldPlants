@@ -19,6 +19,7 @@ export const InputLabel = styled.label`
      font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
      color:  ${(props: AppTheme) => props.theme.colors.green};
      padding: 5px 10px;
+     font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
     
    
 `;

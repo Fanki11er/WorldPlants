@@ -14,10 +14,10 @@ export const theme: Theme = {
     yellow: "rgba(255, 198, 67,1)",
     turquoise: "rgba(31, 204, 151, 1)",
     red: "rgba(217,20,36, 0.9)",
-    //pink: "rgba(255, 185, 185, 1)",
-    //errorRed: "rgba(232, 169, 169, 1)",
-    pink: "rgba(231,171, 152, 1)",
-   // red: "rgba(223, 92 ,94 ,1)"
+    pink: "rgba(255, 185, 185, 1)",
+   // pink: "rgba(246,149, 125, 1)",
+   //pink: "rgba(238, 104, 74, 1)"
+   
   },
   fontSizes: {
     small: "14px",

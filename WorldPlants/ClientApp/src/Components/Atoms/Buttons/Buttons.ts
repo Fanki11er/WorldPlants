@@ -37,7 +37,8 @@ export const NavigationLink = styled(NavLink)`
         justify-content: center;
         align-items: center;
         font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
-
+        font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
+        
         :hover:not(.active){
             background-color: ${(props: AppTheme) => props.theme.colors.orange};
             cursor: pointer;

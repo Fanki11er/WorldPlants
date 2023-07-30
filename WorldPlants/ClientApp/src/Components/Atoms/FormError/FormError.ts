@@ -12,4 +12,5 @@ export const FormError = styled.span`
   padding: 10px;
   font-weight: bold;
   color: ${(props: AppTheme) => props.theme.colors.red};
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 `;
