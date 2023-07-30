@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldPlants", "WorldPlants\WorldPlants.csproj", "{1D593E53-9C0E-4BAB-AAA4-D07C2B958A8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldPlants", "WorldPlants\WorldPlants.csproj", "{1D593E53-9C0E-4BAB-AAA4-D07C2B958A8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{767F9CA5-8120-4EFF-8078-6E8F28CD6FDB}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldPlantsIntergrationTests", "WorldPlantsIntergrationTests\WorldPlantsIntergrationTests.csproj", "{D0363654-9F05-46B1-9A73-388A2D5700FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,10 @@ Global
 		{1D593E53-9C0E-4BAB-AAA4-D07C2B958A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D593E53-9C0E-4BAB-AAA4-D07C2B958A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D593E53-9C0E-4BAB-AAA4-D07C2B958A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0363654-9F05-46B1-9A73-388A2D5700FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0363654-9F05-46B1-9A73-388A2D5700FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0363654-9F05-46B1-9A73-388A2D5700FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0363654-9F05-46B1-9A73-388A2D5700FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

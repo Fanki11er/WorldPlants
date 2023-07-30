@@ -1,10 +1,91 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using NLog.Web;
+using System.Text;
+using WorldPlants;
+using WorldPlants.DbSeeders;
+using WorldPlants.Entities;
+using WorldPlants.MiddleWare;
+using WorldPlants.Models;
+using WorldPlants.Models.Validators;
+using WorldPlants.Services;
+using WorldPlants.Utils;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+DotNetEnv.Env.Load();
 
+var authenticationSettings = new AuthenticationSettings
+{
+    JwtKey = builder.Configuration["WorldPlants:TokenKey"]
+};
+
+builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
+
+
+
+// Add services to the container.
+builder.Host.UseNLog();
 builder.Services.AddControllersWithViews();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddSingleton(authenticationSettings);
+builder.Services.AddCors(p => p.AddPolicy("CORS", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
+
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultAuthenticateScheme = "Bearer";
+    option.DefaultScheme = "Bearer";
+    option.DefaultChallengeScheme = "Bearer";
+}).AddJwtBearer(cfg =>
+{
+    cfg.RequireHttpsMetadata = true;
+    cfg.SaveToken = true;
+    cfg.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = authenticationSettings.JwtIssuer,
+        ValidAudience = authenticationSettings.JwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
+
+    };
+});
+
+builder.Services.AddDbContext<WorldPlantsDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("WorldPlantsDb")));
+
+//Services
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IOwnerUserService, OwnerUserService>();
+builder.Services.AddScoped<IGuestUsertService, GuestUserService>();
+builder.Services.AddScoped<ISiteService, SitesService>();
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddScoped<IRecognizerService, RecognizerService>();
+//
+
+//Validators
+builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
+builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
+builder.Services.AddScoped<IValidator<UserChangePasswordDto>, UserChangePasswordValidator>();
+builder.Services.AddScoped<IValidator<NewUserSiteDto>, NewUserSiteValidator>();
+builder.Services.AddScoped<IValidator<EditUserSiteDto>, EditUserSiteValidator>();
+//
+
+builder.Services.AddScoped<DbSeeder, DbSeeder>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
+builder.Services.AddScoped<ErrorHandlingMiddleWare>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+SeedDatabase();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -13,9 +94,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleWare>();
+app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors("CORS");
+app.UseAuthorization();
 
 
 app.MapControllerRoute(
@@ -25,3 +110,14 @@ app.MapControllerRoute(
 app.MapFallbackToFile("index.html"); ;
 
 app.Run();
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<DbSeeder>();
+        dbInitializer.Seed();
+    };
+}
+public partial class Program { }
+
+
