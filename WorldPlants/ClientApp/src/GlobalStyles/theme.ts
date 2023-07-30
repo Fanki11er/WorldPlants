@@ -1,6 +1,20 @@
 export const theme: Theme = {
-  colors: {},
-  fontSizes: {},
+  colors: {
+    mainBlue: "rgba(4, 17, 45, 1)",
+    darkBlue: "rgba(4, 16, 41, 1)",
+    navyBlue: "rgba(7, 29, 83, 1)",
+    gradientPurple: "linear-gradient(rgba(40, 41, 123, 1), rgba(49, 32, 97, 1))",
+    orange: "rgba(254, 122, 53, 1)",
+    green: "rgba(59, 214, 166, 1)",
+    white: "rgba(255, 255, 255, 1)",
+    purple: "rgba(49, 32, 97, 1)",
+    blue: "rgba(17, 84, 230, 1)",
+    gray: "rgba(88, 94, 114, 1)",
+    purpleLight: "rgba(78, 78, 165, 1)"
+  },
+  fontSizes: {
+    small: "14px",
+  },
 
   /*devices: {
     small: `min-width: 600px`,
@@ -15,8 +29,22 @@ export const theme: Theme = {
 };
 
 export type Theme = {
-  colors: {};
-  fontSizes: {};
+  colors: {
+    mainBlue: string;
+    darkBlue: string;
+    navyBlue: string;
+    gradientPurple: string;
+    orange: string;
+    green: string;
+    white: string;
+    purple: string;
+    blue: string;
+    gray: string;
+    purpleLight: string;
+  };
+  fontSizes: {
+    small: string;
+  };
 
   /*devices: {
     small: string;
