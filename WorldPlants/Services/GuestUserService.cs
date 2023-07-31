@@ -31,13 +31,15 @@ namespace WorldPlants.Services
         {
             string accountType = UserRoles.Geust.ToString();
 
+            bool hasPhoneNumber = dto.PhoneNumber != null;
+
             var spaceId = CheckIfSpaceIdIsNotNull();
 
             _databaseUtils.CheckIfSpaceExists(spaceId);
 
             var userId = _databaseUtils.AddUserToDatabase(dto, new Guid(spaceId), accountType);
 
-            _databaseUtils.AddToDatabaseUserSettings(accountType, userId);
+            _databaseUtils.AddToDatabaseUserSettings(accountType, userId, hasPhoneNumber);
         }
 
         public IEnumerable<SanitizedGuestUserDto> GetGuestUsers() {

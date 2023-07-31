@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorldPlants.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -121,16 +121,28 @@ namespace WorldPlants.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReceiveEmails = table.Column<bool>(type: "bit", nullable: false),
-                    ReceiveSms = table.Column<bool>(type: "bit", nullable: false),
+                    WaterPlantsEmailReminder = table.Column<bool>(type: "bit", nullable: false),
+                    WaterPlantsSmsReminder = table.Column<bool>(type: "bit", nullable: false),
+                    FertilizePlantsEmailReminder = table.Column<bool>(type: "bit", nullable: false),
+                    FertilizePlantsSmsReminder = table.Column<bool>(type: "bit", nullable: false),
+                    CutPlantsEmailReminder = table.Column<bool>(type: "bit", nullable: false),
+                    CutPlantsSmsReminder = table.Column<bool>(type: "bit", nullable: false),
+                    ReplantPlantsEmailReminder = table.Column<bool>(type: "bit", nullable: false),
+                    ReplantPlantsSmsReminder = table.Column<bool>(type: "bit", nullable: false),
+                    MistPlantsEmailReminder = table.Column<bool>(type: "bit", nullable: false),
+                    MistPlantsSmsReminder = table.Column<bool>(type: "bit", nullable: false),
                     CanWaterPlants = table.Column<bool>(type: "bit", nullable: false),
                     CanMistPlants = table.Column<bool>(type: "bit", nullable: false),
                     CanFertilizePlants = table.Column<bool>(type: "bit", nullable: false),
-                    CanRepotPlants = table.Column<bool>(type: "bit", nullable: false),
+                    CanReplantPlants = table.Column<bool>(type: "bit", nullable: false),
+                    CanCutPlants = table.Column<bool>(type: "bit", nullable: false),
                     CanMovePlants = table.Column<bool>(type: "bit", nullable: false),
                     CanAddPlants = table.Column<bool>(type: "bit", nullable: false),
                     CanRemovePlants = table.Column<bool>(type: "bit", nullable: false),
                     CanEditPlants = table.Column<bool>(type: "bit", nullable: false),
+                    CanAddSites = table.Column<bool>(type: "bit", nullable: false),
+                    CanRemoveSites = table.Column<bool>(type: "bit", nullable: false),
+                    CanEditSites = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

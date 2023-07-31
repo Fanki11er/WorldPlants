@@ -12,8 +12,8 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPlantsDbContext))]
-    [Migration("20230708055127_Init")]
-    partial class Init
+    [Migration("20230731173749_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,7 +195,16 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanAddPlants")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("CanAddSites")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanCutPlants")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("CanEditPlants")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanEditSites")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanFertilizePlants")
@@ -210,20 +219,47 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanRemovePlants")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("CanRepotPlants")
+                    b.Property<bool>("CanRemoveSites")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanReplantPlants")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanWaterPlants")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ReceiveEmails")
+                    b.Property<bool>("CutPlantsEmailReminder")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ReceiveSms")
+                    b.Property<bool>("CutPlantsSmsReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("FertilizePlantsEmailReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("FertilizePlantsSmsReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MistPlantsEmailReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MistPlantsSmsReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ReplantPlantsEmailReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ReplantPlantsSmsReminder")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("WaterPlantsEmailReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("WaterPlantsSmsReminder")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
