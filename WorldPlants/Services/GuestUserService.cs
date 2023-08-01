@@ -46,7 +46,7 @@ namespace WorldPlants.Services
 
             var spaceId = CheckIfSpaceIdIsNotNull();
             _databaseUtils.CheckIfSpaceExists(spaceId);
-            var guestUsersEntities = _context.Users.Where(u => u.SpaceId.ToString() == spaceId && u.AccountType == "Guest").ToList();
+            var guestUsersEntities = _context.Users.Where(u => u.SpaceId.ToString() == spaceId && u.AccountType == UserRoles.Geust.ToString()).ToList();
             var sanitizedGuestUsersEntities = _mapper.Map<IEnumerable<SanitizedGuestUserDto>>(guestUsersEntities); 
             return sanitizedGuestUsersEntities;
         }
