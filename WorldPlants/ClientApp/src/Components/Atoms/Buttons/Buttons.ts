@@ -51,7 +51,7 @@ export const NavigationLink = styled(NavLink)`
 `;
 
 export const OrangeButton = styled.button`
-     min-width: 110px;
+        min-width: 110px;
         width: fit-content;
         min-height: 35px;
         background-color: ${(props: AppTheme) => props.theme.colors.orange};
@@ -60,9 +60,39 @@ export const OrangeButton = styled.button`
         padding: 5px 10px;
         color: ${(props: AppTheme) => props.theme.colors.white};
         border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+
         :hover {
             background-color: transparent;
             cursor: pointer;
             transition: all 0.5s;
         }
+`;
+
+export const ButtonSettings = styled.button`
+         background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
+         color: ${(props: AppTheme) => props.theme.colors.white};
+         width: 203px;
+         height: 39px;
+
+         :hover {
+            color: ${(props: AppTheme) => props.theme.colors.orange};
+         }
+`;
+
+export const ButtonNewGuestAccount = styled.button`
+    background-color:  ${(props: AppTheme) => props.theme.colors.greenSettings};
+    font-weight: bold;
+    border-radius: 25px;
+    width: 239px;
+    height: 39px;
+    border: none;
+`;
+
+export const ButtonDeleteAccount = styled.button`
+     background-color:  ${(props: AppTheme) => props.theme.colors.pink};
+     border-radius: 20px;
+     color:  ${(props: AppTheme) => props.theme.colors.red};
+     border: none;
+     font-weight: bolder;
+     padding: 10px;
 `;

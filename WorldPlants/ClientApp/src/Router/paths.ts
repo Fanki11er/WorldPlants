@@ -6,5 +6,6 @@ export const paths = {
   login: "/Unauthorized/Login",
   plantsTasks: "/Authorized/PlantsTasks",
   plantsPlace: "Authorized/PlacePlants",
-  sunExposure: "Authorized/SunExposure"
+  sunExposure: "Authorized/SunExposure",
+  ownerSettings: "Authorized/OwnerSettings",
 };

@@ -14,9 +14,17 @@ import UnauthorizedUserLayout from "../Templates/UnauthorizedUserLayout/Unauthor
 import TasksView from "../Views/TasksView/TasksView";
 import PlacesView from "../Views/PlacesView/PlacesView";
 import SunExposureView from "../Views/SunExposureView/SunExposureView";
+import OwnerSettingsView from "../Views/OwnerSettingsView/OwnerSettingsView";
 
-const { rootPath, login, registration, plantsTasks, plantsPlace, sunExposure } =
-  paths;
+const {
+  rootPath,
+  login,
+  registration,
+  plantsTasks,
+  plantsPlace,
+  sunExposure,
+  ownerSettings,
+} = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RouteLayout />}>
@@ -29,6 +37,7 @@ const router = createBrowserRouter(
         <Route path={plantsTasks} element={<TasksView />} />
         <Route path={plantsPlace} element={<PlacesView />} />
         <Route path={sunExposure} element={<SunExposureView />} />
+        <Route path={ownerSettings} element={<OwnerSettingsView />} />
       </Route>
       <Route path={"*"} element={<LandingView />} />
     </Route>

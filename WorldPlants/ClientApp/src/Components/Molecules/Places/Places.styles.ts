@@ -12,9 +12,10 @@ export const PlacesWrapper = styled.div`
 `;
 
 export const HeaderAndImgPlaceWrapper = styled.div`
-    display:grid;
-    justify-content:center;
+    display: grid;
+    justify-content: center;
     align-items: center;
+    direction: rtl;
     position: relative;
 `;
 

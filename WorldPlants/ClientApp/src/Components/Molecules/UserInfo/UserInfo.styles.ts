@@ -17,4 +17,5 @@ export const UserName = styled.span`
     color: ${(props: AppTheme) => props.theme.colors.white};
     width: fit-content;
     font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
+    font-size:  ${(props: AppTheme) => props.theme.fontSizes.small};
 `;

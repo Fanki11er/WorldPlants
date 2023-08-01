@@ -17,7 +17,8 @@ export const theme: Theme = {
     pink: "rgba(255, 185, 185, 1)",
    // pink: "rgba(246,149, 125, 1)",
    //pink: "rgba(238, 104, 74, 1)"
-   
+   greenSettings: "rgba(44, 149, 34, 1)",
+   darkPurple: "rgba(40, 41, 123, 1)",
   },
   fontSizes: {
     small: "14px",
@@ -55,6 +56,8 @@ export type Theme = {
     turquoise: string;
     pink: string;
     red: string;
+    greenSettings: string;
+    darkPurple: string;
   };
   fontSizes: {
     small: string;
