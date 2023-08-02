@@ -62,7 +62,7 @@ builder.Services.AddDbContext<WorldPlantsDbContext>(
 //Services
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IOwnerUserService, OwnerUserService>();
-builder.Services.AddScoped<IGuestUsertService, GuestUserService>();
+builder.Services.AddScoped<IGuestUserService, GuestUserService>();
 builder.Services.AddScoped<ISiteService, SitesService>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<IRecognizerService, RecognizerService>();

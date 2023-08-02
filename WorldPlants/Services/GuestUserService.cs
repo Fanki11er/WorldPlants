@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿// Ignore Spelling: dto
+
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
@@ -7,13 +10,14 @@ using WorldPlants.Utils;
 
 namespace WorldPlants.Services
 {
-    public interface IGuestUsertService
+    public interface IGuestUserService
     {
         public void RegisterGuestUser(RegisterUserDto dto);
         public IEnumerable<SanitizedGuestUserDto> GetGuestUsers();
         public void DeleteGuestUser(string userId);
+        public void ChangeGuestUserStatus(ChangeGuestUserStatusDto dto);
     };
-    public class GuestUserService : IGuestUsertService
+    public class GuestUserService : IGuestUserService
     {
         private readonly WorldPlantsDbContext _context;
         private readonly IDatabaseUtils _databaseUtils;
@@ -62,6 +66,27 @@ namespace WorldPlants.Services
             }
             _context.Users.Remove(user);
             _context.SaveChanges();
+        }
+
+        public void ChangeGuestUserStatus(ChangeGuestUserStatusDto dto)
+        {
+            var spaceId = CheckIfSpaceIdIsNotNull();
+            _databaseUtils.CheckIfSpaceExists(spaceId);
+            var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == dto.UserId && u.SpaceId.ToString() == spaceId);
+
+            if (user is null)
+            {
+                throw new NotFoundException("Nie odnaleziono użytkownika");
+            }
+            user.IsActive = dto.NewStatus;
+            _context.Update(user);
+            int changesCount =  _context.SaveChanges();
+
+            if(changesCount == 0)
+            {
+                throw new NotUpdatedException("Nie udało się zmienić statusu");
+            }
+
         }
 
         private string CheckIfSpaceIdIsNotNull()

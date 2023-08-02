@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿// Ignore Spelling: dto
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Entities;
 using WorldPlants.Models;
@@ -11,9 +13,9 @@ namespace WorldPlants.Controllers
     [Authorize(Roles = "Owner")]
     public class GuestUserController : Controller
     {
-        private readonly IGuestUsertService _guestUserService;
+        private readonly IGuestUserService _guestUserService;
 
-        public GuestUserController(IGuestUsertService guestUserService)
+        public GuestUserController(IGuestUserService guestUserService)
         {
             _guestUserService = guestUserService;
         }
@@ -36,6 +38,13 @@ namespace WorldPlants.Controllers
         {
             _guestUserService.DeleteGuestUser(userId);
             return NoContent();
+        }
+
+        [HttpPost("ChangeStatus")]
+        public ActionResult ChangeGuestUserStatus([FromBody] ChangeGuestUserStatusDto dto )
+        {
+            _guestUserService.ChangeGuestUserStatus(dto);
+            return Ok();
         }
 
     }

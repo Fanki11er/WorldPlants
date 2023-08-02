@@ -46,6 +46,11 @@ namespace WorldPlants.MiddleWare
                 context.Response.StatusCode = 408;
                 await context.Response.WriteAsync(recognizerException.Message);
             }
+            catch(NotUpdatedException notUpdatedException)
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync(notUpdatedException.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
