@@ -15,6 +15,9 @@ import TasksView from "../Views/TasksView/TasksView";
 import PlacesView from "../Views/PlacesView/PlacesView";
 import SunExposureView from "../Views/SunExposureView/SunExposureView";
 import OwnerSettingsView from "../Views/OwnerSettingsView/OwnerSettingsView";
+import GuestSettingsView from "../Views/GuestSettingsView/GuestSettingsView";
+import { GuestPermissionsViewWrapper } from "../Views/GuestPermissionsView/GuestPermissionsView.styles";
+import GuestPermissionsView from "../Views/GuestPermissionsView/GuestPermissionsView";
 
 const {
   rootPath,
@@ -24,6 +27,8 @@ const {
   plantsPlace,
   sunExposure,
   ownerSettings,
+  guestSettings,
+  permissions,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +43,8 @@ const router = createBrowserRouter(
         <Route path={plantsPlace} element={<PlacesView />} />
         <Route path={sunExposure} element={<SunExposureView />} />
         <Route path={ownerSettings} element={<OwnerSettingsView />} />
+        <Route path={guestSettings} element={<GuestSettingsView />} />
+        <Route path={permissions} element={<GuestPermissionsView />} />
       </Route>
       <Route path={"*"} element={<LandingView />} />
     </Route>

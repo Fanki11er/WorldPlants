@@ -1,22 +1,12 @@
-import {
-  ButtonDeleteAccount,
-  NavigationLink,
-} from "../../Atoms/Buttons/Buttons";
+import { ButtonDeleteAccount } from "../../Atoms/Buttons/Buttons";
 import { DeleteAccountHeader } from "../../Atoms/DeleteAccountHeader/DeleteAccountHeader";
 import { DeletingAccountsWrapper } from "../../Atoms/DeletingAccountsWrapper/DeletingAccountsWrapper";
-import { FormInputsWrapper } from "../../Atoms/FormInputsWrapper/FormInputsWrapper";
 import { HeaderAndOptionsWrapper } from "../../Atoms/HeaderAntOptionsWrapper/HeaderAndOptionsWrapper";
 import { OptionsWrapper } from "../../Atoms/OptionsWrapper/OptionsWrapper";
 import { SettingsHeader } from "../../Atoms/SettingsHeader/SettingsHeader";
 import { GuestAccountListWrapper } from "../../Molecules/GuestAccountList/GuestAccountList.styles";
 import GuestListItem from "../../Molecules/GuestListItem/GuestListItem";
-import {
-  HeaderGuestListItem,
-  GuestListItemWrapper,
-} from "../../Molecules/GuestListItem/GuestListItem.styles";
-import InputField from "../../Molecules/InputField/InputField";
-import NotificationListItem from "../../Molecules/NotificationListItem/NotificationListItem";
-import { NotificationListItemWrapper } from "../../Molecules/NotificationListItem/NotificationListItem.styles";
+import NotificationForm from "../../Molecules/NotificationForm/NotificationForm";
 import { GuestAccountsWrapper } from "./GuestAccounts.styles";
 
 const GuestAccounts = () => {
@@ -26,9 +16,7 @@ const GuestAccounts = () => {
         <SettingsHeader>Konta gości</SettingsHeader>
         <OptionsWrapper>
           <GuestAccountListWrapper>
-            <GuestListItemWrapper>
-              <GuestListItem />
-            </GuestListItemWrapper>
+            <GuestListItem />
           </GuestAccountListWrapper>
         </OptionsWrapper>
       </HeaderAndOptionsWrapper>
@@ -36,15 +24,14 @@ const GuestAccounts = () => {
       <HeaderAndOptionsWrapper>
         <SettingsHeader>Powiadomienia</SettingsHeader>
         <OptionsWrapper>
-          <NotificationListItemWrapper>
-            <GuestListItemWrapper>
-              <NotificationListItem />
-            </GuestListItemWrapper>
-            <GuestListItemWrapper></GuestListItemWrapper>
-            <GuestListItemWrapper></GuestListItemWrapper>
-            <GuestListItemWrapper></GuestListItemWrapper>
-            <GuestListItemWrapper></GuestListItemWrapper>
-          </NotificationListItemWrapper>
+          <NotificationForm />
+        </OptionsWrapper>
+      </HeaderAndOptionsWrapper>
+
+      <HeaderAndOptionsWrapper>
+        <SettingsHeader>Powiadomienia</SettingsHeader>
+        <OptionsWrapper>
+          <NotificationForm />
         </OptionsWrapper>
       </HeaderAndOptionsWrapper>
 

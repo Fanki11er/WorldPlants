@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const GuestListItemWrapper = styled.li`
-        //width: 100%;
         height: fit-content;
         background-color: ${(props: AppTheme) => props.theme.colors.darkPurple};
         border-radius: 25px;
@@ -13,6 +12,7 @@ export const GuestListItemWrapper = styled.li`
         align-items: center;
         padding: 5px 20px;
         column-gap: 20px;
+        box-shadow: 5px 5px 5px ${(props: AppTheme) => props.theme.colors.mainBlue};
 `;
 
 export const HeaderGuestListItem = styled.h2`

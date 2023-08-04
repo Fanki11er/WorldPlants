@@ -96,3 +96,7 @@ export const ButtonDeleteAccount = styled.button`
      font-weight: bolder;
      padding: 10px;
 `;
+
+export const NotificationButtonWrapper = styled.div`
+        padding: 30px 0;
+`;

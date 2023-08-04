@@ -8,4 +8,6 @@ export const paths = {
   plantsPlace: "Authorized/PlacePlants",
   sunExposure: "Authorized/SunExposure",
   ownerSettings: "Authorized/OwnerSettings",
+  guestSettings: "Authorized/GuestSettings",
+  permissions: "Authorized/Permissions",
 };

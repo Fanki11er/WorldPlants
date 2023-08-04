@@ -19,6 +19,7 @@ export const theme: Theme = {
    //pink: "rgba(238, 104, 74, 1)"
    greenSettings: "rgba(44, 149, 34, 1)",
    darkPurple: "rgba(40, 41, 123, 1)",
+   black: "rgba(0, 0, 0, 1)",
   },
   fontSizes: {
     small: "14px",
@@ -58,7 +59,9 @@ export type Theme = {
     red: string;
     greenSettings: string;
     darkPurple: string;
+    black: string;
   };
+
   fontSizes: {
     small: string;
     medium: string;
