@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: dto
+﻿// Ignore Spelling: dto Sms
 
 using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Models;
@@ -31,6 +31,29 @@ namespace WorldPlants.Controllers
             var loggedUserDto = _accountService.ChangeUserPassword(dto);
 
             return Ok(loggedUserDto);
+        }
+
+        [HttpGet("NotificationsSettings")]
+        public ActionResult<CurrentNotificationsSettingsDto> GetNotificationSettings()
+        {
+            var settings = _accountService.GetNotificationSettings();
+            return Ok(settings);
+        }
+
+        [HttpPost("EmailNotificationsSettings")]
+        public ActionResult UpdateEmailNotificationsSettings([FromBody] NotificationSettingsDto dto)
+        {
+            _accountService.UpdateEmailNotificationsSettings(dto);
+
+            return Ok();
+        }
+
+        [HttpPost("SmsNotificationsSettings")]
+        public ActionResult UpdateSmsNotificationsSettings([FromBody] NotificationSettingsDto dto)
+        {
+            _accountService.UpdateSmsNotificationsSettings(dto);
+
+            return Ok();
         }
 
     }
