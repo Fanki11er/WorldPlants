@@ -1,7 +1,6 @@
 ﻿// Ignore Spelling: dto
 
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
@@ -14,6 +13,7 @@ namespace WorldPlants.Services
     {
         public void RegisterGuestUser(RegisterUserDto dto);
         public IEnumerable<SanitizedGuestUserDto> GetGuestUsers();
+        public void SelfDeleteGuestUser();
         public void DeleteGuestUser(string userId);
         public void ChangeGuestUserStatus(ChangeGuestUserStatusDto dto);
     };
@@ -33,9 +33,9 @@ namespace WorldPlants.Services
         }
         public void RegisterGuestUser(RegisterUserDto dto)
         {
-            string accountType = UserRoles.Geust.ToString();
+            string accountType = UserRoles.Guest.ToString();
 
-            bool hasPhoneNumber = dto.PhoneNumber != null;
+            bool hasPhoneNumber = dto.PhoneNumber != null && dto.PhoneNumber != "";
 
             var spaceId = CheckIfSpaceIdIsNotNull();
 
@@ -46,12 +46,13 @@ namespace WorldPlants.Services
             _databaseUtils.AddToDatabaseUserSettings(accountType, userId, hasPhoneNumber);
         }
 
-        public IEnumerable<SanitizedGuestUserDto> GetGuestUsers() {
+        public IEnumerable<SanitizedGuestUserDto> GetGuestUsers()
+        {
 
             var spaceId = CheckIfSpaceIdIsNotNull();
             _databaseUtils.CheckIfSpaceExists(spaceId);
-            var guestUsersEntities = _context.Users.Where(u => u.SpaceId.ToString() == spaceId && u.AccountType == UserRoles.Geust.ToString()).ToList();
-            var sanitizedGuestUsersEntities = _mapper.Map<IEnumerable<SanitizedGuestUserDto>>(guestUsersEntities); 
+            var guestUsersEntities = _context.Users.Where(u => u.SpaceId.ToString() == spaceId && u.AccountType == UserRoles.Guest.ToString()).ToList();
+            var sanitizedGuestUsersEntities = _mapper.Map<IEnumerable<SanitizedGuestUserDto>>(guestUsersEntities);
             return sanitizedGuestUsersEntities;
         }
 
@@ -60,12 +61,45 @@ namespace WorldPlants.Services
             var spaceId = CheckIfSpaceIdIsNotNull();
             _databaseUtils.CheckIfSpaceExists(spaceId);
             var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
-            
-            if (user is null) {
+
+            if (user is null)
+            {
                 throw new NotFoundException("Nie odnaleziono użytkownika");
             }
             _context.Users.Remove(user);
-            _context.SaveChanges();
+
+            int counter = _context.SaveChanges();
+
+            if (counter == 0)
+            {
+                throw new NotUpdatedException("Nie udało się usunąć użytkownika");
+            }
+
+        }
+
+        public void SelfDeleteGuestUser()
+        {
+            var userId = _userContextService.GetUserId;
+
+            if (userId is null)
+            {
+                throw new ForbidException("Brak uprawnień do wykonania akcji");
+            }
+            var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == userId);
+
+            if (user is null)
+            {
+                throw new NotFoundException("Nie odnaleziono użytkownika");
+            }
+
+            _context.Users.Remove(user);
+
+            int counter = _context.SaveChanges();
+
+            if (counter == 0)
+            {
+                throw new NotUpdatedException("Nie udało się usunąć użytkownika");
+            }
         }
 
         public void ChangeGuestUserStatus(ChangeGuestUserStatusDto dto)
@@ -80,9 +114,9 @@ namespace WorldPlants.Services
             }
             user.IsActive = dto.NewStatus;
             _context.Update(user);
-            int changesCount =  _context.SaveChanges();
+            int changesCount = _context.SaveChanges();
 
-            if(changesCount == 0)
+            if (changesCount == 0)
             {
                 throw new NotUpdatedException("Nie udało się zmienić statusu");
             }

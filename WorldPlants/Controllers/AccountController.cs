@@ -1,5 +1,6 @@
 ﻿// Ignore Spelling: dto Sms
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Models;
 using WorldPlants.Services;
@@ -8,6 +9,7 @@ namespace WorldPlants.Controllers
 {
     [Route("Account")]
     [ApiController]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
@@ -18,6 +20,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public ActionResult<LoggedUserDto> LoginUser([FromBody] LoginUserDto dto)
         {
             var loggedUserDto = _accountService.LoginUser(dto);

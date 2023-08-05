@@ -6,6 +6,7 @@ namespace WorldPlants.Services
     {
         string? GetSpaceId { get; }
         string? GetUserId { get; }
+        string? GetUserEmail { get; }
         ClaimsPrincipal? User { get; }
     }
 
@@ -21,6 +22,7 @@ namespace WorldPlants.Services
         public ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
         public string? GetUserId => User?.FindFirstValue(ClaimTypes.NameIdentifier);
         public string? GetSpaceId => User?.FindFirstValue("SpaceIdentifier");
-        
+        public string? GetUserEmail => User?.FindFirstValue(ClaimTypes.Email);
+
     }
 }

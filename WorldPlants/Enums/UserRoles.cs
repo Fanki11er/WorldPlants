@@ -3,6 +3,6 @@
     public enum UserRoles
     {
         Owner,
-        Geust
+        Guest
     }
 }

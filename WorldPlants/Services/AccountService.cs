@@ -101,7 +101,7 @@ namespace WorldPlants.Services
 
             NotificationSettingsDto? SmsSettings = null;
 
-            if(user.PhoneNumber != null)
+            if(user.PhoneNumber != null && user.PhoneNumber != "")
             {
                 SmsSettings = new NotificationSettingsDto()
                 {

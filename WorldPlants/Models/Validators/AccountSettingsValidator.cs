@@ -3,16 +3,17 @@
 using FluentValidation;
 using System.Text.RegularExpressions;
 using WorldPlants.Entities;
+using WorldPlants.Services;
 
 namespace WorldPlants.Models.Validators
 {
     public class AccountSettingsValidator : AbstractValidator<AccountSettingsDto>
     {
-        private readonly WorldPlantsDbContext _dbContext;
+       
 
-        public AccountSettingsValidator(WorldPlantsDbContext dbContext)
+        public AccountSettingsValidator(WorldPlantsDbContext dbContext, IUserContextService userContextService)
         {
-            _dbContext = dbContext;
+            
 
             RuleFor(u => u.Email)
                 .NotEmpty()
@@ -25,6 +26,13 @@ namespace WorldPlants.Models.Validators
             RuleFor(u => u.Email)
                 .Custom((value, context) =>
                 {
+                    var userCurrentEmail = userContextService.GetUserEmail;
+
+                    if (userCurrentEmail == value)
+                    {
+                        return;
+                    }
+
                     var emailExists = dbContext.Users.Any(u => u.Email == value);
                     if (emailExists)
                     {
@@ -35,7 +43,7 @@ namespace WorldPlants.Models.Validators
             RuleFor(u => u.PhoneNumber).Custom((value, context) =>
             {
                 string pattern = @"^\d{9}$";
-                if (value != null && !Regex.IsMatch(value, pattern))
+                if (value != "" && value != null && !Regex.IsMatch(value, pattern))
                 {
                     context.AddFailure("PhoneNumber", "Podany numer jest nie prawidłowy");
                 }
