@@ -24,14 +24,6 @@ namespace WorldPlants.Controllers
             return Ok(loggedUserDto);
         }
 
-        [HttpPost("ChangeUserPassword")]
-
-        public ActionResult<LoggedUserDto> ChangeUserPassword([FromBody] UserChangePasswordDto dto)
-        {
-            var loggedUserDto = _accountService.ChangeUserPassword(dto);
-
-            return Ok(loggedUserDto);
-        }
 
         [HttpGet("NotificationsSettings")]
         public ActionResult<CurrentNotificationsSettingsDto> GetNotificationSettings()
@@ -52,6 +44,30 @@ namespace WorldPlants.Controllers
         public ActionResult UpdateSmsNotificationsSettings([FromBody] NotificationSettingsDto dto)
         {
             _accountService.UpdateSmsNotificationsSettings(dto);
+
+            return Ok();
+        }
+
+        [HttpGet("Settings")]
+        public ActionResult<AccountSettingsDto> GetAccountSettings()
+        {
+            var actualSettings = _accountService.GetAccountSettings();
+
+            return Ok(actualSettings);
+        }
+
+        [HttpPost("Settings")]
+        public ActionResult ChangeAccountSettings([FromBody] AccountSettingsDto dto)
+        {
+            _accountService.ChangeAccountSettings(dto);
+
+            return Ok();
+        }
+
+        [HttpPost("Security")]
+        public ActionResult ChangeSecuritySettings([FromBody] UserChangePasswordDto dto)
+        {
+            _accountService.ChangeUserPassword(dto);
 
             return Ok();
         }

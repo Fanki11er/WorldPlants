@@ -74,6 +74,7 @@ builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
 builder.Services.AddScoped<IValidator<UserChangePasswordDto>, UserChangePasswordValidator>();
 builder.Services.AddScoped<IValidator<NewUserSiteDto>, NewUserSiteValidator>();
 builder.Services.AddScoped<IValidator<EditUserSiteDto>, EditUserSiteValidator>();
+builder.Services.AddScoped<IValidator<AccountSettingsDto>, AccountSettingsValidator>();
 //
 
 builder.Services.AddScoped<DbSeeder, DbSeeder>();

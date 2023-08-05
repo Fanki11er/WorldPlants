@@ -16,10 +16,12 @@ namespace WorldPlants.Services
     public interface IAccountService
     {
         public LoggedUserDto LoginUser(LoginUserDto dto);
-        public LoggedUserDto ChangeUserPassword(UserChangePasswordDto dto);
+        public void ChangeUserPassword(UserChangePasswordDto dto);
         public CurrentNotificationsSettingsDto GetNotificationSettings();
         public void UpdateEmailNotificationsSettings(NotificationSettingsDto dto);
         public void UpdateSmsNotificationsSettings(NotificationSettingsDto dto);
+        public AccountSettingsDto GetAccountSettings();
+        public void ChangeAccountSettings(AccountSettingsDto dto);
     };
 
     public class AccountService : IAccountService
@@ -62,25 +64,22 @@ namespace WorldPlants.Services
 
         }
 
-        public LoggedUserDto ChangeUserPassword(UserChangePasswordDto dto)
+        public void ChangeUserPassword(UserChangePasswordDto dto)
         {
-
 
             var user = GetUser();
 
             VeryfiPassword(user, dto.Password, "Błędne imię lub hasło");
 
             user.Password = _passwordHasher.HashPassword(user, dto.NewPassword);
-            
-            var token = GenerateJWT(user);
+            _context.Update(user);
 
-            var loggedUserDto = new LoggedUserDto()
+            int changesCounter = _context.SaveChanges();
+
+            if (changesCounter == 0)
             {
-                Name = user.Name,
-                Token = token,
-            };
-
-            return loggedUserDto;
+                throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień Sms");
+            }
 
         }
 
@@ -136,9 +135,9 @@ namespace WorldPlants.Services
             settings.MistPlantsEmailReminder= dto.MistPlantsReminder;
 
             _context.Update(settings);
-            int changesCouner =  _context.SaveChanges();
+            int changesCounter =  _context.SaveChanges();
 
-            if(changesCouner == 0) { 
+            if(changesCounter == 0) { 
                 throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień mailowych");
             }
         }
@@ -156,47 +155,55 @@ namespace WorldPlants.Services
             settings.MistPlantsSmsReminder = dto.MistPlantsReminder;
 
             _context.Update(settings);
-            int changesCouner = _context.SaveChanges();
+            int changesCounter = _context.SaveChanges();
 
-            if (changesCouner == 0)
+            if (changesCounter == 0)
             {
                 throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień Sms");
             }
         }
 
-        private string GenerateJWT(User user)
-        {
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, $"{user.Name}"),
-                new Claim(ClaimTypes.Email, $"{user.Email}"),
-                new Claim(ClaimTypes.Role, $"{user.AccountType}"),
-                new Claim("SpaceIdentifier", $"{user.SpaceId}")
+    
+     
 
+       public AccountSettingsDto GetAccountSettings()
+        {
+            var user = GetUser();
+
+            AccountSettingsDto actualAccountSettings = new()
+            {
+                Name = user.Name,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(_authenticationSettings.JwtExpireDays);
-
-            var token = new JwtSecurityToken(_authenticationSettings.JwtIssuer,
-                _authenticationSettings.JwtIssuer,
-                claims,
-                expires: expires,
-                signingCredentials: cred);
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            return tokenHandler.WriteToken(token);
+            return actualAccountSettings;
         }
 
-        private void VeryfiPassword(User user, string passwordToVeryfy, string errorMessage)
+        public void ChangeAccountSettings(AccountSettingsDto dto)
         {
-            var result = _passwordHasher.VerifyHashedPassword(user, user.Password,passwordToVeryfy);
-
-            if (result == PasswordVerificationResult.Failed)
+            var user = GetUser();
+            if(user.Name != dto.Name)
             {
-                throw new BadRequestException(errorMessage);
+                user.Name = dto.Name;
+            }
+
+            if(user.Email != dto.Email)
+            {
+                user.Email = dto.Email;
+            }
+
+            if(user.PhoneNumber != dto.PhoneNumber)
+            {
+                user.PhoneNumber = dto.PhoneNumber != ""? dto.PhoneNumber : null ;
+            }
+            _context.Update(user);
+
+            int changesCounter = _context.SaveChanges();
+
+            if (changesCounter == 0)
+            {
+                throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień Sms");
             }
         }
 
@@ -229,6 +236,42 @@ namespace WorldPlants.Services
             }
 
             return settings;
+        }
+
+        private void VeryfiPassword(User user, string passwordToVeryfy, string errorMessage)
+        {
+            var result = _passwordHasher.VerifyHashedPassword(user, user.Password, passwordToVeryfy);
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                throw new BadRequestException(errorMessage);
+            }
+        }
+
+        private string GenerateJWT(User user)
+        {
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, $"{user.Name}"),
+                new Claim(ClaimTypes.Email, $"{user.Email}"),
+                new Claim(ClaimTypes.Role, $"{user.AccountType}"),
+                new Claim("SpaceIdentifier", $"{user.SpaceId}")
+
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(_authenticationSettings.JwtExpireDays);
+
+            var token = new JwtSecurityToken(_authenticationSettings.JwtIssuer,
+                _authenticationSettings.JwtIssuer,
+                claims,
+                expires: expires,
+                signingCredentials: cred);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
         }
 
     }
