@@ -2,10 +2,6 @@ import { HeaderAndOptionsWrapper } from "../../Components/Atoms/HeaderAntOptions
 import { OptionsWrapper } from "../../Components/Atoms/OptionsWrapper/OptionsWrapper";
 import { SettingsHeader } from "../../Components/Atoms/SettingsHeader/SettingsHeader";
 import NotificationList from "../../Components/Molecules/NotificationForm/NotificationForm";
-import {
-  NotificationListItem,
-  NotificationListWrapper,
-} from "../../Components/Molecules/NotificationForm/NotificationForm.styles";
 import { GuestAccountsWrapper } from "../../Components/Organisms/GuestAccounts/GuestAccounts.styles";
 import { GuestSettingsViewWrapper } from "./GuestSettingsView.styles";
 

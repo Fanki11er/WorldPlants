@@ -2,7 +2,6 @@ import { ButtonDeleteAccount } from "../../Components/Atoms/Buttons/Buttons";
 import { DeleteAccountHeader } from "../../Components/Atoms/DeleteAccountHeader/DeleteAccountHeader";
 import { DeletingAccountsWrapper } from "../../Components/Atoms/DeletingAccountsWrapper/DeletingAccountsWrapper";
 import { HeaderAndOptionsWrapper } from "../../Components/Atoms/HeaderAntOptionsWrapper/HeaderAndOptionsWrapper";
-import { PermissionsOptionsWrapper } from "../../Components/Atoms/PermissionsOptionsWrapper/PermissionsOptionsWrapper";
 import {
   HeaderPermissions,
   PermissionsWrapper,
@@ -29,83 +28,80 @@ const GuestPermissionsView = () => {
 
         <PermissionsWrapper>
           <HeaderPermissions>Zadania</HeaderPermissions>
-          <PermissionsOptionsWrapper>
-            <PermissionsFormWrapper>
-              <PermissionsLabel>
-                <HeaderNotification>Podlewanie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Nawożenie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
+          <PermissionsFormWrapper>
+            <PermissionsLabel>
+              <HeaderNotification>Podlewanie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Nawilżanie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
+            <PermissionsLabel>
+              <HeaderNotification>Nawożenie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Przycinanie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
+            <PermissionsLabel>
+              <HeaderNotification>Nawilżanie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Przesadzanie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
-            </PermissionsFormWrapper>
-          </PermissionsOptionsWrapper>
+            <PermissionsLabel>
+              <HeaderNotification>Przycinanie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
+
+            <PermissionsLabel>
+              <HeaderNotification>Przesadzanie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
+          </PermissionsFormWrapper>
         </PermissionsWrapper>
 
         <PermissionsWrapper>
           <HeaderPermissions>Miejsca</HeaderPermissions>
-          <PermissionsOptionsWrapper>
-            <PermissionsFormWrapper>
-              <PermissionsLabel>
-                <HeaderNotification>Dodawanie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Edycja</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
+          <PermissionsFormWrapper>
+            <PermissionsLabel>
+              <HeaderNotification>Dodawanie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Usuwanie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
-            </PermissionsFormWrapper>
-          </PermissionsOptionsWrapper>
+            <PermissionsLabel>
+              <HeaderNotification>Edycja</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
+
+            <PermissionsLabel>
+              <HeaderNotification>Usuwanie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
+          </PermissionsFormWrapper>
         </PermissionsWrapper>
 
         <PermissionsWrapper>
           <HeaderPermissions>Rośliny</HeaderPermissions>
-          <PermissionsOptionsWrapper>
-            <PermissionsFormWrapper>
-              <PermissionsLabel>
-                <HeaderNotification>Dodawanie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Edycja</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
+          <PermissionsFormWrapper>
+            <PermissionsLabel>
+              <HeaderNotification>Dodawanie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Usuwanie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
+            <PermissionsLabel>
+              <HeaderNotification>Edycja</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
 
-              <PermissionsLabel>
-                <HeaderNotification>Przenoszenie</HeaderNotification>
-                <CheckboxNotification />
-              </PermissionsLabel>
-            </PermissionsFormWrapper>
-          </PermissionsOptionsWrapper>
+            <PermissionsLabel>
+              <HeaderNotification>Usuwanie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
+
+            <PermissionsLabel>
+              <HeaderNotification>Przenoszenie</HeaderNotification>
+              <CheckboxNotification />
+            </PermissionsLabel>
+          </PermissionsFormWrapper>
         </PermissionsWrapper>
 
         <DeleteAccountHeader>Usuwanie konta</DeleteAccountHeader>

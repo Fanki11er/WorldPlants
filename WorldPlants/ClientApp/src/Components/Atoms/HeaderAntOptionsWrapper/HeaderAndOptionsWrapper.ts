@@ -5,4 +5,5 @@ export const HeaderAndOptionsWrapper = styled.div`
         grid-template-columns: 1fr;
         justify-content: center;
         align-items: center;
+       
 `;

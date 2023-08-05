@@ -3,12 +3,12 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const PermissionsWrapper = styled.div`
     display: grid;
-    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
     row-gap: 30px;
     background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
     width: 80%;
-    padding: 30px 30px 50px 0;
     justify-items: center;
+    padding: 30px 0 50px 0 ;
 `;
 
 export const HeaderPermissions = styled.h1`

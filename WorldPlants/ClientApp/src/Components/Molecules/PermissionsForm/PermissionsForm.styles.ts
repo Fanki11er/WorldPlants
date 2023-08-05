@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const PermissionsFormWrapper = styled.form`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 75px;
-    column-gap: 100px;
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0 0;
+    column-gap: 30px;
     row-gap: 20px;
+    justify-content: space-evenly;
 `;  
 
 export const PermissionsLabel = styled.label`
