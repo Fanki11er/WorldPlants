@@ -37,6 +37,15 @@ namespace WorldPlants.Controllers
             return Ok(spaceGuestUsers);
         }
 
+        [HttpGet("{userId}")]
+        [Authorize(Roles = "Owner")]
+        public ActionResult<GuestUserWithPermissionsDto> GetGuestUserPermissions([FromRoute] string userId)
+        {
+          var guestUserPermissions =   _guestUserService.GetGuestUserPermissions(userId);
+
+            return Ok(guestUserPermissions);
+        }
+
         [HttpDelete]
         public ActionResult SelfDeleteGuestUser()
         {

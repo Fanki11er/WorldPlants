@@ -9,6 +9,7 @@ namespace WorldPlants
         public WorldPlantsMappingProfile()
         {
             CreateMap<User, SanitizedGuestUserDto>();
+            CreateMap<UserSettings, GuestUserPermissions>();
         }
     }
 }

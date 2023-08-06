@@ -1,6 +1,8 @@
 ﻿// Ignore Spelling: dto
 
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
@@ -16,6 +18,7 @@ namespace WorldPlants.Services
         public void SelfDeleteGuestUser();
         public void DeleteGuestUser(string userId);
         public void ChangeGuestUserStatus(ChangeGuestUserStatusDto dto);
+        public GuestUserWithPermissionsDto GetGuestUserPermissions(string userId);
     };
     public class GuestUserService : IGuestUserService
     {
@@ -54,6 +57,29 @@ namespace WorldPlants.Services
             var guestUsersEntities = _context.Users.Where(u => u.SpaceId.ToString() == spaceId && u.AccountType == UserRoles.Guest.ToString()).ToList();
             var sanitizedGuestUsersEntities = _mapper.Map<IEnumerable<SanitizedGuestUserDto>>(guestUsersEntities);
             return sanitizedGuestUsersEntities;
+        }
+
+        public GuestUserWithPermissionsDto GetGuestUserPermissions(string userId)
+        {
+            var spaceId = CheckIfSpaceIdIsNotNull();
+            _databaseUtils.CheckIfSpaceExists(spaceId);
+            var user = _context.Users.Include(i=> i.UserSettings).FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
+
+            if (user is null)
+            {
+                throw new NotFoundException("Nie odnaleziono użytkownika");
+            }
+
+            var permissions =  _mapper.Map<GuestUserPermissions>(user.UserSettings);
+
+            GuestUserWithPermissionsDto guestUserWithPermissionsDto = new()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                GuestUserPermissions = permissions
+            };
+
+            return guestUserWithPermissionsDto;
         }
 
         public void DeleteGuestUser(string userId)
