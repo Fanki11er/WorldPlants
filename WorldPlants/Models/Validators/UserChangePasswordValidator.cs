@@ -1,6 +1,7 @@
-﻿using FluentValidation;
-using WorldPlants.Entities;
-using WorldPlants.Services;
+﻿// Ignore Spelling: Validator Validators
+
+using FluentValidation;
+
 
 namespace WorldPlants.Models.Validators
 {
@@ -8,8 +9,10 @@ namespace WorldPlants.Models.Validators
     {
         public UserChangePasswordValidator()
         {
-            RuleFor(u => u.NewPassword).MinimumLength(8);
-            RuleFor(u => u.NewRepeatedPassword).Equal(u => u.Password);
+            RuleFor(u => u.NewPassword).MinimumLength(8)
+                .WithMessage("Minimalna długośc hasła to 8 znaków");
+            RuleFor(u => u.NewRepeatedPassword).Equal(u => u.NewPassword)
+                .WithMessage("Nowe hasło i powtórzone hasło nie są takie same");
         }
     }
 }
