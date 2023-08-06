@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: dto
+﻿// Ignore Spelling: dto Sms
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,12 @@ namespace WorldPlants.Services
     public interface IAccountService
     {
         public LoggedUserDto LoginUser(LoginUserDto dto);
-        public LoggedUserDto ChangeUserPassword(UserChangePasswordDto dto);
+        public void ChangeUserPassword(UserChangePasswordDto dto);
+        public CurrentNotificationsSettingsDto GetNotificationSettings();
+        public void UpdateEmailNotificationsSettings(NotificationSettingsDto dto);
+        public void UpdateSmsNotificationsSettings(NotificationSettingsDto dto);
+        public AccountSettingsDto GetAccountSettings();
+        public void ChangeAccountSettings(AccountSettingsDto dto);
     };
 
     public class AccountService : IAccountService
@@ -25,6 +30,7 @@ namespace WorldPlants.Services
         private readonly AuthenticationSettings _authenticationSettings;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IUserContextService _userContextService;
+
 
         public AccountService(WorldPlantsDbContext context, IPasswordHasher<User> passwordHasher, IUserContextService userContextService, AuthenticationSettings authenticationSettings)
         {
@@ -58,7 +64,150 @@ namespace WorldPlants.Services
 
         }
 
-        public LoggedUserDto ChangeUserPassword(UserChangePasswordDto dto)
+        public void ChangeUserPassword(UserChangePasswordDto dto)
+        {
+
+            var user = GetUser();
+
+            VeryfiPassword(user, dto.Password, "Błędne imię lub hasło");
+
+            user.Password = _passwordHasher.HashPassword(user, dto.NewPassword);
+            _context.Update(user);
+
+            int changesCounter = _context.SaveChanges();
+
+            if (changesCounter == 0)
+            {
+                throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień Sms");
+            }
+
+        }
+
+        public CurrentNotificationsSettingsDto GetNotificationSettings()
+        {
+            var user = GetUser();
+
+            var settings = GetUserSettings(user);
+
+            NotificationSettingsDto EmailSettings = new()
+            {
+                WaterPlantsReminder = settings.WaterPlantsEmailReminder,
+                FertilizePlantsReminder = settings.FertilizePlantsEmailReminder,
+                CutPlantsReminder = settings.CutPlantsEmailReminder,
+                ReplantPlantsReminder = settings.ReplantPlantsEmailReminder,
+                MistPlantsReminder = settings.MistPlantsEmailReminder
+
+            };
+
+            NotificationSettingsDto? SmsSettings = null;
+
+            if(user.PhoneNumber != null && user.PhoneNumber != "")
+            {
+                SmsSettings = new NotificationSettingsDto()
+                {
+                    WaterPlantsReminder = settings.WaterPlantsSmsReminder,
+                    FertilizePlantsReminder = settings.FertilizePlantsSmsReminder,
+                    CutPlantsReminder = settings.CutPlantsSmsReminder,
+                    ReplantPlantsReminder = settings.ReplantPlantsSmsReminder,
+                    MistPlantsReminder = settings.MistPlantsSmsReminder
+                };
+            }
+
+            CurrentNotificationsSettingsDto settingsDto = new()
+            {
+                EmailSettings = EmailSettings,
+                SmsSettings = SmsSettings,
+            };
+
+            return settingsDto;
+        }
+
+        public void UpdateEmailNotificationsSettings(NotificationSettingsDto dto)
+        {
+            var user = GetUser();
+
+            var settings = GetUserSettings(user);
+
+            settings.WaterPlantsEmailReminder = dto.WaterPlantsReminder;
+            settings.FertilizePlantsEmailReminder = dto.FertilizePlantsReminder;
+            settings.CutPlantsEmailReminder = dto.CutPlantsReminder;
+            settings.ReplantPlantsEmailReminder = dto.ReplantPlantsReminder;
+            settings.MistPlantsEmailReminder= dto.MistPlantsReminder;
+
+            _context.Update(settings);
+            int changesCounter =  _context.SaveChanges();
+
+            if(changesCounter == 0) { 
+                throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień mailowych");
+            }
+        }
+
+        public void UpdateSmsNotificationsSettings(NotificationSettingsDto dto)
+        {
+            var user = GetUser();
+
+            var settings = GetUserSettings(user);
+
+            settings.WaterPlantsSmsReminder = dto.WaterPlantsReminder;
+            settings.FertilizePlantsSmsReminder = dto.FertilizePlantsReminder;
+            settings.CutPlantsSmsReminder = dto.CutPlantsReminder;
+            settings.ReplantPlantsSmsReminder = dto.ReplantPlantsReminder;
+            settings.MistPlantsSmsReminder = dto.MistPlantsReminder;
+
+            _context.Update(settings);
+            int changesCounter = _context.SaveChanges();
+
+            if (changesCounter == 0)
+            {
+                throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień Sms");
+            }
+        }
+
+    
+     
+
+       public AccountSettingsDto GetAccountSettings()
+        {
+            var user = GetUser();
+
+            AccountSettingsDto actualAccountSettings = new()
+            {
+                Name = user.Name,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            return actualAccountSettings;
+        }
+
+        public void ChangeAccountSettings(AccountSettingsDto dto)
+        {
+            var user = GetUser();
+            if(user.Name != dto.Name)
+            {
+                user.Name = dto.Name;
+            }
+
+            if(user.Email != dto.Email)
+            {
+                user.Email = dto.Email;
+            }
+
+            if(user.PhoneNumber != dto.PhoneNumber)
+            {
+                user.PhoneNumber = dto.PhoneNumber != ""? dto.PhoneNumber : null ;
+            }
+            _context.Update(user);
+
+            int changesCounter = _context.SaveChanges();
+
+            if (changesCounter == 0)
+            {
+                throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień Sms");
+            }
+        }
+
+        private User GetUser()
         {
             var userId = _userContextService.GetUserId;
 
@@ -74,20 +223,29 @@ namespace WorldPlants.Services
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
             }
 
-            VeryfiPassword(user, dto.Password, "Błędne imię lub hasło");
+            return user;
+        }
 
-            user.Password = _passwordHasher.HashPassword(user, dto.NewPassword);
-            
-            var token = GenerateJWT(user);
+        private  UserSettings GetUserSettings(User user)
+        {
+            var settings = _context.UserSettings.FirstOrDefault(s => s.User == user);
 
-            var loggedUserDto = new LoggedUserDto()
+            if (settings is null)
             {
-                Name = user.Name,
-                Token = token,
-            };
+                throw new NotFoundException("Nie odnaleziono ustawień dla użytkownika");
+            }
 
-            return loggedUserDto;
+            return settings;
+        }
 
+        private void VeryfiPassword(User user, string passwordToVeryfy, string errorMessage)
+        {
+            var result = _passwordHasher.VerifyHashedPassword(user, user.Password, passwordToVeryfy);
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                throw new BadRequestException(errorMessage);
+            }
         }
 
         private string GenerateJWT(User user)
@@ -114,16 +272,6 @@ namespace WorldPlants.Services
 
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
-        }
-
-        private void VeryfiPassword(User user, string passwordToVeryfy, string errorMessage)
-        {
-            var result = _passwordHasher.VerifyHashedPassword(user, user.Password,passwordToVeryfy);
-
-            if (result == PasswordVerificationResult.Failed)
-            {
-                throw new BadRequestException(errorMessage);
-            }
         }
 
     }

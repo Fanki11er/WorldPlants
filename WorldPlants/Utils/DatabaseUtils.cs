@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿// Ignore Spelling: dto Utils
+
+using Microsoft.AspNetCore.Identity;
 using WorldPlants.Entities;
+using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
 
@@ -9,7 +11,7 @@ namespace WorldPlants.Utils
     public interface IDatabaseUtils
     {
         Guid AddUserToDatabase(RegisterUserDto dto, Guid spaceId, string accountType);
-        void AddToDatabaseUserSettings(string accountType, Guid userId);
+        void AddToDatabaseUserSettings(string accountType, Guid userId, bool hasPhoneNumber);
         public Guid AddToDatabaseUserSpace();
         public void CheckIfSpaceExists(string spaceId);
     }
@@ -24,7 +26,7 @@ namespace WorldPlants.Utils
         {
             _context = context;
             _passwordHasher = passwordHasher;
-          
+
         }
 
         public Guid AddUserToDatabase(RegisterUserDto dto, Guid spaceId, string accountType)
@@ -47,21 +49,35 @@ namespace WorldPlants.Utils
             return user.Id;
         }
 
-        public void AddToDatabaseUserSettings(string accountType, Guid userId)
+        public void AddToDatabaseUserSettings(string accountType, Guid userId, bool hasPhoneNumber)
         {
             var userSettings = new UserSettings()
             {
                 UserId = userId,
-                ReceiveEmails = accountType == "Owner",
-                ReceiveSms = accountType == "Owner",
+                WaterPlantsEmailReminder = true,
+                WaterPlantsSmsReminder = hasPhoneNumber,
+                FertilizePlantsEmailReminder = accountType == UserRoles.Owner.ToString(),
+                FertilizePlantsSmsReminder = hasPhoneNumber && accountType == UserRoles.Owner.ToString(),
+                CutPlantsEmailReminder = accountType == UserRoles.Owner.ToString(),
+                CutPlantsSmsReminder = hasPhoneNumber && accountType == UserRoles.Owner.ToString(),
+                ReplantPlantsEmailReminder = accountType == UserRoles.Owner.ToString(),
+                ReplantPlantsSmsReminder = hasPhoneNumber && accountType == UserRoles.Owner.ToString(),
+                MistPlantsEmailReminder = accountType == UserRoles.Owner.ToString(),
+                MistPlantsSmsReminder = hasPhoneNumber && accountType == UserRoles.Owner.ToString(),
+                // Plants Permissions
                 CanWaterPlants = true,
                 CanMistPlants = true,
-                CanFertilizePlants = accountType == "Owner",
-                CanRepotPlants = accountType == "Owner",
-                CanMovePlants = accountType == "Owner",
-                CanAddPlants = accountType == "Owner",
-                CanRemovePlants = accountType == "Owner",
-                CanEditPlants = accountType == "Owner"
+                CanFertilizePlants = accountType == UserRoles.Owner.ToString(),
+                CanReplantPlants = accountType == UserRoles.Owner.ToString(),
+                CanCutPlants = accountType == UserRoles.Owner.ToString(),
+                CanMovePlants = accountType == UserRoles.Owner.ToString(),
+                CanAddPlants = accountType == UserRoles.Owner.ToString(),
+                CanRemovePlants = accountType == UserRoles.Owner.ToString(),
+                CanEditPlants = accountType == UserRoles.Owner.ToString(),
+                // Sites Permissions
+                CanAddSites = accountType == UserRoles.Owner.ToString(),
+                CanRemoveSites = accountType == UserRoles.Owner.ToString(),
+                CanEditSites = accountType == UserRoles.Owner.ToString(),
             };
             _context.UserSettings.Add(userSettings);
             _context.SaveChanges();
@@ -78,7 +94,7 @@ namespace WorldPlants.Utils
 
         public void CheckIfSpaceExists(string spaceId)
         {
-            var space = _context.Spaces.Any(s=> s.Id.ToString() == spaceId);
+            var space = _context.Spaces.Any(s => s.Id.ToString() == spaceId);
             if (!space)
             {
                 throw new NotFoundException("Nie znaleziono przestrzeni użytkownika");

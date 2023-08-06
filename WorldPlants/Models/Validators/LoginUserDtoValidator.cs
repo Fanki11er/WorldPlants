@@ -8,7 +8,8 @@ namespace WorldPlants.Models.Validators
     {
         public LoginUserDtoValidator()
         {
-            RuleFor(u => u.Email).EmailAddress();
+            RuleFor(u => u.Email).EmailAddress()
+                .WithMessage("Nie prawidłowa wartość email");
         }
     }
 }

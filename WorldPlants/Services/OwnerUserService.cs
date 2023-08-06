@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: Utils dto
+﻿// Ignore Spelling: Utils dto App
 
 using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
@@ -30,12 +30,13 @@ namespace WorldPlants.Services
         public void RegisterOwnerUser(RegisterUserDto dto)
         {
             string accountType = UserRoles.Owner.ToString();
+            bool hasPhoneNumber =  dto.PhoneNumber != null;
 
             var spaceId = _databaseUtils.AddToDatabaseUserSpace();
             _databaseUtils.CheckIfSpaceExists(spaceId.ToString());
 
             var userId = _databaseUtils.AddUserToDatabase(dto, spaceId, accountType);
-            _databaseUtils.AddToDatabaseUserSettings(accountType, userId);
+            _databaseUtils.AddToDatabaseUserSettings(accountType, userId, hasPhoneNumber);
         }
 
         public void DeleteUserAndAppAccount()
