@@ -7,27 +7,30 @@ interface ErrorProps {
   }
   
 export const InputFieldWrapper = styled.div`
-    width: fit-content;
-    height: auto;
+    grid-template-columns: 1fr;
     display: grid;
     grid-template-rows: 1fr auto auto;
+    justify-items: center;
+    width: 80%;
+    max-width: 220px;
    
    
 `;
 
 export const InputLabel = styled.label`
+    width: fit-content;
      font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
      color:  ${(props: AppTheme) => props.theme.colors.green};
      padding: 5px 10px;
      font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
+     justify-self: flex-start;
     
    
 `;
 
 export const Input = styled(Field)`
-    width: fit-content;
-    height: auto;
     padding: 5px 10px;
+    width: 100%;
     //background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
     background-color: ${(props: AppTheme) => props.theme.colors.purple};
     border-radius: 25px;

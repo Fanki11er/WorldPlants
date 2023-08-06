@@ -10,4 +10,6 @@ export const OptionsWrapper = styled.div`
     height: fit-content;
     border-radius: 10px;
     padding: 30px 30px 0 0;
+    margin-bottom: 50px;
+
 `;

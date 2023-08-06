@@ -1,7 +1,6 @@
 import { HeaderAndOptionsWrapper } from "../../Components/Atoms/HeaderAntOptionsWrapper/HeaderAndOptionsWrapper";
 import { OptionsWrapper } from "../../Components/Atoms/OptionsWrapper/OptionsWrapper";
 import { SettingsHeader } from "../../Components/Atoms/SettingsHeader/SettingsHeader";
-import NotificationList from "../../Components/Molecules/NotificationForm/NotificationForm";
 import { GuestAccountsWrapper } from "../../Components/Organisms/GuestAccounts/GuestAccounts.styles";
 import { GuestSettingsViewWrapper } from "./GuestSettingsView.styles";
 
@@ -12,9 +11,7 @@ const GuestSettingsView = () => {
       <GuestAccountsWrapper>
         <HeaderAndOptionsWrapper>
           <SettingsHeader>Powiadomienia</SettingsHeader>
-          <OptionsWrapper>
-            <NotificationList />
-          </OptionsWrapper>
+          <OptionsWrapper></OptionsWrapper>
         </HeaderAndOptionsWrapper>
 
         <HeaderAndOptionsWrapper>

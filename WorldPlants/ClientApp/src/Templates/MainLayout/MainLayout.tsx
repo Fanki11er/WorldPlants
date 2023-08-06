@@ -9,9 +9,9 @@ const MainLayout = () => {
   const { user } = useAuth();
   const location = useLocation();
   //!! Wyłączanie Authentykacji na czas developmentu
-  /*if (!user) {
+  if (!user) {
     return <Navigate to={login} state={{ from: location }} replace />;
-  }*/
+  }
   //!!
   return (
     <ViewWrapper>

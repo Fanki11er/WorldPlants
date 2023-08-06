@@ -21,6 +21,9 @@ import GuestPermissionsView from "../Views/GuestPermissionsView/GuestPermissions
 import TypesOfPlacesForPlantsView from "../Views/TypesOfPlacesForPlantsView/TypesOfPlacesForPlantsView";
 import PlantPlacesView from "../Views/PlantPlacesView/PlantPlacesView";
 import PlantPlacesAddedView from "../Views/PlantPlacesAddedView/PlantPlacesAddedView";
+import NotificationSettingsSection from "../Components/Organisms/NotificationSettingsSection/NotificationSettingsSection";
+import GuestUsersAccountSettingsSection from "../Components/Organisms/GuestUsersAccountSettingsSection/GuestUsersAccountSettingsSection";
+import RegisterGuestAccountSection from "../Components/Organisms/RegisterGuestAccountSection/RegisterGuestAccountSection";
 
 const {
   rootPath,
@@ -29,27 +32,38 @@ const {
   plantsTasks,
   typesOfPlaces,
   sunExposure,
-  ownerSettings,
-  guestSettings,
-  permissions,
   plantPlaces,
   plantPlacesAdded,
+  authorized,
+  userSettings,
+  userSettingsGuestAccounts,
+  userSettingsRegisterGuestAccount,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RouteLayout />}>
       <Route path={rootPath} element={<LandingView />} />
       <Route element={<UnauthorizedUserLayout />}>
-        <Route index path={login} element={<LoginView />} />
+        <Route path={login} element={<LoginView />} />
         <Route path={registration} element={<RegistrationView />} />
       </Route>
-      <Route element={<MainLayout />}>
-        <Route path={plantsTasks} element={<TasksView />} />
+      <Route path={authorized} element={<MainLayout />}>
+        <Route index element={<TasksView />} />
         <Route path={typesOfPlaces} element={<TypesOfPlacesForPlantsView />} />
         <Route path={sunExposure} element={<SunExposureView />} />
-        <Route path={ownerSettings} element={<OwnerSettingsView />} />
-        <Route path={guestSettings} element={<GuestSettingsView />} />
-        <Route path={permissions} element={<GuestPermissionsView />} />
+        <Route path={userSettings} element={<OwnerSettingsView />}>
+          <Route index element={<NotificationSettingsSection />} />
+          <Route
+            path={userSettingsGuestAccounts}
+            element={<GuestUsersAccountSettingsSection />}
+          />
+          <Route
+            path={userSettingsRegisterGuestAccount}
+            element={<RegisterGuestAccountSection />}
+          />
+        </Route>
+        {/* <Route path={guestSettings} element={<GuestSettingsView />} /> */}
+        {/* <Route path={} element={<GuestPermissionsView />} /> */}
         <Route path={plantPlaces} element={<PlantPlacesView />} />
         <Route path={plantPlacesAdded} element={<PlantPlacesAddedView />} />
       </Route>

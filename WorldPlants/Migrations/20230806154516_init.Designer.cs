@@ -12,7 +12,7 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPlantsDbContext))]
-    [Migration("20230731173749_init")]
+    [Migration("20230806154516_init")]
     partial class init
     {
         /// <inheritdoc />

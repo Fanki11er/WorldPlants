@@ -20,6 +20,8 @@ export const theme: Theme = {
    greenSettings: "rgba(44, 149, 34, 1)",
    darkPurple: "rgba(40, 41, 123, 1)",
    black: "rgba(0, 0, 0, 1)",
+   transparent: "transparent",
+
   },
   fontSizes: {
     small: "14px",
@@ -60,6 +62,7 @@ export type Theme = {
     greenSettings: string;
     darkPurple: string;
     black: string;
+    transparent: string;
   };
 
   fontSizes: {

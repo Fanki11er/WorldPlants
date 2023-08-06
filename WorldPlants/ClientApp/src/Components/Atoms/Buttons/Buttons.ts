@@ -100,3 +100,23 @@ export const ButtonDeleteAccount = styled.button`
 export const NotificationButtonWrapper = styled.div`
         padding: 30px 0;
 `;
+
+export const SideMenuLink = styled(NavLink)`
+    background-color:  ${(props: AppTheme) => props.theme.colors.purpleLight};
+    border-radius: 25px;
+    min-width: 203px;
+    min-height: 35px;
+    text-decoration: none;
+    color: ${(props: AppTheme) => props.theme.colors.white};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
+    
+    &.active {
+    color:  ${(props: AppTheme) => props.theme.colors.orange};
+  }
+    :hover {
+            color: ${(props: AppTheme) => props.theme.colors.orange};
+         }
+`;

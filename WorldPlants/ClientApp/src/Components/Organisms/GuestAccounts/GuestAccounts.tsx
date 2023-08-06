@@ -4,7 +4,6 @@ import { DeletingAccountsWrapper } from "../../Atoms/DeletingAccountsWrapper/Del
 import { HeaderAndOptionsWrapper } from "../../Atoms/HeaderAntOptionsWrapper/HeaderAndOptionsWrapper";
 import { OptionsWrapper } from "../../Atoms/OptionsWrapper/OptionsWrapper";
 import { SettingsHeader } from "../../Atoms/SettingsHeader/SettingsHeader";
-import { GuestAccountListWrapper } from "../../Molecules/GuestAccountList/GuestAccountList.styles";
 import GuestListItem from "../../Molecules/GuestListItem/GuestListItem";
 import NotificationForm from "../../Molecules/NotificationForm/NotificationForm";
 import { GuestAccountsWrapper } from "./GuestAccounts.styles";
@@ -12,29 +11,6 @@ import { GuestAccountsWrapper } from "./GuestAccounts.styles";
 const GuestAccounts = () => {
   return (
     <GuestAccountsWrapper>
-      <HeaderAndOptionsWrapper>
-        <SettingsHeader>Konta gości</SettingsHeader>
-        <OptionsWrapper>
-          <GuestAccountListWrapper>
-            <GuestListItem />
-          </GuestAccountListWrapper>
-        </OptionsWrapper>
-      </HeaderAndOptionsWrapper>
-
-      <HeaderAndOptionsWrapper>
-        <SettingsHeader>Powiadomienia</SettingsHeader>
-        <OptionsWrapper>
-          <NotificationForm />
-        </OptionsWrapper>
-      </HeaderAndOptionsWrapper>
-
-      <HeaderAndOptionsWrapper>
-        <SettingsHeader>Powiadomienia</SettingsHeader>
-        <OptionsWrapper>
-          <NotificationForm />
-        </OptionsWrapper>
-      </HeaderAndOptionsWrapper>
-
       <HeaderAndOptionsWrapper>
         <SettingsHeader>Konto</SettingsHeader>
         <OptionsWrapper></OptionsWrapper>

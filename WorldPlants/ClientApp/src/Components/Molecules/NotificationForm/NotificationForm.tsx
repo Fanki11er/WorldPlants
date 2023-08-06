@@ -1,3 +1,6 @@
+import { useMutation, useQueryClient } from "react-query";
+import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+import { NotificationSettings } from "../../../Interfaces/NotificationsSettings";
 import {
   ActionButton,
   NotificationButtonWrapper,
@@ -6,49 +9,65 @@ import {
   HeaderNotificationEmailAndSms,
   NotificationWrapper,
 } from "../../Atoms/NotificationWrapper/NotificationWrapper";
-import {
-  CheckboxNotification,
-  HeaderNotification,
-  NotificationFormLabel,
-  NotificationFormWrapper,
-} from "./NotificationForm.styles";
+import { NotificationFormWrapper } from "./NotificationForm.styles";
+import { Formik } from "formik";
+import { NOTIFICATION_SETTINGS } from "../../../Constants/Constants";
+import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
+import CheckboxInput from "../CheckboxInput/CheckboxInput";
 
-const NotificationForm = () => {
+interface Props {
+  actualValues: NotificationSettings;
+  submitPath: string;
+  header: string;
+}
+
+const NotificationForm = (props: Props) => {
+  const { actualValues, header, submitPath } = props;
+  const axiosPrivate = useAxiosPrivate();
+  const client = useQueryClient();
+
+  const { mutate, isSuccess } = useMutation({
+    mutationFn: (dto: NotificationSettings) => {
+      return axiosPrivate.post(submitPath, dto);
+    },
+  });
   return (
-    <NotificationFormWrapper>
-      <HeaderNotificationEmailAndSms>Email</HeaderNotificationEmailAndSms>
+    <Formik
+      initialValues={
+        {
+          waterPlantsReminder: actualValues.waterPlantsReminder,
+          fertilizePlantsReminder: actualValues.fertilizePlantsReminder,
+          cutPlantsReminder: actualValues.cutPlantsReminder,
+          replantPlantsReminder: actualValues.replantPlantsReminder,
+          mistPlantsReminder: actualValues.mistPlantsReminder,
+        } as NotificationSettings
+      }
+      onSubmit={(values, { setSubmitting }) => {
+        mutate(values, {
+          onSuccess: () => {
+            client.invalidateQueries(NOTIFICATION_SETTINGS);
+          },
+        });
+        setSubmitting(false);
+      }}
+    >
+      <NotificationFormWrapper>
+        {isSuccess && <FormSuccess>Zapisano zmiany</FormSuccess>}
+        <HeaderNotificationEmailAndSms> {header}</HeaderNotificationEmailAndSms>
 
-      <NotificationWrapper>
-        <NotificationFormLabel>
-          <HeaderNotification>Podlewanie</HeaderNotification>
-          <CheckboxNotification />
-        </NotificationFormLabel>
+        <NotificationWrapper>
+          <CheckboxInput id={"waterPlantsReminder"} label="Podlewanie" />
+          <CheckboxInput id={"fertilizePlantsReminder"} label="Nawożenie" />
+          <CheckboxInput id={"cutPlantsReminder"} label="Przycinanie" />
+          <CheckboxInput id={"replantPlantsReminder"} label="Przesadzanie" />
+          <CheckboxInput id={"mistPlantsReminder"} label="Zwilżanie" />
+        </NotificationWrapper>
 
-        <NotificationFormLabel>
-          <HeaderNotification>Nawożenie</HeaderNotification>
-          <CheckboxNotification />
-        </NotificationFormLabel>
-
-        <NotificationFormLabel>
-          <HeaderNotification>Nawilżanie</HeaderNotification>
-          <CheckboxNotification />
-        </NotificationFormLabel>
-
-        <NotificationFormLabel>
-          <HeaderNotification>Przycinanie</HeaderNotification>
-          <CheckboxNotification />
-        </NotificationFormLabel>
-
-        <NotificationFormLabel>
-          <HeaderNotification>Przesadzanie</HeaderNotification>
-          <CheckboxNotification />
-        </NotificationFormLabel>
-      </NotificationWrapper>
-
-      <NotificationButtonWrapper>
-        <ActionButton>Zapisz</ActionButton>
-      </NotificationButtonWrapper>
-    </NotificationFormWrapper>
+        <NotificationButtonWrapper>
+          <ActionButton type={"submit"}>Zapisz</ActionButton>
+        </NotificationButtonWrapper>
+      </NotificationFormWrapper>
+    </Formik>
   );
 };
 
