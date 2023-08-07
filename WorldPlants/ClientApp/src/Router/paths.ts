@@ -19,5 +19,5 @@ export const paths = {
   sunExposure: "Authorized/SunExposure",
   plantPlaces: "Authorized/PlantPlaces",
   plantPlacesAdded: "Authorized/PlantPlacesAdded"
-
+  
 };

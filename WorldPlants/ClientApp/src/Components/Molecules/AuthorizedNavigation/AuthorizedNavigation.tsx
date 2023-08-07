@@ -14,7 +14,9 @@ const AuthorizedNavigation = () => {
     <NavigationWrapper>
       <InnerNavigationWrapper>
         <AppLogoImage src={logoImage} />
-        <NavigationLink to={plantsTasks}>Zadania</NavigationLink>
+        <NavigationLink to={plantsTasks} end>
+          Zadania
+        </NavigationLink>
         <NavigationLink to={"/"}>Miejsca</NavigationLink>
         <NavigationLink to={"/"}>Rośliny</NavigationLink>
         <NavigationLink to={userSettings}>Ustawienia</NavigationLink>

@@ -24,12 +24,14 @@ import PlantPlacesAddedView from "../Views/PlantPlacesAddedView/PlantPlacesAdded
 import NotificationSettingsSection from "../Components/Organisms/NotificationSettingsSection/NotificationSettingsSection";
 import GuestUsersAccountSettingsSection from "../Components/Organisms/GuestUsersAccountSettingsSection/GuestUsersAccountSettingsSection";
 import RegisterGuestAccountSection from "../Components/Organisms/RegisterGuestAccountSection/RegisterGuestAccountSection";
+import AccountSettingsSection from "../Components/Organisms/AccountSettingsSection/AccountSettingsSection";
+import SecuritySettingsSection from "../Components/Organisms/SecuritySettingsSection/SecuritySettingsSection";
+import DeleteAccountSection from "../Components/Organisms/DeleteAccountSection/DeleteAccountSection";
 
 const {
   rootPath,
   login,
   registration,
-  plantsTasks,
   typesOfPlaces,
   sunExposure,
   plantPlaces,
@@ -38,6 +40,10 @@ const {
   userSettings,
   userSettingsGuestAccounts,
   userSettingsRegisterGuestAccount,
+  userSettingsAccount,
+  userSettingsSecurity,
+  userSettingsDeleteAccount,
+  guestUserPermissions,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -61,9 +67,21 @@ const router = createBrowserRouter(
             path={userSettingsRegisterGuestAccount}
             element={<RegisterGuestAccountSection />}
           />
+          <Route
+            path={userSettingsAccount}
+            element={<AccountSettingsSection />}
+          />
+          <Route
+            path={userSettingsSecurity}
+            element={<SecuritySettingsSection />}
+          />
+          <Route
+            path={userSettingsDeleteAccount}
+            element={<DeleteAccountSection />}
+          />
         </Route>
         {/* <Route path={guestSettings} element={<GuestSettingsView />} /> */}
-        {/* <Route path={} element={<GuestPermissionsView />} /> */}
+        <Route path={guestUserPermissions} element={<GuestPermissionsView />} />
         <Route path={plantPlaces} element={<PlantPlacesView />} />
         <Route path={plantPlacesAdded} element={<PlantPlacesAddedView />} />
       </Route>

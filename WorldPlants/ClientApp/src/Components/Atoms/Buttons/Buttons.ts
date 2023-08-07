@@ -47,6 +47,8 @@ export const NavigationLink = styled(NavLink)`
         &.active {
             color: ${(props: AppTheme) => props.theme.colors.orange};
             cursor: not-allowed;
+            pointer-events: none;
+            
         }
 `;
 
@@ -115,6 +117,8 @@ export const SideMenuLink = styled(NavLink)`
     
     &.active {
     color:  ${(props: AppTheme) => props.theme.colors.orange};
+    pointer-events: none;
+    cursor: not-allowed;
   }
     :hover {
             color: ${(props: AppTheme) => props.theme.colors.orange};

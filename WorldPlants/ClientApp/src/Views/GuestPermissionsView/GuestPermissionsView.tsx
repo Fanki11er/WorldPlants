@@ -7,10 +7,11 @@ import {
   PermissionsWrapper,
 } from "../../Components/Atoms/PermissionsWrapper/PermissionsWrapper";
 import { SettingsHeader } from "../../Components/Atoms/SettingsHeader/SettingsHeader";
+import CheckboxInput from "../../Components/Molecules/CheckboxInput/CheckboxInput";
 import {
   CheckboxNotification,
   HeaderNotification,
-} from "../../Components/Molecules/NotificationForm/NotificationForm.styles";
+} from "../../Components/Molecules/CheckboxInput/CheckboxInput.styles";
 import {
   PermissionsFormWrapper,
   PermissionsLabel,
@@ -30,30 +31,7 @@ const GuestPermissionsView = () => {
           <HeaderPermissions>Zadania</HeaderPermissions>
 
           <PermissionsFormWrapper>
-            <PermissionsLabel>
-              <HeaderNotification>Podlewanie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Nawożenie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Nawilżanie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Przycinanie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Przesadzanie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
+            <CheckboxInput id={"waterPlantsReminder"} label="Podlewanie" />
           </PermissionsFormWrapper>
         </PermissionsWrapper>
 
@@ -61,46 +39,7 @@ const GuestPermissionsView = () => {
           <HeaderPermissions>Miejsca</HeaderPermissions>
 
           <PermissionsFormWrapper>
-            <PermissionsLabel>
-              <HeaderNotification>Dodawanie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Edycja</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Usuwanie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-          </PermissionsFormWrapper>
-        </PermissionsWrapper>
-
-        <PermissionsWrapper>
-          <HeaderPermissions>Rośliny</HeaderPermissions>
-
-          <PermissionsFormWrapper>
-            <PermissionsLabel>
-              <HeaderNotification>Dodawanie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Edycja</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Usuwanie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
-
-            <PermissionsLabel>
-              <HeaderNotification>Przenoszenie</HeaderNotification>
-              <CheckboxNotification />
-            </PermissionsLabel>
+            <CheckboxInput id={"waterPlantsReminder"} label="Podlewanie" />
           </PermissionsFormWrapper>
         </PermissionsWrapper>
 

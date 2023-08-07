@@ -21,6 +21,7 @@ export const theme: Theme = {
    darkPurple: "rgba(40, 41, 123, 1)",
    black: "rgba(0, 0, 0, 1)",
    transparent: "transparent",
+   greenLight: "rgba(173, 230, 212, 1)"
 
   },
   fontSizes: {
@@ -63,6 +64,7 @@ export type Theme = {
     darkPurple: string;
     black: string;
     transparent: string;
+    greenLight: string;
   };
 
   fontSizes: {
