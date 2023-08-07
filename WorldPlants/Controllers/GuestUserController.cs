@@ -46,6 +46,14 @@ namespace WorldPlants.Controllers
             return Ok(guestUserPermissions);
         }
 
+        [HttpPost("ChangePermissions/{userId}")]
+        public ActionResult ChangeGuestUserPermissions([FromRoute] string userId ,[FromBody] GuestUserPermissions newPermissions)
+        {
+            _guestUserService.ChangeGuestUserPermissions(userId, newPermissions);
+
+            return Ok();
+        }
+
         [HttpDelete]
         public ActionResult SelfDeleteGuestUser()
         {
