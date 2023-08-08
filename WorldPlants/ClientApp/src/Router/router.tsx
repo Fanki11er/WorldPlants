@@ -81,7 +81,10 @@ const router = createBrowserRouter(
           />
         </Route>
         {/* <Route path={guestSettings} element={<GuestSettingsView />} /> */}
-        <Route path={guestUserPermissions} element={<GuestPermissionsView />} />
+        <Route
+          path={`${guestUserPermissions}/:userId`}
+          element={<GuestPermissionsView />}
+        />
         <Route path={plantPlaces} element={<PlantPlacesView />} />
         <Route path={plantPlacesAdded} element={<PlantPlacesAddedView />} />
       </Route>

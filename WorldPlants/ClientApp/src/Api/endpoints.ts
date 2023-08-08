@@ -15,4 +15,7 @@ export const apiEndpoints = {
   getGuestUserWithPermissions: (userId: string) => {
     return `Guest/${userId}`;
   },
+  changeGuestPermissions: (userId: string) => {
+    return `Guest/ChangePermissions/${userId}`;
+  },
 };
