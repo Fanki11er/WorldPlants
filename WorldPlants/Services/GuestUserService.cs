@@ -1,6 +1,10 @@
 ﻿// Ignore Spelling: dto
 
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Reflection;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
@@ -16,6 +20,9 @@ namespace WorldPlants.Services
         public void SelfDeleteGuestUser();
         public void DeleteGuestUser(string userId);
         public void ChangeGuestUserStatus(ChangeGuestUserStatusDto dto);
+        public GuestUserWithPermissionsDto GetGuestUserPermissions(string userId);
+
+        public void ChangeGuestUserPermissions(string userId, GuestUserPermissions newPermissions);
     };
     public class GuestUserService : IGuestUserService
     {
@@ -54,6 +61,29 @@ namespace WorldPlants.Services
             var guestUsersEntities = _context.Users.Where(u => u.SpaceId.ToString() == spaceId && u.AccountType == UserRoles.Guest.ToString()).ToList();
             var sanitizedGuestUsersEntities = _mapper.Map<IEnumerable<SanitizedGuestUserDto>>(guestUsersEntities);
             return sanitizedGuestUsersEntities;
+        }
+
+        public GuestUserWithPermissionsDto GetGuestUserPermissions(string userId)
+        {
+            var spaceId = CheckIfSpaceIdIsNotNull();
+            _databaseUtils.CheckIfSpaceExists(spaceId);
+            var user = _context.Users.Include(i=> i.UserSettings).FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
+
+            if (user is null)
+            {
+                throw new NotFoundException("Nie odnaleziono użytkownika");
+            }
+
+            var permissions =  _mapper.Map<GuestUserPermissions>(user.UserSettings);
+
+            GuestUserWithPermissionsDto guestUserWithPermissionsDto = new()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                GuestUserPermissions = permissions
+            };
+
+            return guestUserWithPermissionsDto;
         }
 
         public void DeleteGuestUser(string userId)
@@ -119,6 +149,40 @@ namespace WorldPlants.Services
             if (changesCount == 0)
             {
                 throw new NotUpdatedException("Nie udało się zmienić statusu");
+            }
+
+        }
+
+       public void ChangeGuestUserPermissions(string userId ,GuestUserPermissions newPermissions)
+        {
+            var spaceId = CheckIfSpaceIdIsNotNull();
+            _databaseUtils.CheckIfSpaceExists(spaceId);
+            var user = _context.Users.Include(i=> i.UserSettings).FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
+           
+            if (user is null)
+            {
+                throw new NotFoundException("Nie odnaleziono użytkownika");
+            }
+
+            var settings = user.UserSettings;
+
+            foreach (var permission in newPermissions.GetType().GetProperties())
+            {
+                var propsertyName = permission.Name;
+               
+                if (user.UserSettings.GetType().GetProperty(propsertyName) != permission);
+                {
+                    var propertyValue = permission.GetValue(newPermissions);
+                    user.UserSettings.GetType()?.GetProperty(propsertyName)?.SetValue(settings,propertyValue);
+                }
+            }
+
+            _context.Update(settings);
+            int counter = _context.SaveChanges();
+
+            if (counter == 0)
+            {
+                throw new NotUpdatedException("Nie udało się usunąć użytkownika");
             }
 
         }
