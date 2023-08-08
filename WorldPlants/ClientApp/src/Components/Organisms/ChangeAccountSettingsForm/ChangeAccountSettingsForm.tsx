@@ -12,6 +12,8 @@ import { apiEndpoints } from "../../../Api/endpoints";
 import { ACCOUNT_SETTINGS } from "../../../Constants/Constants";
 import * as Yup from "yup";
 import InputField from "../../Molecules/InputField/InputField";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 
 interface Props {
   actualValues: AccountSettingsDto;
@@ -65,7 +67,7 @@ const ChangeAccountSettingsForm = (props: Props) => {
         {error ? (
           <FormRequestError errorValues={getErrorMessages(error)} />
         ) : null}
-        {isSuccess && <div>Success</div>}
+        {isSuccess && <FormSuccess>Sukces</FormSuccess>}
 
         <InputField label="Name" name="name" placeholder="John" />
 
@@ -83,7 +85,11 @@ const ChangeAccountSettingsForm = (props: Props) => {
           type="phone"
         />
 
-        {isLoading ? <div>Loading</div> : <button type="submit">Submit</button>}
+        {isLoading ? (
+          <div>Loading</div>
+        ) : (
+          <ActionButton type="submit">Zapisz</ActionButton>
+        )}
       </ChangeAccountSettingsFormWrapper>
     </Formik>
   );

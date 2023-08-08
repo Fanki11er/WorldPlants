@@ -12,6 +12,8 @@ export const ActionButton = styled.button`
         outline: none;
         border: none;
         padding: 5px 10px;
+        margin-top: 30px;
+        margin-bottom: 20px;
         color: ${(props: AppTheme) => props.theme.colors.white};
         font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
         

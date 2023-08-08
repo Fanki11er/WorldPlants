@@ -11,6 +11,8 @@ import { Formik, FormikHelpers } from "formik";
 import { ChangeSecuritySettingsFormWrapper } from "./ChangeSecuritySettingsForm.styles";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import InputField from "../../Molecules/InputField/InputField";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 
 const SecuritySettingsSchema = Yup.object().shape(
   yupSecuritySettingsValidationShape
@@ -51,7 +53,7 @@ const ChangeSecuritySettingsForm = () => {
         {error ? (
           <FormRequestError errorValues={getErrorMessages(error)} />
         ) : null}
-        {isSuccess && <div>Success</div>}
+        {isSuccess && <FormSuccess>Sukces</FormSuccess>}
 
         <InputField
           label="Hasło"
@@ -73,7 +75,11 @@ const ChangeSecuritySettingsForm = () => {
           placeholder="Powtórz nowe hasło"
           type="password"
         />
-        {isLoading ? <div>Loading</div> : <button type="submit">Zapisz</button>}
+        {isLoading ? (
+          <div>Loading</div>
+        ) : (
+          <ActionButton type="submit">Zapisz</ActionButton>
+        )}
       </ChangeSecuritySettingsFormWrapper>
     </Formik>
   );

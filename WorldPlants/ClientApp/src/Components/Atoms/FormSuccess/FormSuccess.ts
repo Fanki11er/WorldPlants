@@ -7,7 +7,6 @@ export const FormSuccess = styled.span`
   display: flex;
   border-radius: 10px;
   justify-content: center;
-  align-items: center;
   padding: 10px;
   font-weight: bold;
   color: ${(props: AppTheme) => props.theme.colors.greenSettings};

@@ -18,7 +18,7 @@ export const InputFieldWrapper = styled.div`
 `;
 
 export const InputLabel = styled.label`
-    width: fit-content;
+     width: fit-content;
      font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
      color:  ${(props: AppTheme) => props.theme.colors.green};
      padding: 5px 10px;

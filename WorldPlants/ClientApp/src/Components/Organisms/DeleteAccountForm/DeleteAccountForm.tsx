@@ -1,8 +1,12 @@
 import { FormikFormProps } from "formik";
 import { getErrorMessages } from "../../../Utils/Utils";
-import { DeleteAccountFormWrapper } from "./DeleteAccountForm.styles";
+import {
+  DeleteAccountFormWrapper,
+  DeleteAccountInstruction,
+} from "./DeleteAccountForm.styles";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import InputField from "../../Molecules/InputField/InputField";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
 
 interface Props {
   error: unknown;
@@ -20,14 +24,16 @@ const DeleteAccountForm = (props: Props & FormikFormProps) => {
       ) : null}
 
       <InputField label="Nazwa konta" name="name" placeholder="Nazwa konta" />
-      <span>Wpisz nazwę tego konta aby móc je usunąć </span>
+      <DeleteAccountInstruction>
+        Wpisz nazwę tego konta aby móc je usunąć{" "}
+      </DeleteAccountInstruction>
 
       {isLoading ? (
         <div>Loading</div>
       ) : (
-        <button disabled={confirmed} type="submit">
-          Submit
-        </button>
+        <ActionButton disabled={confirmed} type="submit">
+          Zapisz
+        </ActionButton>
       )}
     </DeleteAccountFormWrapper>
   );
