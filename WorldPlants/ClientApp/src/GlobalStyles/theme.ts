@@ -19,12 +19,14 @@ export const theme: Theme = {
     pink:"rgba(215,178,178,1)",
    //pink: "rgba(209,165, 165, 1)",
    //pink: "rgba(238, 104, 74, 1)",
-   //greenSettings: "rgba(44, 149, 34, 1)",
+     greenSettingsActive: "rgba(44, 149, 34, 1)",
      darkPurple: "rgba(40, 41, 123, 1)",
      black: "rgba(0, 0, 0, 1)",
      transparent: "transparent",
      greenLight: "rgba(173, 230, 212, 1)",
      greenSettings: "rgba(12, 108, 3, 1)",
+     lightGray: "rgba(136, 142, 156, 1)",
+    // lightGray: "rgba(161, 167, 179, 1)",
   },
   fontSizes: {
     small: "14px",
@@ -67,6 +69,8 @@ export type Theme = {
     black: string;
     transparent: string;
     greenLight: string;
+    greenSettingsActive: string;
+    lightGray: string;
   };
 
   fontSizes: {

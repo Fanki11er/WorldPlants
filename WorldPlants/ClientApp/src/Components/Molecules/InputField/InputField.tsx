@@ -23,7 +23,11 @@ const InputField = (props: InputProps) => {
         {label}
         {required && <Required>*</Required>}
       </InputLabel>
-      <Input {...field} {...props} iserror={meta.error ? "error" : ""} />
+      <Input
+        {...field}
+        {...props}
+        iserror={meta.error && meta.touched ? "error" : ""}
+      />
       <ErrorMessage
         name={name}
         render={(msg) => <FieldError>{msg}</FieldError>}

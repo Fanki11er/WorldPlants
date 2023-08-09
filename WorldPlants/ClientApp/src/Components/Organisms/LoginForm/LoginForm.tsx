@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { AuthFormHeader } from "../../Atoms/AuthFormHeader/AuthFormHeader";
+import { AuthFormHeader } from "../../Atoms/AuthFormHeader/AuthFormHeader.styles";
 import {
   AuthFormWrapper,
   ImgAuth,

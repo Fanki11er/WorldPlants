@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
-import { OptionsWrapper } from "../../Atoms/OptionsWrapper/OptionsWrapper";
+import { OptionsWrapper } from "../../Atoms/OptionsWrapper/OptionsWrapper.styles";
 import {
   SettingsSectionHeader,
   SettingsSectionWrapper,

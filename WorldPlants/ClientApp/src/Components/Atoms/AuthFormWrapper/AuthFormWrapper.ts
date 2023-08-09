@@ -10,7 +10,7 @@ export const AuthFormWrapper = styled(Form)`
     row-gap: 40px;
     justify-items: center;
     border-radius: 25px;
-    padding:30px 20px;
+    padding:30px 20px 50px;
     min-width: 350px;
     max-width: 450px;
     position: relative;

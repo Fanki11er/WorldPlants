@@ -3,12 +3,15 @@ import {
   SettingsSectionWrapper,
 } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import GuestRegistrationFormFormik from "../GuestRegistrationFormFormik/GuestRegistrationFormFormik";
+import { RegisterGuestAccountSectionWrapper } from "./RegisterGuestAccountSection.styles";
 
 const RegisterGuestAccountSection = () => {
   return (
     <SettingsSectionWrapper>
-      <SettingsSectionHeader>Utwórz konto gościa</SettingsSectionHeader>
-      <GuestRegistrationFormFormik />
+      <RegisterGuestAccountSectionWrapper>
+        <SettingsSectionHeader>Utwórz konto gościa</SettingsSectionHeader>
+        <GuestRegistrationFormFormik />
+      </RegisterGuestAccountSectionWrapper>
     </SettingsSectionWrapper>
   );
 };

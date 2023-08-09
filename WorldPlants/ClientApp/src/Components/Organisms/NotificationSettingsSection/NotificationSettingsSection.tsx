@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { apiEndpoints } from "../../../Api/endpoints";
-import { OptionsWrapper } from "../../Atoms/OptionsWrapper/OptionsWrapper";
+import { OptionsWrapper } from "../../Atoms/OptionsWrapper/OptionsWrapper.styles";
 import {
   SettingsSectionHeader,
   SettingsSectionWrapper,

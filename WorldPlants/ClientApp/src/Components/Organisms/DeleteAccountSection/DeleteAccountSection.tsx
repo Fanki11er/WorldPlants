@@ -12,7 +12,7 @@ const DeleteAccountSection = () => {
   const { user } = useAuth();
   const { deleteOwnerUser, selfDeleteGuestUser } = apiEndpoints;
   const { rootPath } = paths;
-  console.log(user);
+
   //const {userId} = useParams();
   return (
     <SettingsSectionWrapper>

@@ -1,29 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { apiEndpoints } from "../../Api/endpoints";
 import {
-  ActionButton,
-  ButtonDeleteAccount,
+  PermissionsReturnButton,
   SideMenuLink,
 } from "../../Components/Atoms/Buttons/Buttons";
-import { DeleteAccountHeader } from "../../Components/Atoms/DeleteAccountHeader/DeleteAccountHeader";
-import { DeletingAccountsWrapper } from "../../Components/Atoms/DeletingAccountsWrapper/DeletingAccountsWrapper";
 import { HeaderAndOptionsWrapper } from "../../Components/Atoms/HeaderAntOptionsWrapper/HeaderAndOptionsWrapper";
-import {
-  HeaderPermissions,
-  PermissionsWrapper,
-} from "../../Components/Atoms/PermissionsWrapper/PermissionsWrapper";
+import { HeaderPermissions } from "../../Components/Atoms/PermissionsWrapper/PermissionsWrapper";
 import { SettingsHeader } from "../../Components/Atoms/SettingsHeader/SettingsHeader";
-import CheckboxInput from "../../Components/Molecules/CheckboxInput/CheckboxInput";
-import {
-  CheckboxNotification,
-  HeaderNotification,
-} from "../../Components/Molecules/CheckboxInput/CheckboxInput.styles";
-import {
-  PermissionsFormWrapper,
-  PermissionsLabel,
-} from "../../Components/Molecules/PermissionsForm/PermissionsForm.styles";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
-import { HeaderWrapper } from "../LandingView/LandingView.styles";
 import {
   FullRowWrapper,
   GuestPermissionsViewWrapper,
@@ -66,20 +50,22 @@ const GuestPermissionsView = () => {
       </FullRowWrapper>
       {data?.data && (
         <>
-          <HeaderAndOptionsWrapper>
-            <HeaderPermissions>
-              {" "}
-              {`Konto gościa: ${data?.data?.name}`}
-            </HeaderPermissions>
-            <SettingsHeader>Uprawnienia</SettingsHeader>
-          </HeaderAndOptionsWrapper>
           <GuestUserPermissionsViewSideMenuWrapper>
             <SideMenuLink to={""} end>
               Uprawnienia
             </SideMenuLink>
-            <ActionButton onClick={() => navigate(-1)}>Powrót</ActionButton>
+            <PermissionsReturnButton onClick={() => navigate(-1)}>
+              Powrót
+            </PermissionsReturnButton>
           </GuestUserPermissionsViewSideMenuWrapper>
-          <GuestUserPermissionsForm actualValues={data.data} />
+          <HeaderAndOptionsWrapper>
+            <HeaderPermissions>
+              {`Konto gościa: ${data?.data?.name}`}
+            </HeaderPermissions>
+            <SettingsHeader>Uprawnienia</SettingsHeader>
+
+            <GuestUserPermissionsForm actualValues={data.data} />
+          </HeaderAndOptionsWrapper>
         </>
       )}
     </GuestPermissionsViewWrapper>

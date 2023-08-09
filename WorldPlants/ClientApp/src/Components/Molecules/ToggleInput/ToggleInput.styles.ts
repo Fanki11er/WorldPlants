@@ -26,7 +26,7 @@ export const ToggleLabel = styled.label`
 `;
 
 export const ToggleLabelText = styled.span`
-  color: ${(props: ToggleProps & AppTheme) => (props.checked ? props.theme.colors.greenSettings : props.theme.colors.red)};
+  color: ${(props: ToggleProps & AppTheme) => (props.checked ? props.theme.colors.greenSettingsActive : props.theme.colors.red)};
   font-weight: bold;
   transition: all 0.5s ease-in-out;
 `;
@@ -44,7 +44,7 @@ export const ToggleDotWrapper = styled.div`
 
 export const InputDot = styled.div<ToggleProps>`
   border-radius: 50%;
-  background-color: ${(props: ToggleProps & AppTheme) => (props.checked ? props.theme.colors.greenSettings : props.theme.colors.red)};
+  background-color: ${(props: ToggleProps & AppTheme) => (props.checked ? props.theme.colors.greenSettingsActive : props.theme.colors.red)};
   height: 18px;
   width: 18px;
   transform: translateX(${(props: ToggleProps) => (props.checked ? "100%" : "0")});

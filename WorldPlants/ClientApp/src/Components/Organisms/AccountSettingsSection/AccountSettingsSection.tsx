@@ -6,7 +6,7 @@ import FormRequestError from "../../Molecules/FormRequestError/FormRequestError"
 import { getErrorMessages } from "../../../Utils/Utils";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { ACCOUNT_SETTINGS } from "../../../Constants/Constants";
-import { OptionsWrapper } from "../../Atoms/OptionsWrapper/OptionsWrapper";
+import { OptionsWrapper } from "../../Atoms/OptionsWrapper/OptionsWrapper.styles";
 import {
   SettingsSectionHeader,
   SettingsSectionWrapper,

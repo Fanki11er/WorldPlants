@@ -1,4 +1,4 @@
-import { AuthFormHeader } from "../../Atoms/AuthFormHeader/AuthFormHeader";
+import { AuthFormHeader } from "../../Atoms/AuthFormHeader/AuthFormHeader.styles";
 import {
   AuthFormWrapper,
   ImgAuth,

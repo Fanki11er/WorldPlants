@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const DeleteAccountSectionWrapper = styled.section`
   display: flex;
@@ -9,5 +10,5 @@ export const DeleteAccountSectionWrapper = styled.section`
 
 export const DeleteAccountSectionWrapperHeader = styled.h2`
   margin: 0;
-  color: red;
+  color: ${(props: AppTheme) => props.theme.colors.red};;
 `;

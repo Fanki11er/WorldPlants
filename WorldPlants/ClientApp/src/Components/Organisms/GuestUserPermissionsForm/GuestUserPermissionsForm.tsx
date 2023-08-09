@@ -11,6 +11,8 @@ import { GUEST_USER_PERMISSIONS } from "../../../Constants/Constants";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { useMutation, useQueryClient } from "react-query";
 import { apiEndpoints } from "../../../Api/endpoints";
+import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
 
 interface Props {
   actualValues: GuestUserWithPermissionsDto;
@@ -54,7 +56,7 @@ const GuestUserPermissionsForm = (props: Props) => {
       }}
     >
       <GuestUserPermissionsFormWrapper>
-        {isSuccess ? <div>Success</div> : null}
+        {isSuccess ? <FormSuccess>Sukces</FormSuccess> : null}
         <PermissionsGroup>
           <PermissionsGroupHeder>Zadania</PermissionsGroupHeder>
           <CheckboxInput id={"canWaterPlants"} label={"Podlewanie"} />
@@ -80,7 +82,7 @@ const GuestUserPermissionsForm = (props: Props) => {
         {isLoading ? (
           <div>Loading...</div>
         ) : (
-          <button type="submit">Zapisz</button>
+          <ActionButton type="submit">Zapisz</ActionButton>
         )}
       </GuestUserPermissionsFormWrapper>
     </Formik>

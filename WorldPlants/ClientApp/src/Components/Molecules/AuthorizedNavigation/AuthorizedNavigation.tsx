@@ -1,6 +1,6 @@
-import { AppLogoImage } from "../../Atoms/AppLogoImage/AppLogoImage";
+import { AppLogoImage } from "../../Atoms/AppLogoImage/AppLogoImage.styles";
 import { NavigationLink, OrangeButton } from "../../Atoms/Buttons/Buttons";
-import { NavigationWrapper } from "../NavigationWrapper/NavigationWrapper";
+import { NavigationWrapper } from "../NavigationWrapper/NavigationWrapper.styles";
 import { InnerNavigationWrapper } from "./AuthorizedNavigation.styles";
 import logoImage from "../../../Assets/Logo.svg";
 import UserInfo from "../UserInfo/UserInfo";

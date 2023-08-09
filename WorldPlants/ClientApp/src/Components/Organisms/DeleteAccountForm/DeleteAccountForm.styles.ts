@@ -16,5 +16,8 @@ export const DeleteAccountInstruction = styled.span`
      font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
      font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
      color:  ${(props: AppTheme) => props.theme.colors.red};
+     width: 80%;
+     max-width: 220px;
+     padding-left: 10px;
 
 `;

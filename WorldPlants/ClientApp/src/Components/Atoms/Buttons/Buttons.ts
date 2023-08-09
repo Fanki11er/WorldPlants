@@ -13,7 +13,6 @@ export const ActionButton = styled.button`
         border: none;
         padding: 5px 10px;
         margin-top: 30px;
-        margin-bottom: 20px;
         color: ${(props: AppTheme) => props.theme.colors.white};
         font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
         
@@ -21,6 +20,11 @@ export const ActionButton = styled.button`
             background-color: ${(props: AppTheme) => props.theme.colors.orange};
             cursor: pointer;
             transition: all 0.5s;
+        }
+        :disabled{
+            background-color: ${(props: AppTheme) => props.theme.colors.lightGray};
+            cursor: not-allowed;
+            
         }
         `;
 
@@ -125,4 +129,8 @@ export const SideMenuLink = styled(NavLink)`
     :hover {
             color: ${(props: AppTheme) => props.theme.colors.orange};
          }
+`;
+
+export const PermissionsReturnButton = styled(ActionButton)`
+     min-width: 200px;
 `;

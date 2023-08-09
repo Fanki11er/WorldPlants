@@ -1,13 +1,16 @@
 import { Form } from "formik";
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const GuestUserPermissionsFormWrapper = styled(Form)`
-  display: flex;
-  flex-direction: column;
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr;
   row-gap: 20px;
-  background-color: #071d53;
+  background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
   border-radius: 15px;
   padding: 20px;
+  justify-items: center;
 `;
 
 export const PermissionsGroup = styled.section`
@@ -19,6 +22,8 @@ export const PermissionsGroup = styled.section`
 
 export const PermissionsGroupHeder = styled.h2`
   text-align: center;
-  color: #ffc643;
+  color: ${(props: AppTheme) => props.theme.colors.yellow};
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
+  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   width: 100%;
 `;
