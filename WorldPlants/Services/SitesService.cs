@@ -40,7 +40,7 @@ namespace WorldPlants.Services
             CheckIfUserSpaceIdIsNotNull(userSpaceId);
 
             var userSites = _dbContext.UserSites.Include(i => i.Plants).ThenInclude(p => p.ActiveTasks)
-                .Where(us => us.SpaceId.Equals(userSpaceId)).ToList();
+                .Where(us => us.SpaceId.ToString() == userSpaceId).ToList();
 
             var userSiteDtos = userSites.Select(site => new UserSiteWithPlantsAndTasksDto
             {
