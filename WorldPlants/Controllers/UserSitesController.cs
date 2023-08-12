@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿// Ignore Spelling: Dto
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using WorldPlants.Models;
@@ -20,7 +22,7 @@ namespace WorldPlants.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult<UserSiteWithPlantsAndTasksDto> GetUserSiteWithPlantsAndTasksDtos()
+        public ActionResult<UserSiteWithPlantsAndTasksDto> GetUserSiteWithPlantsAndTasksDto()
         {
             var userSites = _siteService.GetUserSitesWithPlants();
             return Ok(userSites);
@@ -34,7 +36,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("DefaultSites")]
-        [Authorize(Roles = "Owner")]
+        [Authorize]
         public ActionResult<SiteWithIdAndNameDto> GetDefaultSites()
         {
             var defaultSites = _siteService.GetDefaultSites();
@@ -42,7 +44,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("SunExposures/{locationId}")]
-        [Authorize(Roles = "Owner")]
+        [Authorize]
         public ActionResult<SunExposureDto> GetSunExposures([FromRoute] int locationId)
         {
             var sunExposures = _siteService.GetSunExposures(locationId);
@@ -50,15 +52,16 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Add")]
-        [Authorize(Roles = "Owner")]
+        [Authorize]
         
         public ActionResult AddNewUserSite([FromBody] NewUserSiteDto newUserSiteDto)
         {
-            _siteService.AddNewUserSite(newUserSiteDto);
+           var id =  _siteService.AddNewUserSite(newUserSiteDto);
 
-            return Ok();
+            return Created("",id);
         }
         [HttpDelete("Delete/{siteId}")]
+        [Authorize]
         public ActionResult DeleteUserSite([FromRoute] int siteId)
         {
             _siteService.DeleteUserSite(siteId);
@@ -67,6 +70,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Edit")]
+        [Authorize]
         public ActionResult EditUserSite([FromBody] EditUserSiteDto dto)
         {
             _siteService.EditUserSite(dto);

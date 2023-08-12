@@ -64,7 +64,7 @@ namespace WorldPlants.Controllers
 
         [HttpDelete("{userId}")]
         [Authorize(Roles = "Owner")]
-        public ActionResult DeleteGuestUser([FromQuery] string userId)
+        public ActionResult DeleteGuestUser([FromRoute] string userId)
         {
             _guestUserService.DeleteGuestUser(userId);
             return NoContent();
