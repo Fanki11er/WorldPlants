@@ -2,7 +2,7 @@
 {
     public enum Locations
     {
-        Indor,
-        Outdor
+        Indoor,
+        Outdoor
     }
 }
