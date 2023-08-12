@@ -33,7 +33,7 @@ namespace WorldPlants.Services
         {
             var userSpaceId = _userContextService.GetSpaceId;
 
-            CheckIfUserSpaceIdIsNotNull(userSpaceId);
+            CheckIfUserSpaceIdIsNotNull(userSpaceId!);
 
             var userSites = _dbContext.UserSites.Include(i => i.Plants).ThenInclude(p => p.ActiveTasks) 
                 .Where(us => us.SpaceId.Equals(userSpaceId)).ToList();
