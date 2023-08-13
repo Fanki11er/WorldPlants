@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const TargetTasksWrapper = styled.div`
-    background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
+    background: ${(props: AppTheme) => props.theme.colors.gradientPurple};
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -17,28 +17,32 @@ export const TargetTasksWrapper = styled.div`
 export const ImgAndHeaderWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    row-gap: 30px;
-    justify-content: center;
-    align-items: center;
+    column-gap: 10px;
+  
 `;
 
 export const ImgPlant = styled.img`
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 10px;
 `;
 
 export const HeaderWrapper = styled.div`
-    display: gap;
+    display: grid;
+    grid-template-rows: 35px 30px;
+    align-items: flex-end;
+
    
 `;
 
 export const HeaderPlant= styled.h3`
     color: ${(props: AppTheme) => props.theme.colors.yellow};
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
 `;
 
 export const HeaderSpace = styled.h4`
      color: ${(props: AppTheme) => props.theme.colors.turquoise};
+     font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 `;
 
 export const ImgTreeWrapper = styled.div`

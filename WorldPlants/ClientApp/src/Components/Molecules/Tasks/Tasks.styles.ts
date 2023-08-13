@@ -9,20 +9,20 @@ export const TasksWrapper = styled.div`
     padding:30px 20px;
     min-width: 350px;
     max-width: 450px;
+    font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 `;    
-
-   
 
 export const HeaderAndImgWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1fr 500px; 
-    column-gap: 80px;
+    grid-template-columns: 5px 200px;
+    column-gap: 40px;
     justify-content: center;
     align-items: center;
 `;
 
 export const HeaderTask = styled.h2`
     color: ${(props: AppTheme) => props.theme.colors.orange};
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
 `;
 
 export const ImgTask = styled.img`

@@ -6,11 +6,11 @@ import useAuth from "../../Hooks/useAuth";
 import { paths } from "../../Router/paths";
 
 const LoginView = () => {
-  const { plantsTasks } = paths;
+  const { authorized } = paths;
   const { user } = useAuth();
 
   if (user) {
-    return <Navigate to={plantsTasks} />;
+    return <Navigate to={authorized} />;
   }
   return (
     <ViewWrapper>

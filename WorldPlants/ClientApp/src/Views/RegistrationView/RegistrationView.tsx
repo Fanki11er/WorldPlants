@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { ViewWrapper } from "../../Components/Atoms/ViewWrapper/ViewWrapper";
 import UnauthorizedNavigation from "../../Components/Molecules/UnauthorizedNavigation/UnauthorizedNavigation";
-import RegistrationForm from "../../Components/Organisms/RegistrationForm/RegistrationForm";
 import useAuth from "../../Hooks/useAuth";
 import { paths } from "../../Router/paths";
+import RegistrationFormFormik from "../../Components/Organisms/RegistrationFormFormik/RegistrationFormFormik";
 
 const RegistrationView = () => {
   const { plantsTasks } = paths;
@@ -15,7 +15,7 @@ const RegistrationView = () => {
   return (
     <ViewWrapper>
       <UnauthorizedNavigation />
-      <RegistrationForm />
+      <RegistrationFormFormik />
     </ViewWrapper>
   );
 };
