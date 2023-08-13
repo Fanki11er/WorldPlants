@@ -1,16 +1,14 @@
 import { Outlet } from "react-router-dom";
-
-import UserSettingsSideMenu from "../../Components/Molecules/UserSettingsSideMenu/UserSettingsSideMenu";
 import { AuthorizedViewWrapper } from "../../Components/Atoms/AuthorizedViewWrapper/AuthorizedViewWrapper.styles";
+import UserSiteSideMenu from "../../Components/Molecules/UserSiteSideMenu/UserSiteSideMenu";
 
-const OwnerSettingsView = () => {
+const UserSitesView = () => {
   return (
     <AuthorizedViewWrapper>
-      <UserSettingsSideMenu />
+      <UserSiteSideMenu />
       <Outlet />
     </AuthorizedViewWrapper>
   );
 };
 
-export default OwnerSettingsView;
-//!! Late for delete <GuestAccounts />
+export default UserSitesView;

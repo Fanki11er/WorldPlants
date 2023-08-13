@@ -34,12 +34,12 @@ export const theme: Theme = {
     large: "20px",
   },
 
-  /*devices: {
-    small: `min-width: 600px`,
-    medium: `min-width: 800px`,
-    large: `min-width: 1440px`,
-    veryLarge: "min-width: 2500px",
-  },*/
+  devices: {
+    small: `max-width: 860px`,
+    medium: `max-width: 12px`,
+    //large: `min-width: 1440px`,
+    veryLarge: "min-width: 1600px",
+  },
 
   fontFamilies: {
     Roboto: "Roboto, sans-serif",
@@ -79,12 +79,12 @@ export type Theme = {
     large: string;
   };
 
-  /*devices: {
+  devices: {
     small: string;
     medium: string;
-    large: string;
+    //large: string;
     veryLarge: string;
-  };*/
+  };
 
   fontFamilies: {
     Roboto: string;

@@ -1,6 +1,11 @@
 import { AxiosError } from "axios";
 import { ErrorData } from "../Interfaces/ErrorData";
 import * as Yup from "yup";
+import { SunScale } from "../Interfaces/SunExposureDto";
+import sunIcon from "../Assets/Sun.svg";
+import shadeIcon from "../Assets/Shade.svg";
+import darknessIcon from "../Assets/Darkness.svg";
+import penumbraIcon from "../Assets/Penumbra.svg";
 
 export const getErrorMessages = (e: unknown) => {
   const errorMessages: string[] = [];
@@ -25,6 +30,25 @@ export const getErrorMessages = (e: unknown) => {
   return errorMessages;
 };
 
+export const selectSunScaleIcon = (sunScale: SunScale) => {
+  switch (sunScale) {
+    case "None": {
+      return darknessIcon;
+    }
+    case "Low": {
+      return shadeIcon;
+    }
+    case "Medium": {
+      return penumbraIcon;
+    }
+    case "High": {
+      return sunIcon;
+    }
+    default: {
+      return "";
+    }
+  }
+};
 
 export const yupRegistrationValidationShape = {
   name: Yup.string()

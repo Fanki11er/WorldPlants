@@ -15,9 +15,9 @@ export const paths = {
   userSettingsDeleteMainAccount: "MainAccountDelete",
   userSettingsDeleteAccount: "AccountDelete",
   guestUserPermissions: "Permissions",
-  typesOfPlaces: "Authorized/TypesOfPlaces",
-  sunExposure: "Authorized/SunExposure",
-  plantPlaces: "Authorized/PlantPlaces",
-  plantPlacesAdded: "Authorized/PlantPlacesAdded"
+  userSites: "Sites",
+  userSitesAddNew: "AddNew",
+  userSite: "Site",
+ 
   
 };
