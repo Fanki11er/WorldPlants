@@ -40,7 +40,7 @@ namespace WorldPlantsIntergrationTests.Helpers
             var testSite = new UserSite()
             {
                 Name = "Test",
-                Location = Locations.Indor,
+                Location = Locations.Indoor,
                 WarmPeriodMinTemperature = 1,
                 WarmPeriodMaxTemperature = 2,
                 ColdPeriodMinTemperature = 1,
@@ -70,7 +70,7 @@ namespace WorldPlantsIntergrationTests.Helpers
             var testSite = new UserSite()
             {
                 Name = "Test",
-                Location = Locations.Indor,
+                Location = Locations.Indoor,
                 WarmPeriodMinTemperature = 1,
                 WarmPeriodMaxTemperature = 2,
                 ColdPeriodMinTemperature = 1,
@@ -92,7 +92,7 @@ namespace WorldPlantsIntergrationTests.Helpers
                 Id = Id,
                 Description = "Test",
                 Name = "Test",
-                ForSiteType = Locations.Indor,
+                ForSiteType = Locations.Indoor,
                 SunScale = SunScale.Low
             };
 

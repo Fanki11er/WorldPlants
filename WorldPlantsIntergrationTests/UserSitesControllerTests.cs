@@ -68,7 +68,7 @@ namespace WorldPlantsIntergrationTests
                 Name = "Test",
                 Description = "Test",
                 SunScale = SunScale.Low,
-                ForSiteType = Locations.Indor
+                ForSiteType = Locations.Indoor
             };
 
             _dbContext.Add(testsunExposure);
