@@ -1,6 +1,7 @@
 import { PropsWithChildren, createContext, useMemo } from "react";
 import { useSessionStorage } from "../Hooks/useSessionStorage";
 import { AuthenticatedUser } from "../Interfaces/AuthenticatedUser";
+import { useQueryClient } from "react-query";
 
 interface ContextValue {
   login: (values: AuthenticatedUser) => void;
@@ -17,6 +18,7 @@ export const AuthContext = createContext<ContextValue>({
 
 const AuthProvider = (props: PropsWithChildren) => {
   const { children } = props;
+  const queryClient = useQueryClient();
 
   const { storedValue, setValue } = useSessionStorage<AuthenticatedUser | null>(
     "user"
@@ -27,8 +29,8 @@ const AuthProvider = (props: PropsWithChildren) => {
   };
 
   const logout = () => {
+    queryClient.removeQueries();
     setValue(null);
-    console.log("Logout");
   };
 
   const values = useMemo(

@@ -1,5 +1,11 @@
 import { AxiosError } from "axios";
 import { ErrorData } from "../Interfaces/ErrorData";
+import * as Yup from "yup";
+import { SunScale } from "../Interfaces/SunExposureDto";
+import sunIcon from "../Assets/Sun.svg";
+import shadeIcon from "../Assets/Shade.svg";
+import darknessIcon from "../Assets/Darkness.svg";
+import penumbraIcon from "../Assets/Penumbra.svg";
 
 export const getErrorMessages = (e: unknown) => {
   const errorMessages: string[] = [];
@@ -22,4 +28,66 @@ export const getErrorMessages = (e: unknown) => {
   });
 
   return errorMessages;
+};
+
+export const selectSunScaleIcon = (sunScale: SunScale) => {
+  switch (sunScale) {
+    case "None": {
+      return darknessIcon;
+    }
+    case "Low": {
+      return shadeIcon;
+    }
+    case "Medium": {
+      return penumbraIcon;
+    }
+    case "High": {
+      return sunIcon;
+    }
+    default: {
+      return "";
+    }
+  }
+};
+
+export const yupRegistrationValidationShape = {
+  name: Yup.string()
+    .min(2, "Imię musi zawierać minimum 2 znaki")
+    .max(30, "Imię może mieć maksymalnie 30 znaków ")
+    .required("Imię jest wymagane"),
+  password: Yup.string()
+    .min(8, "Hasło musi się składać z minimum 8 znaków")
+    .required("Hasło jest wymagane"),
+  repeatedPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Hasła muszą być takie same")
+    .required("Hasło jest wymagane"),
+  email: Yup.string()
+    .email("Nie prawidłowy format adresu email")
+    .required("Email jest wymagany"),
+  phoneNumber: Yup.string().matches(
+    /^\d{9}$/,
+    "Nie prawidłowy format numeru telefonu"
+  ),
+};
+
+export const yupAccountSettingsValidationShape = {
+  name: Yup.string()
+    .min(2, "Imię musi zawierać minimum 2 znaki")
+    .max(30, "Imię może mieć maksymalnie 30 znaków ")
+    .required("Imię jest wymagane"),
+  email: Yup.string()
+    .email("Nie prawidłowy format adresu email")
+    .required("Email jest wymagany"),
+  phoneNumber:
+    Yup.string().matches(/^\d{9}$/, "Nie prawidłowy format numeru telefonu") ||
+    Yup.string().length(0, "Nie prawidłowy format numeru telefonu"),
+};
+
+export const yupSecuritySettingsValidationShape = {
+  newPassword: Yup.string()
+    .min(8, "Hasło musi się składać z minimum 8 znaków")
+    .required("Hasło jest wymagane"),
+  newRepeatedPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword")], "Hasła muszą być takie same")
+    .required("Hasło jest wymagane"),
 };

@@ -1,6 +1,7 @@
-import styled from "styled-components";
+import styled, { ThemeProps } from "styled-components";
 import backgroundSvg from "../../Assets/HeroPageBackground.svg"
 import heroImage from "../../Assets/HeroImage.svg"
+import { AppTheme } from "../../GlobalStyles/theme";
 
 export const LandingViewWrapper = styled.div`
     background-image: url(${backgroundSvg});
@@ -9,6 +10,19 @@ export const LandingViewWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 100vh;
+
+    @media screen and (${(props: AppTheme) => props.theme.devices.veryLarge}) {
+    
+    }
+
+    @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+    
+    }
+
+    @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+   
+    }
+  
 `;
 
 export const HeaderWrapper = styled.div`
