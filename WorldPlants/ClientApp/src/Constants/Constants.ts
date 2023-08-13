@@ -1,7 +1,7 @@
 export const NOTIFICATION_SETTINGS = "NOTIFICATION_SETTINGS";
 export const ACCOUNT_SETTINGS = "ACCOUNT_SETTINGS";
 export const GUEST_USER_PERMISSIONS = "GUEST_USER_PERMISSIONS";
-//export const GUEST_ACCOUNTS = "GuestAccounts";
+export const GUEST_ACCOUNTS = "GuestAccounts";
 export const DEFAULT_SITES = "DEFAULT_SITES";
 export const SUN_EXPOSURES = "SUN_EXPOSURES";
 export const USER_SITES = "USER_SITES";

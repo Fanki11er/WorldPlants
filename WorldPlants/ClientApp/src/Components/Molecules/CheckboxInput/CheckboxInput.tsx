@@ -17,7 +17,7 @@ const CheckboxInput = (props: Props) => {
 
   return (
     <NotificationFormLabel>
-      <HeaderNotification>Podlewanie</HeaderNotification>
+      <HeaderNotification>{label}</HeaderNotification>
       <CheckboxNotification $checked={`${field.value}`} />
       <HiddenCheckbox id={id} name={id} type="checkbox" />
     </NotificationFormLabel>

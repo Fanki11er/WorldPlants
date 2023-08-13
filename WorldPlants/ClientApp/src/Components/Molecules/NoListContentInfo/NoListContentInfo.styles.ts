@@ -8,8 +8,10 @@ export const NoListContentInfoWrapper = styled.div`
   justify-items: center;
   align-content: center;
   width: 50%;
+  min-width: 300px;
   border-radius: 25px;
-  padding: 40px 40px 40px 60px;
+  justify-self: center;
+  //padding: 40px 40px 40px 60px;
 `;
 
 export const NoListContentInfoHeader = styled.h1`

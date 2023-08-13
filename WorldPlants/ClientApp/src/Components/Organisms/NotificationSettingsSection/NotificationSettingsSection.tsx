@@ -12,6 +12,7 @@ import { AxiosResponse } from "axios";
 import { NOTIFICATION_SETTINGS } from "../../../Constants/Constants";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
+import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
 
 const NotificationSettingsSection = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -54,7 +55,12 @@ const NotificationSettingsSection = () => {
             header="Sms"
           />
         ) : (
-          <div>Nie ustawiono numeru telefonu</div>
+          <NoListContentInfo
+            informationHeaderText={"Powiadomienia sms"}
+            informationText={
+              "Aby móc otrzymywać powiadomienia sms należy dodać w ustawiniach numer telefonu"
+            }
+          />
         )}
       </OptionsWrapper>
     </SettingsSectionWrapper>

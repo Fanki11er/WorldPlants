@@ -5,5 +5,5 @@ export const SideMenuWrapper = styled.div`
   flex-direction: column;
   row-gap: 10px;
   padding: 15px;
-  width: 150px;
+  width: 100%;
 `;

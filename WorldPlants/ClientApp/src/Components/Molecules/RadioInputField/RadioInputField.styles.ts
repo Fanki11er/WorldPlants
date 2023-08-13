@@ -18,7 +18,7 @@ export const RadioInputFieldWrapper = styled.label`
   border: 2px solid
     ${(props: Props & AppTheme) =>
       props.$checked === "true"
-        ? props.theme.colors.navyBlue
+        ? props.theme.colors.orange
         : props.theme.colors.transparent};
   transition: all 0.5s;
 `;
