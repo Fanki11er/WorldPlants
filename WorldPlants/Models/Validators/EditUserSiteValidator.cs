@@ -5,7 +5,7 @@ using WorldPlants.Entities;
 
 namespace WorldPlants.Models.Validators
 {
-    public class EditUserSiteValidator : AbstractValidator<EditUserSiteDto>
+    public class EditUserSiteValidator : AbstractValidator<EditUserSiteSettingsDto>
     {
 
         public EditUserSiteValidator(WorldPlantsDbContext dbContext)

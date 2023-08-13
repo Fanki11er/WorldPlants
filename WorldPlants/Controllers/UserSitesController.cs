@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using WorldPlants.Enums;
 using WorldPlants.Models;
 using WorldPlants.Services;
 
@@ -45,9 +46,16 @@ namespace WorldPlants.Controllers
 
         [HttpGet("SunExposures/{locationId}")]
         [Authorize]
-        public ActionResult<SunExposureDto> GetSunExposures([FromRoute] int locationId)
+        public ActionResult<List<SunExposureDto>> GetSunExposures([FromRoute] int locationId)
         {
             var sunExposures = _siteService.GetSunExposures(locationId);
+            return Ok(sunExposures);
+        }
+        [HttpGet("SunExposures/ByLocation/{locationName}")]
+        [Authorize]
+        public ActionResult<List<SunExposureDto>> GetSunExposuresByLocation([FromRoute] string locationName)
+        {
+            var sunExposures = _siteService.GetSunExposuresByLocation(locationName);
             return Ok(sunExposures);
         }
 
@@ -69,13 +77,22 @@ namespace WorldPlants.Controllers
             return NoContent();
         }
 
-        [HttpPost("Edit")]
+        [HttpPost("Edit/{siteId}")]
         [Authorize]
-        public ActionResult EditUserSite([FromBody] EditUserSiteDto dto)
+        public ActionResult EditUserSite([FromRoute] int siteId, [FromBody] EditUserSiteSettingsDto dto)
         {
-            _siteService.EditUserSite(dto);
+            _siteService.EditUserSite(siteId, dto);
 
             return Ok();
+        }
+
+        [HttpGet("Settings/{siteId}")]
+        [Authorize]
+        public ActionResult<GetUserSiteSettingsDto> GetSiteSettings([FromRoute] int siteId)
+        {
+           var userSiteSettingsDto = _siteService.GetSiteSettings(siteId);
+
+            return Ok(userSiteSettingsDto);
         }
 
 

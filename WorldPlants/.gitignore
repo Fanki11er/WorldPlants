@@ -237,3 +237,6 @@ Store/
 #Env
 .env
 *.env
+
+#Migrations
+/Migrations

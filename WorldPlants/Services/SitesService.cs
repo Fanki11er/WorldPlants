@@ -1,8 +1,10 @@
 ﻿// Ignore Spelling: dto
 
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
+using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
 
@@ -15,10 +17,11 @@ namespace WorldPlants.Services
         public SiteWithPlantsDto GetSiteWithPlants(int siteId);
         public List<SiteWithIdAndNameDto> GetDefaultSites();
         public List<SunExposureDto> GetSunExposures(int locationId);
+        public List<SunExposureDto> GetSunExposuresByLocation(string location);
         public int AddNewUserSite(NewUserSiteDto dto);
         public void DeleteUserSite(int siteId);
-
-        public void EditUserSite(EditUserSiteDto dto);
+        public GetUserSiteSettingsDto GetSiteSettings(int siteId);
+        public void EditUserSite(int siteId, EditUserSiteSettingsDto dto);
     }
     public class SitesService : ISiteService
     {
@@ -111,6 +114,21 @@ namespace WorldPlants.Services
             return result;
         }
 
+        public List<SunExposureDto> GetSunExposuresByLocation(string location)
+        {
+
+            if(location != Locations.Indoor.ToString() && location != Locations.Outdoor.ToString())
+            {
+                throw new BadRequestException("Nie prawidłowa nazwa lokalizacji");
+            }
+
+            var sunExposures = _dbContext.SunExposures.Where(e => e.ForSiteType.ToString() == location);
+
+            var result = _mapper.Map<List<SunExposureDto>>(sunExposures);
+
+            return result;
+        }
+
         public int AddNewUserSite(NewUserSiteDto dto)
         {
 
@@ -167,7 +185,7 @@ namespace WorldPlants.Services
 
             CheckIfUserSiteExists(userSite);
 
-            CheckIfUserIsOwnerOfSite(userSite!, userSpaceId!);
+            CheckIfSiteBelongsToUserSpace(userSite!, userSpaceId!);
 
             if (userSite!.Plants.Any())
             {
@@ -179,17 +197,34 @@ namespace WorldPlants.Services
 
         }
 
-        public void EditUserSite(EditUserSiteDto dto)
+        public GetUserSiteSettingsDto GetSiteSettings( int siteId)
         {
             var userSpaceId = _userContextService.GetSpaceId;
 
             CheckIfUserSpaceIdIsNotNull(userSpaceId);
 
-            var userSite = _dbContext.UserSites.FirstOrDefault(s => s.Id == dto.Id);
+            var userSite = _dbContext.UserSites.FirstOrDefault(s => s.Id == siteId);
 
             CheckIfUserSiteExists(userSite);
 
-            CheckIfUserIsOwnerOfSite(userSite!, userSpaceId!);
+            CheckIfSiteBelongsToUserSpace(userSite!, userSpaceId!);
+
+            var userSettingsDto = _mapper.Map<GetUserSiteSettingsDto>(userSite);
+
+            return userSettingsDto;
+        }
+
+        public void EditUserSite(int siteId, EditUserSiteSettingsDto dto)
+        {
+            var userSpaceId = _userContextService.GetSpaceId;
+
+            CheckIfUserSpaceIdIsNotNull(userSpaceId);
+
+            var userSite = _dbContext.UserSites.FirstOrDefault(s => s.Id == siteId);
+
+            CheckIfUserSiteExists(userSite);
+            //!! CHeckif user is from the side and have permission
+            //CheckIfUserIsOwnerOfSite(userSite!, userSpaceId!);
 
             //  userSite.ColdPeriodMinTemperature = dto.ColdPeriodMinTemperature;
             // userSite.ColdPeriodMaxTemperature = dto.ColdPeriodMaxTemperature;
@@ -219,11 +254,11 @@ namespace WorldPlants.Services
             }
         }
 
-        private void CheckIfUserIsOwnerOfSite(UserSite userSite, string userSpaceId)
+        private void CheckIfSiteBelongsToUserSpace(UserSite userSite, string userSpaceId)
         {
             if (userSite.SpaceId.ToString() != userSpaceId)
             {
-                throw new ForbidException("Nie jesteś właścicielem przestrzeni o podanym id");
+                throw new ForbidException("To miejsce nie należy do aktualnej przestrzeni użytkownika");
             }
         }
     }
