@@ -11,7 +11,6 @@ import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import {
   FullRowWrapper,
   GuestPermissionsViewWrapper,
-  GuestUserPermissionsViewSideMenuWrapper,
 } from "./GuestPermissionsView.styles";
 import { AxiosResponse } from "axios";
 import { GuestUserWithPermissionsDto } from "../../Interfaces/GuestUserWithPermissionsDto";
@@ -20,9 +19,13 @@ import { GUEST_USER_PERMISSIONS } from "../../Constants/Constants";
 import FormRequestError from "../../Components/Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../Utils/Utils";
 import GuestUserPermissionsForm from "../../Components/Organisms/GuestUserPermissionsForm/GuestUserPermissionsForm";
+import DeleteUserAccountFormFormik from "../../Components/Organisms/DeleteUserAccountFormFormik/DeleteUserAccountFormFormik";
+import { paths } from "../../Router/paths";
+import { SideMenuWrapper } from "../../Components/Atoms/SideMenuWrapper/SideMenuWrapper.styles";
 
 const GuestPermissionsView = () => {
-  const { getGuestUserWithPermissions } = apiEndpoints;
+  const { authorized, userSettings, userSettingsGuestAccounts } = paths;
+  const { getGuestUserWithPermissions, deleteGuestUser } = apiEndpoints;
   const axiosPrivate = useAxiosPrivate();
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -50,14 +53,14 @@ const GuestPermissionsView = () => {
       </FullRowWrapper>
       {data?.data && (
         <>
-          <GuestUserPermissionsViewSideMenuWrapper>
+          <SideMenuWrapper>
             <SideMenuLink to={""} end>
               Uprawnienia
             </SideMenuLink>
             <PermissionsReturnButton onClick={() => navigate(-1)}>
               Powrót
             </PermissionsReturnButton>
-          </GuestUserPermissionsViewSideMenuWrapper>
+          </SideMenuWrapper>
           <HeaderAndOptionsWrapper>
             <HeaderPermissions>
               {`Konto gościa: ${data?.data?.name}`}
@@ -65,6 +68,12 @@ const GuestPermissionsView = () => {
             <SettingsHeader>Uprawnienia</SettingsHeader>
 
             <GuestUserPermissionsForm actualValues={data.data} />
+            <DeleteUserAccountFormFormik
+              accountName={data.data.name}
+              submitPath={deleteGuestUser(data.data.id)}
+              toPath={`${authorized}/${userSettings}/${userSettingsGuestAccounts}`}
+              logoutUser={false}
+            />
           </HeaderAndOptionsWrapper>
         </>
       )}

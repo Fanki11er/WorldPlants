@@ -14,6 +14,7 @@ import { SideMenuLink } from "../../Atoms/Buttons/Buttons";
 import ToggleInput from "../ToggleInput/ToggleInput";
 import FormRequestError from "../FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
+import NoListContentInfo from "../NoListContentInfo/NoListContentInfo";
 
 const GuestAccountsList = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -21,8 +22,12 @@ const GuestAccountsList = () => {
   const { guestUserPermissions, authorized } = paths;
   const queryClient = useQueryClient();
 
-  const { isLoading, error, data } = useQuery(GUEST_ACCOUNTS, () =>
-    axiosPrivate.get(getGuestUsers)
+  const { isLoading, error, data } = useQuery<GuestUserDto[]>(
+    GUEST_ACCOUNTS,
+    async () => {
+      const result = await axiosPrivate.get(getGuestUsers);
+      return result.data;
+    }
   );
   const { mutate } = useMutation({
     mutationFn: (dto: ChangeGuestUserStatusDto) => {
@@ -61,13 +66,22 @@ const GuestAccountsList = () => {
     });
   };
   return (
-    <GuestAccountsListWrapper>
+    <>
       {isLoading && <div>Loading...</div>}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
-      {data && renderGuestAccounts(data.data)}
-    </GuestAccountsListWrapper>
+      {data && data.length ? (
+        <GuestAccountsListWrapper>
+          {renderGuestAccounts(data)}
+        </GuestAccountsListWrapper>
+      ) : (
+        <NoListContentInfo
+          informationHeaderText={"Brak kont gości"}
+          informationText={"Tu będą widoczne utworzone konta gości. "}
+        />
+      )}
+    </>
   );
 };
 

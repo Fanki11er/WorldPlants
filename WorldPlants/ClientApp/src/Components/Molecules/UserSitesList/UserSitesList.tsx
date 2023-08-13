@@ -14,7 +14,7 @@ const UserSitesList = (props: Props) => {
   const renderSites = (sites: UserSiteWithPlantsAndTasksDto[]) => {
     return sites.map((site) => {
       return (
-        <UserSitesListItemWrapper>
+        <UserSitesListItemWrapper key={site.siteId}>
           <UserSitesListItemHeader>{site.siteName}</UserSitesListItemHeader>
           <UserSitesListItemPlantsCountInfo>
             {`${site.plants.length} Roślin`}

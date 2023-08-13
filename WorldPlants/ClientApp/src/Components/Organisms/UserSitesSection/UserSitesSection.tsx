@@ -19,7 +19,6 @@ const UserSitesSection = () => {
     USER_SITES,
     async () => {
       const result = await axiosPrivate.get(getUserSites);
-      console.log(result);
       return result.data;
     }
   );
@@ -30,7 +29,7 @@ const UserSitesSection = () => {
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
-      {data ? (
+      {data?.length ? (
         <UserSitesList sites={data} />
       ) : (
         <NoListContentInfo

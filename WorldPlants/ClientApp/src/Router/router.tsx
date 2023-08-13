@@ -89,6 +89,7 @@ const router = createBrowserRouter(
 );
 
 export default router;
+
 /* <Route path={plantPlaces} element={<PlantPlacesView />} />
         <Route path={plantPlacesAdded} element={<PlantPlacesAddedView />} /> */
 /* <Route path={guestSettings} element={<GuestSettingsView />} /> */

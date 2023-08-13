@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const SelectSunExposureFormWrapper = styled.section`
   display: flex;
@@ -12,5 +13,5 @@ export const FieldsWrapper = styled.div`
 `;
 
 export const InfoHeader = styled.h2`
-  color: orange;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
 `;

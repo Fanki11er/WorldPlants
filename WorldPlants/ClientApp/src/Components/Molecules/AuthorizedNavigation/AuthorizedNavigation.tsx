@@ -8,7 +8,7 @@ import useAuth from "../../../Hooks/useAuth";
 import { paths } from "../../../Router/paths";
 
 const AuthorizedNavigation = () => {
-  const { plantsTasks, userSettings } = paths;
+  const { plantsTasks, userSettings, userSites } = paths;
   const { logout } = useAuth();
   return (
     <NavigationWrapper>
@@ -17,7 +17,7 @@ const AuthorizedNavigation = () => {
         <NavigationLink to={plantsTasks} end>
           Zadania
         </NavigationLink>
-        <NavigationLink to={"/"}>Miejsca</NavigationLink>
+        <NavigationLink to={userSites}>Miejsca</NavigationLink>
         <NavigationLink to={"/"}>Rośliny</NavigationLink>
         <NavigationLink to={userSettings}>Ustawienia</NavigationLink>
         <UserInfo />

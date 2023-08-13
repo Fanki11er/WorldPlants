@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { NotificationSettings } from "../../../Interfaces/NotificationsSettings";
-import {
-  ActionButton,
-  NotificationButtonWrapper,
-} from "../../Atoms/Buttons/Buttons";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import {
   HeaderNotificationEmailAndSms,
   NotificationWrapper,
@@ -63,9 +60,7 @@ const NotificationForm = (props: Props) => {
           <CheckboxInput id={"mistPlantsReminder"} label="Zwilżanie" />
         </NotificationWrapper>
 
-        <NotificationButtonWrapper>
-          <ActionButton type={"submit"}>Zapisz</ActionButton>
-        </NotificationButtonWrapper>
+        <ActionButton type={"submit"}>Zapisz</ActionButton>
       </NotificationFormWrapper>
     </Formik>
   );

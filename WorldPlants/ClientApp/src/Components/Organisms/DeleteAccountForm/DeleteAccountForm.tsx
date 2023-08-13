@@ -18,7 +18,7 @@ interface Props {
 const DeleteAccountForm = (props: Props & FormikFormProps) => {
   const { error, isLoading, confirmed } = props;
   const { errors } = useFormikContext<DeleteAccountConfirmation>();
-  console.log(errors);
+
   return (
     <DeleteAccountFormWrapper>
       {error ? (

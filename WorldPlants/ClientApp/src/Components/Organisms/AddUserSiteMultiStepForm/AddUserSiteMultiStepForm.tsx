@@ -13,7 +13,7 @@ import { AddUserSiteValues } from "../../../Interfaces/AddUserSiteValues";
 import FormControls from "../../Molecules/FormControls/FormControls";
 import SelectSiteTypeForm from "../../Molecules/SelectSiteTypeForm/SelectSiteTypeForm";
 import SelectSunExposureForm from "../../Molecules/SelectSunExposureForm/SelectSunExposureForm";
-import AddSiteMultiStepFormSummary from "../../Molecules/AddSiteMultiStepFormSummary/AddSiteMultistepFormSummary";
+import AddSiteMultiStepFormSummary from "../../Molecules/AddSiteMultiStepFormSummary/AddSiteMultiStepFormSummary";
 
 const STEPS_NUMBER = 3;
 
