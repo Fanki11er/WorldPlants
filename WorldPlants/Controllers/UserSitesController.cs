@@ -68,6 +68,16 @@ namespace WorldPlants.Controllers
 
             return Created("",id);
         }
+
+        [HttpGet("BeforeDelete/{siteId}")]
+        [Authorize]
+        public ActionResult<GetSiteBeforeDeleteInformationDto> GetBeforeDeleteSiteInfo(int siteId)
+        {
+            var result = _siteService.GetBeforeDeleteSiteInfo(siteId);
+
+            return Ok(result);
+        }
+
         [HttpDelete("Delete/{siteId}")]
         [Authorize]
         public ActionResult DeleteUserSite([FromRoute] int siteId)
@@ -95,8 +105,5 @@ namespace WorldPlants.Controllers
             return Ok(userSiteSettingsDto);
         }
 
-
-        // EditSite Path
-        // Endpoint for sending existing data to editSiteForm
     }
 }

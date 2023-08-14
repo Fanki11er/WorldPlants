@@ -18,6 +18,7 @@ namespace WorldPlants.Services
         public List<SunExposureDto> GetSunExposures(int locationId);
         public List<SunExposureDto> GetSunExposuresByLocation(int locationId);
         public int AddNewUserSite(NewUserSiteDto dto);
+        public GetSiteBeforeDeleteInformationDto GetBeforeDeleteSiteInfo(int siteId);
         public void DeleteUserSite(int siteId);
         public GetUserSiteSettingsDto GetSiteSettings(int siteId);
         public void EditUserSite(int siteId, EditUserSiteSettingsDto dto);
@@ -174,6 +175,24 @@ namespace WorldPlants.Services
             return entity.Entity.Id;
         }
 
+        public GetSiteBeforeDeleteInformationDto GetBeforeDeleteSiteInfo(int siteId)
+        {
+            var userSpaceId = _userContextService.GetSpaceId;
+
+            CheckIfUserSpaceIdIsNotNull(userSpaceId);
+
+            var userSite = _dbContext.UserSites.Include(i => i.Plants).FirstOrDefault(s => s.Id == siteId);
+
+            CheckIfUserSiteExists(userSite);
+
+            CheckIfSiteBelongsToUserSpace(userSite!, userSpaceId!);
+
+            GetSiteBeforeDeleteInformationDto dto = _mapper.Map<GetSiteBeforeDeleteInformationDto>(userSite);
+
+            return dto;
+
+        }
+
         public void DeleteUserSite(int siteId)
         {
             var userSpaceId = _userContextService.GetSpaceId;
@@ -185,13 +204,8 @@ namespace WorldPlants.Services
             CheckIfUserSiteExists(userSite);
 
             CheckIfSiteBelongsToUserSpace(userSite!, userSpaceId!);
-            // Delete this
-            if (userSite!.Plants.Any())
-            {
-                throw new SiteWithPlantsException("Nie możesz usunąć przestrzeni jeśli znajdują się w niej rośliny");
-            }
 
-            _dbContext.Remove(userSite);
+            _dbContext.Remove(userSite!);
 
             var counter = _dbContext.SaveChanges();
 

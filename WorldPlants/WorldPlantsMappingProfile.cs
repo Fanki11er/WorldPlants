@@ -16,6 +16,9 @@ namespace WorldPlants
                 .ForMember(m => m.Description, m => m.MapFrom(z => z.Description.Split("/", StringSplitOptions.None)));
 
             CreateMap<UserSite, GetUserSiteSettingsDto>();
+
+            CreateMap<UserSite, GetSiteBeforeDeleteInformationDto>()
+                .ForMember(m => m.PlantsCount, m => m.MapFrom(p => p.Plants.Count()));
                 
         } 
     }
