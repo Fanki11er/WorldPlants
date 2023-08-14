@@ -1,7 +1,6 @@
 ﻿// Ignore Spelling: dto
 
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
@@ -17,7 +16,7 @@ namespace WorldPlants.Services
         public SiteWithPlantsDto GetSiteWithPlants(int siteId);
         public List<SiteWithIdAndNameDto> GetDefaultSites();
         public List<SunExposureDto> GetSunExposures(int locationId);
-        public List<SunExposureDto> GetSunExposuresByLocation(string location);
+        public List<SunExposureDto> GetSunExposuresByLocation(int locationId);
         public int AddNewUserSite(NewUserSiteDto dto);
         public void DeleteUserSite(int siteId);
         public GetUserSiteSettingsDto GetSiteSettings(int siteId);
@@ -70,7 +69,7 @@ namespace WorldPlants.Services
 
             var siteWithPlantsDto = new SiteWithPlantsDto()
             {
-                Id = site.Id,
+                Id = site!.Id,
                 Name = site.Name,
                 Plants = site.Plants.Select(p => new PlantInformationDto
                 {
@@ -101,7 +100,7 @@ namespace WorldPlants.Services
         public List<SunExposureDto> GetSunExposures(int siteId)
         {
 
-            var site = _dbContext.DefaultSites.FirstOrDefault(s=> s.Id == siteId);
+            var site = _dbContext.DefaultSites.FirstOrDefault(s => s.Id == siteId);
             if (site == null)
             {
                 throw new NotFoundException("Nie odnaleziono prototypu miejsca");
@@ -114,15 +113,15 @@ namespace WorldPlants.Services
             return result;
         }
 
-        public List<SunExposureDto> GetSunExposuresByLocation(string location)
+        public List<SunExposureDto> GetSunExposuresByLocation(int locationId)
         {
 
-            if(location != Locations.Indoor.ToString() && location != Locations.Outdoor.ToString())
+            if (!Enum.IsDefined(typeof(Locations), locationId))
             {
                 throw new BadRequestException("Nie prawidłowa nazwa lokalizacji");
             }
 
-            var sunExposures = _dbContext.SunExposures.Where(e => e.ForSiteType.ToString() == location);
+            var sunExposures = _dbContext.SunExposures.Where(e => (int)e.ForSiteType == locationId);
 
             var result = _mapper.Map<List<SunExposureDto>>(sunExposures);
 
@@ -159,15 +158,15 @@ namespace WorldPlants.Services
                 WarmPeriodMaxTemperature = defaultSite.WarmPeriodMaxTemperature,
                 ColdPeriodMinTemperature = defaultSite.ColdPeriodMinTemperature,
                 ColdPeriodMaxTemperature = defaultSite.ColdPeriodMaxTemperature,
-                HasRoof = defaultSite.Location == Enums.Locations.Indoor? defaultSite.HasRoof : dto.HasRoof,
+                HasRoof = defaultSite.Location == Enums.Locations.Indoor ? defaultSite.HasRoof : dto.HasRoof,
                 CanChangeHasRoof = defaultSite.CanChangeHasRoof,
                 SpaceId = new Guid(userSpaceId!.ToString()),
             };
 
             var entity = _dbContext.UserSites.Add(newUserSite);
-            int changesCounter =  _dbContext.SaveChanges();
+            int changesCounter = _dbContext.SaveChanges();
 
-            if(changesCounter == 0)
+            if (changesCounter == 0)
             {
                 throw new NotUpdatedException("Nie udało się dodać miejsca");
             }
@@ -186,18 +185,21 @@ namespace WorldPlants.Services
             CheckIfUserSiteExists(userSite);
 
             CheckIfSiteBelongsToUserSpace(userSite!, userSpaceId!);
-
+            // Delete this
             if (userSite!.Plants.Any())
             {
                 throw new SiteWithPlantsException("Nie możesz usunąć przestrzeni jeśli znajdują się w niej rośliny");
             }
 
             _dbContext.Remove(userSite);
-            _dbContext.SaveChanges();
+
+            var counter = _dbContext.SaveChanges();
+
+            CheckForChanges(counter, "Nie udało się usunąć miejsca");
 
         }
 
-        public GetUserSiteSettingsDto GetSiteSettings( int siteId)
+        public GetUserSiteSettingsDto GetSiteSettings(int siteId)
         {
             var userSpaceId = _userContextService.GetSpaceId;
 
@@ -223,6 +225,18 @@ namespace WorldPlants.Services
             var userSite = _dbContext.UserSites.FirstOrDefault(s => s.Id == siteId);
 
             CheckIfUserSiteExists(userSite);
+
+            foreach (var setting in dto.GetType().GetProperties())
+            {
+                var propsertyName = setting.Name;
+
+                if (userSite!.GetType().GetProperty(propsertyName) != setting)
+                {
+                    var propertyValue = setting.GetValue(dto);
+                    userSite!.GetType()?.GetProperty(propsertyName)?.SetValue(userSite, propertyValue);
+                }
+            }
+
             //!! CHeckif user is from the side and have permission
             //CheckIfUserIsOwnerOfSite(userSite!, userSpaceId!);
 
@@ -230,10 +244,13 @@ namespace WorldPlants.Services
             // userSite.ColdPeriodMaxTemperature = dto.ColdPeriodMaxTemperature;
             // userSite.WarmPeriodMinTemperature = dto.WarmPeriodMinTemperature;
             // userSite.WarmPeriodMaxTemperature = dto.WarmPeriodMaxTemperature;
-            userSite!.Name = dto.Name!;
+
             // userSite.SunExposureId = dto.SunExposureId;
-            _dbContext.Update(userSite);
-            var wtf = _dbContext.SaveChanges();
+            _dbContext.Update(userSite!);
+
+            var counter = _dbContext.SaveChanges();
+
+            CheckForChanges(counter, "Nie udało się zmienić ustawień dla miejsca");
 
         }
 
@@ -259,6 +276,14 @@ namespace WorldPlants.Services
             if (userSite.SpaceId.ToString() != userSpaceId)
             {
                 throw new ForbidException("To miejsce nie należy do aktualnej przestrzeni użytkownika");
+            }
+        }
+
+        private void CheckForChanges(int changesCounter, string errorMessage)
+        {
+            if (changesCounter == 0)
+            {
+                throw new NotUpdatedException(errorMessage);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace WorldPlants.Models
         public int ColdPeriodMaxTemperature { get; set; }
         public bool HasRoof { get; set; }
         public bool CanChangeHasRoof { get; set; }
-        public string Location { get; set; }
+        public int Location { get; set; }
         public int SunExposureId { get; set; }
     }
 }

@@ -51,11 +51,11 @@ namespace WorldPlants.Controllers
             var sunExposures = _siteService.GetSunExposures(locationId);
             return Ok(sunExposures);
         }
-        [HttpGet("SunExposures/ByLocation/{locationName}")]
+        [HttpGet("SunExposures/ByLocation/{locationId}")]
         [Authorize]
-        public ActionResult<List<SunExposureDto>> GetSunExposuresByLocation([FromRoute] string locationName)
+        public ActionResult<List<SunExposureDto>> GetSunExposuresByLocation([FromRoute] int locationId)
         {
-            var sunExposures = _siteService.GetSunExposuresByLocation(locationName);
+            var sunExposures = _siteService.GetSunExposuresByLocation(locationId);
             return Ok(sunExposures);
         }
 

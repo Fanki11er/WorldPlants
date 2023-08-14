@@ -170,7 +170,7 @@ namespace WorldPlants.Services
             {
                 var propsertyName = permission.Name;
                
-                if (user.UserSettings.GetType().GetProperty(propsertyName) != permission);
+                if (user.UserSettings.GetType().GetProperty(propsertyName) != permission)
                 {
                     var propertyValue = permission.GetValue(newPermissions);
                     user.UserSettings.GetType()?.GetProperty(propsertyName)?.SetValue(settings,propertyValue);
