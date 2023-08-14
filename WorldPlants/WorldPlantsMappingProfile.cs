@@ -19,6 +19,8 @@ namespace WorldPlants
 
             CreateMap<UserSite, GetSiteBeforeDeleteInformationDto>()
                 .ForMember(m => m.PlantsCount, m => m.MapFrom(p => p.Plants.Count()));
+
+            CreateMap<UserSettings, GuestUserPermissions>();
                 
         } 
     }

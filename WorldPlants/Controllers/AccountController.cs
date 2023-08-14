@@ -75,5 +75,13 @@ namespace WorldPlants.Controllers
             return Ok();
         }
 
+        [HttpGet("Permissions")]
+        public ActionResult<GuestUserPermissions> GetUserPermissions()
+        {
+            var result = _accountService.GetUserPermissions();
+
+            return Ok(result);
+        }
+
     }
 }
