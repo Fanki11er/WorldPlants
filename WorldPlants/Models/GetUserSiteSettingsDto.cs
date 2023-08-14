@@ -1,11 +1,8 @@
 ﻿// Ignore Spelling: Dto
 
-using WorldPlants.Entities;
-using WorldPlants.Enums;
-
 namespace WorldPlants.Models
 {
-    public class EditUserSiteSettingsDto
+    public class GetUserSiteSettingsDto
     {
         public string Name { get; set; }
         public int WarmPeriodMinTemperature { get; set; }
@@ -13,6 +10,8 @@ namespace WorldPlants.Models
         public int ColdPeriodMinTemperature { get; set; }
         public int ColdPeriodMaxTemperature { get; set; }
         public bool HasRoof { get; set; }
+        public bool CanChangeHasRoof { get; set; }
+        public int Location { get; set; }
         public int SunExposureId { get; set; }
     }
 }

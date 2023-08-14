@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using WorldPlants.Enums;
 using WorldPlants.Models;
 using WorldPlants.Services;
 
@@ -45,9 +46,16 @@ namespace WorldPlants.Controllers
 
         [HttpGet("SunExposures/{locationId}")]
         [Authorize]
-        public ActionResult<SunExposureDto> GetSunExposures([FromRoute] int locationId)
+        public ActionResult<List<SunExposureDto>> GetSunExposures([FromRoute] int locationId)
         {
             var sunExposures = _siteService.GetSunExposures(locationId);
+            return Ok(sunExposures);
+        }
+        [HttpGet("SunExposures/ByLocation/{locationId}")]
+        [Authorize]
+        public ActionResult<List<SunExposureDto>> GetSunExposuresByLocation([FromRoute] int locationId)
+        {
+            var sunExposures = _siteService.GetSunExposuresByLocation(locationId);
             return Ok(sunExposures);
         }
 
@@ -60,6 +68,16 @@ namespace WorldPlants.Controllers
 
             return Created("",id);
         }
+
+        [HttpGet("BeforeDelete/{siteId}")]
+        [Authorize]
+        public ActionResult<GetSiteBeforeDeleteInformationDto> GetBeforeDeleteSiteInfo(int siteId)
+        {
+            var result = _siteService.GetBeforeDeleteSiteInfo(siteId);
+
+            return Ok(result);
+        }
+
         [HttpDelete("Delete/{siteId}")]
         [Authorize]
         public ActionResult DeleteUserSite([FromRoute] int siteId)
@@ -69,17 +87,23 @@ namespace WorldPlants.Controllers
             return NoContent();
         }
 
-        [HttpPost("Edit")]
+        [HttpPost("Edit/{siteId}")]
         [Authorize]
-        public ActionResult EditUserSite([FromBody] EditUserSiteDto dto)
+        public ActionResult EditUserSite([FromRoute] int siteId, [FromBody] EditUserSiteSettingsDto dto)
         {
-            _siteService.EditUserSite(dto);
+            _siteService.EditUserSite(siteId, dto);
 
             return Ok();
         }
 
+        [HttpGet("Settings/{siteId}")]
+        [Authorize]
+        public ActionResult<GetUserSiteSettingsDto> GetSiteSettings([FromRoute] int siteId)
+        {
+           var userSiteSettingsDto = _siteService.GetSiteSettings(siteId);
 
-        // EditSite Path
-        // Endpoint for sending existing data to editSiteForm
+            return Ok(userSiteSettingsDto);
+        }
+
     }
 }
