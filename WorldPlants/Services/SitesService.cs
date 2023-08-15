@@ -6,6 +6,7 @@ using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
+using WorldPlants.Utilities;
 
 namespace WorldPlants.Services
 {
@@ -28,19 +29,19 @@ namespace WorldPlants.Services
         private readonly IUserContextService _userContextService;
         private readonly WorldPlantsDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IUtilities _utilities;
 
-        public SitesService(IUserContextService userContextService, WorldPlantsDbContext dbContext, IMapper mapper)
+        public SitesService(IUserContextService userContextService, WorldPlantsDbContext dbContext, IMapper mapper, IUtilities utilities)
         {
             _userContextService = userContextService;
             _dbContext = dbContext;
             _mapper = mapper;
+            _utilities = utilities;
         }
 
         public List<UserSiteWithPlantsAndTasksDto> GetUserSitesWithPlants()
         {
-            var userSpaceId = _userContextService.GetSpaceId;
-
-            CheckIfUserSpaceIdIsNotNull(userSpaceId!);
+            var userSpaceId = _utilities.GetUserSpaceId();
 
             var userSites = _dbContext.UserSites.Include(i => i.Plants).ThenInclude(p => p.ActiveTasks)
                 .Where(us => us.SpaceId.ToString() == userSpaceId).ToList();
@@ -64,9 +65,7 @@ namespace WorldPlants.Services
 
         public SiteWithPlantsDto GetSiteWithPlants(int siteId)
         {
-            var site = _dbContext.UserSites.Include(i => i.Plants).ThenInclude(i => i.ActiveTasks).FirstOrDefault(s => s.Id == siteId);
-
-            CheckIfUserSiteExists(site);
+            var site = GetUserSiteWithPlantsAndActiveTasks(siteId);
 
             var siteWithPlantsDto = new SiteWithPlantsDto()
             {
@@ -101,11 +100,7 @@ namespace WorldPlants.Services
         public List<SunExposureDto> GetSunExposures(int siteId)
         {
 
-            var site = _dbContext.DefaultSites.FirstOrDefault(s => s.Id == siteId);
-            if (site == null)
-            {
-                throw new NotFoundException("Nie odnaleziono prototypu miejsca");
-            }
+            var site = GetDefaultUserSite(siteId);
 
             var sunExposures = _dbContext.SunExposures.Where(e => ((int)e.ForSiteType) == (int)site.Location);
 
@@ -131,99 +126,47 @@ namespace WorldPlants.Services
 
         public int AddNewUserSite(NewUserSiteDto dto)
         {
+            User user = _utilities.GetUserWithSettings();
 
-            var userSpaceId = _userContextService.GetSpaceId;
+            _utilities.CheckForUserPermission(user.UserSettings.CanAddSites);
 
-            CheckIfUserSpaceIdIsNotNull(userSpaceId);
+            DefaultSite defaultSite = GetDefaultUserSite(dto.DefaultSiteId);
 
-            DefaultSite? defaultSite = _dbContext.DefaultSites.FirstOrDefault(s => s.Id == dto.DefaultSiteId);
-
-            if (defaultSite == null)
-            {
-                throw new NotFoundException("Nie znaleziono wzorca miejsca dla rośliny");
-            }
-
-            SunExposure? sunExposure = _dbContext.SunExposures.FirstOrDefault(se => se.Id == dto.SunExposureId);
-
-            if (sunExposure == null)
-            {
+            SunExposure? sunExposure = _dbContext
+                .SunExposures
+                .FirstOrDefault(se => se.Id == dto.SunExposureId) ??
                 throw new NotFoundException("Nie znaleziono expozycji na światło");
-            }
 
-            UserSite newUserSite = new()
-            {
-                Name = dto.Name != "" ? dto.Name : defaultSite.Name,
-                SunExposure = sunExposure,
-                Location = defaultSite.Location,
-                WarmPeriodMinTemperature = defaultSite.WarmPeriodMinTemperature,
-                WarmPeriodMaxTemperature = defaultSite.WarmPeriodMaxTemperature,
-                ColdPeriodMinTemperature = defaultSite.ColdPeriodMinTemperature,
-                ColdPeriodMaxTemperature = defaultSite.ColdPeriodMaxTemperature,
-                HasRoof = defaultSite.Location == Enums.Locations.Indoor ? defaultSite.HasRoof : dto.HasRoof,
-                CanChangeHasRoof = defaultSite.CanChangeHasRoof,
-                SpaceId = new Guid(userSpaceId!.ToString()),
-            };
+            UserSite newUserSite = CreateUserSite(defaultSite, dto, sunExposure);
 
             var entity = _dbContext.UserSites.Add(newUserSite);
-            int changesCounter = _dbContext.SaveChanges();
 
-            if (changesCounter == 0)
-            {
-                throw new NotUpdatedException("Nie udało się dodać miejsca");
-            }
+            _utilities.SaveChangesToDatabase("Nie udało się dodać miejsca");
 
             return entity.Entity.Id;
         }
 
         public GetSiteBeforeDeleteInformationDto GetBeforeDeleteSiteInfo(int siteId)
         {
-            var userSpaceId = _userContextService.GetSpaceId;
-
-            CheckIfUserSpaceIdIsNotNull(userSpaceId);
-
-            var userSite = _dbContext.UserSites.Include(i => i.Plants).FirstOrDefault(s => s.Id == siteId);
-
-            CheckIfUserSiteExists(userSite);
-
-            CheckIfSiteBelongsToUserSpace(userSite!, userSpaceId!);
+            var userSite = GetUserSiteWithPlants(siteId);
 
             GetSiteBeforeDeleteInformationDto dto = _mapper.Map<GetSiteBeforeDeleteInformationDto>(userSite);
 
             return dto;
-
         }
 
         public void DeleteUserSite(int siteId)
         {
-            var userSpaceId = _userContextService.GetSpaceId;
-
-            CheckIfUserSpaceIdIsNotNull(userSpaceId);
-
-            var userSite = _dbContext.UserSites.Include(i => i.Plants).FirstOrDefault(s => s.Id == siteId);
-
-            CheckIfUserSiteExists(userSite);
-
-            CheckIfSiteBelongsToUserSpace(userSite!, userSpaceId!);
+            var userSite = GetUserSiteWithPlants(siteId);
 
             _dbContext.Remove(userSite!);
 
-            var counter = _dbContext.SaveChanges();
-
-            CheckForChanges(counter, "Nie udało się usunąć miejsca");
-
+            _utilities.SaveChangesToDatabase("Nie udało się usunąć miejsca");
         }
 
         public GetUserSiteSettingsDto GetSiteSettings(int siteId)
         {
-            var userSpaceId = _userContextService.GetSpaceId;
-
-            CheckIfUserSpaceIdIsNotNull(userSpaceId);
-
-            var userSite = _dbContext.UserSites.FirstOrDefault(s => s.Id == siteId);
-
-            CheckIfUserSiteExists(userSite);
-
-            CheckIfSiteBelongsToUserSpace(userSite!, userSpaceId!);
+            var userSite = GetUserSite(siteId);
 
             var userSettingsDto = _mapper.Map<GetUserSiteSettingsDto>(userSite);
 
@@ -232,13 +175,7 @@ namespace WorldPlants.Services
 
         public void EditUserSite(int siteId, EditUserSiteSettingsDto dto)
         {
-            var userSpaceId = _userContextService.GetSpaceId;
-
-            CheckIfUserSpaceIdIsNotNull(userSpaceId);
-
-            var userSite = _dbContext.UserSites.FirstOrDefault(s => s.Id == siteId);
-
-            CheckIfUserSiteExists(userSite);
+            var userSite = GetUserSite(siteId);
 
             foreach (var setting in dto.GetType().GetProperties())
             {
@@ -251,31 +188,12 @@ namespace WorldPlants.Services
                 }
             }
 
-            //!! CHeckif user is from the side and have permission
-            //CheckIfUserIsOwnerOfSite(userSite!, userSpaceId!);
-
-            //  userSite.ColdPeriodMinTemperature = dto.ColdPeriodMinTemperature;
-            // userSite.ColdPeriodMaxTemperature = dto.ColdPeriodMaxTemperature;
-            // userSite.WarmPeriodMinTemperature = dto.WarmPeriodMinTemperature;
-            // userSite.WarmPeriodMaxTemperature = dto.WarmPeriodMaxTemperature;
-
-            // userSite.SunExposureId = dto.SunExposureId;
             _dbContext.Update(userSite!);
 
-            var counter = _dbContext.SaveChanges();
-
-            CheckForChanges(counter, "Nie udało się zmienić ustawień dla miejsca");
-
+            _utilities.SaveChangesToDatabase("Nie udało się zmienić ustawień dla miejsca");
         }
 
-
-        private void CheckIfUserSpaceIdIsNotNull(string? userSpaceId)
-        {
-            if (userSpaceId == null)
-            {
-                throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni użytkownika");
-            }
-        }
+        // Helper functions
 
         private void CheckIfUserSiteExists(UserSite? userSite)
         {
@@ -293,12 +211,85 @@ namespace WorldPlants.Services
             }
         }
 
-        private void CheckForChanges(int changesCounter, string errorMessage)
+        private UserSite GetUserSite(int siteId)
         {
-            if (changesCounter == 0)
-            {
-                throw new NotUpdatedException(errorMessage);
-            }
+            var userSite = _dbContext.UserSites
+                .FirstOrDefault(s => s.Id == siteId);
+
+            CheckIfUserSiteExists(userSite);
+
+            var spaceId = _utilities.GetUserSpaceId();
+
+            CheckIfSiteBelongsToUserSpace(userSite!, spaceId);
+
+            return userSite!;
         }
+
+        private DefaultSite GetDefaultUserSite(int siteId)
+        {
+            DefaultSite? defaultSite = _dbContext
+               .DefaultSites
+               .FirstOrDefault(s => s.Id == siteId) ??
+               throw new NotFoundException("Nie znaleziono wzorca miejsca dla rośliny");
+
+            var spaceId = _utilities.GetUserSpaceId();
+
+            return defaultSite;
+        }
+
+        private UserSite GetUserSiteWithPlants(int siteId)
+        {
+            var userSite = _dbContext.UserSites
+                .Include(i => i.Plants)
+                .FirstOrDefault(s => s.Id == siteId);
+
+            CheckIfUserSiteExists(userSite);
+
+            var spaceId = _utilities.GetUserSpaceId();
+
+            CheckIfSiteBelongsToUserSpace(userSite!, spaceId);
+
+            return userSite!;
+        }
+
+        private UserSite GetUserSiteWithPlantsAndActiveTasks(int siteId)
+        {
+            var userSite = _dbContext.UserSites
+                .Include(i => i.Plants)
+                .ThenInclude(i => i.ActiveTasks)
+                .FirstOrDefault(s => s.Id == siteId);
+
+            CheckIfUserSiteExists(userSite);
+
+            var spaceId = _utilities.GetUserSpaceId();
+
+            CheckIfSiteBelongsToUserSpace(userSite!, spaceId);
+
+            return userSite!;
+        }
+
+        private UserSite CreateUserSite(DefaultSite defaultSite, NewUserSiteDto dto, SunExposure sunExposure)
+        {
+            var userSpaceId = _utilities.GetUserSpaceId();
+
+            UserSite newUserSite = _mapper.Map<UserSite>(defaultSite);
+
+            if (dto.Name != "")
+            {
+                newUserSite.Name = dto.Name;
+            }
+
+            if (newUserSite.CanChangeHasRoof)
+            {
+                newUserSite.HasRoof = dto.HasRoof;
+            }
+
+            newUserSite.SpaceId = new Guid(userSpaceId!.ToString());
+
+            newUserSite.SunExposure = sunExposure;
+
+            return newUserSite;
+        }
+
     }
 }

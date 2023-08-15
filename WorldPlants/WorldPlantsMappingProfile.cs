@@ -21,6 +21,9 @@ namespace WorldPlants
                 .ForMember(m => m.PlantsCount, m => m.MapFrom(p => p.Plants.Count()));
 
             CreateMap<UserSettings, GuestUserPermissions>();
+
+            CreateMap<DefaultSite, UserSite>()
+                .ForMember(m => m.Id, m => m.Ignore());
                 
         } 
     }

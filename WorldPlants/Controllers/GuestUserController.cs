@@ -47,6 +47,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("ChangePermissions/{userId}")]
+        [Authorize(Roles = "Owner")]
         public ActionResult ChangeGuestUserPermissions([FromRoute] string userId ,[FromBody] GuestUserPermissions newPermissions)
         {
             _guestUserService.ChangeGuestUserPermissions(userId, newPermissions);

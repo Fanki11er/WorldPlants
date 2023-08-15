@@ -46,10 +46,15 @@ namespace WorldPlants.MiddleWare
                 context.Response.StatusCode = 408;
                 await context.Response.WriteAsync(recognizerException.Message);
             }
-            catch(NotUpdatedException notUpdatedException)
+            catch (NotUpdatedException notUpdatedException)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notUpdatedException.Message);
+            }
+            catch (ActionAccessPermittedException actionAccessPermittedException)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync(actionAccessPermittedException.Message);
             }
             catch (Exception ex)
             {
