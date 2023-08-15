@@ -12,6 +12,7 @@ using WorldPlants.MiddleWare;
 using WorldPlants.Models;
 using WorldPlants.Models.Validators;
 using WorldPlants.Services;
+using WorldPlants.Utilities;
 using WorldPlants.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -80,6 +81,7 @@ builder.Services.AddScoped<IValidator<AccountSettingsDto>, AccountSettingsValida
 builder.Services.AddScoped<DbSeeder, DbSeeder>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
+builder.Services.AddScoped<IUtilities, Utilities>();
 builder.Services.AddScoped<ErrorHandlingMiddleWare>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpContextAccessor();
