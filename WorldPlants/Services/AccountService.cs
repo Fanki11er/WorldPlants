@@ -1,5 +1,6 @@
 ﻿// Ignore Spelling: dto Sms
 
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -22,6 +23,7 @@ namespace WorldPlants.Services
         public void UpdateSmsNotificationsSettings(NotificationSettingsDto dto);
         public AccountSettingsDto GetAccountSettings();
         public void ChangeAccountSettings(AccountSettingsDto dto);
+        public GuestUserPermissions GetUserPermissions();
     };
 
     public class AccountService : IAccountService
@@ -30,14 +32,16 @@ namespace WorldPlants.Services
         private readonly AuthenticationSettings _authenticationSettings;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IUserContextService _userContextService;
+        private readonly IMapper _mapper;
 
 
-        public AccountService(WorldPlantsDbContext context, IPasswordHasher<User> passwordHasher, IUserContextService userContextService, AuthenticationSettings authenticationSettings)
+        public AccountService(WorldPlantsDbContext context, IPasswordHasher<User> passwordHasher, IUserContextService userContextService, AuthenticationSettings authenticationSettings, IMapper mapper)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             _userContextService = userContextService;
             _authenticationSettings = authenticationSettings;
+            _mapper = mapper;
         }
 
         public LoggedUserDto LoginUser(LoginUserDto dto)
@@ -207,6 +211,17 @@ namespace WorldPlants.Services
             }
         }
 
+        public GuestUserPermissions GetUserPermissions()
+        {
+            var user = GetUser();
+
+            var settings = GetUserSettings(user);
+
+            GuestUserPermissions permissions = _mapper.Map<GuestUserPermissions>(settings);
+
+            return permissions;
+        }
+
         private User GetUser()
         {
             var userId = _userContextService.GetUserId;
@@ -273,6 +288,8 @@ namespace WorldPlants.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
         }
+
+        
 
     }
 }

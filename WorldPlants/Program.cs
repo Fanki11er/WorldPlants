@@ -12,6 +12,7 @@ using WorldPlants.MiddleWare;
 using WorldPlants.Models;
 using WorldPlants.Models.Validators;
 using WorldPlants.Services;
+using WorldPlants.Utilities;
 using WorldPlants.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -73,13 +74,14 @@ builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator
 builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserDtoValidator>();
 builder.Services.AddScoped<IValidator<UserChangePasswordDto>, UserChangePasswordValidator>();
 builder.Services.AddScoped<IValidator<NewUserSiteDto>, NewUserSiteValidator>();
-builder.Services.AddScoped<IValidator<EditUserSiteDto>, EditUserSiteValidator>();
+builder.Services.AddScoped<IValidator<EditUserSiteSettingsDto>, EditUserSiteValidator>();
 builder.Services.AddScoped<IValidator<AccountSettingsDto>, AccountSettingsValidator>();
 //
 
 builder.Services.AddScoped<DbSeeder, DbSeeder>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
+builder.Services.AddScoped<IUtilities, Utilities>();
 builder.Services.AddScoped<ErrorHandlingMiddleWare>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpContextAccessor();
