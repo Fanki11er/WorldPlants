@@ -1,5 +1,5 @@
 export interface SunExposureDto {
-  id: string;
+  id: number;
   name: string;
   description: string[];
   sunScale: SunScale;

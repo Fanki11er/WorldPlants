@@ -11,6 +11,8 @@ export const AddSiteMultiStepFormSummaryWrapper = styled.section`
 export const SectionHeader = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.orange};
   align-self: flex-start;
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
+  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 `;
 
 export const SunExposureInfoWrapper = styled.div`
@@ -19,7 +21,8 @@ export const SunExposureInfoWrapper = styled.div`
   background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
   column-gap: 20px;
   padding: 20px;
-  width: fit-content;
+  width: 300px;
+  justify-content: center;
 `;
 
 export const SunExposureIcon = styled.img`
@@ -32,4 +35,6 @@ export const SunExposureName = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
+  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 `;

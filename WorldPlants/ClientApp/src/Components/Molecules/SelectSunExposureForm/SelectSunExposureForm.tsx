@@ -17,10 +17,12 @@ import SunExposuresRadioField from "../SunExposuresRadioField/SunExposuresRadioF
 
 interface Props {
   fieldName: string;
+  dataEndpoint: string;
+  doNotResetFieldValue?: boolean;
 }
 
 const SelectSunExposureForm = (props: Props) => {
-  const { fieldName } = props;
+  const { fieldName, dataEndpoint, doNotResetFieldValue } = props;
   const { getDefaultSunExposures } = apiEndpoints;
   const { values, setFieldValue, validateForm } =
     useFormikContext<AddUserSiteValues>();
@@ -28,23 +30,25 @@ const SelectSunExposureForm = (props: Props) => {
   const { error, data, isLoading } = useQuery<SunExposureDto[]>(
     SUN_EXPOSURES,
     async () => {
-      const result = await axiosPrivate.get(
-        getDefaultSunExposures(values.defaultSiteId)
-      );
+      const result = await axiosPrivate.get(dataEndpoint);
       return result.data;
     }
   );
 
-  useEffect(() => {
+  const resetFieldValue = async () => {
     if (values.sunExposureId && data) {
       const notExists = data.filter((item) => {
-        return item.id.toString() === values.sunExposureId;
+        return item.id == values.sunExposureId;
       });
       if (!notExists.length) {
-        setFieldValue(fieldName, "");
+        await setFieldValue(fieldName, 0);
       }
     }
     validateForm();
+  };
+
+  useEffect(() => {
+    !doNotResetFieldValue && resetFieldValue();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 

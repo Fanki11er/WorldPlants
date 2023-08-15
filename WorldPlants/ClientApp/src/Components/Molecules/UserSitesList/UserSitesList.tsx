@@ -4,7 +4,10 @@ import {
   UserSitesListItemPlantsCountInfo,
   UserSitesListItemWrapper,
   UserSitesListWrapper,
+  UserSitesPlantsImg,
 } from "./UserSitesList.styles";
+import sitesPlantsImg from "../../../Assets/SitePlants.svg";
+
 interface Props {
   sites: UserSiteWithPlantsAndTasksDto[];
 }
@@ -19,6 +22,7 @@ const UserSitesList = (props: Props) => {
           <UserSitesListItemPlantsCountInfo>
             {`${site.plants.length} Roślin`}
           </UserSitesListItemPlantsCountInfo>
+          <UserSitesPlantsImg src={sitesPlantsImg} alt="sitesPlantsImg" />
         </UserSitesListItemWrapper>
       );
     });

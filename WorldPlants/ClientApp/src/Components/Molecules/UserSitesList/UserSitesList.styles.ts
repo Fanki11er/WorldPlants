@@ -37,3 +37,9 @@ export const UserSitesListItemPlantsCountInfo = styled.h3`
   font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   margin: 0;
 `;
+
+export const UserSitesPlantsImg = styled.img`
+  display: flex;
+  align-self: flex-end;
+  width: 100%;
+`;
