@@ -40,7 +40,7 @@ const AddSiteMultiStepFormSummary = (props: Props) => {
 
     if (sunExposures) {
       const sunExposure = sunExposures.find((item) => {
-        return item.id.toString() === values.sunExposureId;
+        return item.id == values.sunExposureId;
       });
 
       setSelectedSunExposure(sunExposure);
@@ -99,7 +99,7 @@ const AddSiteMultiStepFormSummary = (props: Props) => {
         </SunExposureInfoWrapper>
       )}
       {selectedSite && selectedSite.location === "Outdoor" && (
-        <CheckboxInput id={checkboxFieldName} label="Pod dachem" />
+        <CheckboxInput id={checkboxFieldName} label="Zadaszenie" />
       )}
     </AddSiteMultiStepFormSummaryWrapper>
   );

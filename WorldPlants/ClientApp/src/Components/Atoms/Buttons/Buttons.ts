@@ -113,7 +113,7 @@ export const SideMenuLink = styled(NavLink)`
   justify-content: center;
   align-items: center;
   font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
-
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
   &.active {
     color: ${(props: AppTheme) => props.theme.colors.orange};
     pointer-events: none;

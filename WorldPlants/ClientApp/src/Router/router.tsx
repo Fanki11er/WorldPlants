@@ -22,6 +22,9 @@ import DeleteAccountSection from "../Components/Organisms/DeleteAccountSection/D
 import UserSitesView from "../Views/UserSitesView/UserSitesView";
 import UserSitesSection from "../Components/Organisms/UserSitesSection/UserSitesSection";
 import AddUserSiteSection from "../Components/Organisms/AddUserSiteSection/AddUserSiteSection";
+import UserSiteView from "../Views/UserSiteView/UserSiteView";
+import UserSiteSettingsSection from "../Components/Organisms/UserSiteSettingsSection/UserSiteSettingsSection";
+import UserSiteDeleteSiteSection from "../Components/Organisms/UserSiteDeleteSiteSection/UserSiteDeleteSiteSection";
 
 const {
   rootPath,
@@ -37,6 +40,10 @@ const {
   guestUserPermissions,
   userSites,
   userSitesAddNew,
+  userSite,
+  userSiteAddPlant,
+  userSiteSettings,
+  userSiteDeleteSite,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -81,7 +88,18 @@ const router = createBrowserRouter(
           <Route index element={<UserSitesSection />} />
           <Route path={userSitesAddNew} element={<AddUserSiteSection />} />
         </Route>
-        {/* <Route path={`${userSite}/:siteId`} element={<div>Test</div>} /> */}
+        <Route path={`${userSite}/:siteId`} element={<UserSiteView />}>
+          <Route index element={<div>Plants</div>} />
+          <Route path={userSiteAddPlant} element={<div>Add Plant</div>} />
+          <Route
+            path={userSiteSettings}
+            element={<UserSiteSettingsSection />}
+          />
+          <Route
+            path={userSiteDeleteSite}
+            element={<UserSiteDeleteSiteSection />}
+          />
+        </Route>
       </Route>
       <Route path={"*"} element={<LandingView />} />
     </Route>
