@@ -1,11 +1,8 @@
 import { useQuery } from "react-query";
-
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
-
 import { apiEndpoints } from "../../../Api/endpoints";
-
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import { UserSiteWithPlantsAndTasksDto } from "../../../Interfaces/UserSiteWithPlantsAndTasksDto";
 import { USER_SITES } from "../../../Constants/Constants";
@@ -29,13 +26,13 @@ const UserSitesSection = () => {
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
-      {data?.length ? (
+      {data && data.length ? (
         <UserSitesList sites={data} />
       ) : (
         <NoListContentInfo
           informationHeaderText={" Dodaj miejsca dla roślin"}
           informationText={
-            "Tutaj będzie znajdować się lista miejsc w których cieszyć sie będziesz swoimi roślinami"
+            "Tutaj będzie znajdować się lista miejsc, w których cieszyć sie będziesz swoimi roślinami"
           }
         />
       )}

@@ -4,8 +4,8 @@ import {
   RadioInputFieldWrapper,
   SiteIcon,
 } from "./RadioInputField.styles";
-import placeInside from "../../../assets/PlaceHouse.svg";
-import placeOutside from "../../../assets/Sun.svg";
+import placeInside from "../../../Assets/PlaceHouse.svg";
+import placeOutside from "../../../Assets/PlaceOutside.svg";
 import { Location } from "../../../Interfaces/DefaultSiteDto";
 import { HiddenRadioInput } from "../../Atoms/HiddenRadioInput/HiddenRadioInput.styles";
 

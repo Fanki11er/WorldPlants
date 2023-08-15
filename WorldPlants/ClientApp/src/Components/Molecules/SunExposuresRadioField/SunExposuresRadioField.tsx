@@ -11,7 +11,7 @@ import { selectSunScaleIcon } from "../../../Utils/Utils";
 import { HiddenRadioInput } from "../../Atoms/HiddenRadioInput/HiddenRadioInput.styles";
 
 interface Props {
-  id: string;
+  id: number;
   name: string;
   label: string;
   sunScale: SunScale;
@@ -23,9 +23,7 @@ const SunExposuresRadioField = (props: Props) => {
   const [field] = useField(name);
 
   return (
-    <SunExposuresRadioFieldWrapper
-      $checked={String(field.value === id.toString())}
-    >
+    <SunExposuresRadioFieldWrapper $checked={String(field.value == id)}>
       <SunLevelIcon src={selectSunScaleIcon(sunScale)} />
       <LabelText>{label}</LabelText>
       <DescriptionListWrapper>

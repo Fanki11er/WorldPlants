@@ -14,16 +14,18 @@ import FormControls from "../../Molecules/FormControls/FormControls";
 import SelectSiteTypeForm from "../../Molecules/SelectSiteTypeForm/SelectSiteTypeForm";
 import SelectSunExposureForm from "../../Molecules/SelectSunExposureForm/SelectSunExposureForm";
 import AddSiteMultiStepFormSummary from "../../Molecules/AddSiteMultiStepFormSummary/AddSiteMultiStepFormSummary";
+import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
+import { getErrorMessages } from "../../../Utils/Utils";
 
 const STEPS_NUMBER = 3;
 
 const AddUserSiteMultiStepForm = () => {
   const { authorized, userSite } = paths;
-  const { addUserSite } = apiEndpoints;
+  const { addUserSite, getDefaultSunExposures } = apiEndpoints;
   const [formStep, setFormStep] = useState(1);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const { mutate } = useMutation({
+  const { mutate, error } = useMutation({
     mutationFn: async (values: AddUserSiteValues) => {
       const result = await axiosPrivate.post(addUserSite, values);
       return result.data;
@@ -48,7 +50,7 @@ const AddUserSiteMultiStepForm = () => {
         initialValues={{
           name: "",
           defaultSiteId: "",
-          sunExposureId: "",
+          sunExposureId: 0,
           hasRoof: "",
         }}
         onSubmit={(
@@ -81,13 +83,16 @@ const AddUserSiteMultiStepForm = () => {
         }}
         validateOnMount
       >
-        {({ errors }) => (
+        {({ errors, values }) => (
           <MultiStepForm>
             {formStep === 1 && (
               <SelectSiteTypeForm fieldName={"defaultSiteId"} />
             )}
             {formStep === 2 && (
-              <SelectSunExposureForm fieldName={"sunExposureId"} />
+              <SelectSunExposureForm
+                fieldName={"sunExposureId"}
+                dataEndpoint={getDefaultSunExposures(values.defaultSiteId)}
+              />
             )}
 
             {formStep === 3 && (
@@ -112,6 +117,9 @@ const AddUserSiteMultiStepForm = () => {
                 !!errors.name
               }
             />
+            {error ? (
+              <FormRequestError errorValues={getErrorMessages(error)} />
+            ) : null}
           </MultiStepForm>
         )}
       </Formik>

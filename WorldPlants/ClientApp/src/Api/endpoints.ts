@@ -15,6 +15,7 @@ export const apiEndpoints = {
   deleteOwnerUser: "Owner",
   selfDeleteGuestUser: "Guest",
   //?? Permissions
+  getUserPermissions: "Account/Permissions",
   getGuestUserWithPermissions: (userId: string) => {
     return `Guest/${userId}`;
   },
@@ -30,5 +31,20 @@ export const apiEndpoints = {
   getDefaultSunExposures: (siteTypeId: string) => {
     return `UserSites/SunExposures/${siteTypeId}`;
   },
+  getSunExposuresByLocation: (locationId: number) => {
+    return `UserSites/SunExposures/ByLocation/${locationId}`;
+  },
   addUserSite: "UserSites/Add",
+  getUserSiteSettings: (siteId: string) => {
+    return `UserSites/Settings/${siteId}`;
+  },
+  editUserSiteSettings: (siteId: string) => {
+    return `/UserSites/Edit/${siteId}`;
+  },
+  getBeforeDeleteSiteInformation: (siteId: string) => {
+    return `/UserSites/BeforeDelete/${siteId}`;
+  },
+  deleteUserSite: (siteId: string) => {
+    return `/UserSites/Delete/${siteId}`;
+  },
 };
