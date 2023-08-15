@@ -8,7 +8,7 @@ interface Props {
 
 export const SunExposuresRadioFieldWrapper = styled.label`
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: auto 110px 1fr;
   position: relative;
   column-gap: 25px;
   align-items: center;

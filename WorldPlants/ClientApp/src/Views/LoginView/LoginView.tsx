@@ -4,12 +4,14 @@ import UnauthorizedNavigation from "../../Components/Molecules/UnauthorizedNavig
 import LoginForm from "../../Components/Organisms/LoginForm/LoginForm";
 import useAuth from "../../Hooks/useAuth";
 import { paths } from "../../Router/paths";
+import usePermissions from "../../Hooks/usePermissions";
 
 const LoginView = () => {
   const { authorized } = paths;
   const { user } = useAuth();
+  const { permissions } = usePermissions();
 
-  if (user) {
+  if (user && permissions) {
     return <Navigate to={authorized} />;
   }
   return (

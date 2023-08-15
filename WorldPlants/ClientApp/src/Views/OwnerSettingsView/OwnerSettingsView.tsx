@@ -13,4 +13,3 @@ const OwnerSettingsView = () => {
 };
 
 export default OwnerSettingsView;
-//!! Late for delete <GuestAccounts />

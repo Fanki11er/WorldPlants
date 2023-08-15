@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
+import { Link } from "react-router-dom";
 
 export const UserSitesListWrapper = styled.ul`
   display: flex;
@@ -13,10 +14,15 @@ export const UserSitesListWrapper = styled.ul`
   list-style: none;
 `;
 
-export const UserSitesListItemWrapper = styled.li`
+export const LinkToSite = styled(Link)`
   display: grid;
   grid-template-rows: auto auto 1fr;
+  width: 100%;
   row-gap: 10px;
+  text-decoration: none;
+`;
+
+export const UserSitesListItemWrapper = styled.li`
   width: 350px;
   background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
   border-radius: 25px;
