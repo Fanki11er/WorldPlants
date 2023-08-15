@@ -157,6 +157,10 @@ namespace WorldPlants.Services
 
         public void DeleteUserSite(int siteId)
         {
+            User user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanRemoveSites);
+
             var userSite = GetUserSiteWithPlants(siteId);
 
             _dbContext.Remove(userSite!);
@@ -175,6 +179,11 @@ namespace WorldPlants.Services
 
         public void EditUserSite(int siteId, EditUserSiteSettingsDto dto)
         {
+
+            User user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanEditSites);
+
             var userSite = GetUserSite(siteId);
 
             foreach (var setting in dto.GetType().GetProperties())
