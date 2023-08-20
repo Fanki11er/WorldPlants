@@ -29,7 +29,7 @@ builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
 
 
 // Add services to the container.
-builder.Host.UseNLog();
+//builder.Host.UseNLog();
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSingleton(authenticationSettings);
@@ -67,6 +67,8 @@ builder.Services.AddScoped<IGuestUserService, GuestUserService>();
 builder.Services.AddScoped<ISiteService, SitesService>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<IRecognizerService, RecognizerService>();
+builder.Services.AddScoped<IPlantService, PlantsService>();
+builder.Services.AddScoped<ITranslationService, TranslationService>();
 //
 
 //Validators
@@ -82,6 +84,7 @@ builder.Services.AddScoped<DbSeeder, DbSeeder>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IDatabaseUtils, DatabaseUtils>();
 builder.Services.AddScoped<IUtilities, Utilities>();
+builder.Services.AddScoped<ITranslationUtilities, TranslationUtilities>();
 builder.Services.AddScoped<ErrorHandlingMiddleWare>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpContextAccessor();

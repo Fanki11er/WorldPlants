@@ -1,4 +1,6 @@
-﻿using WorldPlants.Exceptions;
+﻿using Microsoft.JSInterop;
+using System.IdentityModel.Tokens.Jwt;
+using WorldPlants.Exceptions;
 
 namespace WorldPlants.MiddleWare
 {
@@ -55,6 +57,15 @@ namespace WorldPlants.MiddleWare
             {
                 context.Response.StatusCode = 403;
                 await context.Response.WriteAsync(actionAccessPermittedException.Message);
+            }
+            catch(SearchPlantException searchPlantException) {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync(searchPlantException.Message);
+            }
+            catch(JSException jsonException)
+            {
+                context.Response.StatusCode = 422;
+                await context.Response.WriteAsync(jsonException.Message);
             }
             catch (Exception ex)
             {
