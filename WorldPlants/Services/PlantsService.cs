@@ -4,6 +4,7 @@ using AutoMapper;
 using Newtonsoft.Json;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
+using WorldPlants.Models.PlantsModels;
 using WorldPlants.Utilities;
 
 namespace WorldPlants.Services
@@ -14,6 +15,7 @@ namespace WorldPlants.Services
         //public Task<SearchPlantResults> SearchForPlant(string searchPhrase);
         //public Task<string> SearchForPlantUsingGPT(string searchPhrase);
         public Task<List<SearchPlantResultDto>> SearchForPlant(string searchPhrase);
+        public Task<PlantDetailsDto> GetPlantDetails(int plantId);
     }
     public class PlantsService : IPlantService
     {
@@ -60,12 +62,17 @@ namespace WorldPlants.Services
             return new List<SearchPlantResultDto>();
         }
 
-        public void GetPlantDetails(int plantId)
+        public async Task<PlantDetailsDto> GetPlantDetails(int plantId)
         {
+            var rawDetails = await GetPlantDetailsFromPerenualAPI(plantId);
+
+            var plantDetails = PreparePlandDetailsDto(rawDetails);
+
+            return plantDetails;
 
         }
 
-        private async Task GetPlantDetailsFromPerenualAPI(int plantId)
+        private async Task<RawPlantDetailsData> GetPlantDetailsFromPerenualAPI(int plantId)
         {
             var key = Environment.GetEnvironmentVariable("PARENUAL_API_KEY");
 
@@ -77,12 +84,23 @@ namespace WorldPlants.Services
             {
                 var content = await response.Content.ReadAsStringAsync();
 
+                RawPlantDetailsData? plantDetailsData = JsonConvert.DeserializeObject<RawPlantDetailsData>(content);
+
+                if (plantDetailsData == null)
+                {
+
+                    throw new JsonException("Transformacja rezultatu nie udała się");
+                }
+
+                return plantDetailsData;
 
             }
             else
             {
                 throw new SearchPlantException("Wystapił bład podczas wyszukiwania rosliny");
             }
+
+
 
         }
 
@@ -132,6 +150,26 @@ namespace WorldPlants.Services
                 searchResultsList.Add(result);
             }
             return searchResultsList;
+        }
+
+        private PlantDetailsDto PreparePlandDetailsDto(RawPlantDetailsData rawData)
+        {
+            var plantDetails = _mapper.Map<PlantDetailsDto>(rawData);
+
+            plantDetails.Watering = _translationUtilities.TransformStringProperty(rawData.Watering);
+
+            plantDetails.Sunlight = _translationUtilities.TransformStringProperty(rawData.Sunlight);
+
+            plantDetails.LifeCycle = _translationUtilities.TransformStringProperty(rawData.LifeCycle);
+
+            plantDetails.AverageHeight = _translationUtilities.TransformDimensionProperty(rawData.Dimensions);
+
+            plantDetails.WateringPeriod = _translationUtilities.TransformStringProperty(rawData.WateringPeriod);
+
+            plantDetails.WateringGeneralBenchmark = _translationUtilities
+                .TransformGeneralWateringBenchmark(rawData.RawPlantDetailsWateringGeneralBenchmark);
+
+            return plantDetails;
         }
 
         /*public async Task<SearchPlantResults> SearchForPlant(string searchPhrase)

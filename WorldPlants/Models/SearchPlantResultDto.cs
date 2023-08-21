@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿// Ignore Spelling: Dto
+
+using Newtonsoft.Json;
 using WorldPlants.Utilities;
 
 namespace WorldPlants.Models
@@ -9,8 +11,8 @@ namespace WorldPlants.Models
         public string CommonName { get; set; }
         public string[] ScientificName { get; set; }
         public string[] OtherName { get; set; }
-        public PropertyWithInformation Watering { get; set; }
-        public List<PropertyWithInformation> Sunlight { get; set; }
+        public string Watering { get; set; }
+        public List<string> Sunlight { get; set; }
         public string DefaultImage { get; set; }
     }
 }

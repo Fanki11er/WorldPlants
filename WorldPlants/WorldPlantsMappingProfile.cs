@@ -34,7 +34,9 @@ namespace WorldPlants
                 .ForMember(m => m.DefaultImage, m => m.MapFrom(i => i.Image.OriginalUrl))
                 .ForMember(m => m.Watering, m => m.Ignore())
                 .ForMember(m => m.Sunlight, m => m.Ignore())
-                .ForMember(m => m.PlantType, m => m.Ignore());
+                .ForMember(m => m.LifeCycle, m => m.Ignore())
+                .ForMember(m => m.WateringPeriod, m => m.Ignore());
+      
 
         } 
     }

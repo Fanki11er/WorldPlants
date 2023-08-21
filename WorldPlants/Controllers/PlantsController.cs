@@ -24,14 +24,22 @@ namespace WorldPlants.Controllers
             return Ok(result);
         }
 
-       /* [HttpPost("GPT")]
-        public async Task<ActionResult<string>> SearchForPlantUsingGPT(string searchPhrase)
+        [HttpGet("Details/{plantId}")]
+        public async Task<ActionResult<PlantInformationDto>> SearchForPlant([FromRoute] int plantId)
         {
-            var result = await _plantService.SearchForPlantUsingGPT(searchPhrase);
+            var result = await _plantService.GetPlantDetails(plantId);
 
             return Ok(result);
         }
-       */
+
+        /* [HttpPost("GPT")]
+         public async Task<ActionResult<string>> SearchForPlantUsingGPT(string searchPhrase)
+         {
+             var result = await _plantService.SearchForPlantUsingGPT(searchPhrase);
+
+             return Ok(result);
+         }
+        */
 
 
 

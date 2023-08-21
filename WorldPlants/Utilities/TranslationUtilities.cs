@@ -1,4 +1,5 @@
-﻿using WorldPlants.Enums;
+﻿using Sprache;
+using WorldPlants.Enums;
 using WorldPlants.Models.PlantsModels;
 
 namespace WorldPlants.Utilities
@@ -6,163 +7,169 @@ namespace WorldPlants.Utilities
 
     public interface ITranslationUtilities
     {
-        public PropertyWithInformation TransformStringProperty(string property);
-        public List<PropertyWithInformation> TransformStringProperty(IEnumerable<string> properties);
+        public string TransformStringProperty(string? property);
+        public List<string> TransformStringProperty(IEnumerable<string> properties);
+        public float? TransformDimensionProperty(RawPlantDetailsDimension? dimension);
+        public PlantDetailsWateringGeneralBenchmark? TransformGeneralWateringBenchmark(PlantDetailsWateringGeneralBenchmark? data);
     }
     public class TranslationUtilities : ITranslationUtilities
     {
-        private readonly Dictionary<string, PropertyWithInformation> _propertiesWithInformatinsTranslations;
+        private readonly Dictionary<string, string> _propertiesTranslations;
         private readonly ILogger<TranslationUtilities> _logger;
 
 
         public TranslationUtilities(ILogger<TranslationUtilities> logger)
         {
-            _propertiesWithInformatinsTranslations = new Dictionary<string, PropertyWithInformation>
+            _propertiesTranslations = new Dictionary<string, string>
             {
                 // Sun Exposures
                 {
-                    "full sun",  new PropertyWithInformation()
-                    {
-                        PropertyValue = SunScale.High.ToString(),
-                        PropertyInformation = "Pełne słońce"
-                    }
+                    "full sun",  SunScale.High.ToString()
                 },
 
                 {
-                    "part shade", new PropertyWithInformation()
-                    {
-                        PropertyValue = SunScale.Medium.ToString(),
-                        PropertyInformation = "Częściowy cień"
-                    }
+                    "part shade", SunScale.Medium.ToString()
                 },
 
                 {
-                    "part sun/part shade",  new PropertyWithInformation()
-                    {
-                        PropertyValue = SunScale.Medium.ToString(),
-                        PropertyInformation = "Częściowy cień"
-                    }
+                    "part sun/part shade", SunScale.Medium.ToString()
                 },
 
                 {
-                    "sheltered", new PropertyWithInformation()
-                    {
-                        PropertyValue = SunScale.Low.ToString(),
-                        PropertyInformation = "Cień"
-                    }
+                    "sheltered", SunScale.Low.ToString()
                 },
 
                 {
-                    "filtered shade", new PropertyWithInformation()
-                    {
-                        PropertyValue = SunScale.Low.ToString(),
-                        PropertyInformation = "Cień"
-                    }
-
+                    "filtered shade", SunScale.Low.ToString()
                 },
 
                 // Watering
 
                 {
-                    "Average", new PropertyWithInformation()
-                    {
-                        PropertyValue = WateringScale.High.ToString(),
-                        PropertyInformation = "Duże"
-                    }
+                    "Average",  WateringScale.High.ToString()
                 },
 
                 {
-                    "Frequent", new PropertyWithInformation()
-                    {
-                        PropertyValue = WateringScale.Medium.ToString(),
-                        PropertyInformation = "Średnie"
-                    }
+                    "Frequent", WateringScale.Medium.ToString()
                 },
 
                 {
-                    "Minimal", new PropertyWithInformation()
-                    {
-                        PropertyValue = WateringScale.Low.ToString(),
-                        PropertyInformation = "Małe"
-                    }
-                },
-                // Plant types
-                 {
-                    "Fruit", new PropertyWithInformation()
-                    {
-                        PropertyValue = "Fruit",
-                        PropertyInformation = "Owocowe"
-                    }
+                    "Minimal", WateringScale.Low.ToString()
                 },
 
+                // Cycle
+
                 {
-                   "Tree", new PropertyWithInformation()
-                   {
-                        PropertyValue = "Tree",
-                        PropertyInformation = "Drzewo"
-                   }
+                    "Herbaceous Perennial", "Perennial"
+                },
+
+                // Watering period
+
+                {
+                    "morning", "Morning"
+                },
+
+                // Units
+
+                {
+                    "days", "Days"
                 }
+
             };
 
             _logger = logger;
         }
 
-        public PropertyWithInformation TransformStringProperty(string property)
+        public string TransformStringProperty(string? property)
         {
-            var result = _propertiesWithInformatinsTranslations[property];
-            _logger.LogInformation($"Translated: {property}");
+            if(property == null)
+            {
+                return "Brak informacji";
+            }
 
-            if (result == null)
+            try
+            {
+                var result = _propertiesTranslations[property];
+
+                return result;
+            }
+            catch (Exception)
             {
                 _logger.LogInformation($"Missing translation for : {property}");
 
-                return new PropertyWithInformation()
-                {
-                    PropertyValue = property,
-                    PropertyInformation = property
-                };
+                return property;
             }
 
-            return result;
         }
 
-        public List<PropertyWithInformation> TransformStringProperty(IEnumerable<string> properties)
+        public List<string> TransformStringProperty(IEnumerable<string> properties)
         {
-            var results = new List<PropertyWithInformation>();
+            var results = new List<string>();
 
             foreach (string property in properties)
             {
-                var result = _propertiesWithInformatinsTranslations[property];
+                try
+                {
+                    var result = _propertiesTranslations[property];
 
-                if (result == null)
+                    results.Add(result);
+                }
+                catch (Exception)
                 {
                     _logger.LogInformation($"Missing translation for : {property}");
 
-                    result = new PropertyWithInformation()
-                    {
-                        PropertyValue = property,
-                        PropertyInformation = property
-                    };
+                    results.Add(property);
                 }
-                results.Add(result);
+
             }
+
             return results;
         }
-        public float TransformDimensionProperty(RawPlantDetailsDimension dimension)
+        public float? TransformDimensionProperty(RawPlantDetailsDimension? dimension)
         {
+            if (dimension == null)
+            {
+                return null;
+            }
+
+            if (dimension!.MaxValue == null || dimension!.MinValue == null)
+            {
+                return null;
+            }
+
+
             var average = (dimension.MaxValue + dimension.MinValue) / 2;
 
             var convertedToCentimeters = average * 30.48f;
 
             return convertedToCentimeters;
         }
+
+        public PlantDetailsWateringGeneralBenchmark? TransformGeneralWateringBenchmark(PlantDetailsWateringGeneralBenchmark? data)
+        {
+            if(data == null)
+            {
+                return null;
+            }
+
+            if(data.Value == null || data.Unit == null)
+            {
+                return null;
+            }
+
+            data.Unit = TransformStringProperty(data.Unit);
+
+            return data;
+        }
+
+        
     }
 
 
 
-    public class PropertyWithInformation
+    /*public class PropertyWithInformation
     {
         public string PropertyValue { get; set; }
         public string PropertyInformation { get; set; }
-    }
+    }*/
 }
