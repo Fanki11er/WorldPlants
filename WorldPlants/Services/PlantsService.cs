@@ -38,7 +38,7 @@ namespace WorldPlants.Services
                 return PrepareSerchResults(result);
             }
 
-            var translatedSearchPhrase = await _translationService.TranslateInput(searchPhrase);
+            var translatedSearchPhrase = await _translationService.TranslateInputToEnglish(searchPhrase);
 
             result = await SearchForPlantInPerenualAPI(translatedSearchPhrase);
 
@@ -68,7 +68,7 @@ namespace WorldPlants.Services
 
             var plantDetails = PreparePlandDetailsDto(rawDetails);
 
-            return plantDetails;
+            return await plantDetails;
 
         }
 
@@ -152,7 +152,7 @@ namespace WorldPlants.Services
             return searchResultsList;
         }
 
-        private PlantDetailsDto PreparePlandDetailsDto(RawPlantDetailsData rawData)
+        private async Task<PlantDetailsDto> PreparePlandDetailsDto(RawPlantDetailsData rawData)
         {
             var plantDetails = _mapper.Map<PlantDetailsDto>(rawData);
 
@@ -164,11 +164,31 @@ namespace WorldPlants.Services
 
             plantDetails.AverageHeight = _translationUtilities.TransformDimensionProperty(rawData.Dimensions);
 
+            plantDetails.PlantType = _translationUtilities.TransformStringProperty(rawData.PlantType);
+
             plantDetails.WateringPeriod = _translationUtilities.TransformStringProperty(rawData.WateringPeriod);
 
             plantDetails.WateringGeneralBenchmark = _translationUtilities
                 .TransformGeneralWateringBenchmark(rawData.RawPlantDetailsWateringGeneralBenchmark);
 
+            plantDetails.PruningMonth = _translationUtilities.TransformStringProperty(rawData.PruningMonth);
+
+            plantDetails.PruningCount = _translationUtilities.TransformPruningCount(rawData.PruningCount);
+
+            plantDetails.CareLevel = _translationUtilities.TransformStringProperty(rawData.CareLevel);
+
+            plantDetails.GrowthRate = _translationUtilities.TransformStringProperty(rawData.GrowthRate);
+
+            plantDetails.FloweringSeason = _translationUtilities.TransformStringProperty(rawData.FloweringSeason);
+
+            plantDetails.HarvestSeason = _translationUtilities.TransformStringProperty(rawData.HarvestSeason);
+
+            plantDetails.PoisonousToHumans = _translationUtilities.TransformPoisonous(rawData.PoisonousToHumans);
+
+            plantDetails.PoisonousToPets = _translationUtilities.TransformPoisonous(rawData.PoisonousToPets);
+
+            plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
+            
             return plantDetails;
         }
 

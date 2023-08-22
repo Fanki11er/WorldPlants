@@ -18,5 +18,20 @@ namespace WorldPlants.Models.PlantsModels
         public string? LifeCycle { get; set; }
         public string? WateringPeriod { get; set; }
         public PlantDetailsWateringGeneralBenchmark? WateringGeneralBenchmark { get; set; }
+        public List<string> PruningMonth { get; set; }
+        public RawPlantDetailsPruningCount? PruningCount { get; set; }
+        public string? CareLevel { get; set; }
+        public string? GrowthRate { get; set; }
+        public string? FloweringSeason { get; set; }
+        public string? HarvestSeason { get; set; }
+        public string? PoisonousToHumans { get; set; }
+        public string? PoisonousToPets { get; set; }
+        public bool? Fruits { get; set; }
+        public bool? EdibleFruits { get; set; }
+        public bool? DroughtTolerant { get; set; }
+        public bool? Invasive { get; set; }
+        public bool? Indoor { get; set; }
+        public string? Description { get; set; }
+
     }
 }

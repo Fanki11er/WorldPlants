@@ -33,58 +33,53 @@ namespace WorldPlants.Models.PlantsModels
         public PlantDetailsWateringGeneralBenchmark? RawPlantDetailsWateringGeneralBenchmark { get; set; }
 
         [JsonProperty("sunlight")]
-        public string[] Sunlight { get; set; } // Translate
+        public string[] Sunlight { get; set; }
 
         [JsonProperty("pruning_month")]
-        public string[] PruningMonth { get; set; } // Translate
+        public string[] PruningMonth { get; set; }
 
         [JsonProperty("pruning_count")]
-        public RawPlantDetailsPruningCount? PruningCount { get; set; } // Translate
+        public object? PruningCount { get; set; }
 
-        [JsonProperty("maintenance")]
-        public string MaintenanceLevel { get; set; } // Translate
-
-        [JsonProperty("soil")]
-        public string[] Soil { get; set; } // Translate
 
         [JsonProperty("growth_rate")]
-        public string GrowthRate { get; set; } // Translate
+        public string? GrowthRate { get; set; }
 
         [JsonProperty("care_level")]
-        public string CareLevel { get; set; } // Translate
+        public string? CareLevel { get; set; }
 
         [JsonProperty("flowering_seson")]
-        public string FloweringSeason { get; set;} // Translate
+        public string? FloweringSeason { get; set;}
 
         [JsonProperty("harvest_season")]
-        public string HarvestSeason { get; set;} // Translate
+        public string? HarvestSeason { get; set;}
 
         [JsonProperty("description")]
-        public string Description { get; set; } // Translate 
+        public string? Description { get; set; }
 
         [JsonProperty("poisonous_to_humans")]
-        public int poisonousToHumans { get; set; } // Translate
+        public int? PoisonousToHumans { get; set; }
 
         [JsonProperty("poisonous_to_pets")]
-        public int PoisonousToPets { get; set; }
+        public int? PoisonousToPets { get; set; }
 
         [JsonProperty("fruits")]
-        public bool Fruits { get; set; }
+        public bool? Fruits { get; set; }
 
         [JsonProperty("edible_fruit")]
-        public bool EdibleFruits { get; set; }
+        public bool? EdibleFruits { get; set; }
 
         [JsonProperty("drought_tolerant")]
-        public bool DroughtTolerant { get; set; }
+        public bool? DroughtTolerant { get; set; }
 
         [JsonProperty("invasive")]
-        public bool Invasive { get; set; }
+        public bool? Invasive { get; set; }
 
         [JsonProperty("indoor")]
-        public bool Indoor { get; set; }
+        public bool? Indoor { get; set; }
 
         [JsonProperty("default_image")]
-        public RawPlantDetailsImage Image { get; set; }
+        public RawPlantDetailsImage? Image { get; set; }
     }
 
     public class RawPlantDetailsDimension
@@ -106,7 +101,7 @@ namespace WorldPlants.Models.PlantsModels
     public class RawPlantDetailsImage
     {
         [JsonProperty("original_url")]
-        public string OriginalUrl { get; set; }
+        public string? OriginalUrl { get; set; }
     }
 
     public class RawPlantDetailsPruningCount

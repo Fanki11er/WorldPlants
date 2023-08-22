@@ -1,4 +1,4 @@
-﻿using Sprache;
+﻿using Newtonsoft.Json.Linq;
 using WorldPlants.Enums;
 using WorldPlants.Models.PlantsModels;
 
@@ -11,6 +11,8 @@ namespace WorldPlants.Utilities
         public List<string> TransformStringProperty(IEnumerable<string> properties);
         public float? TransformDimensionProperty(RawPlantDetailsDimension? dimension);
         public PlantDetailsWateringGeneralBenchmark? TransformGeneralWateringBenchmark(PlantDetailsWateringGeneralBenchmark? data);
+        public RawPlantDetailsPruningCount? TransformPruningCount(object? data);
+        public string? TransformPoisonous(int? poisonousLevel);
     }
     public class TranslationUtilities : ITranslationUtilities
     {
@@ -60,20 +62,152 @@ namespace WorldPlants.Utilities
                 // Cycle
 
                 {
-                    "Herbaceous Perennial", "Perennial"
+                    "Herbaceous Perennial", "Roślina wieloletnia"
+                },
+
+                {
+                    "Perennial",  "Roślina wieloletnia"
+                },
+
+                // PlantType
+
+                {
+                    "Fruit", "Owocowe"
+                },
+
+                {
+                    "Tree", "Drzewo"
+                },
+
+                {
+                    "Herb", "Zioło"
+                },
+
+                {
+                    "Ornamental grass", "Trawa ozdobna"
+                },
+
+                {
+                    "Flower", "Kwiat"
+                },
+
+                {
+                    "Broadleaf evergreen", "Liście wiecznie zielona"
+                },
+
+                {
+                    "Needled evergreen", "Igły wiecznie zielone"
+                },
+
+                {
+                    "Deciduous shrub", "Krzew liściasty"
                 },
 
                 // Watering period
 
                 {
-                    "morning", "Morning"
+                    "morning", "Rano"
+                },
+
+                {
+                    "night", "Wieczór"
                 },
 
                 // Units
 
                 {
-                    "days", "Days"
+                    "days", "Dni"
+                },
+
+                // Months
+
+                {
+                    "January", "Styczeń"
+                },
+
+                {
+                    "February", "Luty"
+                },
+
+                {
+                    "March", "Marzec"
+                },
+
+                {
+                    "April", "Kwiecień"
+                },
+
+                {
+                    "May", "Maj"
+                },
+
+                {
+                    "June", "Czerwiec"
+                },
+
+                {
+                    "July", "Lipiec"
+                },
+
+                {
+                    "August", "Sierpień"
+                },
+
+                {
+                    "September", "Wrzesień"
+                },
+
+                {
+                    "October", "Październik"
+                },
+
+                {
+                    "November","Listopad"
+                },
+
+                {
+                    "December","Grudzień"
+                },
+
+                {
+                    "yearly", "w roku"
+                },
+
+                // CareLevel / GrowRate
+                {
+                    "Low", "Mały"
+                },
+
+                {
+                    "Medium", "Średni"
+                },
+
+                {
+                    "Moderate", "Umiarkowany"
+                },
+
+                {
+                    "High", "Duży"
+                },
+
+                // Seasons
+
+                {
+                    "Fall", "Jeśień"
+                },
+
+                {
+                    "Winter", "Zima"
+                },
+
+                {
+                    "Spring", "Wiosna"
+                },
+
+                {
+                    "Summer", "Lato"
                 }
+
 
             };
 
@@ -82,7 +216,7 @@ namespace WorldPlants.Utilities
 
         public string TransformStringProperty(string? property)
         {
-            if(property == null)
+            if (property == null)
             {
                 return "Brak informacji";
             }
@@ -112,7 +246,11 @@ namespace WorldPlants.Utilities
                 {
                     var result = _propertiesTranslations[property];
 
-                    results.Add(result);
+                    if (!results.Contains(property))
+                    {
+                        results.Add(result);
+                    }
+
                 }
                 catch (Exception)
                 {
@@ -147,12 +285,12 @@ namespace WorldPlants.Utilities
 
         public PlantDetailsWateringGeneralBenchmark? TransformGeneralWateringBenchmark(PlantDetailsWateringGeneralBenchmark? data)
         {
-            if(data == null)
+            if (data == null)
             {
                 return null;
             }
 
-            if(data.Value == null || data.Unit == null)
+            if (data.Value == null || data.Unit == null)
             {
                 return null;
             }
@@ -162,14 +300,47 @@ namespace WorldPlants.Utilities
             return data;
         }
 
-        
+        public RawPlantDetailsPruningCount? TransformPruningCount(object? data)
+        {
+            if (data == null)
+            {
+                return null;
+            }
+
+            if (data is JArray)
+            {
+                return null;
+            }
+
+            var jsonObject = (JObject)data;
+
+            RawPlantDetailsPruningCount? castedData = jsonObject.ToObject<RawPlantDetailsPruningCount>();
+
+            if (castedData == null || castedData.Interval == null || castedData.Amount == null)
+            {
+                return null;
+            }
+
+            castedData.Interval = TransformStringProperty(castedData.Interval);
+
+            return castedData;
+        }
+
+        public string? TransformPoisonous(int? poisonousLevel)
+        {
+            if (poisonousLevel == null)
+            {
+                return null;
+            }
+
+            if (poisonousLevel == 0)
+            {
+                return "Nie trujący";
+            }
+
+            return "Trujący";
+
+        }
+
     }
-
-
-
-    /*public class PropertyWithInformation
-    {
-        public string PropertyValue { get; set; }
-        public string PropertyInformation { get; set; }
-    }*/
 }
