@@ -12,7 +12,6 @@ import {
 } from "./TargetTasks.styles";
 import taskPlantImg from "../../../Assets/Plant.svg";
 import treeImg from "../../../Assets/Tree.svg";
-import plantInAVaseImg from "../../../Assets/PlantInAVase.svg";
 import ImgBlueCircle from "../../../Assets/BlueCircle.svg";
 
 const TargetTasks = () => {
@@ -32,7 +31,6 @@ const TargetTasks = () => {
       </BlueCircleImgWrapper>
       <ImgTreeWrapper>
         <ImgTree src={treeImg} alt="treeImg" />
-        <ImgTree src={plantInAVaseImg} alt="plantInAVaseImg" />
       </ImgTreeWrapper>
     </TargetTasksWrapper>
   );

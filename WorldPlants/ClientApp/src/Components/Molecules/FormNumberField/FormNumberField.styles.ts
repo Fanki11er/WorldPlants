@@ -1,5 +1,6 @@
 import { Field } from "formik";
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 interface ErrorProps {
   iserror: string;
@@ -8,23 +9,27 @@ interface ErrorProps {
 export const FormNumberFieldWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
+  justify-self: flex-start;
 `;
 
 export const FieldLabel = styled.label`
-  color: orange;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
 `;
 
 export const ScaleInfo = styled.span`
-  color: orange;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
   width: fit-content;
 `;
 
 export const StyledField = styled(Field)<ErrorProps>`
-  border: 2px solid ${(props) => (props.iserror ? "red" : "orange")};
+  border: 2px solid
+    ${(props) =>
+      props.iserror ? props.theme.colors.red : props.theme.colors.orange};
   margin-left: 10px;
   width: 50px;
   padding: 0 0 0 10px;
 `;
+
 export const FieldWrapper = styled.div`
   display: flex;
   justify-content: flex-end;

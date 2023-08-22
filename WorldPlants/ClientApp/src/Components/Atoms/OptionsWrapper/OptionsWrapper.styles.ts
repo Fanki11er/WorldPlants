@@ -11,4 +11,5 @@ export const OptionsWrapper = styled.div`
   border-radius: 10px;
   padding: 50px 0;
   margin-bottom: 50px;
+  justify-items: center;
 `;

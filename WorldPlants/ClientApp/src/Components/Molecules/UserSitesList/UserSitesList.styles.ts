@@ -47,5 +47,6 @@ export const UserSitesListItemPlantsCountInfo = styled.h3`
 export const UserSitesPlantsImg = styled.img`
   display: flex;
   align-self: flex-end;
+  margin-top: 20px;
   width: 100%;
 `;

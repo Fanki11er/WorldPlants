@@ -8,11 +8,16 @@ import { paths } from "../../../Router/paths";
 import { apiEndpoints } from "../../../Api/endpoints";
 import { DeleteUserSiteConfirmation } from "../../../Interfaces/DeleteUserSiteConfirmation";
 import InputField from "../../Molecules/InputField/InputField";
-import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
 import {
   DeleteFormInstruction,
   DeleteFormWrapper,
 } from "../../Atoms/DeleteFormWrapper/DeleteFormWrapper.styles";
+import {
+  AttentionSite,
+  AttentionSiteIcon,
+} from "../../Atoms/AttentionSite/AttentionSite.styles";
+import iconWarningSign from "../../../Assets/WarningSign.png";
 
 interface Props {
   siteName: string;
@@ -39,7 +44,7 @@ const DeleteSiteForm = (props: Props) => {
       validate={(values) => {
         const errors: FormikErrors<DeleteUserSiteConfirmation> = {};
         if (values.name !== siteName) {
-          errors.name = "Należy podac nazwę konta do usunięcia";
+          errors.name = "Należy podać nazwę konta do usunięcia";
         }
         return errors;
       }}
@@ -61,7 +66,8 @@ const DeleteSiteForm = (props: Props) => {
     >
       {({ errors }) => (
         <DeleteFormWrapper>
-          <div>{`UWAGA: Usunięcie tego miejsca spowoduje usunięcie ${plantsCount} roślin`}</div>
+          <AttentionSiteIcon src={iconWarningSign} alt="iconWarningSite" />
+          <AttentionSite>{`UWAGA: Usunięcie tego miejsca spowoduje usunięcie ${plantsCount} roślin`}</AttentionSite>
           {error ? (
             <FormRequestError errorValues={getErrorMessages(error)} />
           ) : null}
@@ -71,16 +77,17 @@ const DeleteSiteForm = (props: Props) => {
             name="name"
             placeholder="Nazwa miejsca"
           />
-          <DeleteFormInstruction>
-            Wpisz nazwę tego miejsca aby móc je usunąć{" "}
-          </DeleteFormInstruction>
-
+          {!errors.name && (
+            <DeleteFormInstruction>
+              Wpisz nazwę tego miejsca, aby móc je usunąć{" "}
+            </DeleteFormInstruction>
+          )}
           {isLoading ? (
             <div>Loading</div>
           ) : (
-            <ActionButton disabled={!!errors.name} type="submit">
+            <RedActionButton disabled={!!errors.name} type="submit">
               Zapisz
-            </ActionButton>
+            </RedActionButton>
           )}
         </DeleteFormWrapper>
       )}
