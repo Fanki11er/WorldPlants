@@ -24,8 +24,8 @@ namespace WorldPlants.Models.PlantsModels
         public string? GrowthRate { get; set; }
         public string? FloweringSeason { get; set; }
         public string? HarvestSeason { get; set; }
-        public string? PoisonousToHumans { get; set; }
-        public string? PoisonousToPets { get; set; }
+        public bool? PoisonousToHumans { get; set; }
+        public bool? PoisonousToPets { get; set; }
         public bool? Fruits { get; set; }
         public bool? EdibleFruits { get; set; }
         public bool? DroughtTolerant { get; set; }

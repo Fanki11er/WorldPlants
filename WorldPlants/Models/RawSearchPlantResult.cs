@@ -9,8 +9,6 @@ namespace WorldPlants.Models
         public string CommonName { get; set; }
         [JsonProperty("scientific_name")]
         public string[] ScientificName { get; set; }
-        [JsonProperty("other_name")]
-        public string[] OtherName { get; set; }
         public string Watering { get; set; }
         public string[] Sunlight { get; set; }
         [JsonProperty("default_image")]
@@ -19,6 +17,7 @@ namespace WorldPlants.Models
 
     public class DefaultPlantImage
     {
-        public string Thumbnail { get; set; }
+        [JsonProperty("medium_url")]
+        public string Medium { get; set; }
     }
 }

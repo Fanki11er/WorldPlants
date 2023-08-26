@@ -55,7 +55,7 @@ namespace WorldPlants.Services
 
                 if (resultFromSplitedSerchPhrase.Data.Length != 0)
                 {
-                    return PrepareSerchResults(result);
+                    return  PrepareSerchResults(resultFromSplitedSerchPhrase);
                 }
             }
 
@@ -66,9 +66,9 @@ namespace WorldPlants.Services
         {
             var rawDetails = await GetPlantDetailsFromPerenualAPI(plantId);
 
-            var plantDetails = PreparePlandDetailsDto(rawDetails);
+            var plantDetails = await PreparePlandDetailsDto(rawDetails);
 
-            return await plantDetails;
+            return plantDetails;
 
         }
 
@@ -183,9 +183,6 @@ namespace WorldPlants.Services
 
             plantDetails.HarvestSeason = _translationUtilities.TransformStringProperty(rawData.HarvestSeason);
 
-            plantDetails.PoisonousToHumans = _translationUtilities.TransformPoisonous(rawData.PoisonousToHumans);
-
-            plantDetails.PoisonousToPets = _translationUtilities.TransformPoisonous(rawData.PoisonousToPets);
 
             plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
             

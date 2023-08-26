@@ -109,6 +109,6 @@ namespace WorldPlants.Models.PlantsModels
         [JsonProperty("amount")]
         public int? Amount { get; set; }
         [JsonProperty("interval")]
-        public string Interval { get; set; }
+        public string? Interval { get; set; }
     }
 }

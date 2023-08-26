@@ -7,12 +7,11 @@ namespace WorldPlants.Utilities
 
     public interface ITranslationUtilities
     {
-        public string TransformStringProperty(string? property);
+        public string? TransformStringProperty(string? property);
         public List<string> TransformStringProperty(IEnumerable<string> properties);
-        public float? TransformDimensionProperty(RawPlantDetailsDimension? dimension);
+        public int? TransformDimensionProperty(RawPlantDetailsDimension? dimension);
         public PlantDetailsWateringGeneralBenchmark? TransformGeneralWateringBenchmark(PlantDetailsWateringGeneralBenchmark? data);
         public RawPlantDetailsPruningCount? TransformPruningCount(object? data);
-        public string? TransformPoisonous(int? poisonousLevel);
     }
     public class TranslationUtilities : ITranslationUtilities
     {
@@ -72,11 +71,14 @@ namespace WorldPlants.Utilities
                 // PlantType
 
                 {
-                    "Fruit", "Owocowe"
+                    "Fruit", "Krzew owocowy"
                 },
 
                 {
                     "Tree", "Drzewo"
+                },
+                                {
+                    "tree", "Drzewo"
                 },
 
                 {
@@ -92,11 +94,11 @@ namespace WorldPlants.Utilities
                 },
 
                 {
-                    "Broadleaf evergreen", "Liście wiecznie zielona"
+                    "Broadleaf evergreen", "Liściasta, wiecznie zielona"
                 },
 
                 {
-                    "Needled evergreen", "Igły wiecznie zielone"
+                    "Needled evergreen", "Iglaste, wiecznie zielone"
                 },
 
                 {
@@ -214,11 +216,11 @@ namespace WorldPlants.Utilities
             _logger = logger;
         }
 
-        public string TransformStringProperty(string? property)
+        public string? TransformStringProperty(string? property)
         {
             if (property == null)
             {
-                return "Brak informacji";
+                return null;
             }
 
             try
@@ -263,7 +265,7 @@ namespace WorldPlants.Utilities
 
             return results;
         }
-        public float? TransformDimensionProperty(RawPlantDetailsDimension? dimension)
+        public int? TransformDimensionProperty(RawPlantDetailsDimension? dimension)
         {
             if (dimension == null)
             {
@@ -280,7 +282,7 @@ namespace WorldPlants.Utilities
 
             var convertedToCentimeters = average * 30.48f;
 
-            return convertedToCentimeters;
+            return (int)convertedToCentimeters;
         }
 
         public PlantDetailsWateringGeneralBenchmark? TransformGeneralWateringBenchmark(PlantDetailsWateringGeneralBenchmark? data)
@@ -324,22 +326,6 @@ namespace WorldPlants.Utilities
             castedData.Interval = TransformStringProperty(castedData.Interval);
 
             return castedData;
-        }
-
-        public string? TransformPoisonous(int? poisonousLevel)
-        {
-            if (poisonousLevel == null)
-            {
-                return null;
-            }
-
-            if (poisonousLevel == 0)
-            {
-                return "Nie trujący";
-            }
-
-            return "Trujący";
-
         }
 
     }
