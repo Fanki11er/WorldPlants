@@ -52,7 +52,7 @@ namespace WorldPlants.Services
                 SiteName = site.Name,
                 Plants = site.Plants.Select(plant => new PlantPictureNameNumberOfTasksDto
                 {
-                    Id = plant.Id,
+                    Id = plant.Id.ToString(),
                     Name = plant.Name,
                     NumberOfTasks = plant.ActiveTasks.Count,
                     ImageUrl = ""
@@ -73,7 +73,7 @@ namespace WorldPlants.Services
                 Name = site.Name,
                 Plants = site.Plants.Select(p => new PlantInformationDto
                 {
-                    Id = p.Id,
+                    Id = p.Id.ToString(),
                     Name = p.Name,
                     SiteName = p.Name,
                     NumberOfTasks = p.ActiveTasks.Count,

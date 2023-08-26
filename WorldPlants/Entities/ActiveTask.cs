@@ -7,6 +7,6 @@
        // public TaskType TaskType{ get; set; }
         public DateTime DueDate { get; set; }
         public virtual Plant Plant { get; set; }
-        public int PlantId { get; set; }
+        public Guid PlantId { get; set; }
     }
 }

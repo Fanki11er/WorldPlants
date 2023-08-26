@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿// Ignore Spelling: Dto
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Models;
+using WorldPlants.Models.PlantsModels;
 using WorldPlants.Services;
 
 namespace WorldPlants.Controllers
@@ -30,6 +33,14 @@ namespace WorldPlants.Controllers
             var result = await _plantService.GetPlantDetails(plantId);
 
             return Ok(result);
+        }
+
+        [HttpPost("Add/{siteId}")]
+        public async Task<ActionResult<string>> AddPlant([FromForm] AddPlantDto plantDto, [FromRoute]int siteId)
+        {
+         var plantId =   await _plantService.AddPlant(plantDto, siteId);
+
+            return Ok(plantId);
         }
 
         /* [HttpPost("GPT")]

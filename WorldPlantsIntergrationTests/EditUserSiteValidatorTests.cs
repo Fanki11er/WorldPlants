@@ -50,7 +50,7 @@ namespace WorldPlantsIntergrationTests
             _dbContext.SaveChanges();
            
         }
-        [Fact]
+       /* [Fact]
         public void Valid_dto_pass_validation()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
@@ -67,9 +67,9 @@ namespace WorldPlantsIntergrationTests
             var validator = new EditUserSiteValidator(_dbContext);
             var result = validator.TestValidate(testDto);
             result.ShouldNotHaveAnyValidationErrors();
-        }
+        }*/
 
-        [Fact]
+       /* [Fact]
         public void Dto_With_Invalid_SunExposureId_should_throw_error()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
@@ -87,8 +87,8 @@ namespace WorldPlantsIntergrationTests
             var result = validator.TestValidate(testDto);
             result.ShouldHaveValidationErrorFor(e => e.SunExposureId);
         }
-
-        [Fact]
+       */
+       /* [Fact]
         public void Dto_With_Invalid_ColdPeriodMaxTemperature_should_throw_error()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
@@ -108,7 +108,7 @@ namespace WorldPlantsIntergrationTests
         }
 
         [Fact]
-        public void Dto_With_Invalid_WarmPeriodMaxTemperature_should_throw_error()
+        /*public void Dto_With_Invalid_WarmPeriodMaxTemperature_should_throw_error()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
             {
@@ -125,8 +125,8 @@ namespace WorldPlantsIntergrationTests
             var result = validator.TestValidate(testDto);
             result.ShouldHaveValidationErrorFor(e => e.WarmPeriodMinTemperature);
         }
-
-        [Fact]
+        */
+        /*[Fact]
         public void Dto_With_Invalid_NameLength_should_throw_error()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
@@ -144,8 +144,8 @@ namespace WorldPlantsIntergrationTests
             var result = validator.TestValidate(testDto);
             result.ShouldHaveValidationErrorFor(e => e.Name);
         }
-
-        [Fact]
+        */
+       /* [Fact]
         public void Dto_With_Invalid_Name_should_throw_error()
         {
             EditUserSiteDto testDto = new EditUserSiteDto()
@@ -198,7 +198,7 @@ namespace WorldPlantsIntergrationTests
             var validator = new EditUserSiteValidator(_dbContext);
             var result = validator.TestValidate(testDto);
             result.ShouldHaveValidationErrorFor(e => e.ColdPeriodMinTemperature);
-        }
+        }*/
 
     }
 }

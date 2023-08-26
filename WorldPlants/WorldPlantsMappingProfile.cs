@@ -45,6 +45,11 @@ namespace WorldPlants
                 .ForMember(m => m.FloweringSeason, m => m.Ignore())
                 .ForMember(m => m.HarvestSeason, m => m.Ignore())
                 .ForMember(m => m.Description, m => m.Ignore());
+
+            CreateMap<AddPlantDto, Plant>()
+                 .ForMember(m => m.UserSite, m => m.Ignore())
+                  .ForMember(m => m.UserSiteId, m => m.Ignore());
+
         } 
     }
 }

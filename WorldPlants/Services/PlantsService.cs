@@ -1,11 +1,15 @@
-﻿// Ignore Spelling: Perenual
+﻿// Ignore Spelling: Perenual Dto
 
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using WorldPlants.Entities;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
 using WorldPlants.Models.PlantsModels;
 using WorldPlants.Utilities;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WorldPlants.Services
 {
@@ -16,18 +20,23 @@ namespace WorldPlants.Services
         //public Task<string> SearchForPlantUsingGPT(string searchPhrase);
         public Task<List<SearchPlantResultDto>> SearchForPlant(string searchPhrase);
         public Task<PlantDetailsDto> GetPlantDetails(int plantId);
+        public Task<string> AddPlant(AddPlantDto plantDto, int siteId);
     }
     public class PlantsService : IPlantService
     {
         private readonly ITranslationService _translationService;
         private readonly IMapper _mapper;
         private readonly ITranslationUtilities _translationUtilities;
+        private readonly WorldPlantsDbContext _dbContext;
+        private readonly IUtilities _Utilities;
 
-        public PlantsService(ITranslationService translationService, IMapper mapper, ITranslationUtilities translationUtilities)
+        public PlantsService(ITranslationService translationService, IMapper mapper, ITranslationUtilities translationUtilities, WorldPlantsDbContext dbContext, IUtilities utilities)
         {
             _translationService = translationService;
             _mapper = mapper;
             _translationUtilities = translationUtilities;
+            _dbContext = dbContext;
+            _Utilities = utilities;
         }
         public async Task<List<SearchPlantResultDto>> SearchForPlant(string searchPhrase)
         {
@@ -187,6 +196,50 @@ namespace WorldPlants.Services
             plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
             
             return plantDetails;
+        }
+
+        public async Task<string> AddPlant( AddPlantDto plantDto, int siteId)
+        {
+            string fileName = "";
+
+            var site = _dbContext.UserSites.Include(i=> i.Plants).FirstOrDefault(s=> s.Id == siteId);
+
+            if (site == null)
+            {
+                throw new NotFoundException("Nie odnaleziono miejsca");
+            }
+
+            if (plantDto.ImageFile != null)
+            {
+              fileName   = await SaveImageOnServer(plantDto.ImageFile);
+            }
+
+            Plant plant = _mapper.Map<Plant>(plantDto);
+
+            // Change it
+            plant.ImageURL = $"https://localhost:7126/Store/Images/{fileName}";
+
+            plant.UserSiteId = siteId;
+
+            _dbContext.Plants.Add(plant);
+
+            _Utilities.SaveChangesToDatabase();
+
+            return plant.Id.ToString();
+        }
+
+        private async Task<string> SaveImageOnServer(IFormFile image)
+        {
+            var hash = Guid.NewGuid().ToString();
+            var fileName = hash + "_" + image.FileName;
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(),
+                @"Store/Images", fileName);
+            using (FileStream fs = new (filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fs);
+            }
+
+            return fileName;
         }
 
         /*public async Task<SearchPlantResults> SearchForPlant(string searchPhrase)
