@@ -8,7 +8,7 @@ import { paths } from "../../../Router/paths";
 import { apiEndpoints } from "../../../Api/endpoints";
 import { DeleteUserSiteConfirmation } from "../../../Interfaces/DeleteUserSiteConfirmation";
 import InputField from "../../Molecules/InputField/InputField";
-import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
+import { RedActionButton } from "../../Atoms/Buttons/Buttons";
 import {
   DeleteFormInstruction,
   DeleteFormWrapper,
@@ -79,7 +79,7 @@ const DeleteSiteForm = (props: Props) => {
           />
           {!errors.name && (
             <DeleteFormInstruction>
-              Wpisz nazwę tego miejsca, aby móc je usunąć{" "}
+              Wpisz nazwę tego miejsca, aby móc je usunąć
             </DeleteFormInstruction>
           )}
           {isLoading ? (

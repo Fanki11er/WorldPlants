@@ -22,7 +22,11 @@ export const paths = {
   userSitesAddNew: "AddNew",
   //? User site
   userSite: "Site",
-  userSiteAddPlant: "AddPlant",
   userSiteSettings: "Settings",
   userSiteDeleteSite: "DeleteSite",
+  //? Add plant
+  addPlant: "AddPlant",
+  addPlantRecognize: "Recognize",
+  //? Selected plant
+  selectedPlant: "SelectedPlant",
 };

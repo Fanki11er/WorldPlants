@@ -91,3 +91,58 @@ export const yupSecuritySettingsValidationShape = {
     .oneOf([Yup.ref("newPassword")], "Hasła muszą być takie same")
     .required("Hasło jest wymagane"),
 };
+
+export const yupAddPlantValidationShape = {
+  name: Yup.string()
+    .max(30, "Imię może mieć maksymalnie 30 znaków ")
+    .required("Imię jest wymagane"),
+  potHeight: Yup.number()
+    .min(0, "Wartość pola nie może być mniejsza od 0")
+    .max(1000, "Wartośc pola musi być mniejsza od 1000"),
+
+  potWidth: Yup.number()
+    .min(0, "Wartość pola nie może być mniejsza od 0")
+    .max(1000, "Wartośc pola musi być mniejsza od 1000"),
+
+  plantHeight: Yup.number()
+    .min(0, "Wartość pola nie może być mniejsza od 0")
+    .max(5000, "Wartośc pola musi być mniejsza od 1000"),
+
+  additionalDescription: Yup.string().max(
+    300,
+    "Opis może mieć maksymalnie 300 znaków "
+  ),
+};
+
+export const translateSunScaleValue = (values: SunScale[] | null) => {
+  const results: string[] = [];
+
+  if (!values) {
+    return [];
+  }
+
+  values.forEach((value) => {
+    switch (value) {
+      case "None": {
+        results.push("Ciemne");
+        break;
+      }
+      case "Low": {
+        results.push("Cień");
+        break;
+      }
+      case "Medium": {
+        results.push("Półcień");
+        break;
+      }
+      case "High": {
+        results.push("Pełne słońce");
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  });
+  return results;
+};
