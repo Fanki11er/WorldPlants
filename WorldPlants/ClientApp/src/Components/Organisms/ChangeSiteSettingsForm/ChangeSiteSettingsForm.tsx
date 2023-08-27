@@ -13,6 +13,8 @@ import { SITE_SETTINGS } from "../../../Constants/Constants";
 import { EditUserSiteSettingsDto } from "../../../Interfaces/EditUserSiteSettingsDto";
 import InputField from "../../Molecules/InputField/InputField";
 import FormNumberField from "../../Molecules/FormNumberField/FormNumberField";
+import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
 
 interface Props {
   actualValues: GetUserSiteSettingsDto;
@@ -52,7 +54,7 @@ const ChangeSiteSettingsForm = (props: Props & FormikFormProps) => {
     >
       {({ isSubmitting }) => (
         <ChangeSiteSettingsFormWrapper>
-          {isSuccess && <div>Sukces</div>}
+          {isSuccess && <FormSuccess>Sukces</FormSuccess>}
           {error ? (
             <FormRequestError errorValues={getErrorMessages(error)} />
           ) : null}
@@ -91,7 +93,9 @@ const ChangeSiteSettingsForm = (props: Props & FormikFormProps) => {
             <CheckboxInput id={"hasRoof"} label={"Zadaszenie"} />
           )}
 
-          {!isSubmitting && siteId && <button type="submit">Zapisz</button>}
+          {!isSubmitting && siteId && (
+            <ActionButton type="submit">Zapisz</ActionButton>
+          )}
         </ChangeSiteSettingsFormWrapper>
       )}
     </Formik>

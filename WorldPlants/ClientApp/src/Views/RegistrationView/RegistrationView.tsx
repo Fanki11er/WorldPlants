@@ -4,12 +4,14 @@ import UnauthorizedNavigation from "../../Components/Molecules/UnauthorizedNavig
 import useAuth from "../../Hooks/useAuth";
 import { paths } from "../../Router/paths";
 import RegistrationFormFormik from "../../Components/Organisms/RegistrationFormFormik/RegistrationFormFormik";
+import usePermissions from "../../Hooks/usePermissions";
 
 const RegistrationView = () => {
   const { plantsTasks } = paths;
   const { user } = useAuth();
+  const { permissions } = usePermissions();
 
-  if (user) {
+  if (user && permissions) {
     return <Navigate to={plantsTasks} />;
   }
   return (

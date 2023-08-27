@@ -14,23 +14,23 @@ export const theme: Theme = {
     yellow: "rgba(255, 198, 67,1)",
     turquoise: "rgba(31, 204, 151, 1)",
     red: "rgba(217,20,36, 0.9)",
-  //red: "rgba(207,42,42,1)",
-  //pink: "rgba(255, 185, 185, 1)",
-    pink:"rgba(215,178,178,1)",
-   //pink: "rgba(209,165, 165, 1)",
-   //pink: "rgba(238, 104, 74, 1)",
-     greenSettingsActive: "rgba(44, 149, 34, 1)",
-     darkPurple: "rgba(40, 41, 123, 1)",
-     black: "rgba(0, 0, 0, 1)",
-     transparent: "transparent",
-     greenLight: "rgba(173, 230, 212, 1)",
-     greenSettings: "rgba(12, 108, 3, 1)",
-     lightGray: "rgba(136, 142, 156, 1)",
+    //red: "rgba(207,42,42,1)",
+    //pink: "rgba(255, 185, 185, 1)",
+    pink: "rgba(215,178,178,1)",
+    //pink: "rgba(209,165, 165, 1)",
+    //orangePink: "rgba(238, 104, 74, 1)",
+    greenSettingsActive: "rgba(44, 149, 34, 1)",
+    darkPurple: "rgba(40, 41, 123, 1)",
+    black: "rgba(0, 0, 0, 1)",
+    transparent: "transparent",
+    greenLight: "rgba(173, 230, 212, 1)",
+    greenSettings: "rgba(12, 108, 3, 1)",
+    lightGray: "rgba(136, 142, 156, 1)",
     // lightGray: "rgba(161, 167, 179, 1)",
   },
   fontSizes: {
     small: "14px",
-    medium:"16px",
+    medium: "16px",
     large: "20px",
   },
 
@@ -71,6 +71,7 @@ export type Theme = {
     greenLight: string;
     greenSettingsActive: string;
     lightGray: string;
+    // orangePink: string;
   };
 
   fontSizes: {

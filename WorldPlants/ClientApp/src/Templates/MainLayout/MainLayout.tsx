@@ -3,20 +3,32 @@ import { ViewWrapper } from "../../Components/Atoms/ViewWrapper/ViewWrapper";
 import AuthorizedNavigation from "../../Components/Molecules/AuthorizedNavigation/AuthorizedNavigation";
 import useAuth from "../../Hooks/useAuth";
 import { paths } from "../../Router/paths";
+import usePermissions from "../../Hooks/usePermissions";
 
 const MainLayout = () => {
   const { login } = paths;
   const { user } = useAuth();
+  const { permissions, isLoading, isError } = usePermissions();
   const location = useLocation();
   //!! Wyłączanie Authentykacji na czas developmentu
   if (!user) {
     return <Navigate to={login} state={{ from: location }} replace />;
   }
   //!!
+  if ((!permissions && !isLoading) || isError) {
+    return <Navigate to={login} state={{ from: location }} replace />;
+  }
+
   return (
     <ViewWrapper>
-      <AuthorizedNavigation />
-      <Outlet />
+      {isLoading ? (
+        <div>LOADING</div>
+      ) : (
+        <>
+          <AuthorizedNavigation />
+          <Outlet />
+        </>
+      )}
     </ViewWrapper>
   );
 };

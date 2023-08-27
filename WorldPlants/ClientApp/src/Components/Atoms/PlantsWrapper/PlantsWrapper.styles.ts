@@ -1,15 +1,16 @@
-import { Form } from "formik";
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
-export const ChangeSiteSettingsFormWrapper = styled(Form)`
-  width: 700px;
+export const PlantsWrapper = styled.div`
   display: grid;
-  grid-template-columns: 100%;
-  grid-auto-rows: auto;
-  row-gap: 10px;
+  width: 100%;
+  grid-template-columns: 1fr auto;
+  gap: 30px;
   background-color: ${(props: AppTheme) => props.theme.colors.mainBlue};
-  padding: 40px;
+  /* min-height: 400px; */
+  height: 100%;
   border-radius: 10px;
+  padding: 50px 0;
+  margin-bottom: 50px;
   justify-items: center;
 `;

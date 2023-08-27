@@ -127,3 +127,7 @@ export const SideMenuLink = styled(NavLink)`
 export const PermissionsReturnButton = styled(ActionButton)`
   min-width: 200px;
 `;
+
+export const RedActionButton = styled(ActionButton)`
+  background-color: ${(props: AppTheme) => props.theme.colors.red};
+`;
