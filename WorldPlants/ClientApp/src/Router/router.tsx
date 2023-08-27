@@ -25,6 +25,8 @@ import AddUserSiteSection from "../Components/Organisms/AddUserSiteSection/AddUs
 import UserSiteView from "../Views/UserSiteView/UserSiteView";
 import UserSiteSettingsSection from "../Components/Organisms/UserSiteSettingsSection/UserSiteSettingsSection";
 import UserSiteDeleteSiteSection from "../Components/Organisms/UserSiteDeleteSiteSection/UserSiteDeleteSiteSection";
+import BasicPlantInfo from "../Components/Organisms/BasicPlantsInfo/BasicPlantsInfo";
+import PlantDetails from "../Components/Organisms/PlantDetails/PlantDetails";
 
 const {
   rootPath,
@@ -89,8 +91,8 @@ const router = createBrowserRouter(
           <Route path={userSitesAddNew} element={<AddUserSiteSection />} />
         </Route>
         <Route path={`${userSite}/:siteId`} element={<UserSiteView />}>
-          <Route index element={<div>Plants</div>} />
-          <Route path={userSiteAddPlant} element={<div>Add Plant</div>} />
+          <Route index element={<BasicPlantInfo />} />
+          <Route path={userSiteAddPlant} element={<PlantDetails />} />
           <Route
             path={userSiteSettings}
             element={<UserSiteSettingsSection />}
