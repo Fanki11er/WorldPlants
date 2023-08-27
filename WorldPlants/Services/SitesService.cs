@@ -52,7 +52,7 @@ namespace WorldPlants.Services
                 SiteName = site.Name,
                 Plants = site.Plants.Select(plant => new PlantPictureNameNumberOfTasksDto
                 {
-                    Id = plant.Id,
+                    Id = plant.Id.ToString(),
                     Name = plant.Name,
                     NumberOfTasks = plant.ActiveTasks.Count,
                     ImageUrl = ""
@@ -73,11 +73,11 @@ namespace WorldPlants.Services
                 Name = site.Name,
                 Plants = site.Plants.Select(p => new PlantInformationDto
                 {
-                    Id = p.Id,
+                    Id = p.Id.ToString(),
                     Name = p.Name,
                     SiteName = p.Name,
                     NumberOfTasks = p.ActiveTasks.Count,
-                    ImageUrl = p.ImageURL,
+                    ImageUrl = p.ImageName,
                     TasksInformation = p.ActiveTasks.Select(t => new ActiveTaskInformationDto()
                     {
                         IsDelayed = false,
@@ -157,6 +157,10 @@ namespace WorldPlants.Services
 
         public void DeleteUserSite(int siteId)
         {
+            User user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanRemoveSites);
+
             var userSite = GetUserSiteWithPlants(siteId);
 
             _dbContext.Remove(userSite!);
@@ -175,6 +179,11 @@ namespace WorldPlants.Services
 
         public void EditUserSite(int siteId, EditUserSiteSettingsDto dto)
         {
+
+            User user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanEditSites);
+
             var userSite = GetUserSite(siteId);
 
             foreach (var setting in dto.GetType().GetProperties())

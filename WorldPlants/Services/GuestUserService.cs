@@ -1,14 +1,12 @@
 ﻿// Ignore Spelling: dto
 
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using System.Reflection;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
+using WorldPlants.Utilities;
 using WorldPlants.Utils;
 
 namespace WorldPlants.Services
@@ -30,13 +28,14 @@ namespace WorldPlants.Services
         private readonly IDatabaseUtils _databaseUtils;
         private readonly IMapper _mapper;
         private readonly IUserContextService _userContextService;
-
-        public GuestUserService(WorldPlantsDbContext context, IDatabaseUtils databaseUtils, IMapper mapper, IUserContextService userContextService)
+        private readonly IUtilities _Utilities;
+        public GuestUserService(WorldPlantsDbContext context, IDatabaseUtils databaseUtils, IMapper mapper, IUserContextService userContextService, IUtilities Utilities)
         {
             _context = context;
             _databaseUtils = databaseUtils;
             _mapper = mapper;
             _userContextService = userContextService;
+            _Utilities = Utilities;
         }
         public void RegisterGuestUser(RegisterUserDto dto)
         {
@@ -57,24 +56,30 @@ namespace WorldPlants.Services
         {
 
             var spaceId = CheckIfSpaceIdIsNotNull();
+
             _databaseUtils.CheckIfSpaceExists(spaceId);
-            var guestUsersEntities = _context.Users.Where(u => u.SpaceId.ToString() == spaceId && u.AccountType == UserRoles.Guest.ToString()).ToList();
+
+            var guestUsersEntities = _context
+                .Users
+                .Where(u => u.SpaceId.ToString() == spaceId && u.AccountType == UserRoles.Guest.ToString())
+                .ToList();
+
             var sanitizedGuestUsersEntities = _mapper.Map<IEnumerable<SanitizedGuestUserDto>>(guestUsersEntities);
+
             return sanitizedGuestUsersEntities;
         }
 
         public GuestUserWithPermissionsDto GetGuestUserPermissions(string userId)
         {
             var spaceId = CheckIfSpaceIdIsNotNull();
+
             _databaseUtils.CheckIfSpaceExists(spaceId);
-            var user = _context.Users.Include(i=> i.UserSettings).FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
 
-            if (user is null)
-            {
-                throw new NotFoundException("Nie odnaleziono użytkownika");
-            }
+            var user = _context.Users.Include(i => i.UserSettings).FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
 
-            var permissions =  _mapper.Map<GuestUserPermissions>(user.UserSettings);
+           CheckIfUserExists(user);
+
+            var permissions = _mapper.Map<GuestUserPermissions>(user!.UserSettings);
 
             GuestUserWithPermissionsDto guestUserWithPermissionsDto = new()
             {
@@ -89,101 +94,76 @@ namespace WorldPlants.Services
         public void DeleteGuestUser(string userId)
         {
             var spaceId = CheckIfSpaceIdIsNotNull();
+
             _databaseUtils.CheckIfSpaceExists(spaceId);
+
             var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
 
-            if (user is null)
-            {
-                throw new NotFoundException("Nie odnaleziono użytkownika");
-            }
-            _context.Users.Remove(user);
+            CheckIfUserExists(user);
 
-            int counter = _context.SaveChanges();
+            _context.Users.Remove(user!);
 
-            if (counter == 0)
-            {
-                throw new NotUpdatedException("Nie udało się usunąć użytkownika");
-            }
+            _Utilities.SaveChangesToDatabase("Nie udało się usunąć użytkownika");
 
         }
 
         public void SelfDeleteGuestUser()
         {
-            var userId = _userContextService.GetUserId;
-
-            if (userId is null)
-            {
-                throw new ForbidException("Brak uprawnień do wykonania akcji");
-            }
-            var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == userId);
-
-            if (user is null)
-            {
-                throw new NotFoundException("Nie odnaleziono użytkownika");
-            }
+            var user = _Utilities.GetUser();
 
             _context.Users.Remove(user);
 
-            int counter = _context.SaveChanges();
-
-            if (counter == 0)
-            {
-                throw new NotUpdatedException("Nie udało się usunąć użytkownika");
-            }
+            _Utilities.SaveChangesToDatabase("Nie udało się usunąć użytkownika");
         }
 
         public void ChangeGuestUserStatus(ChangeGuestUserStatusDto dto)
         {
             var spaceId = CheckIfSpaceIdIsNotNull();
+
             _databaseUtils.CheckIfSpaceExists(spaceId);
-            var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == dto.UserId && u.SpaceId.ToString() == spaceId);
 
-            if (user is null)
-            {
-                throw new NotFoundException("Nie odnaleziono użytkownika");
-            }
-            user.IsActive = dto.NewStatus;
+            var user = _context.Users
+                .FirstOrDefault(u => u.Id.ToString() == dto.UserId && u.SpaceId.ToString() == spaceId);
+
+           CheckIfUserExists(user);
+
+            user!.IsActive = dto.NewStatus;
+
             _context.Update(user);
-            int changesCount = _context.SaveChanges();
 
-            if (changesCount == 0)
-            {
-                throw new NotUpdatedException("Nie udało się zmienić statusu");
-            }
+            _Utilities.SaveChangesToDatabase("Nie udało się zmienić statusu");
 
         }
 
-       public void ChangeGuestUserPermissions(string userId ,GuestUserPermissions newPermissions)
+        public void ChangeGuestUserPermissions(string userId, GuestUserPermissions newPermissions)
         {
             var spaceId = CheckIfSpaceIdIsNotNull();
-            _databaseUtils.CheckIfSpaceExists(spaceId);
-            var user = _context.Users.Include(i=> i.UserSettings).FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
-           
-            if (user is null)
-            {
-                throw new NotFoundException("Nie odnaleziono użytkownika");
-            }
 
-            var settings = user.UserSettings;
+            _databaseUtils.CheckIfSpaceExists(spaceId);
+
+            var user = _context.Users
+                .Include(i => i.UserSettings)
+                .FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
+
+            CheckIfUserExists(user);
+
+            var settings = user!.UserSettings;
 
             foreach (var permission in newPermissions.GetType().GetProperties())
             {
                 var propsertyName = permission.Name;
-               
+
                 if (user.UserSettings.GetType().GetProperty(propsertyName) != permission)
                 {
                     var propertyValue = permission.GetValue(newPermissions);
-                    user.UserSettings.GetType()?.GetProperty(propsertyName)?.SetValue(settings,propertyValue);
+
+                    user.UserSettings.GetType()?.GetProperty(propsertyName)?.SetValue(settings, propertyValue);
                 }
             }
 
             _context.Update(settings);
-            int counter = _context.SaveChanges();
 
-            if (counter == 0)
-            {
-                throw new NotUpdatedException("Nie udało się usunąć użytkownika");
-            }
+            _Utilities.SaveChangesToDatabase("Nie udało się usunąć użytkownika");
 
         }
 
@@ -196,6 +176,14 @@ namespace WorldPlants.Services
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
             }
             return spaceId;
+        }
+
+        private void CheckIfUserExists(User? user)
+        {
+            if (user is null)
+            {
+                throw new NotFoundException("Nie odnaleziono użytkownika");
+            }
         }
     }
 }

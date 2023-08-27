@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WorldPlants.Entities;
 using WorldPlants.Models;
+using WorldPlants.Models.PlantsModels;
 
 namespace WorldPlants
 {
@@ -24,7 +25,31 @@ namespace WorldPlants
 
             CreateMap<DefaultSite, UserSite>()
                 .ForMember(m => m.Id, m => m.Ignore());
-                
+
+            CreateMap<RawSearchPlantResult, SearchPlantResultDto>()
+                .ForMember(m => m.DefaultImage, m => m.MapFrom(i => i.DefaultImage.Medium))
+                .ForMember(m => m.Watering, m => m.Ignore())
+                .ForMember(m => m.Sunlight, m => m.Ignore());
+
+            CreateMap<RawPlantDetailsData, PlantDetailsDto>()
+                .ForMember(m => m.DefaultImage, m => m.MapFrom(i => i.Image != null ? i.Image.OriginalUrl : null))
+                .ForMember(m => m.Watering, m => m.Ignore())
+                .ForMember(m => m.Sunlight, m => m.Ignore())
+                .ForMember(m => m.LifeCycle, m => m.Ignore())
+                .ForMember(m => m.PlantType, m => m.Ignore())
+                .ForMember(m => m.WateringPeriod, m => m.Ignore())
+                .ForMember(m => m.PruningMonth, m => m.Ignore())
+                .ForMember(m => m.PruningCount, m => m.Ignore())
+                .ForMember(m => m.GrowthRate, m => m.Ignore())
+                .ForMember(m => m.CareLevel, m => m.Ignore())
+                .ForMember(m => m.FloweringSeason, m => m.Ignore())
+                .ForMember(m => m.HarvestSeason, m => m.Ignore())
+                .ForMember(m => m.Description, m => m.Ignore());
+
+            CreateMap<AddPlantDto, Plant>()
+                 .ForMember(m => m.UserSite, m => m.Ignore())
+                  .ForMember(m => m.UserSiteId, m => m.Ignore());
+
         } 
     }
 }

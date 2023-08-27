@@ -5,6 +5,7 @@ using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
+using WorldPlants.Utilities;
 using WorldPlants.Utils;
 
 namespace WorldPlants.Services
@@ -20,12 +21,14 @@ namespace WorldPlants.Services
         private readonly IDatabaseUtils _databaseUtils;
         private readonly WorldPlantsDbContext _context;
         private readonly IUserContextService _userContextService;
+        private readonly IUtilities _Utilities;
 
-        public OwnerUserService(IDatabaseUtils databaseUtils, WorldPlantsDbContext context, IUserContextService userContextService)
+        public OwnerUserService(IDatabaseUtils databaseUtils, WorldPlantsDbContext context, IUserContextService userContextService, IUtilities utilities)
         {
             _databaseUtils = databaseUtils;
             _context = context;
             _userContextService = userContextService;
+            _Utilities = utilities;
         }
         public void RegisterOwnerUser(RegisterUserDto dto)
         {
@@ -73,7 +76,8 @@ namespace WorldPlants.Services
             }
 
             _context.Spaces.Remove(space);
-            _context.SaveChanges();
+
+            _Utilities.SaveChangesToDatabase("Nie udało się usunąć przestrzeni");
 
         }
 
