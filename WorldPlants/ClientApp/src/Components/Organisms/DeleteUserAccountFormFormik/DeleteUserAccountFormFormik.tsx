@@ -53,11 +53,11 @@ const DeleteUserAccountFormFormik = (props: Props) => {
         setSubmitting(false);
       }}
     >
-      {({ errors, touched }) => (
+      {({ errors }) => (
         <DeleteAccountForm
           isLoading={isLoading}
           error={error}
-          confirmed={!!errors.name || !touched.name}
+          confirmed={!!errors.name}
         />
       )}
     </Formik>

@@ -8,8 +8,8 @@ interface ErrorProps {
 
 export const FormNumberFieldWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr auto;
-  justify-self: flex-start;
+  grid-template-columns: 150px auto;
+  grid-template-rows: auto auto;
 `;
 
 export const FieldLabel = styled.label`
