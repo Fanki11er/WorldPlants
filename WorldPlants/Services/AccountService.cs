@@ -2,7 +2,6 @@
 
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -35,7 +34,12 @@ namespace WorldPlants.Services
         private readonly IMapper _mapper;
 
 
-        public AccountService(WorldPlantsDbContext context, IPasswordHasher<User> passwordHasher, IUserContextService userContextService, AuthenticationSettings authenticationSettings, IMapper mapper)
+        public AccountService(
+            WorldPlantsDbContext context,
+            IPasswordHasher<User> passwordHasher,
+            IUserContextService userContextService,
+            AuthenticationSettings authenticationSettings,
+            IMapper mapper)
         {
             _context = context;
             _passwordHasher = passwordHasher;
@@ -105,7 +109,7 @@ namespace WorldPlants.Services
 
             NotificationSettingsDto? SmsSettings = null;
 
-            if(user.PhoneNumber != null && user.PhoneNumber != "")
+            if (user.PhoneNumber != null && user.PhoneNumber != "")
             {
                 SmsSettings = new NotificationSettingsDto()
                 {
@@ -136,12 +140,13 @@ namespace WorldPlants.Services
             settings.FertilizePlantsEmailReminder = dto.FertilizePlantsReminder;
             settings.CutPlantsEmailReminder = dto.CutPlantsReminder;
             settings.ReplantPlantsEmailReminder = dto.ReplantPlantsReminder;
-            settings.MistPlantsEmailReminder= dto.MistPlantsReminder;
+            settings.MistPlantsEmailReminder = dto.MistPlantsReminder;
 
             _context.Update(settings);
-            int changesCounter =  _context.SaveChanges();
+            int changesCounter = _context.SaveChanges();
 
-            if(changesCounter == 0) { 
+            if (changesCounter == 0)
+            {
                 throw new NotUpdatedException("Nie udało się zaktualizować ustawień powiadomień mailowych");
             }
         }
@@ -167,10 +172,10 @@ namespace WorldPlants.Services
             }
         }
 
-    
-     
 
-       public AccountSettingsDto GetAccountSettings()
+
+
+        public AccountSettingsDto GetAccountSettings()
         {
             var user = GetUser();
 
@@ -187,19 +192,19 @@ namespace WorldPlants.Services
         public void ChangeAccountSettings(AccountSettingsDto dto)
         {
             var user = GetUser();
-            if(user.Name != dto.Name)
+            if (user.Name != dto.Name)
             {
                 user.Name = dto.Name;
             }
 
-            if(user.Email != dto.Email)
+            if (user.Email != dto.Email)
             {
                 user.Email = dto.Email;
             }
 
-            if(user.PhoneNumber != dto.PhoneNumber)
+            if (user.PhoneNumber != dto.PhoneNumber)
             {
-                user.PhoneNumber = dto.PhoneNumber != ""? dto.PhoneNumber : null ;
+                user.PhoneNumber = dto.PhoneNumber != "" ? dto.PhoneNumber : null;
             }
             _context.Update(user);
 
@@ -241,7 +246,7 @@ namespace WorldPlants.Services
             return user;
         }
 
-        private  UserSettings GetUserSettings(User user)
+        private UserSettings GetUserSettings(User user)
         {
             var settings = _context.UserSettings.FirstOrDefault(s => s.User == user);
 
@@ -289,7 +294,7 @@ namespace WorldPlants.Services
             return tokenHandler.WriteToken(token);
         }
 
-        
+
 
     }
 }

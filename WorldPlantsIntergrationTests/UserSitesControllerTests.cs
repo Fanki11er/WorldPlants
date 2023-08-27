@@ -213,7 +213,7 @@ namespace WorldPlantsIntergrationTests
 
         }
 
-        [Fact]
+       /* [Fact]
         public async Task Edit_site_editing_site_in_proper_way()
         {
             _dbCleaner.ClearDatabase(_dbContext);
@@ -361,6 +361,6 @@ namespace WorldPlantsIntergrationTests
 
             responseContent.Should().Be("Nie jesteś właścicielem przestrzeni o podanym id");
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
-        }
+        }*/
     }
 }

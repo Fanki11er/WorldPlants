@@ -33,8 +33,8 @@ namespace WorldPlants.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlantId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -83,21 +83,45 @@ namespace WorldPlants.Migrations
 
             modelBuilder.Entity("WorldPlants.Entities.Plant", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdditionalDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CuttingInterval")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("FertilizingInterval")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ImageURL")
-                        .IsRequired()
+                    b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MistingInterval")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PlantHeight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PotHeight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PotWidth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReplantPlantingInterval")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserSiteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WateringInterval")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
