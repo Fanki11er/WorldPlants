@@ -84,7 +84,6 @@ namespace WorldPlants.Utilities
                 throw new NotUpdatedException(errorMessage);
             }
         }
-
     }
 
 }

@@ -67,6 +67,11 @@ namespace WorldPlants.MiddleWare
                 context.Response.StatusCode = 422;
                 await context.Response.WriteAsync(jsonException.Message);
             }
+            catch(NotSupportedImageTypeException notSupportedImageTypeException)
+            {
+                context.Response.StatusCode = 415;
+                await context.Response.WriteAsync(notSupportedImageTypeException.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);

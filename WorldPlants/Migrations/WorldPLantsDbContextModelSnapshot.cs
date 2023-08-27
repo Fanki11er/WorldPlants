@@ -90,8 +90,17 @@ namespace WorldPlants.Migrations
                     b.Property<string>("AdditionalDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageURL")
+                    b.Property<int>("CuttingInterval")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FertilizingInterval")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MistingInterval")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -106,7 +115,13 @@ namespace WorldPlants.Migrations
                     b.Property<int>("PotWidth")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReplantPlantingInterval")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserSiteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WateringInterval")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

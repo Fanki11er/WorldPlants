@@ -1,7 +1,6 @@
 ﻿// Ignore Spelling: Perenual Dto
 
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WorldPlants.Entities;
@@ -9,15 +8,12 @@ using WorldPlants.Exceptions;
 using WorldPlants.Models;
 using WorldPlants.Models.PlantsModels;
 using WorldPlants.Utilities;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WorldPlants.Services
 {
 
     public interface IPlantService
     {
-        //public Task<SearchPlantResults> SearchForPlant(string searchPhrase);
-        //public Task<string> SearchForPlantUsingGPT(string searchPhrase);
         public Task<List<SearchPlantResultDto>> SearchForPlant(string searchPhrase);
         public Task<PlantDetailsDto> GetPlantDetails(int plantId);
         public Task<string> AddPlant(AddPlantDto plantDto, int siteId);
@@ -29,14 +25,23 @@ namespace WorldPlants.Services
         private readonly ITranslationUtilities _translationUtilities;
         private readonly WorldPlantsDbContext _dbContext;
         private readonly IUtilities _Utilities;
+        private readonly IImageService _ImageService;
 
-        public PlantsService(ITranslationService translationService, IMapper mapper, ITranslationUtilities translationUtilities, WorldPlantsDbContext dbContext, IUtilities utilities)
+        public PlantsService(
+            ITranslationService translationService, 
+            IMapper mapper, 
+            ITranslationUtilities translationUtilities, 
+            WorldPlantsDbContext dbContext, 
+            IUtilities utilities,
+            IImageService ImageService
+            )
         {
             _translationService = translationService;
             _mapper = mapper;
             _translationUtilities = translationUtilities;
             _dbContext = dbContext;
             _Utilities = utilities;
+            _ImageService = ImageService;
         }
         public async Task<List<SearchPlantResultDto>> SearchForPlant(string searchPhrase)
         {
@@ -64,7 +69,7 @@ namespace WorldPlants.Services
 
                 if (resultFromSplitedSerchPhrase.Data.Length != 0)
                 {
-                    return  PrepareSerchResults(resultFromSplitedSerchPhrase);
+                    return PrepareSerchResults(resultFromSplitedSerchPhrase);
                 }
             }
 
@@ -93,14 +98,10 @@ namespace WorldPlants.Services
             {
                 var content = await response.Content.ReadAsStringAsync();
 
-                RawPlantDetailsData? plantDetailsData = JsonConvert.DeserializeObject<RawPlantDetailsData>(content);
-
-                if (plantDetailsData == null)
-                {
-
+                RawPlantDetailsData? plantDetailsData = JsonConvert
+                    .DeserializeObject<RawPlantDetailsData>(content) ?? 
                     throw new JsonException("Transformacja rezultatu nie udała się");
-                }
-
+                
                 return plantDetailsData;
 
             }
@@ -108,9 +109,6 @@ namespace WorldPlants.Services
             {
                 throw new SearchPlantException("Wystapił bład podczas wyszukiwania rosliny");
             }
-
-
-
         }
 
         private async Task<RawSearchPlantResultsData> SearchForPlantInPerenualAPI(string searchPhrase)
@@ -126,14 +124,7 @@ namespace WorldPlants.Services
             {
                 var content = await response.Content.ReadAsStringAsync();
 
-                RawSearchPlantResultsData? deserializedResponse = JsonConvert.DeserializeObject<RawSearchPlantResultsData>(content);
-
-                if (deserializedResponse == null)
-                {
-
-                    throw new JsonException("Transformacja rezultatu nie udała się");
-                }
-
+                RawSearchPlantResultsData? deserializedResponse = JsonConvert.DeserializeObject<RawSearchPlantResultsData>(content) ?? throw new JsonException("Transformacja rezultatu nie udała się");
                 return deserializedResponse;
 
             }
@@ -192,32 +183,31 @@ namespace WorldPlants.Services
 
             plantDetails.HarvestSeason = _translationUtilities.TransformStringProperty(rawData.HarvestSeason);
 
-
             plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
-            
+
             return plantDetails;
         }
 
-        public async Task<string> AddPlant( AddPlantDto plantDto, int siteId)
+        public async Task<string> AddPlant(AddPlantDto plantDto, int siteId)
         {
-            string fileName = "";
+            string? fileName = "";
 
-            var site = _dbContext.UserSites.Include(i=> i.Plants).FirstOrDefault(s=> s.Id == siteId);
-
-            if (site == null)
-            {
-                throw new NotFoundException("Nie odnaleziono miejsca");
-            }
+            var site = _dbContext.UserSites
+                .Include(i => i.Plants)
+                .FirstOrDefault(s => s.Id == siteId) ?? throw new NotFoundException("Nie odnaleziono miejsca");
 
             if (plantDto.ImageFile != null)
             {
-              fileName   = await SaveImageOnServer(plantDto.ImageFile);
+                fileName = await _ImageService.SaveImageOnServer(plantDto.ImageFile);
+            }
+            else if (plantDto.ImageUrl != null)
+            {
+                fileName = await _ImageService.SaveImageFromApiOnServer(plantDto.ImageUrl);
             }
 
             Plant plant = _mapper.Map<Plant>(plantDto);
 
-            // Change it
-            plant.ImageURL = $"https://localhost:7126/Store/Images/{fileName}";
+            plant.ImageName = fileName;
 
             plant.UserSiteId = siteId;
 
@@ -227,108 +217,5 @@ namespace WorldPlants.Services
 
             return plant.Id.ToString();
         }
-
-        private async Task<string> SaveImageOnServer(IFormFile image)
-        {
-            var hash = Guid.NewGuid().ToString();
-            var fileName = hash + "_" + image.FileName;
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(),
-                @"Store/Images", fileName);
-            using (FileStream fs = new (filePath, FileMode.Create))
-            {
-                await image.CopyToAsync(fs);
-            }
-
-            return fileName;
-        }
-
-        /*public async Task<SearchPlantResults> SearchForPlant(string searchPhrase)
-        {
-        }*/
-
-        /*public async Task<string> SearchForPlantUsingGPT(string searchPhrase)
-        {
-            var key = "";
-            var genetrator = new JSchemaGenerator();
-
-            JSchema schema = genetrator.Generate(typeof(GTPSearchRequestSchema));
-
-            GTPSearchFunction gptFunction = new()
-            {
-                Name = "GetPlantInformation",
-                Parameters = schema
-            };
-
-            GPTRequest request = new()
-            {
-                Model = "gpt-3.5-turbo-0613",
-
-                Messages = new MessageInJSON[]
-                {
-                    new MessageInJSON()
-                    {
-                        Role = "user",
-                        Content = $"Use metric units. Find information about plant: {searchPhrase}"
-                    }
-                },
-                Functions = new GTPSearchFunction[]
-                {
-                    gptFunction
-                },
-                Max_tokens = 256,
-                Temperature = 0.2f
-                
-            };
-
-            using var client = new HttpClient();
-
-            var json = JsonConvert.SerializeObject(request);
-
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/chat/completions");
-
-            httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", key);
-
-            httpRequest.Content = httpContent;
-
-            //var response = await client.SendAsync(httpRequest);
-
-            //var content =  await response.Content.ReadAsStringAsync();
-            var test = "{\r\n  \"id\": \"chatcmpl-7pF1asOw6H41KP7ACIfkx1ZpAeWXo\",\r\n  \"object\": \"chat.completion\",\r\n  \"created\": 1692446838,\r\n  \"model\": \"gpt-3.5-turbo-0613\",\r\n  \"choices\": [\r\n    {\r\n      \"index\": 0,\r\n      \"message\": {\r\n        \"role\": \"assistant\",\r\n        \"content\": null,\r\n        \"function_call\": {\r\n          \"name\": \"GetPlantInformation\",\r\n          \"arguments\": \"{\\n  \\\"CommonName\\\": \\\"Habanero\\\",\\n  \\\"ScientificName\\\": \\\"Capsicum chinense\\\",\\n  \\\"Description\\\": \\\"The habanero is a hot chili pepper. It is one of the spiciest peppers in the world and is commonly used in spicy dishes.\\\",\\n  \\\"Light\\\": 6,\\n  \\\"DieInTemp\\\": 0,\\n  \\\"NeedsSoilNutrimentsLevel\\\": 3,\\n  \\\"NeedsSoilHumidityLevel\\\": 4,\\n  \\\"AverageHeight\\\": 60,\\n  \\\"AverageHeightUnit\\\": \\\"cm\\\",\\n  \\\"Indoor\\\": false,\\n  \\\"Outdoor\\\": true\\n}\"\r\n        }\r\n      },\r\n      \"finish_reason\": \"function_call\"\r\n    }\r\n  ],\r\n  \"usage\": {\r\n    \"prompt_tokens\": 111,\r\n    \"completion_tokens\": 137,\r\n    \"total_tokens\": 248\r\n  }\r\n}";
-
-            //return content;
-            return ProcessGPTSearchResponse(test);
-
-
-        }*/
-
-        /*private string ProcessGPTSearchResponse(string response)
-        {
-            GPTResponse? deserializedResponse = JsonConvert.DeserializeObject<GPTResponse>(response);
-
-            if(deserializedResponse == null) {
-                throw new Exception("Err");
-            }
-
-            var res = deserializedResponse.Choices[0].Message.FunctionCall.Arguments;
-
-            if(res == null)
-            {
-                throw new Exception("Err");
-            }
-
-            GTPSearchRequestSchema? test = JsonConvert.DeserializeObject<GTPSearchRequestSchema>(res);
-
-            if(test == null)
-            {
-                throw new Exception("Err");
-            }
-
-            return test.Description;
-           
-        }*/
-
-
     }
 }

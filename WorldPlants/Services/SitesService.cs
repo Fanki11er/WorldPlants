@@ -77,7 +77,7 @@ namespace WorldPlants.Services
                     Name = p.Name,
                     SiteName = p.Name,
                     NumberOfTasks = p.ActiveTasks.Count,
-                    ImageUrl = p.ImageURL,
+                    ImageUrl = p.ImageName,
                     TasksInformation = p.ActiveTasks.Select(t => new ActiveTaskInformationDto()
                     {
                         IsDelayed = false,

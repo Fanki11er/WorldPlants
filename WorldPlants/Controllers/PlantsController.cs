@@ -10,7 +10,7 @@ namespace WorldPlants.Controllers
 {
     [Route("Plants")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PlantsController : Controller
     {
         private readonly IPlantService _plantService;
@@ -42,17 +42,5 @@ namespace WorldPlants.Controllers
 
             return Ok(plantId);
         }
-
-        /* [HttpPost("GPT")]
-         public async Task<ActionResult<string>> SearchForPlantUsingGPT(string searchPhrase)
-         {
-             var result = await _plantService.SearchForPlantUsingGPT(searchPhrase);
-
-             return Ok(result);
-         }
-        */
-
-
-
     }
 }
