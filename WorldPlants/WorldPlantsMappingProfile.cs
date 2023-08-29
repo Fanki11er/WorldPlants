@@ -50,6 +50,11 @@ namespace WorldPlants
                  .ForMember(m => m.UserSite, m => m.Ignore())
                   .ForMember(m => m.UserSiteId, m => m.Ignore());
 
+            CreateMap<Plant, PlantHeaderInformationDTO>()
+                .ForMember(m => m.UserSiteId, m => m.MapFrom(s => s.UserSite.Id))
+                .ForMember(m=> m.UserSiteName, m => m.MapFrom(s => s.UserSite.Name))
+                .ForMember(p => p.ImageUrl, p => p.Ignore());
+
         } 
     }
 }

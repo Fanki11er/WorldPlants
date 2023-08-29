@@ -16,7 +16,8 @@ namespace WorldPlants.Services
     {
         public Task<List<SearchPlantResultDto>> SearchForPlant(string searchPhrase);
         public Task<PlantDetailsDto> GetPlantDetails(int plantId);
-        public Task<string> AddPlant(AddPlantDto plantDto, int siteId);
+        public Task<string?> AddPlant(AddPlantDto plantDto, int siteId);
+        public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId);
     }
     public class PlantsService : IPlantService
     {
@@ -216,6 +217,21 @@ namespace WorldPlants.Services
             _Utilities.SaveChangesToDatabase();
 
             return plant.Id.ToString();
+        }
+
+        public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId)
+        {
+            var plant = _dbContext
+                .Plants
+                .Include(p => p.UserSite)
+                .FirstOrDefault(p => p.Id.ToString() == plantId) 
+                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+
+            PlantHeaderInformationDTO plantHeaderInformation = _mapper.Map<PlantHeaderInformationDTO>(plant);
+
+            plantHeaderInformation.ImageUrl = _ImageService.GetImageUrl(plant.ImageName);
+
+            return plantHeaderInformation;
         }
     }
 }

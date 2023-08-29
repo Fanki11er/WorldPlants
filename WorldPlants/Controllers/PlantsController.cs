@@ -42,5 +42,13 @@ namespace WorldPlants.Controllers
 
             return Ok(plantId);
         }
+
+        [HttpGet("HeaderInfo/{plantId}")]
+        public ActionResult<PlantHeaderInformationDTO> GetPlantHeaderInformationData([FromRoute] string plantId)
+        {
+            var result =_plantService.GetPlantHeaderInformationData(plantId);
+
+            return Ok(result);
+        }
     }
 }
