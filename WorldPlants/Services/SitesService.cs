@@ -14,7 +14,7 @@ namespace WorldPlants.Services
     public interface ISiteService
     {
         public List<UserSiteWithPlantsAndTasksDto> GetUserSitesWithPlants();
-        public SiteWithPlantsDto GetSiteWithPlants(int siteId);
+        //public SiteWithPlantsDto GetSiteWithPlants(int siteId);
         public List<SiteWithIdAndNameDto> GetDefaultSites();
         public List<SunExposureDto> GetSunExposures(int locationId);
         public List<SunExposureDto> GetSunExposuresByLocation(int locationId);
@@ -23,6 +23,7 @@ namespace WorldPlants.Services
         public void DeleteUserSite(int siteId);
         public GetUserSiteSettingsDto GetSiteSettings(int siteId);
         public void EditUserSite(int siteId, EditUserSiteSettingsDto dto);
+        public List<PlantBasicInformationDto> GetSitePlants(int siteId);
     }
     public class SitesService : ISiteService
     {
@@ -30,13 +31,21 @@ namespace WorldPlants.Services
         private readonly WorldPlantsDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly IUtilities _utilities;
+        private readonly IImageService _imageService;
 
-        public SitesService(IUserContextService userContextService, WorldPlantsDbContext dbContext, IMapper mapper, IUtilities utilities)
+        public SitesService(
+            IUserContextService userContextService, 
+            WorldPlantsDbContext dbContext, 
+            IMapper mapper, 
+            IUtilities utilities,
+            IImageService imageService
+            )
         {
             _userContextService = userContextService;
             _dbContext = dbContext;
             _mapper = mapper;
             _utilities = utilities;
+            _imageService = imageService;
         }
 
         public List<UserSiteWithPlantsAndTasksDto> GetUserSitesWithPlants()
@@ -63,7 +72,7 @@ namespace WorldPlants.Services
 
         }
 
-        public SiteWithPlantsDto GetSiteWithPlants(int siteId)
+        /*public SiteWithPlantsDto GetSiteWithPlants(int siteId)
         {
             var site = GetUserSiteWithPlantsAndActiveTasks(siteId);
 
@@ -71,12 +80,11 @@ namespace WorldPlants.Services
             {
                 Id = site!.Id,
                 Name = site.Name,
-                Plants = site.Plants.Select(p => new PlantInformationDto
+                Plants = site.Plants.Select(p => new PlantBasicInformationDto
                 {
                     Id = p.Id.ToString(),
                     Name = p.Name,
-                    SiteName = p.Name,
-                    NumberOfTasks = p.ActiveTasks.Count,
+
                     ImageUrl = p.ImageName,
                     TasksInformation = p.ActiveTasks.Select(t => new ActiveTaskInformationDto()
                     {
@@ -87,6 +95,31 @@ namespace WorldPlants.Services
                 }).ToList()
             };
             return siteWithPlantsDto;
+        }*/
+
+        public List<PlantBasicInformationDto> GetSitePlants(int siteId)
+        {
+            var sitePlants = new List<PlantBasicInformationDto>();
+
+            var site = GetUserSiteWithPlantsAndActiveTasks(siteId);
+
+           foreach (var plant in site.Plants)
+            {
+                var plantInormation = _mapper.Map<PlantBasicInformationDto>(plant);
+
+                var tasks = _mapper.Map<List<ActiveTaskInformationDto>>(plant.ActiveTasks);
+
+                if(tasks != null) {
+                    plantInormation.TasksInformation.AddRange(tasks);
+                }
+
+                plantInormation.ImageUrl = _imageService.GetImageUrl(plant.ImageName);
+
+                sitePlants.Add(plantInormation);
+
+            }
+
+            return sitePlants;
         }
 
         public List<SiteWithIdAndNameDto> GetDefaultSites()

@@ -221,17 +221,24 @@ namespace WorldPlants.Services
 
         public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId)
         {
-            var plant = _dbContext
-                .Plants
-                .Include(p => p.UserSite)
-                .FirstOrDefault(p => p.Id.ToString() == plantId) 
-                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+           Plant plant = FindPlant(plantId);
 
             PlantHeaderInformationDTO plantHeaderInformation = _mapper.Map<PlantHeaderInformationDTO>(plant);
 
             plantHeaderInformation.ImageUrl = _ImageService.GetImageUrl(plant.ImageName);
 
             return plantHeaderInformation;
+        }
+
+        private Plant FindPlant(string plantId)
+        {
+            var plant = _dbContext
+               .Plants
+               .Include(p => p.UserSite)
+               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+
+            return plant;
         }
     }
 }

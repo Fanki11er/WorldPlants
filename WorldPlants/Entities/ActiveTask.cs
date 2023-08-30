@@ -2,11 +2,12 @@
 {
     public class ActiveTask
     {
-        public int Id { get; set; }
-       // public int TaskTypeId { get; set; }
-       // public TaskType TaskType{ get; set; }
-        public DateTime DueDate { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int DaysLeft { get; set; }
+        public int DelayDays { get; set; }
         public virtual Plant Plant { get; set; }
         public Guid PlantId { get; set; }
+
     }
 }

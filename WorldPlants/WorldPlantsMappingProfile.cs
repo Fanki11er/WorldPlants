@@ -55,6 +55,12 @@ namespace WorldPlants
                 .ForMember(m=> m.UserSiteName, m => m.MapFrom(s => s.UserSite.Name))
                 .ForMember(p => p.ImageUrl, p => p.Ignore());
 
+            CreateMap<Plant, PlantBasicInformationDto>()
+                 .ForMember(p => p.ImageUrl, p => p.Ignore())
+                 .ForMember(p=> p.TasksInformation, p => p.MapFrom( s=> new List<ActiveTaskInformationDto>()));
+
+            CreateMap<ActiveTask, ActiveTaskInformationDto>();
+
         } 
     }
 }

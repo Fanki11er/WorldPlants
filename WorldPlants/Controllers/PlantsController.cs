@@ -28,7 +28,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("Details/{plantId}")]
-        public async Task<ActionResult<PlantInformationDto>> SearchForPlant([FromRoute] int plantId)
+        public async Task<ActionResult<PlantBasicInformationDto>> SearchForPlant([FromRoute] int plantId)
         {
             var result = await _plantService.GetPlantDetails(plantId);
 

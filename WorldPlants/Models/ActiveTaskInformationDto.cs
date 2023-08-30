@@ -2,7 +2,9 @@
 {
     public class ActiveTaskInformationDto
     {
-        public string Name { get; set; }
-        public bool IsDelayed { get; set; }
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public int DelayDays { get; set; }
+        public int DaysLeft { get; set; }
     }
 }
