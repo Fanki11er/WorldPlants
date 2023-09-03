@@ -18,6 +18,7 @@ namespace WorldPlants.Services
         public Task<PlantDetailsDto> GetPlantDetails(int plantId);
         public Task<string?> AddPlant(AddPlantDto plantDto, int siteId);
         public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId);
+        public Task<PlantTipsDTO?> GetPlantTips(string plantId);
     }
     public class PlantsService : IPlantService
     {
@@ -153,43 +154,7 @@ namespace WorldPlants.Services
             return searchResultsList;
         }
 
-        private async Task<PlantDetailsDto> PreparePlandDetailsDto(RawPlantDetailsData rawData)
-        {
-            var plantDetails = _mapper.Map<PlantDetailsDto>(rawData);
-
-            plantDetails.Watering = _translationUtilities.TransformStringProperty(rawData.Watering);
-
-            plantDetails.Sunlight = _translationUtilities.TransformStringProperty(rawData.Sunlight);
-
-            plantDetails.LifeCycle = _translationUtilities.TransformStringProperty(rawData.LifeCycle);
-
-            plantDetails.AverageHeight = _translationUtilities.TransformDimensionProperty(rawData.Dimensions);
-
-            plantDetails.PlantType = _translationUtilities.TransformStringProperty(rawData.PlantType);
-
-            plantDetails.WateringPeriod = _translationUtilities.TransformStringProperty(rawData.WateringPeriod);
-
-            plantDetails.WateringGeneralBenchmark = _translationUtilities
-                .TransformGeneralWateringBenchmark(rawData.RawPlantDetailsWateringGeneralBenchmark);
-
-            plantDetails.PruningMonth = _translationUtilities.TransformStringProperty(rawData.PruningMonth);
-
-            plantDetails.PruningCount = _translationUtilities.TransformPruningCount(rawData.PruningCount);
-
-            plantDetails.CareLevel = _translationUtilities.TransformStringProperty(rawData.CareLevel);
-
-            plantDetails.GrowthRate = _translationUtilities.TransformStringProperty(rawData.GrowthRate);
-
-            plantDetails.FloweringSeason = _translationUtilities.TransformStringProperty(rawData.FloweringSeason);
-
-            plantDetails.HarvestSeason = _translationUtilities.TransformStringProperty(rawData.HarvestSeason);
-
-            plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
-
-            return plantDetails;
-        }
-
-        public async Task<string> AddPlant(AddPlantDto plantDto, int siteId)
+        public async Task<string?> AddPlant(AddPlantDto plantDto, int siteId)
         {
             string? fileName = "";
 
@@ -230,6 +195,79 @@ namespace WorldPlants.Services
             return plantHeaderInformation;
         }
 
+        public async Task<PlantTipsDTO?> GetPlantTips(string plantId)
+        {
+            var plant = FindPlant(plantId);
+
+            var rawTips = await GetRawPlantTips(plant.ExternalId);
+
+            var plantTipsDTO = await PreparePlantTipsData(rawTips);
+
+            return plantTipsDTO;
+
+        }
+
+        private async Task<RawPlantTipsDataDTO?> GetRawPlantTips(int? tipsId)
+        {
+
+            if (tipsId == null)
+            {
+                return null;
+            }
+
+            var key = Environment.GetEnvironmentVariable("PARENUAL_API_KEY");
+
+            using var client = new HttpClient();
+
+            var response = await client.GetAsync($"http://perenual.com/api/species-care-guide-list?species_id={tipsId}&key={key}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+
+                RawPlantTipsDataDTO? deserializedResponse = JsonConvert.DeserializeObject<RawPlantTipsDataDTO>(content) ?? throw new JsonException("Transformacja rezultatu nie udała się");
+                return deserializedResponse;
+
+            }
+            else
+            {
+                throw new SearchPlantException("Wystapił bład podczas wyszukiwania rosliny");
+            }
+        }
+
+        private async Task<PlantTipsDTO?> PreparePlantTipsData(RawPlantTipsDataDTO? data)
+        {
+            if(data == null || data.Data.Length == 0)
+            {
+                return null;
+            }
+
+            var plantTipsDto = new PlantTipsDTO()
+            {
+                Id = data.Data[0].SpeciesId
+            };
+
+            var watering = data.Data[0].Section.FirstOrDefault(s => s.Type == "watering");
+
+            var pruning = data.Data[0].Section.FirstOrDefault(s => s.Type == "pruning");
+
+            if (watering != null)
+            {
+                var translatedWateringTip = await _translationService.TranslateInputToPolish(watering.Description);
+
+                plantTipsDto.Watering = translatedWateringTip;
+            }
+
+            if(pruning != null) 
+            {
+                var translatedPruningTip = await _translationService.TranslateInputToPolish(pruning.Description);
+
+                plantTipsDto.Pruning = translatedPruningTip;
+            }
+
+            return plantTipsDto;
+        }
+
         private Plant FindPlant(string plantId)
         {
             var plant = _dbContext
@@ -239,6 +277,42 @@ namespace WorldPlants.Services
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 
             return plant;
+        }
+
+        private async Task<PlantDetailsDto> PreparePlandDetailsDto(RawPlantDetailsData rawData)
+        {
+            var plantDetails = _mapper.Map<PlantDetailsDto>(rawData);
+
+            plantDetails.Watering = _translationUtilities.TransformStringProperty(rawData.Watering);
+
+            plantDetails.Sunlight = _translationUtilities.TransformStringProperty(rawData.Sunlight);
+
+            plantDetails.LifeCycle = _translationUtilities.TransformStringProperty(rawData.LifeCycle);
+
+            plantDetails.AverageHeight = _translationUtilities.TransformDimensionProperty(rawData.Dimensions);
+
+            plantDetails.PlantType = _translationUtilities.TransformStringProperty(rawData.PlantType);
+
+            plantDetails.WateringPeriod = _translationUtilities.TransformStringProperty(rawData.WateringPeriod);
+
+            plantDetails.WateringGeneralBenchmark = _translationUtilities
+                .TransformGeneralWateringBenchmark(rawData.RawPlantDetailsWateringGeneralBenchmark);
+
+            plantDetails.PruningMonth = _translationUtilities.TransformStringProperty(rawData.PruningMonth);
+
+            plantDetails.PruningCount = _translationUtilities.TransformPruningCount(rawData.PruningCount);
+
+            plantDetails.CareLevel = _translationUtilities.TransformStringProperty(rawData.CareLevel);
+
+            plantDetails.GrowthRate = _translationUtilities.TransformStringProperty(rawData.GrowthRate);
+
+            plantDetails.FloweringSeason = _translationUtilities.TransformStringProperty(rawData.FloweringSeason);
+
+            plantDetails.HarvestSeason = _translationUtilities.TransformStringProperty(rawData.HarvestSeason);
+
+            plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
+
+            return plantDetails;
         }
     }
 }

@@ -50,5 +50,13 @@ namespace WorldPlants.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("Tips/{plantId}")]
+        public async Task<ActionResult<PlantTipsDTO?>> GetPlantTips([FromRoute] string plantId)
+        {
+            var result = await _plantService.GetPlantTips(plantId);
+
+            return Ok(result);
+        }
     }
 }

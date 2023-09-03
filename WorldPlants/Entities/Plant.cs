@@ -3,6 +3,7 @@
     public class Plant
     {
         public Guid Id { get; set; }
+        public int? ExternalId { get; set; }
         public string Name { get; set; }
         public string? AdditionalDescription { get; set; }
         public int PotWidth { get; set; }

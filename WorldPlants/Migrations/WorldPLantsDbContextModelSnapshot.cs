@@ -28,13 +28,14 @@ namespace WorldPlants.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("DaysLeft")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DelayDays")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("ActionDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PartOfTheDay")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -96,6 +97,9 @@ namespace WorldPlants.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CuttingInterval")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ExternalId")
                         .HasColumnType("int");
 
                     b.Property<int>("FertilizingInterval")
