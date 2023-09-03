@@ -12,6 +12,8 @@ namespace WorldPlants.Utilities
         public string GetUserSpaceId();
         public void SaveChangesToDatabase(string errorMessage = "Nie udało się zapisać do bazy");
         public User GetUserWithSettings();
+        public Plant FindPlant(string plantId);
+        public Plant FindPlantWithTasks(string plantId);
     }
 
     public class Utilities : IUtilities
@@ -83,6 +85,29 @@ namespace WorldPlants.Utilities
             {
                 throw new NotUpdatedException(errorMessage);
             }
+        }
+
+        public Plant FindPlant(string plantId)
+        {
+            var plant = _dbContext
+               .Plants
+               .Include(p => p.UserSite)
+               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+
+            return plant;
+        }
+
+        public Plant FindPlantWithTasks(string plantId)
+        {
+            var plant = _dbContext
+               .Plants
+               .Include(p => p.UserSite)
+               .Include(p => p.ActiveTasks)
+               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+
+            return plant;
         }
     }
 

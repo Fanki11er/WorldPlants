@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WorldPlants.Entities;
 using WorldPlants.Models;
+using WorldPlants.Models.ActiveTasksModels;
 using WorldPlants.Models.PlantsModels;
 
 namespace WorldPlants
@@ -59,7 +60,11 @@ namespace WorldPlants
                  .ForMember(p => p.ImageUrl, p => p.Ignore())
                  .ForMember(p=> p.TasksInformation, p => p.MapFrom( s=> new List<ActiveTaskInformationDto>()));
 
-            CreateMap<ActiveTask, ActiveTaskInformationDto>();
+            CreateMap<ActiveTask, ActiveTaskInformationDto>()
+                .ForMember(m => m.DaysLeft, m => m.Ignore())
+                .ForMember(m => m.DelayDays, m => m.Ignore());
+
+            CreateMap<ActiveTask, ActiveTaskDTO>();
 
         } 
     }

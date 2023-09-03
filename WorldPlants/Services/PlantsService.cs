@@ -186,7 +186,7 @@ namespace WorldPlants.Services
 
         public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId)
         {
-           Plant plant = FindPlant(plantId);
+           Plant plant = _Utilities.FindPlant(plantId);
 
             PlantHeaderInformationDTO plantHeaderInformation = _mapper.Map<PlantHeaderInformationDTO>(plant);
 
@@ -197,7 +197,7 @@ namespace WorldPlants.Services
 
         public async Task<PlantTipsDTO?> GetPlantTips(string plantId)
         {
-            var plant = FindPlant(plantId);
+            var plant = _Utilities.FindPlant(plantId);
 
             var rawTips = await GetRawPlantTips(plant.ExternalId);
 
@@ -266,17 +266,6 @@ namespace WorldPlants.Services
             }
 
             return plantTipsDto;
-        }
-
-        private Plant FindPlant(string plantId)
-        {
-            var plant = _dbContext
-               .Plants
-               .Include(p => p.UserSite)
-               .FirstOrDefault(p => p.Id.ToString() == plantId)
-               ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
-
-            return plant;
         }
 
         private async Task<PlantDetailsDto> PreparePlandDetailsDto(RawPlantDetailsData rawData)
