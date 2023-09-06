@@ -17,11 +17,27 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("Standard/{plantId}/{taskType}")]
-        public ActionResult<ActiveTaskDTO?> GetStandardTask([FromRoute] string plantId, [FromRoute] string taskType) 
+        public ActionResult<ActiveTaskDTO> GetStandardTask([FromRoute] string plantId, [FromRoute] string taskType) 
         {
             var result = _activeTasksService.GetStandardPlantTask(plantId, taskType);
 
             return Ok(result);
+        }
+
+        [HttpPost("SetTask")]
+        public ActionResult<ActiveTaskDTO> SetPlantTask( ActiveTaskDTO task)
+        {
+            var result = _activeTasksService.SetPlantTask(task);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{taskId}")]
+        public ActionResult DeleteTask(string taskId)
+        {
+            _activeTasksService.DeletePlantTask(taskId);
+
+            return NoContent();
         }
     }
 }
