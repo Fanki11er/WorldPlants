@@ -64,7 +64,7 @@ namespace WorldPlants.Services
                     Id = plant.Id.ToString(),
                     Name = plant.Name,
                     NumberOfTasks = plant.ActiveTasks.Count,
-                    ImageUrl = ""
+                    ImageUrl = _imageService.GetImageUrl(plant.ImageName)
                 }).ToList()
             }).ToList();
 

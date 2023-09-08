@@ -62,8 +62,8 @@ namespace WorldPlants
                  .ForMember(p => p.TasksInformation, p => p.MapFrom(s => new List<ActiveTaskInformationDto>()));
 
             CreateMap<ActiveTask, ActiveTaskInformationDto>()
-                .ForMember(m => m.DaysLeft, m => m.Ignore())
-                .ForMember(m => m.DelayDays, m => m.Ignore());
+                .ForMember(m => m.DaysLeft, m => m.MapFrom(d => ( DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber)));
+                
 
             CreateMap<ActiveTask, ActiveTaskDTO>()
                 .ForMember(m=> m.ActionDate, m=> m.MapFrom(d => DateOnly.FromDateTime(d.ActionDate)));
