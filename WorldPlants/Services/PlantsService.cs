@@ -16,7 +16,9 @@ namespace WorldPlants.Services
     {
         public Task<List<SearchPlantResultDto>> SearchForPlant(string searchPhrase);
         public Task<PlantDetailsDto> GetPlantDetails(int plantId);
-        public Task<string> AddPlant(AddPlantDto plantDto, int siteId);
+        public Task<string?> AddPlant(AddPlantDto plantDto, int siteId);
+        public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId);
+        public Task<PlantTipsDTO?> GetPlantTips(string plantId);
     }
     public class PlantsService : IPlantService
     {
@@ -152,6 +154,121 @@ namespace WorldPlants.Services
             return searchResultsList;
         }
 
+        public async Task<string?> AddPlant(AddPlantDto plantDto, int siteId)
+        {
+            string? fileName = "";
+
+            var site = _dbContext.UserSites
+                .Include(i => i.Plants)
+                .AsSplitQuery()
+                .FirstOrDefault(s => s.Id == siteId) ?? throw new NotFoundException("Nie odnaleziono miejsca");
+
+            if (plantDto.ImageFile != null)
+            {
+                fileName = await _ImageService.SaveImageOnServer(plantDto.ImageFile);
+            }
+            else if (plantDto.ImageUrl != null)
+            {
+                fileName = await _ImageService.SaveImageFromApiOnServer(plantDto.ImageUrl);
+            }
+
+            Plant plant = _mapper.Map<Plant>(plantDto);
+
+            plant.ImageName = fileName;
+
+            plant.UserSiteId = siteId;
+
+            _dbContext.Plants.Add(plant);
+
+            _Utilities.SaveChangesToDatabase();
+
+            return plant.Id.ToString();
+        }
+
+        public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId)
+        {
+           Plant plant = _Utilities.FindPlant(plantId);
+
+            PlantHeaderInformationDTO plantHeaderInformation = _mapper.Map<PlantHeaderInformationDTO>(plant);
+
+            plantHeaderInformation.ImageUrl = _ImageService.GetImageUrl(plant.ImageName);
+
+            return plantHeaderInformation;
+        }
+
+        public async Task<PlantTipsDTO?> GetPlantTips(string plantId)
+        {
+            var plant = _Utilities.FindPlant(plantId);
+
+            var rawTips = await GetRawPlantTips(plant.ExternalId);
+
+            var plantTipsDTO = await PreparePlantTipsData(rawTips);
+
+            return plantTipsDTO;
+
+        }
+
+        private async Task<RawPlantTipsDataDTO?> GetRawPlantTips(int? tipsId)
+        {
+
+            if (tipsId == null)
+            {
+                return null;
+            }
+
+            var key = Environment.GetEnvironmentVariable("PARENUAL_API_KEY");
+
+            using var client = new HttpClient();
+
+            var response = await client.GetAsync($"http://perenual.com/api/species-care-guide-list?species_id={tipsId}&key={key}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+
+                RawPlantTipsDataDTO? deserializedResponse = JsonConvert.DeserializeObject<RawPlantTipsDataDTO>(content) ?? throw new JsonException("Transformacja rezultatu nie udała się");
+                return deserializedResponse;
+
+            }
+            else
+            {
+                throw new SearchPlantException("Wystapił bład podczas wyszukiwania rosliny");
+            }
+        }
+
+        private async Task<PlantTipsDTO?> PreparePlantTipsData(RawPlantTipsDataDTO? data)
+        {
+            if(data == null || data.Data.Length == 0)
+            {
+                return null;
+            }
+
+            var plantTipsDto = new PlantTipsDTO()
+            {
+                Id = data.Data[0].SpeciesId
+            };
+
+            var watering = data.Data[0].Section.FirstOrDefault(s => s.Type == "watering");
+
+            var pruning = data.Data[0].Section.FirstOrDefault(s => s.Type == "pruning");
+
+            if (watering != null)
+            {
+                var translatedWateringTip = await _translationService.TranslateInputToPolish(watering.Description);
+
+                plantTipsDto.Watering = translatedWateringTip;
+            }
+
+            if(pruning != null) 
+            {
+                var translatedPruningTip = await _translationService.TranslateInputToPolish(pruning.Description);
+
+                plantTipsDto.Pruning = translatedPruningTip;
+            }
+
+            return plantTipsDto;
+        }
+
         private async Task<PlantDetailsDto> PreparePlandDetailsDto(RawPlantDetailsData rawData)
         {
             var plantDetails = _mapper.Map<PlantDetailsDto>(rawData);
@@ -186,36 +303,6 @@ namespace WorldPlants.Services
             plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
 
             return plantDetails;
-        }
-
-        public async Task<string> AddPlant(AddPlantDto plantDto, int siteId)
-        {
-            string? fileName = "";
-
-            var site = _dbContext.UserSites
-                .Include(i => i.Plants)
-                .FirstOrDefault(s => s.Id == siteId) ?? throw new NotFoundException("Nie odnaleziono miejsca");
-
-            if (plantDto.ImageFile != null)
-            {
-                fileName = await _ImageService.SaveImageOnServer(plantDto.ImageFile);
-            }
-            else if (plantDto.ImageUrl != null)
-            {
-                fileName = await _ImageService.SaveImageFromApiOnServer(plantDto.ImageUrl);
-            }
-
-            Plant plant = _mapper.Map<Plant>(plantDto);
-
-            plant.ImageName = fileName;
-
-            plant.UserSiteId = siteId;
-
-            _dbContext.Plants.Add(plant);
-
-            _Utilities.SaveChangesToDatabase();
-
-            return plant.Id.ToString();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using DeepL;
+using Microsoft.JSInterop;
 using System.IdentityModel.Tokens.Jwt;
 using WorldPlants.Exceptions;
 
@@ -23,7 +24,7 @@ namespace WorldPlants.MiddleWare
                 context.Response.StatusCode = 403;
                 await context.Response.WriteAsync(forbidException.Message);
             }
-            catch (NotFoundException notFoundException)
+            catch (Exceptions.NotFoundException notFoundException)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFoundException.Message);
@@ -71,6 +72,16 @@ namespace WorldPlants.MiddleWare
             {
                 context.Response.StatusCode = 415;
                 await context.Response.WriteAsync(notSupportedImageTypeException.Message);
+            }
+            catch(ArgumentNullException argumentNullException)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(argumentNullException.Message);
+            }
+            catch(QuotaExceededException)
+            {
+                context.Response.StatusCode = 415;
+                await context.Response.WriteAsync("Wykorzystano limit tłumaczeń");
             }
             catch (Exception ex)
             {

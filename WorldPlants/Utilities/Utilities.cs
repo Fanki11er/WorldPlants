@@ -12,6 +12,8 @@ namespace WorldPlants.Utilities
         public string GetUserSpaceId();
         public void SaveChangesToDatabase(string errorMessage = "Nie udało się zapisać do bazy");
         public User GetUserWithSettings();
+        public Plant FindPlant(string plantId);
+        public Plant FindPlantWithTasks(string plantId);
     }
 
     public class Utilities : IUtilities
@@ -40,27 +42,28 @@ namespace WorldPlants.Utilities
         public User GetUser()
         {
             var userId = _userContextService
-                .GetUserId ?? 
+                .GetUserId ??
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
-            
+
             var user = _dbContext
                 .Users
-                .FirstOrDefault(u => u.Id.ToString() == userId) ?? 
+                .FirstOrDefault(u => u.Id.ToString() == userId) ??
                 throw new NotFoundException("Nie odnaleziono użytkownika");
-            
+
             return user;
         }
 
         public User GetUserWithSettings()
         {
             string userId = _userContextService
-                .GetUserId ?? 
+                .GetUserId ??
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
 
             var user = _dbContext
                 .Users
                 .Include(i => i.UserSettings)
-                .FirstOrDefault(u => u.Id.ToString() == userId) ?? 
+                .AsSplitQuery()
+                .FirstOrDefault(u => u.Id.ToString() == userId) ??
                 throw new NotFoundException("Nie odnaleziono użytkownika");
 
             return user;
@@ -69,9 +72,9 @@ namespace WorldPlants.Utilities
         public string GetUserSpaceId()
         {
             var userSpaceId = _userContextService
-                .GetSpaceId ?? 
+                .GetSpaceId ??
                 throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni użytkownika");
-            
+
             return userSpaceId;
         }
 
@@ -83,6 +86,30 @@ namespace WorldPlants.Utilities
             {
                 throw new NotUpdatedException(errorMessage);
             }
+        }
+
+        public Plant FindPlant(string plantId)
+        {
+            var plant = _dbContext.Plants.Include(p => p.UserSite)
+               .AsSplitQuery()
+               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+
+            return plant;
+        }
+
+        public Plant FindPlantWithTasks(string plantId)
+        {
+            var plant = _dbContext
+               .Plants
+               .Include(p => p.UserSite)
+               .AsSplitQuery()
+               .Include(p => p.ActiveTasks)
+               .AsSplitQuery()
+               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+
+            return plant;
         }
     }
 

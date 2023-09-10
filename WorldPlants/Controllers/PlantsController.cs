@@ -28,7 +28,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("Details/{plantId}")]
-        public async Task<ActionResult<PlantInformationDto>> SearchForPlant([FromRoute] int plantId)
+        public async Task<ActionResult<PlantBasicInformationDto>> SearchForPlant([FromRoute] int plantId)
         {
             var result = await _plantService.GetPlantDetails(plantId);
 
@@ -41,6 +41,22 @@ namespace WorldPlants.Controllers
          var plantId =   await _plantService.AddPlant(plantDto, siteId);
 
             return Ok(plantId);
+        }
+
+        [HttpGet("HeaderInfo/{plantId}")]
+        public ActionResult<PlantHeaderInformationDTO> GetPlantHeaderInformationData([FromRoute] string plantId)
+        {
+            var result =_plantService.GetPlantHeaderInformationData(plantId);
+
+            return Ok(result);
+        }
+
+        [HttpGet("Tips/{plantId}")]
+        public async Task<ActionResult<PlantTipsDTO?>> GetPlantTips([FromRoute] string plantId)
+        {
+            var result = await _plantService.GetPlantTips(plantId);
+
+            return Ok(result);
         }
     }
 }
