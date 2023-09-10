@@ -78,16 +78,18 @@ namespace WorldPlants.MiddleWare
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(argumentNullException.Message);
             }
-            catch(QuotaExceededException)
+            catch(DeepLException ex)
             {
                 context.Response.StatusCode = 415;
-                await context.Response.WriteAsync("Wykorzystano limit tłumaczeń");
+                await context.Response.WriteAsync("Błąd tłumaczenia");
+                Console.WriteLine("Bład DeepL: " + ex.Message);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Coś się wykrzaczyło" + ex.Message);
+                await context.Response.WriteAsync("Coś się wykrzaczyło)");
+                Console.WriteLine("Coś się wykrzaczyło: " + ex.Message);
             }
         }
     }

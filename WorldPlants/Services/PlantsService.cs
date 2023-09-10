@@ -1,6 +1,7 @@
 ﻿// Ignore Spelling: Perenual Dto
 
 using AutoMapper;
+using DeepL;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WorldPlants.Entities;
@@ -161,7 +162,7 @@ namespace WorldPlants.Services
             var site = _dbContext.UserSites
                 .Include(i => i.Plants)
                 .AsSplitQuery()
-                .FirstOrDefault(s => s.Id == siteId) ?? throw new NotFoundException("Nie odnaleziono miejsca");
+                .FirstOrDefault(s => s.Id == siteId) ?? throw new Exceptions.NotFoundException("Nie odnaleziono miejsca");
 
             if (plantDto.ImageFile != null)
             {
@@ -300,7 +301,18 @@ namespace WorldPlants.Services
 
             plantDetails.HarvestSeason = _translationUtilities.TransformStringProperty(rawData.HarvestSeason);
 
-            plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
+            try
+            {
+                plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
+            }
+            catch(QuotaExceededException ex)
+            {
+                plantDetails.Description = "Nie udało się uzyskać inforacji";
+
+                Console.WriteLine(ex.Message);
+            }
+
+           
 
             return plantDetails;
         }
