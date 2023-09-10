@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WorldPlants.Entities;
+using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
 using WorldPlants.Services;
 
@@ -38,6 +40,38 @@ namespace WorldPlants.Controllers
             _activeTasksService.DeletePlantTask(taskId);
 
             return NoContent();
+        }
+
+        [HttpGet("AllTasks/{plantId}")]
+        public ActionResult<List<ActiveTaskInformationDto>> GetPlantAllTasks([FromRoute]string plantId)
+        {
+            var result = _activeTasksService.GetPlantAllTasks(plantId);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Snooze/{taskId}")]
+        public ActionResult<ActiveTask> SnoozeTask([FromRoute] string taskId)
+        {
+            var result = _activeTasksService.SnoozeTask(taskId);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Skip/{taskId}")]
+        public ActionResult<ActiveTask?> SkipTask([FromRoute] string taskId)
+        {
+            var result = _activeTasksService.SkipTask(taskId);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Execute/{taskId}")]
+        public ActionResult<ActiveTask?> ExecuteTask([FromRoute] string taskId)
+        {
+            var result = _activeTasksService.ExecuteTask(taskId);
+
+            return Ok(result);
         }
     }
 }

@@ -42,27 +42,28 @@ namespace WorldPlants.Utilities
         public User GetUser()
         {
             var userId = _userContextService
-                .GetUserId ?? 
+                .GetUserId ??
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
-            
+
             var user = _dbContext
                 .Users
-                .FirstOrDefault(u => u.Id.ToString() == userId) ?? 
+                .FirstOrDefault(u => u.Id.ToString() == userId) ??
                 throw new NotFoundException("Nie odnaleziono użytkownika");
-            
+
             return user;
         }
 
         public User GetUserWithSettings()
         {
             string userId = _userContextService
-                .GetUserId ?? 
+                .GetUserId ??
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
 
             var user = _dbContext
                 .Users
                 .Include(i => i.UserSettings)
-                .FirstOrDefault(u => u.Id.ToString() == userId) ?? 
+                .AsSplitQuery()
+                .FirstOrDefault(u => u.Id.ToString() == userId) ??
                 throw new NotFoundException("Nie odnaleziono użytkownika");
 
             return user;
@@ -71,9 +72,9 @@ namespace WorldPlants.Utilities
         public string GetUserSpaceId()
         {
             var userSpaceId = _userContextService
-                .GetSpaceId ?? 
+                .GetSpaceId ??
                 throw new UserSiteNotFoundException("Nie odnaleziono przestrzeni użytkownika");
-            
+
             return userSpaceId;
         }
 
@@ -89,9 +90,8 @@ namespace WorldPlants.Utilities
 
         public Plant FindPlant(string plantId)
         {
-            var plant = _dbContext
-               .Plants
-               .Include(p => p.UserSite)
+            var plant = _dbContext.Plants.Include(p => p.UserSite)
+               .AsSplitQuery()
                .FirstOrDefault(p => p.Id.ToString() == plantId)
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 
@@ -103,7 +103,9 @@ namespace WorldPlants.Utilities
             var plant = _dbContext
                .Plants
                .Include(p => p.UserSite)
+               .AsSplitQuery()
                .Include(p => p.ActiveTasks)
+               .AsSplitQuery()
                .FirstOrDefault(p => p.Id.ToString() == plantId)
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 

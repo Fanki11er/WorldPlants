@@ -80,11 +80,11 @@ namespace WorldPlants.Services
 
         }
 
-        public string GetImageUrl(string imageName)
+        public string GetImageUrl(string? imageName = "")
         {
             string hostPath = _pathHelper.GetHostUrl();
 
-            string imageUrl = $"{hostPath}/StaticFiles/Images/{imageName}";
+            string imageUrl = imageName!.Length > 0 ? $"{hostPath}/StaticFiles/Images/{imageName}" : "";
 
             return imageUrl;
         }

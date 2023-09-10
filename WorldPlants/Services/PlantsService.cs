@@ -160,6 +160,7 @@ namespace WorldPlants.Services
 
             var site = _dbContext.UserSites
                 .Include(i => i.Plants)
+                .AsSplitQuery()
                 .FirstOrDefault(s => s.Id == siteId) ?? throw new NotFoundException("Nie odnaleziono miejsca");
 
             if (plantDto.ImageFile != null)

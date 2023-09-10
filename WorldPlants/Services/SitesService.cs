@@ -107,7 +107,9 @@ namespace WorldPlants.Services
             {
                 var plantInormation = _mapper.Map<PlantBasicInformationDto>(plant);
 
-                var tasks = _mapper.Map<List<ActiveTaskInformationDto>>(plant.ActiveTasks);
+                var shortTermTasks = plant.ActiveTasks.Where(d => (DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber) <= 7);
+
+                var tasks = _mapper.Map<List<ActiveTaskInformationDto>>(shortTermTasks);
 
                 if(tasks != null) {
                     plantInormation.TasksInformation.AddRange(tasks);

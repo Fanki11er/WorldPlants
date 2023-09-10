@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
+using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
 using WorldPlants.Utilities;
 
@@ -14,6 +15,10 @@ namespace WorldPlants.Services
         public ActiveTaskDTO GetStandardPlantTask(string taskType, string plantId);
         public ActiveTaskDTO SetPlantTask(ActiveTaskDTO task);
         public void DeletePlantTask(string taskId);
+        public List<ActiveTaskInformationDto> GetPlantAllTasks(string plantId);
+        public ActiveTaskInformationDto SnoozeTask(string taskId);
+        public ActiveTaskInformationDto? SkipTask(string taskId);
+        public ActiveTaskInformationDto? ExecuteTask(string taskId);
     }
     public class ActiveTasksService: IActiveTasksService
     {
@@ -102,6 +107,113 @@ namespace WorldPlants.Services
             _utilities.SaveChangesToDatabase();
         }
 
-     
+        public List<ActiveTaskInformationDto> GetPlantAllTasks(string plantId)
+        {
+            var plant = _utilities.FindPlantWithTasks(plantId);
+
+            var tasks = _mapper.Map<List<ActiveTaskInformationDto>>(plant.ActiveTasks);
+
+            return tasks;
+        }
+        
+        public ActiveTaskInformationDto SnoozeTask(string taskId)
+        {
+            var task = GetTask(taskId);
+
+            if (GetNumberOfDaysLeft(task) < 0)
+            {
+                task.ActionDate = DateTime.Now.AddDays(1);
+            }
+            else
+            {
+                task.ActionDate = task.ActionDate.AddDays(1);
+            }
+
+            _dbContext.Update(task);
+
+            _utilities.SaveChangesToDatabase();
+
+            var updatedTask = _mapper.Map<ActiveTaskInformationDto>(task);
+
+            return updatedTask;
+        }
+
+        public ActiveTaskInformationDto? SkipTask(string taskId)
+        {
+            var task = GetTask(taskId);
+
+            if (task.Interval != 0 && task.Interval != null)
+            {
+
+                if (GetNumberOfDaysLeft(task) < 0)
+                {
+                    task.ActionDate = DateTime.Now.AddDays((double)task.Interval);
+                }
+                else
+                {
+                    task.ActionDate = task.ActionDate.AddDays((double)task.Interval);
+                }
+
+                _dbContext.Update(task);
+
+                _utilities.SaveChangesToDatabase();
+
+                var updatedTask = _mapper.Map<ActiveTaskInformationDto>(task);
+
+                return updatedTask;
+
+            }
+            else
+            {
+                _dbContext.ActiveTasks.Remove(task);
+
+                _utilities.SaveChangesToDatabase();
+
+                return null;
+            }
+        }
+
+        public ActiveTaskInformationDto? ExecuteTask(string taskId)
+        {
+            var task = GetTask(taskId);
+
+            if (task.Interval != 0 && task.Interval != null)
+            {
+                // Add executed task to the history, with date and user, plant name and maybe place
+                task.ActionDate =DateTime.Now.AddDays((double)task.Interval);
+
+                _dbContext.Update(task);
+
+                _utilities.SaveChangesToDatabase();
+
+                var updatedTask = _mapper.Map<ActiveTaskInformationDto>(task);
+
+                return updatedTask;
+
+            }
+            else
+            {
+                // Add executed task to the history, with date and user, plant name and maybe place
+                _dbContext.ActiveTasks.Remove(task);
+
+                _utilities.SaveChangesToDatabase();
+
+                return null;
+            }
+        }
+
+        private ActiveTask GetTask(string taskId)
+        {
+            var task = _dbContext.ActiveTasks
+               .FirstOrDefault(t => t.Id.ToString() == taskId)
+               ?? throw new NotFoundException("Nie odnaleziono zadania");
+
+            return task;
+        }
+
+        private int GetNumberOfDaysLeft(ActiveTask task)
+        {
+            return (DateOnly.FromDateTime(task.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber);
+        }
     }
 }

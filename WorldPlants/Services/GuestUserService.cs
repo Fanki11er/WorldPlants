@@ -141,8 +141,8 @@ namespace WorldPlants.Services
 
             _databaseUtils.CheckIfSpaceExists(spaceId);
 
-            var user = _context.Users
-                .Include(i => i.UserSettings)
+            var user = _context.Users.Include(i => i.UserSettings)
+                .AsSplitQuery()
                 .FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
 
             CheckIfUserExists(user);
