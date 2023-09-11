@@ -21,7 +21,7 @@ import { getErrorMessages } from "../../Utils/Utils";
 import GuestUserPermissionsForm from "../../Components/Organisms/GuestUserPermissionsForm/GuestUserPermissionsForm";
 import DeleteUserAccountFormFormik from "../../Components/Organisms/DeleteUserAccountFormFormik/DeleteUserAccountFormFormik";
 import { paths } from "../../Router/paths";
-import { SideMenuWrapper } from "../../Components/Atoms/SideMenuWrapper/SideMenuWrapper.styles";
+import SideMenu from "../../Components/Molecules/SideMenu/SideMenu";
 
 const GuestPermissionsView = () => {
   const { authorized, userSettings, userSettingsGuestAccounts } = paths;
@@ -53,14 +53,14 @@ const GuestPermissionsView = () => {
       </FullRowWrapper>
       {data?.data && (
         <>
-          <SideMenuWrapper>
+          <SideMenu>
             <SideMenuLink to={""} end>
               Uprawnienia
             </SideMenuLink>
             <PermissionsReturnButton onClick={() => navigate(-1)}>
               Powrót
             </PermissionsReturnButton>
-          </SideMenuWrapper>
+          </SideMenu>
           <HeaderAndOptionsWrapper>
             <HeaderPermissions>
               {`Konto gościa: ${data?.data?.name}`}

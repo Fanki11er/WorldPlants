@@ -7,6 +7,13 @@ export const SettingsSectionWrapper = styled.div`
   grid-template-columns: 1fr;
   justify-items: center;
   align-items: center;
+  grid-column: 2/3;
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+  }
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+  }
 `;
 
 export const SettingsSectionHeader = styled.h1`

@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { paths } from "../../../Router/paths";
 import { ActionButton, SideMenuLink } from "../../Atoms/Buttons/Buttons";
-import { SideMenuWrapper } from "../../Atoms/SideMenuWrapper/SideMenuWrapper.styles";
+import SideMenu from "../SideMenu/SideMenu";
 
 const SelectedUserSiteSideMenu = () => {
   const {
@@ -14,7 +14,7 @@ const SelectedUserSiteSideMenu = () => {
   const { siteId } = useParams();
   const navigate = useNavigate();
   return (
-    <SideMenuWrapper>
+    <SideMenu>
       <SideMenuLink to={""} end>
         Rośliny
       </SideMenuLink>
@@ -26,7 +26,7 @@ const SelectedUserSiteSideMenu = () => {
       <ActionButton onClick={() => navigate(`${authorized}/${userSites}`)}>
         Powrót
       </ActionButton>
-    </SideMenuWrapper>
+    </SideMenu>
   );
 };
 

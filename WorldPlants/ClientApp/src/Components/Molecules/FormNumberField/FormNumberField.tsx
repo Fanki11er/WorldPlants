@@ -24,7 +24,7 @@ const FormNumberField = (props: Props) => {
       <FieldWrapper>
         <StyledField
           {...field}
-          {...props}
+          name={name}
           type={"number"}
           iserror={meta.error ? "error" : ""}
           min={minValue || minValue === 0 ? minValue : ""}

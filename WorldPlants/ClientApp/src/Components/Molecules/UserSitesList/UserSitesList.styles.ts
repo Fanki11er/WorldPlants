@@ -23,7 +23,8 @@ export const LinkToSite = styled(Link)`
 `;
 
 export const UserSitesListItemWrapper = styled.li`
-  width: 350px;
+  display: flex;
+  flex-basis: 350px;
   background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
   border-radius: 25px;
   padding: 20px 30px;
@@ -47,6 +48,5 @@ export const UserSitesListItemPlantsCountInfo = styled.h3`
 export const UserSitesPlantsImg = styled.img`
   display: flex;
   align-self: flex-end;
-  margin-top: 20px;
   width: 100%;
 `;

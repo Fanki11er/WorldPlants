@@ -10,6 +10,6 @@ export const ChangeSiteSettingsFormWrapper = styled(Form)`
   row-gap: 10px;
   background-color: ${(props: AppTheme) => props.theme.colors.mainBlue};
   padding: 40px;
-  border-radius: 10px;
+  border-radius: 25px;
   justify-items: center;
 `;

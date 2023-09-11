@@ -8,7 +8,7 @@ export const DeleteFormWrapper = styled(Form)`
   row-gap: 10px;
   justify-items: center;
   border: 2px solid ${(props: AppTheme) => props.theme.colors.red};
-  border-radius: 10px;
+  border-radius: 25px;
   padding: 40px;
 `;
 

@@ -53,6 +53,15 @@ export const NavigationLink = styled(NavLink)`
     cursor: not-allowed;
     pointer-events: none;
   }
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+  }
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    min-width: 15px;
+    min-height: 15px;
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.xSmall};
+  }
 `;
 
 export const OrangeButton = styled.button`
