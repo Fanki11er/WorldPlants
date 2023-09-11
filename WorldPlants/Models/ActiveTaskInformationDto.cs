@@ -2,7 +2,8 @@
 {
     public class ActiveTaskInformationDto
     {
-        public string Name { get; set; }
-        public bool IsDelayed { get; set; }
+        public string Id { get; set; }
+        public string ActionType { get; set; }
+        public int DaysLeft { get; set; }
     }
 }

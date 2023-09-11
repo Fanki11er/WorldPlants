@@ -1,17 +1,26 @@
 ﻿using WorldPlants.Exceptions;
+using WorldPlants.Utilities;
 
 namespace WorldPlants.Services
 {
-
+    
     public interface IImageService
     {
         public Task<string> SaveImageOnServer(IFormFile image);
         public Task<string?> SaveImageFromApiOnServer(string url);
-
         public string CheckFileExtension(string path);
+        public string? GetImageUrl(string? imageName);
     }
     public class ImageService: IImageService
     {
+
+        private readonly IPathHelper _pathHelper;
+
+        public ImageService(IPathHelper pathHelper)
+        {
+            _pathHelper = pathHelper;
+        }
+
         public async Task<string> SaveImageOnServer(IFormFile image)
         {
             var fileName = CreateImageName(image.FileName);
@@ -71,8 +80,23 @@ namespace WorldPlants.Services
 
         }
 
-        private string CreateImageName(string path)
+        public string GetImageUrl(string? imageName = "")
         {
+            string hostPath = _pathHelper.GetHostUrl();
+
+            string imageUrl = imageName!.Length > 0 ? $"{hostPath}/StaticFiles/Images/{imageName}" : "";
+
+            return imageUrl;
+        }
+
+        private string? CreateImageName(string? path)
+        {
+
+            if(path == null)
+            {
+                return null;
+            }
+
             var hash = Guid.NewGuid().ToString();
 
             var imageType = Path.GetExtension(path);

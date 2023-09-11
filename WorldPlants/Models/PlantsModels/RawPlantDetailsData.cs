@@ -5,6 +5,9 @@ namespace WorldPlants.Models.PlantsModels
 {
     public class RawPlantDetailsData
     {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
         [JsonProperty("common_name")]
         public string? CommonName { get; set; }
 

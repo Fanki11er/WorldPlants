@@ -52,11 +52,12 @@ namespace WorldPlants.Services
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
             }
 
-            var space = _context.Spaces
-                .Include(i => i.Users)
+            var space = _context.Spaces.Include(i => i.Users)
                 .ThenInclude(i => i.UserSettings)
+                .AsSplitQuery()
                 .Include(i => i.UserSites)
                 .ThenInclude(i => i.Plants)
+                .AsSplitQuery()
                 .FirstOrDefault(s => s.Id.ToString() == spaceId);
             
             if (space == null)

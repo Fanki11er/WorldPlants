@@ -6,6 +6,6 @@ namespace WorldPlants.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<PlantInformationDto> Plants { get; set; }
+        public List<PlantBasicInformationDto> Plants { get; set; }
     }
 }

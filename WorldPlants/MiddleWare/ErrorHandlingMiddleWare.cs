@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using DeepL;
+using Microsoft.JSInterop;
 using System.IdentityModel.Tokens.Jwt;
 using WorldPlants.Exceptions;
 
@@ -23,7 +24,7 @@ namespace WorldPlants.MiddleWare
                 context.Response.StatusCode = 403;
                 await context.Response.WriteAsync(forbidException.Message);
             }
-            catch (NotFoundException notFoundException)
+            catch (Exceptions.NotFoundException notFoundException)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFoundException.Message);
@@ -72,11 +73,23 @@ namespace WorldPlants.MiddleWare
                 context.Response.StatusCode = 415;
                 await context.Response.WriteAsync(notSupportedImageTypeException.Message);
             }
+            catch(ArgumentNullException argumentNullException)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(argumentNullException.Message);
+            }
+            catch(DeepLException ex)
+            {
+                context.Response.StatusCode = 415;
+                await context.Response.WriteAsync("Błąd tłumaczenia");
+                Console.WriteLine("Bład DeepL: " + ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Coś się wykrzaczyło" + ex.Message);
+                await context.Response.WriteAsync("Coś się wykrzaczyło)");
+                Console.WriteLine("Coś się wykrzaczyło: " + ex.Message);
             }
         }
     }

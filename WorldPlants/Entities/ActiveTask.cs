@@ -1,12 +1,17 @@
-﻿namespace WorldPlants.Entities
+﻿using WorldPlants.Enums;
+
+namespace WorldPlants.Entities
 {
     public class ActiveTask
     {
-        public int Id { get; set; }
-       // public int TaskTypeId { get; set; }
-       // public TaskType TaskType{ get; set; }
-        public DateTime DueDate { get; set; }
+        public Guid Id { get; set; }
+        public DateTime ActionDate { get; set; }
+        public PartOfTheDay PartOfTheDay { get; set; }
+        public ActionType ActionType { get; set; }
+        public string Description { get; set; }
+        public int? Interval { get; set; }
         public virtual Plant Plant { get; set; }
         public Guid PlantId { get; set; }
+
     }
 }

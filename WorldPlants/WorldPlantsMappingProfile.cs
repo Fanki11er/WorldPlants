@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using WorldPlants.Entities;
+using WorldPlants.Enums;
 using WorldPlants.Models;
+using WorldPlants.Models.ActiveTasksModels;
 using WorldPlants.Models.PlantsModels;
 
 namespace WorldPlants
 {
-    public class WorldPlantsMappingProfile: Profile
+    public class WorldPlantsMappingProfile : Profile
     {
         public WorldPlantsMappingProfile()
         {
@@ -50,6 +52,28 @@ namespace WorldPlants
                  .ForMember(m => m.UserSite, m => m.Ignore())
                   .ForMember(m => m.UserSiteId, m => m.Ignore());
 
-        } 
+            CreateMap<Plant, PlantHeaderInformationDTO>()
+                .ForMember(m => m.UserSiteId, m => m.MapFrom(s => s.UserSite.Id))
+                .ForMember(m => m.UserSiteName, m => m.MapFrom(s => s.UserSite.Name))
+                .ForMember(p => p.ImageUrl, p => p.Ignore());
+
+            CreateMap<Plant, PlantBasicInformationDto>()
+                 .ForMember(p => p.ImageUrl, p => p.Ignore())
+                 .ForMember(p => p.TasksInformation, p => p.MapFrom(s => new List<ActiveTaskInformationDto>()));
+
+            CreateMap<ActiveTask, ActiveTaskInformationDto>()
+                .ForMember(m => m.DaysLeft, m => m.MapFrom(d => ( DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber)));
+                
+
+            CreateMap<ActiveTask, ActiveTaskDTO>()
+                .ForMember(m=> m.ActionDate, m=> m.MapFrom(d => DateOnly.FromDateTime(d.ActionDate)));
+
+            CreateMap<ActiveTaskDTO, ActiveTask>()
+                .ForMember(m => m.Id, m => m.Ignore())
+                .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateTime.Parse(d.ActionDate)))
+                .ForMember(m => m.PartOfTheDay, m => m.MapFrom(p => Enum.Parse(typeof(PartOfTheDay), p.PartOfTheDay)))
+                .ForMember(m => m.ActionType, m => m.MapFrom(p => Enum.Parse(typeof(ActionType), p.ActionType)));
+
+        }
     }
 }
