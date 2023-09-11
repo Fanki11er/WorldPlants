@@ -4,6 +4,8 @@ export const theme: Theme = {
     darkBlue: "rgba(4, 16, 41, 1)",
     navyBlue: "rgba(7, 29, 83, 1)",
     gradientPurple: "linear-gradient(137deg, #28297B 0%, #312061 100%)",
+    gradientBlue: "linear-gradient(180deg, #1089EC 0%, #4BC4DB 100%)",
+    orangeGradient: "linear-gradient(180deg, #FA5D56 0%, #F4B167 100%)",
     orange: "rgba(254, 122, 53, 1)",
     green: "rgba(59, 214, 166, 1)",
     white: "rgba(255, 255, 255, 1)",
@@ -22,6 +24,7 @@ export const theme: Theme = {
     greenLight: "rgba(173, 230, 212, 1)",
     greenSettings: "rgba(12, 108, 3, 1)",
     lightGray: "rgba(136, 142, 156, 1)",
+    claret: "rgba(105, 12, 11, 1)",
   },
   fontSizes: {
     xSmall: "8px",
@@ -67,6 +70,9 @@ export type Theme = {
     greenLight: string;
     greenSettingsActive: string;
     lightGray: string;
+    gradientBlue: string;
+    orangeGradient: string;
+    claret: string;
   };
 
   fontSizes: {

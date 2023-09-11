@@ -17,4 +17,19 @@ body {
     width: 100% ;
 }
 
+section {
+  opacity: 0;
+  animation-name: show;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
 `;

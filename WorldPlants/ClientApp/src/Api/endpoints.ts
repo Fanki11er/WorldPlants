@@ -49,7 +49,9 @@ export const apiEndpoints = {
   deleteUserSite: (siteId: string) => {
     return `/UserSites/Delete/${siteId}`;
   },
-
+  getSitePlantsInformation: (siteId: string | undefined) => {
+    return `UserSites/Plants/${siteId ? siteId : ""}`;
+  },
   //? Plants
   searchForPlant: (searchPhrase: string) => {
     return `Plants/Search?searchPhrase=${searchPhrase}`;
