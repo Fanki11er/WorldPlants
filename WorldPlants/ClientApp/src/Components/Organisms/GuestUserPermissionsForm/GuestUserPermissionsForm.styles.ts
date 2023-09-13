@@ -27,6 +27,5 @@ export const PermissionsGroupHeder = styled.h2`
   text-align: center;
   color: ${(props: AppTheme) => props.theme.colors.yellow};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   width: 100%;
 `;

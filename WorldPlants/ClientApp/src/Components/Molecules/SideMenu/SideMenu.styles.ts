@@ -44,7 +44,7 @@ export const MobileButton = styled.button<MobileProps>`
     top: 50%;
     transform: translateY(-50%) translateX(50%)
       rotateY(${(props) => (!props.isOpen ? "0deg" : "180deg")});
-    font-size: 20px;
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
     font-weight: bold;
     transition: all 0.4s 0.5s;
   }

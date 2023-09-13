@@ -41,13 +41,11 @@ export const AddPlantSearchOrRecognizeResultsListItemContentWrapper = styled.div
 `;
 
 export const AddPlantSearchOrRecognizeResultsListItemName = styled.h3`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   //font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
   color: ${(props: AppTheme) => props.theme.colors.orange};
   margin: 0;
 `;
 export const AddPlantSearchOrRecognizeResultsListItemScientificName = styled.h4`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   //font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
   color: ${(props: AppTheme) => props.theme.colors.greenSettingsActive};
   margin: 0;

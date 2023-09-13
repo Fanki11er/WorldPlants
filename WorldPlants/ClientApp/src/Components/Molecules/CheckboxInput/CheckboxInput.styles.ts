@@ -23,7 +23,6 @@ export const NotificationFormLabel = styled.label`
 
 export const HeaderNotification = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.orange};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 `;
 

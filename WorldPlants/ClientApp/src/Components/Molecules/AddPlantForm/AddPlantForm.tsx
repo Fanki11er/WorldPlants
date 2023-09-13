@@ -37,13 +37,13 @@ interface FormValues {
 interface Props {
   currentImage: string;
   currentName: string;
-  toggleIsSubmitting?: (isSubmitting: boolean) => void;
+  externalId?: number;
 }
 
 const AddPlantSchema = Yup.object().shape(yupAddPlantValidationShape);
 
 const AddPlantForm = (props: Props) => {
-  const { currentImage, currentName, toggleIsSubmitting } = props;
+  const { currentImage, currentName, externalId } = props;
   const { authorized, selectedPlant } = paths;
   const { addPlant } = apiEndpoints;
   const { siteId } = useParams();
@@ -77,6 +77,10 @@ const AddPlantForm = (props: Props) => {
       formData.delete("imageUrl");
     }
 
+    if (externalId) {
+      formData.append("externalId", externalId.toString());
+    }
+
     return formData;
   };
 
@@ -102,19 +106,15 @@ const AddPlantForm = (props: Props) => {
         additionalDescription: "",
       }}
       onSubmit={(values: FormValues, { setSubmitting }) => {
-        toggleIsSubmitting && toggleIsSubmitting(true);
-
         const addPlantValues = prepareFormData(values);
 
         mutate(addPlantValues, {
           onSuccess: async (response) => {
             const plantId = await response.data;
-            toggleIsSubmitting && toggleIsSubmitting(false);
             setSubmitting(false);
             navigate(`${authorized}/${selectedPlant}/${plantId}`);
           },
           onError: () => {
-            toggleIsSubmitting && toggleIsSubmitting(false);
             setSubmitting(false);
           },
         });

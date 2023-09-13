@@ -16,7 +16,8 @@ export const SelectedPlantHeaderSectionWrapper = styled.section`
   padding: 120px 25px 25px 25px;
   align-items: center;
   row-gap: 15px;
-  transform: translateY(80px);
+  margin: 100px 0;
+  //transform: translateY(80px);
 `;
 
 export const SelectedPlantHeaderSectionImage = styled.div<ImageProp>`
@@ -35,7 +36,7 @@ export const SelectedPlantHeaderSectionImage = styled.div<ImageProp>`
 
 export const SelectedPlantHeaderSectionPlantName = styled.h1`
   margin: 0;
-  font-size: 30px;
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.xLarge};
   color: ${(props: AppTheme) => props.theme.colors.orange};
 `;
 
@@ -48,7 +49,7 @@ export const SelectedPlantHeaderSectionTopWrapper = styled.div`
 export const SelectedPlantHeaderSectionToUserSiteLink = styled(Link)`
   text-decoration: none;
   color: ${(props: AppTheme) => props.theme.colors.turquoise};
-  font-size: 20px;
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
   transition: all 0.5s;
   &:hover {
     color: ${(props: AppTheme) => props.theme.colors.orange};

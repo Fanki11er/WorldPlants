@@ -56,11 +56,11 @@ const AddPlantSection = () => {
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
       {data && step === 1 ? <PlantDetails plantDetails={data} /> : null}
-      {data && step === 2 ? (
+      {step === 2 ? (
         <AddPlantForm
-          currentImage={data.defaultImage || ""}
-          currentName={data.commonName || ""}
-          toggleIsSubmitting={toggleIsFormSubmitting}
+          currentImage={data?.defaultImage || ""}
+          currentName={data?.commonName || ""}
+          externalId={data?.id || undefined}
         />
       ) : null}
       <NextAndReturnButtonWrapper>

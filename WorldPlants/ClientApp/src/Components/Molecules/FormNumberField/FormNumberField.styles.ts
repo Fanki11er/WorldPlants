@@ -3,41 +3,56 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 interface ErrorProps {
-  iserror: string;
+  $iserror: string;
 }
-
-export const FormNumberFieldWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 150px auto;
-  grid-template-rows: auto auto;
-`;
 
 export const FieldLabel = styled.label`
   color: ${(props: AppTheme) => props.theme.colors.orange};
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  width: fit-content;
+  display: grid;
+  width: fit-content;
+  grid-template-rows: auto auto;
+  row-gap: 5px;
+  font-weight: bold;
 `;
 
 export const ScaleInfo = styled.span`
-  color: ${(props: AppTheme) => props.theme.colors.orange};
+  color: ${(props: AppTheme) => props.theme.colors.turquoise};
   width: fit-content;
 `;
 
-export const StyledField = styled(Field)<ErrorProps>`
-  border: 2px solid
-    ${(props) =>
-      props.iserror ? props.theme.colors.red : props.theme.colors.orange};
-  margin-left: 10px;
-  width: 60px;
-  height: 30px;
-  padding: 0 0 0 10px;
-  border-radius: 10px;
+export const StyledField = styled(Field)`
+  text-align: end;
+  border: none;
+  font-weight: bold;
+  height: 40px;
+  width: 40px;
+  padding: 5px 0 5px 10px;
+  background-color: transparent;
+  outline: none;
+  color: ${(props: AppTheme) => props.theme.colors.turquoise};
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 `;
 
-export const FieldWrapper = styled.div`
+export const FieldWrapper = styled.div<ErrorProps>`
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  gap: 5px;
+  width: fit-content;
+  height: 40px;
+  border-radius: 10px;
+  column-gap: 5px;
+  padding-right: 10px;
+  background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
+  border: 2px solid
+    ${(props) =>
+      props.$iserror ? props.theme.colors.red : props.theme.colors.transparent};
+  transition: all 0.5s;
+  &:hover,
+  &:focus {
+    border: 2px solid
+      ${(props) =>
+        props.$iserror ? props.theme.colors.red : props.theme.colors.orange};
+  }
 `;

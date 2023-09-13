@@ -13,7 +13,6 @@ export const DeleteFormWrapper = styled(Form)`
 `;
 
 export const DeleteFormInstruction = styled.span`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
   color: ${(props: AppTheme) => props.theme.colors.red};
   width: 80%;

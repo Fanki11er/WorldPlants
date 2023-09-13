@@ -3,5 +3,5 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const LoadingIndicator = styled.span`
   color: ${(props: AppTheme) => props.theme.colors.orange};
-  font-size: 24px;
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.veryLarge};
 `;
