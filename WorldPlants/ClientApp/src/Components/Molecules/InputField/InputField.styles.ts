@@ -17,7 +17,6 @@ export const InputFieldWrapper = styled.div`
 
 export const InputLabel = styled.label`
   width: fit-content;
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   color: ${(props: AppTheme) => props.theme.colors.green};
   padding: 5px 10px;
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
@@ -27,7 +26,9 @@ export const InputLabel = styled.label`
 export const Input = styled(Field)`
   padding: 5px 10px;
   width: 100%;
-  //background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
+  background-image: linear-gradient(
+    ${(props: AppTheme) => props.theme.colors.gradientPurple}
+  );
   background-color: ${(props: AppTheme) => props.theme.colors.purple};
   border-radius: 25px;
   outline: none;
@@ -35,10 +36,6 @@ export const Input = styled(Field)`
     ${(props: ErrorProps & AppTheme) =>
       props.iserror ? props.theme.colors.red : "transparent"};
   color: ${(props: AppTheme) => props.theme.colors.white};
-
-  /* :hover {
-        color:  ${(props: AppTheme) => props.theme.colors.white};
-    }*/
 `;
 
 export const Required = styled.sup`

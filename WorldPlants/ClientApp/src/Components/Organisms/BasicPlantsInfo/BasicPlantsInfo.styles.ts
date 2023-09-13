@@ -15,13 +15,11 @@ export const BasicPlantsInfoHeaderWrapper = styled.div`
 `;
 
 export const BasicPlantsInfoWateringHeader = styled.h2`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
   color: ${(props: AppTheme) => props.theme.colors.orange};
 `;
 
 export const BasicPlantsInfoSunHeader = styled.h3`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
   color: ${(props: AppTheme) => props.theme.colors.greenSettingsActive};
 `;

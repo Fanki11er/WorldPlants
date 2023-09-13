@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const PlantDetailWithIconWrapper = styled.div`
   display: grid;
@@ -8,10 +9,12 @@ export const PlantDetailWithIconWrapper = styled.div`
   align-items: center;
 `;
 
-export const PLantDetailWithIconTitle = styled.span`
-  color: #fe7a35;
+export const PLantDetailWithIconTitle = styled.span<AppTheme>`
+  color: ${(props) => props.theme.colors.orange};
 `;
 
-export const PLantDetailWithIconValue = styled.span`
-  color: #3ca023;
+export const PLantDetailWithIconValue = styled.span<AppTheme>`
+  color: ${(props) => props.theme.colors.greenSettingsActive};
 `;
+
+//#3ca023

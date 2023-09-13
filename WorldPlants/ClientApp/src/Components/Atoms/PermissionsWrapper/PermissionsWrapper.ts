@@ -12,7 +12,6 @@ export const PermissionsWrapper = styled.div`
 `;
 
 export const HeaderPermissions = styled.h1`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   color: ${(props: AppTheme) => props.theme.colors.yellow};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
   justify-self: flex-start;

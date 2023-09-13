@@ -2,6 +2,7 @@ import { Formik, FormikErrors } from "formik";
 import { AddPlantSearchFormWrapper } from "./AddPlantSearchForm.styles";
 import useSearchPhrase from "../../../Hooks/useSearchPhrase";
 import InputField from "../InputField/InputField";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
 
 interface Props {
   isLoading: boolean;
@@ -37,7 +38,7 @@ const AddPlantSearchForm = (props: Props) => {
           label="Wpisz nazwę rośliny"
           placeholder="Nazwa rośliny"
         />
-        {!isLoading && <button type="submit">Wyszukaj</button>}
+        {!isLoading && <ActionButton type="submit">Wyszukaj</ActionButton>}
       </AddPlantSearchFormWrapper>
     </Formik>
   );

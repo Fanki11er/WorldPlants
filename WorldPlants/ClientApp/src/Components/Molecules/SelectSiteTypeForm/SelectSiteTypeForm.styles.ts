@@ -5,7 +5,6 @@ export const SelectSiteTypeFormWrapper = styled.section`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
 `;
 
@@ -17,6 +16,5 @@ export const FieldsWrapper = styled.div`
 
 export const InfoHeader = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.orange};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
 `;

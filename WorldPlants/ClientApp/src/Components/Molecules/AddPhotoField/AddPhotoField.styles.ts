@@ -1,19 +1,22 @@
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const AddPhotoFieldWrapper = styled.div`
   display: flex;
   justify-content: center;
+  padding: 0 30px;
 `;
 
 export const AddPhotoFieldLabel = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: orange;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
   position: relative;
   width: 180px;
   height: 30px;
-  background-color: purple;
+  background-color: ${(props: AppTheme) => props.theme.colors.purple};
+  border-radius: 10px;
 `;
 
 export const AddPhotoFieldInput = styled.input`

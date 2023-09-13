@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const LoadingIndicator = styled.span`
-  color: orange;
-  font-size: 24px;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.veryLarge};
 `;

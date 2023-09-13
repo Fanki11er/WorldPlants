@@ -17,7 +17,7 @@ import {
   AttentionSite,
   AttentionSiteIcon,
 } from "../../Atoms/AttentionSite/AttentionSite.styles";
-import iconWarningSign from "../../../Assets/WarningSign.png";
+import iconWarningSign from "../../../Assets/WarningIcon.svg";
 
 interface Props {
   siteName: string;

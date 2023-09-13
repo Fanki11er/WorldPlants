@@ -2,7 +2,7 @@ import { FormikFormProps, useFormikContext } from "formik";
 import { getErrorMessages } from "../../../Utils/Utils";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import InputField from "../../Molecules/InputField/InputField";
-import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
 import { DeleteAccountConfirmation } from "../../../Interfaces/DeleteAccountConfirmation";
 import {
   DeleteFormInstruction,
@@ -35,9 +35,9 @@ const DeleteAccountForm = (props: Props & FormikFormProps) => {
       {isLoading ? (
         <div>Loading</div>
       ) : (
-        <ActionButton disabled={confirmed} type="submit">
+        <RedActionButton disabled={confirmed} type="submit">
           Zapisz
-        </ActionButton>
+        </RedActionButton>
       )}
     </DeleteFormWrapper>
   );

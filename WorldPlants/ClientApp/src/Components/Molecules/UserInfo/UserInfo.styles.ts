@@ -2,20 +2,19 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const UserInfoWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 40px auto;
-    grid-column-gap: 15px;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 40px auto;
+  grid-column-gap: 15px;
+  align-items: center;
 `;
 
 export const UserImage = styled.img`
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 `;
 
 export const UserName = styled.span`
-    color: ${(props: AppTheme) => props.theme.colors.white};
-    width: fit-content;
-    font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
-    font-size:  ${(props: AppTheme) => props.theme.fontSizes.small};
+  color: ${(props: AppTheme) => props.theme.colors.white};
+  width: fit-content;
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 `;

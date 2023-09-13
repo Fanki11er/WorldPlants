@@ -13,7 +13,6 @@ export const ActionButton = styled.button`
   padding: 5px 10px;
   margin-top: 30px;
   color: ${(props: AppTheme) => props.theme.colors.white};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 
   :hover {
     background-color: ${(props: AppTheme) => props.theme.colors.orange};
@@ -40,7 +39,6 @@ export const NavigationLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 
   :hover:not(.active) {
@@ -52,6 +50,15 @@ export const NavigationLink = styled(NavLink)`
     color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+  }
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    min-width: 15px;
+    min-height: 15px;
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.xSmall};
   }
 `;
 
@@ -112,7 +119,6 @@ export const SideMenuLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
   &.active {
     color: ${(props: AppTheme) => props.theme.colors.orange};
@@ -130,4 +136,36 @@ export const PermissionsReturnButton = styled(ActionButton)`
 
 export const RedActionButton = styled(ActionButton)`
   background-color: ${(props: AppTheme) => props.theme.colors.red};
+`;
+
+const StyledButton = styled.button`
+  min-width: 80px;
+  width: fit-content;
+  padding: 5px 15px;
+  height: 40px;
+  display: flex;
+  outline: none;
+  border-radius: 10px;
+  border: 2px solid ${(props: AppTheme) => props.theme.colors.transparent};
+  transition: all 0.5s;
+  color: ${(props: AppTheme) => props.theme.colors.white};
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+    cursor: pointer;
+  }
+`;
+
+export const GreenStyledButton = styled(StyledButton)`
+  background-color: ${(props: AppTheme) => props.theme.colors.green};
+`;
+
+export const OrangeStyledButton = styled(StyledButton)`
+  background-color: ${(props: AppTheme) => props.theme.colors.orange};
+`;
+
+export const YellowStyledButton = styled(StyledButton)`
+  background-color: ${(props: AppTheme) => props.theme.colors.yellow};
 `;

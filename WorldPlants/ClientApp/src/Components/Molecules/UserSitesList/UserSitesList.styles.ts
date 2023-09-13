@@ -23,7 +23,8 @@ export const LinkToSite = styled(Link)`
 `;
 
 export const UserSitesListItemWrapper = styled.li`
-  width: 350px;
+  display: flex;
+  flex-basis: 350px;
   background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
   border-radius: 25px;
   padding: 20px 30px;
@@ -33,20 +34,17 @@ export const UserSitesListItemWrapper = styled.li`
 export const UserSitesListItemHeader = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.orange};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   margin: 0;
 `;
 
 export const UserSitesListItemPlantsCountInfo = styled.h3`
   color: ${(props: AppTheme) => props.theme.colors.green};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   margin: 0;
 `;
 
 export const UserSitesPlantsImg = styled.img`
   display: flex;
   align-self: flex-end;
-  margin-top: 20px;
   width: 100%;
 `;

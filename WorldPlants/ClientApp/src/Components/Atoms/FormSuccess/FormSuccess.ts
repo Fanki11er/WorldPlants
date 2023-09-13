@@ -11,4 +11,18 @@ export const FormSuccess = styled.span`
   font-weight: bold;
   color: ${(props: AppTheme) => props.theme.colors.greenSettings};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
+
+  opacity: 0;
+  animation-name: show;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;

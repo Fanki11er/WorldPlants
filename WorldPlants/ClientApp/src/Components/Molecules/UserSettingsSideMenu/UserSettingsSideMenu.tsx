@@ -1,7 +1,7 @@
 import useAuth from "../../../Hooks/useAuth";
 import { paths } from "../../../Router/paths";
 import { SideMenuLink } from "../../Atoms/Buttons/Buttons";
-import { SideMenuWrapper } from "../../Atoms/SideMenuWrapper/SideMenuWrapper.styles";
+import SideMenu from "../SideMenu/SideMenu";
 
 const UserSettingsSideMenu = () => {
   const {
@@ -13,8 +13,9 @@ const UserSettingsSideMenu = () => {
     userSettingsDeleteAccount,
   } = paths;
   const { user } = useAuth();
+
   return (
-    <SideMenuWrapper>
+    <SideMenu>
       <SideMenuLink to={userSettingsNotifications} end>
         Powiadomienia
       </SideMenuLink>
@@ -29,7 +30,7 @@ const UserSettingsSideMenu = () => {
       <SideMenuLink to={userSettingsAccount}>Konto</SideMenuLink>
       <SideMenuLink to={userSettingsSecurity}>Bezpieczeństwo</SideMenuLink>
       <SideMenuLink to={userSettingsDeleteAccount}>Usuwanie konta</SideMenuLink>
-    </SideMenuWrapper>
+    </SideMenu>
   );
 };
 

@@ -25,11 +25,13 @@ import AddUserSiteSection from "../Components/Organisms/AddUserSiteSection/AddUs
 import UserSiteView from "../Views/UserSiteView/UserSiteView";
 import UserSiteSettingsSection from "../Components/Organisms/UserSiteSettingsSection/UserSiteSettingsSection";
 import UserSiteDeleteSiteSection from "../Components/Organisms/UserSiteDeleteSiteSection/UserSiteDeleteSiteSection";
-import BasicPlantInfo from "../Components/Organisms/BasicPlantsInfo/BasicPlantsInfo";
-import PlantDetails from "../Components/Organisms/PlantDetails/PlantDetails";
 import AddPlantView from "../Views/AddPlantView/AddPlantView";
 import AddPlantSearchSection from "../Components/Organisms/AddPlantSearchSection/AddPlantSearchSection";
 import AddPlantSection from "../Components/Organisms/AddPlantSection/AddPlantSection";
+import SelectedPlantView from "../Views/SelectedPlantView/SelectedPlantView";
+import UserSitePlantsSection from "../Components/Molecules/UserSitePlantsSection/UserSitePlantsSection";
+import PlantTasksSection from "../Components/Organisms/PlantTasksSection/PlantTasksSection";
+import PlantScheduleSection from "../Components/Molecules/PlantScheduleSection/PlantScheduleSection";
 
 const {
   rootPath,
@@ -49,6 +51,8 @@ const {
   userSiteSettings,
   userSiteDeleteSite,
   addPlant,
+  selectedPlant,
+  selectedPlantSchedule,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -83,19 +87,17 @@ const router = createBrowserRouter(
             element={<DeleteAccountSection />}
           />
         </Route>
-
         <Route
           path={`${guestUserPermissions}/:userId`}
           element={<GuestPermissionsView />}
         />
-
         <Route path={userSites} element={<UserSitesView />}>
           <Route index element={<UserSitesSection />} />
           <Route path={userSitesAddNew} element={<AddUserSiteSection />} />
         </Route>
         <Route path={`${userSite}/:siteId`} element={<UserSiteView />}>
-          {/* <Route index element={<BasicPlantInfo />} /> */}
-          {/* <Route path={userSiteAddPlant} element={<PlantDetails />} /> */}
+          <Route index element={<UserSitePlantsSection />} />
+
           <Route
             path={userSiteSettings}
             element={<UserSiteSettingsSection />}
@@ -109,6 +111,21 @@ const router = createBrowserRouter(
           <Route index element={<AddPlantSearchSection />} />
           <Route path=":detailsId" element={<AddPlantSection />} />
         </Route>
+        //? Plant
+        <Route
+          path={`${selectedPlant}/:plantId`}
+          element={<SelectedPlantView />}
+        >
+          <Route index element={<PlantTasksSection />} />
+          <Route
+            path={selectedPlantSchedule}
+            element={<PlantScheduleSection />}
+          />
+          <Route path={""} element={<div>PlanDetails</div>} />
+          <Route path={""} element={<div>PlantNotes</div>} />
+          <Route path={""} element={<div>PlantSettings</div>} />
+          <Route path={""} element={<div>DeletePlant</div>} />
+        </Route>
       </Route>
       <Route path={"*"} element={<LandingView />} />
     </Route>
@@ -117,6 +134,12 @@ const router = createBrowserRouter(
 
 export default router;
 
-/* <Route path={plantPlaces} element={<PlantPlacesView />} />
-        <Route path={plantPlacesAdded} element={<PlantPlacesAddedView />} /> */
-/* <Route path={guestSettings} element={<GuestSettingsView />} /> */
+//todo poprawić kolory w zadaniach do roślin (niebieski zamiast żółtego)
+//todo Zrobić wskaźnik ładowania
+//todo Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section)
+//todo Poprawić kontrast w napisie błędu w errorach
+//todo Border na focus i chover dla inputa w register, login i search (input textowy)
+//todo AddPlantSearchOrRecognizeResultsListItemImage w AddPlantSearchOrRecognizeResults image jako tło
+//todo AddPlantSection plantDetails addplantform image jako tło
+//todo AddPhoto field padding i hover
+//todo PlantDetailsWithIconSection wstawić ikony

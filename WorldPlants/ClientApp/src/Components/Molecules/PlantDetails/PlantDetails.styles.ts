@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
-export const PlantDetailsWrapper = styled.article`
-  background-color: #071d53;
+export const PlantDetailsWrapper = styled.article<AppTheme>`
+  background-color: ${(props) => props.theme.colors.navyBlue};
   border-radius: 15px;
   padding: 30px;
   display: flex;
@@ -27,26 +28,26 @@ export const PLantsDetailsImage = styled.img`
 `;
 
 export const PlantDetailsName = styled.h2`
-  color: #fe7a35;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
   margin: 0;
   grid-column: 2/3;
   grid-row: 1/2;
 `;
 
 export const PlantDetailsScientificName = styled.h3`
-  color: #3ca023;
+  color: ${(props: AppTheme) => props.theme.colors.greenSettingsActive};
   margin: 0;
   grid-column: 2/3;
   grid-row: 2/3;
 `;
 
 export const PlantDetailsOtherName = styled.span`
-  color: #ffc643;
+  color: ${(props: AppTheme) => props.theme.colors.yellow};
   margin: 0;
 `;
 
 export const PlantDetailsDescription = styled.p`
-  color: #fe7a35;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
   margin: 0;
   grid-column: 2/3;
   grid-row: 4/5;
