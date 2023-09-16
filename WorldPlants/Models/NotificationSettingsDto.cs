@@ -9,5 +9,6 @@ namespace WorldPlants.Models
         public bool CutPlantsReminder { get; set; }
         public bool ReplantPlantsReminder { get; set; }
         public bool MistPlantsReminder { get; set; }
+        public bool CustomTasksReminder { get; set; }
     }
 }

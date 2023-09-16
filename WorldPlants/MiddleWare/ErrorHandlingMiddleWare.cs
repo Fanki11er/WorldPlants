@@ -84,6 +84,12 @@ namespace WorldPlants.MiddleWare
                 await context.Response.WriteAsync("Błąd tłumaczenia");
                 Console.WriteLine("Bład DeepL: " + ex.Message);
             }
+            catch(TimeZoneNotFoundException ex)
+            {
+                context.Response.StatusCode = 415;
+                await context.Response.WriteAsync(ex.Message);
+            }
+
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);

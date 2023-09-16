@@ -16,6 +16,8 @@ namespace WorldPlants.Entities
         public bool ReplantPlantsSmsReminder { get; set; }
         public bool MistPlantsEmailReminder { get; set; }
         public bool MistPlantsSmsReminder { get; set; }
+        public bool CustomTasksEmailReminder { get; set; }
+        public bool CustomTasksSmsReminder { get; set; }
         // Permissions
         public bool CanWaterPlants { get; set; }
         public bool CanMistPlants { get; set; }
@@ -29,6 +31,7 @@ namespace WorldPlants.Entities
         public bool CanAddSites { get; set; }
         public bool CanRemoveSites { get; set; }
         public bool CanEditSites { get; set; }
+        public bool CanCreateCustomTasks { get; set; }
 
         public virtual User User { get; set; }
         public Guid UserId { get; set; }

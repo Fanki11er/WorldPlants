@@ -73,6 +73,8 @@ builder.Services.AddScoped<IPlantService, PlantsService>();
 builder.Services.AddScoped<ITranslationService, TranslationService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IActiveTasksService, ActiveTasksService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IRemindersService, RemindersService>();
 //
 
 //Validators

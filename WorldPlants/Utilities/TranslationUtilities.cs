@@ -12,6 +12,8 @@ namespace WorldPlants.Utilities
         public int? TransformDimensionProperty(RawPlantDetailsDimension? dimension);
         public PlantDetailsWateringGeneralBenchmark? TransformGeneralWateringBenchmark(PlantDetailsWateringGeneralBenchmark? data);
         public RawPlantDetailsPruningCount? TransformPruningCount(object? data);
+        public string TranslateActionTypeEnum(ActionType actionType);
+        public string TranslatePartOfTheDayEnum(PartOfTheDay partOfTheDay);
     }
     public class TranslationUtilities : ITranslationUtilities
     {
@@ -326,6 +328,52 @@ namespace WorldPlants.Utilities
             castedData.Interval = TransformStringProperty(castedData.Interval);
 
             return castedData;
+        }
+
+        public string TranslateActionTypeEnum(ActionType actionType)
+        {
+            switch (actionType)
+            {
+                case ActionType.Water:
+                    {
+                        return "Podlewanie";
+                    }
+                case ActionType.Fertilize:
+                    {
+                        return "Nawożenie";
+                    }
+                case ActionType.Cut:
+                    {
+                        return "Przycinanie";
+                    }
+                case ActionType.Mist:
+                    {
+                        return "Zwilżanie";
+                    }
+                case ActionType.Replant:
+                    {
+                        return "Przesadzanie";
+                    }
+                default:
+                    {
+                        return "Użytkownika";
+                    }
+            }
+        }
+
+        public string TranslatePartOfTheDayEnum(PartOfTheDay partOfTheDay)
+        {
+            switch (partOfTheDay)
+            {
+                case PartOfTheDay.night:
+                    {
+                        return "Wieczór";
+                    }
+                default:
+                    {
+                        return "Rano";
+                    }
+            }
         }
 
     }

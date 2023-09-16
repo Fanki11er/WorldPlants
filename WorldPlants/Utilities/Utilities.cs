@@ -14,6 +14,9 @@ namespace WorldPlants.Utilities
         public User GetUserWithSettings();
         public Plant FindPlant(string plantId);
         public Plant FindPlantWithTasks(string plantId);
+        public TimeZoneInfo GetPolishTimezone();
+        public DateOnly GetTodayDate();
+        public DateTime GetTodayDateTime();
     }
 
     public class Utilities : IUtilities
@@ -110,6 +113,34 @@ namespace WorldPlants.Utilities
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 
             return plant;
+        }
+
+        public TimeZoneInfo GetPolishTimezone()
+        {
+            var timezone = TimeZoneInfo
+                .FindSystemTimeZoneById("Central European Standard Time") 
+                ?? throw new TimeZoneNotFoundException("Nie odnaleziono ustawień strefy czasowej") ;
+            
+            return timezone;
+        }
+
+        public DateOnly GetTodayDate()
+        {
+            var timezone = GetPolishTimezone();
+
+            var today = DateOnly.FromDateTime(TimeZoneInfo.ConvertTime((DateTime.Today), timezone));
+
+            return today;
+        }
+
+        public DateTime GetTodayDateTime()
+        {
+            var timezone = GetPolishTimezone();
+
+            var today = TimeZoneInfo.ConvertTime((DateTime.Today), timezone);
+            
+
+            return today;
         }
     }
 

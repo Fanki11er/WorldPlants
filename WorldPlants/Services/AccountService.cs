@@ -103,8 +103,8 @@ namespace WorldPlants.Services
                 FertilizePlantsReminder = settings.FertilizePlantsEmailReminder,
                 CutPlantsReminder = settings.CutPlantsEmailReminder,
                 ReplantPlantsReminder = settings.ReplantPlantsEmailReminder,
-                MistPlantsReminder = settings.MistPlantsEmailReminder
-
+                MistPlantsReminder = settings.MistPlantsEmailReminder,
+                CustomTasksReminder = settings.CustomTasksEmailReminder,
             };
 
             NotificationSettingsDto? SmsSettings = null;
@@ -117,7 +117,8 @@ namespace WorldPlants.Services
                     FertilizePlantsReminder = settings.FertilizePlantsSmsReminder,
                     CutPlantsReminder = settings.CutPlantsSmsReminder,
                     ReplantPlantsReminder = settings.ReplantPlantsSmsReminder,
-                    MistPlantsReminder = settings.MistPlantsSmsReminder
+                    MistPlantsReminder = settings.MistPlantsSmsReminder,
+                    CustomTasksReminder = settings.CustomTasksSmsReminder
                 };
             }
 
@@ -141,6 +142,7 @@ namespace WorldPlants.Services
             settings.CutPlantsEmailReminder = dto.CutPlantsReminder;
             settings.ReplantPlantsEmailReminder = dto.ReplantPlantsReminder;
             settings.MistPlantsEmailReminder = dto.MistPlantsReminder;
+            settings.CustomTasksEmailReminder = dto.CustomTasksReminder;
 
             _context.Update(settings);
             int changesCounter = _context.SaveChanges();
@@ -162,6 +164,7 @@ namespace WorldPlants.Services
             settings.CutPlantsSmsReminder = dto.CutPlantsReminder;
             settings.ReplantPlantsSmsReminder = dto.ReplantPlantsReminder;
             settings.MistPlantsSmsReminder = dto.MistPlantsReminder;
+            settings.CustomTasksEmailReminder = dto.CustomTasksReminder;
 
             _context.Update(settings);
             int changesCounter = _context.SaveChanges();
