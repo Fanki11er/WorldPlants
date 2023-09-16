@@ -27,7 +27,7 @@ namespace WorldPlants.Utilities
         {
             var splitedHostUrl = _httpContextAccessor.HttpContext?.Request.Host.ToString().Split(":");
 
-            string clientUrl = $"{_httpContextAccessor.HttpContext?.Request.Scheme}://{splitedHostUrl?[0]}:5173"; //!! Change port on production
+            string clientUrl = $"{_httpContextAccessor.HttpContext?.Request.Scheme}://{splitedHostUrl?[0]}:5173"; //!! Change port on production 44409
 
             return clientUrl;
 

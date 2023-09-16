@@ -10,6 +10,7 @@ namespace WorldPlants.Services
     public interface IRemindersService
     {
         public Task SendReminderEmails();
+        public Task SendReminderSMS();
     }
     public class RemindersService : IRemindersService
     {
@@ -32,7 +33,6 @@ namespace WorldPlants.Services
             _pathHelper = pathHelper;
             _emailService = emailService;
             _translationUtilities = translationUtilities;
-
         }
 
         public async Task SendReminderEmails()
@@ -41,11 +41,7 @@ namespace WorldPlants.Services
 
             await Parallel.ForEachAsync(targetSpaces, async (space, token) =>
             {
-                 var users = _dbContext
-                 .Users
-                 .Include(i => i.UserSettings)
-                 .AsSplitQuery()
-                 .Where(u => u.SpaceId == space.Id && u.IsActive);
+                 var users = GetSpaceActiveUsers(space.Id);
 
                  var plants = GetPlantsWithRemindersToSend(space.Id);
 
@@ -76,30 +72,42 @@ namespace WorldPlants.Services
             });
         }
 
+        public async Task SendReminderSMS()
+        {
+            var targetSpaces = GetSpacesWithSMSRemindersToSend();
+
+            await Parallel.ForEachAsync(targetSpaces, async (space, token) =>
+            {
+                var users = GetSpaceActiveUsersWithPhoneNumber(space.Id);
+
+                var plants = GetPlantsWithRemindersToSend(space.Id);
+
+                foreach (var user in users)
+                {
+                    var reminder = PrepareUserSmsReminder(plants, user);
+
+                    if(reminder != null)
+                    {
+                        
+                        //Send Sms
+                    }
+                }
+
+            });
+        }
+
         private List<DailyPlantEmailReminder> PrepareUserReminders(List<Plant> plants, User user)
         {
             List<DailyPlantEmailReminder> reminders = new();
-
-            var today = _utilities.GetTodayDate();
 
             var userActiveEmailRemindersTypes = GetUserWantedEmailNotifications(user.UserSettings);
 
             foreach (var plant in plants)
             {
-                var plantWithReminders = plant.ActiveTasks
-                .Where(a => userActiveEmailRemindersTypes.Contains(a.ActionType.ToString()))
-                   .Select(t => new TodayTask()
-                   {
-                       ActionType = _translationUtilities.TranslateActionTypeEnum(t.ActionType),
-
-                       PartOfTheDay = _translationUtilities.TranslatePartOfTheDayEnum(t.PartOfTheDay),
-
-                       DaysLate = today.DayNumber - DateOnly.FromDateTime(t.ActionDate).DayNumber
-                   });
+                var plantWithReminders = PreparePlantReminders(plant, userActiveEmailRemindersTypes);
 
                 if (plantWithReminders.Any())
                 {
-                    Console.Write($"{_pathHelper.GetClientUrl()}/Authorized/SelectedPlant/{plant.Id}");
 
                     DailyPlantEmailReminder reminder = new()
                     {
@@ -116,6 +124,35 @@ namespace WorldPlants.Services
             }
 
             return reminders;
+        }
+
+        private string PrepareUserSmsReminder(List<Plant> plants, User user)
+        {
+            string smsBody = string.Empty;
+
+            string smsHeder = "Posiadasz zaległe zadania:\n";
+
+            string smsContent = string.Empty;
+
+            var userActiveSmsRemindersTypes = GetUserWantedSmsNotifications(user.UserSettings);
+
+            foreach (var plant in plants)
+            {
+                var plantWithReminders = PreparePlantReminders(plant, userActiveSmsRemindersTypes);
+
+                if (plantWithReminders.Any())
+                {
+                    var preparedString = PrepareStringFromTodaysTasks(plantWithReminders, plant);
+                    smsContent += preparedString + "\n";
+                }
+            }
+
+            if(smsContent.Length > 0)
+            {
+                smsBody = smsHeder + smsContent;
+            }
+
+            return smsBody;
         }
 
         private List<string> GetUserWantedEmailNotifications(UserSettings userSettings)
@@ -156,6 +193,42 @@ namespace WorldPlants.Services
 
         }
 
+        private List<string> GetUserWantedSmsNotifications(UserSettings userSettings)
+        {
+            List<string> userActiveSmsRemindersTypes = new();
+
+            if (userSettings.WaterPlantsSmsReminder == true)
+            {
+                userActiveSmsRemindersTypes.Add(ActionType.Water.ToString());
+            }
+
+            if (userSettings.FertilizePlantsSmsReminder == true)
+            {
+                userActiveSmsRemindersTypes.Add(ActionType.Fertilize.ToString());
+            }
+
+            if (userSettings.CutPlantsSmsReminder == true)
+            {
+                userActiveSmsRemindersTypes.Add(ActionType.Cut.ToString());
+            }
+
+            if (userSettings.MistPlantsSmsReminder == true)
+            {
+                userActiveSmsRemindersTypes.Add(ActionType.Mist.ToString());
+            }
+
+            if (userSettings.ReplantPlantsSmsReminder == true)
+            {
+                userActiveSmsRemindersTypes.Add(ActionType.Replant.ToString());
+            }
+            if (userSettings.CustomTasksSmsReminder == true)
+            {
+                userActiveSmsRemindersTypes.Add(ActionType.Custom.ToString());
+            }
+
+            return userActiveSmsRemindersTypes;
+        }
+
         private List<Plant> GetPlantsWithRemindersToSend(Guid spaceId)
         {
             var today = _utilities.GetTodayDateTime();
@@ -187,6 +260,72 @@ namespace WorldPlants.Services
             return spaces;
         }
 
+        private IEnumerable<Space> GetSpacesWithSMSRemindersToSend()
+        {
+            var today = _utilities.GetTodayDateTime();
+            var spaces = _dbContext
+                .Spaces
+                .Include(i => i.Users)
+                .AsSplitQuery()
+                .Where(u => u.Users.Any(u => u.LastEmailReminderSendDate < today &&
+                       u.LastSMSReminderSendDate >= today.AddDays(-3)));
+
+            return spaces;
+        }
+
+        private IQueryable<User> GetSpaceActiveUsers(Guid spaceId)
+        {
+            var users = _dbContext
+             .Users
+             .Include(i => i.UserSettings)
+             .AsSplitQuery()
+             .Where(u => u.SpaceId == spaceId && u.IsActive);
+
+            return users;
+        }
+
+        private IQueryable<User> GetSpaceActiveUsersWithPhoneNumber(Guid spaceId)
+        {
+            var users = _dbContext
+             .Users
+             .Include(i => i.UserSettings)
+             .AsSplitQuery()
+             .Where(u => u.SpaceId == spaceId && u.IsActive && u.PhoneNumber != null);
+
+            return users;
+        }
+
+        private IEnumerable<TodayTask> PreparePlantReminders(Plant plant, List<string> userAcceptedReminders)
+        {
+            var today = _utilities.GetTodayDate();
+
+            var plantWithReminders = plant.ActiveTasks
+               .Where(a => userAcceptedReminders.Contains(a.ActionType.ToString()))
+                  .Select(t => new TodayTask()
+                  {
+                      ActionType = _translationUtilities.TranslateActionTypeEnum(t.ActionType),
+
+                      PartOfTheDay = _translationUtilities.TranslatePartOfTheDayEnum(t.PartOfTheDay),
+
+                      DaysLate = today.DayNumber - DateOnly.FromDateTime(t.ActionDate).DayNumber
+                  });
+
+            return plantWithReminders;
+        }
+
+        private string PrepareStringFromTodaysTasks(IEnumerable<TodayTask> tasks, Plant plant)
+        {
+            string result = $"{plant.Name}: ";
+
+            foreach(var task in tasks)
+            {
+                result += $"{task.ActionType}, ";
+            }
+
+            result += "\n";
+
+            return result;
+        }
     }
 }
 

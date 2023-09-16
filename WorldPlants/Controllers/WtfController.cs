@@ -18,7 +18,8 @@ namespace WorldPlants.Controllers
         [HttpGet]
         public async Task<ActionResult> TestReminders()
         {
-             await _remindersService.SendReminderEmails();
+            // await _remindersService.SendReminderEmails();
+             await _remindersService.SendReminderSMS();
 
             return Ok();
         } 
