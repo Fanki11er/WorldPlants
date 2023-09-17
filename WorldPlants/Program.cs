@@ -147,12 +147,14 @@ app.UseHangfireDashboard("/Hangfire/Dashboard", new DashboardOptions()
     },
 
 }) ;
-
+//Temporaly off
+/*
 RecurringJob.AddOrUpdate<IJobsService>("SendEmailReminders", e => e.ExecuteSendEmailReminders(), "00 8 * * *", new RecurringJobOptions()
 {
     TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time") ?? TimeZoneInfo.Utc
 });
-/* Temporaly off
+*/
+/* 
 RecurringJob.AddOrUpdate<IJobsService>("SendSMSReminders", e => e.ExecuteSendSMSReminders(), "00 20 * * *", new RecurringJobOptions()
 {
     TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time") ?? TimeZoneInfo.Utc
