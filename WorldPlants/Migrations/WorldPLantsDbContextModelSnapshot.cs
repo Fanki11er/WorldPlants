@@ -185,6 +185,12 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("LastEmailReminderSendDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastSMSReminderSendDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -218,6 +224,9 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanAddSites")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("CanCreateCustomTasks")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("CanCutPlants")
                         .HasColumnType("bit");
 
@@ -246,6 +255,12 @@ namespace WorldPlants.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanWaterPlants")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CustomTasksEmailReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CustomTasksSmsReminder")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CutPlantsEmailReminder")
