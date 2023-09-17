@@ -1,4 +1,6 @@
-﻿namespace WorldPlants.Enums
+﻿// Ignore Spelling: Enums
+
+namespace WorldPlants.Enums
 {
     public enum ActionType
     {

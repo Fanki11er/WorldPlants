@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SendGrid.Helpers.Mail;
+using Twilio.TwiML.Messaging;
 using Twilio.Types;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
@@ -94,9 +95,9 @@ namespace WorldPlants.Services
                 {
                     var reminder = PrepareUserSmsReminder(plants, user);
 
-                    if(reminder != null)
+                    if(reminder.Length > 0)
                     {
-                        var result = await _smsService.SendSMSReminder(new PhoneNumber(user.PhoneNumber), reminder);
+                        var result = await _smsService.SendSMSReminder(new PhoneNumber($"+48{user.PhoneNumber}"), reminder);
                         
                         if(result == true)
                         {
@@ -146,7 +147,7 @@ namespace WorldPlants.Services
         {
             string smsBody = string.Empty;
 
-            string smsHeder = "⏰ Posiadasz zaległe zadania:\n";
+            string smsHeder = $"⏰ {user.PhoneNumber} Posiadasz zaległe zadania:\n";
 
             string smsContent = string.Empty;
 
@@ -206,7 +207,6 @@ namespace WorldPlants.Services
             }
 
             return userActiveEmailRemindersTypes;
-
         }
 
         private List<string> GetUserWantedSmsNotifications(UserSettings userSettings)
@@ -259,7 +259,6 @@ namespace WorldPlants.Services
                     && at.ActionDate >= today.AddDays(-3)
                     )).ToList();
 
-
             return plantsFromSpace;
         }
 
@@ -291,25 +290,36 @@ namespace WorldPlants.Services
 
         private IQueryable<User> GetSpaceActiveUsers(Guid spaceId)
         {
+
+            var today = _utilities.GetTodayDateTime();
+
             var users = _dbContext
              .Users
              .Include(i => i.UserSettings)
              .AsSplitQuery()
-             .Where(u => u.SpaceId == spaceId && u.IsActive);
+             .Where(u => u.SpaceId == spaceId && u.IsActive &&
+             u.LastEmailReminderSendDate < today &&
+             u.LastEmailReminderSendDate >= today.AddDays(-3));
 
             return users;
         }
 
         private IQueryable<User> GetSpaceActiveUsersWithPhoneNumber(Guid spaceId)
         {
+            var today = _utilities.GetTodayDateTime();
+
             var users = _dbContext
              .Users
              .Include(i => i.UserSettings)
              .AsSplitQuery()
-             .Where(u => u.SpaceId == spaceId && u.IsActive && u.PhoneNumber != null);
+
+             .Where(u => u.SpaceId == spaceId && u.IsActive && u.PhoneNumber != null &&
+             u.LastSMSReminderSendDate < today &&
+             u.LastSMSReminderSendDate >= today.AddDays(-3));
 
             return users;
         }
+
 
         private IEnumerable<TodayTask> PreparePlantReminders(Plant plant, List<string> userAcceptedReminders)
         {
