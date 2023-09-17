@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SendGrid.Helpers.Mail;
+using Twilio.Types;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Models.Reminders;
@@ -19,13 +20,15 @@ namespace WorldPlants.Services
         private readonly IPathHelper _pathHelper;
         private readonly IEmailService _emailService;
         private readonly ITranslationUtilities _translationUtilities;
+        private readonly ISMSService _smsService;
 
         public RemindersService(
             WorldPlantsDbContext dbContext,
             IUtilities utilities,
             IPathHelper pathHelper,
             IEmailService emailService,
-            ITranslationUtilities translationUtilities
+            ITranslationUtilities translationUtilities,
+            ISMSService SMSService
             )
         {
             _dbContext = dbContext;
@@ -33,6 +36,7 @@ namespace WorldPlants.Services
             _pathHelper = pathHelper;
             _emailService = emailService;
             _translationUtilities = translationUtilities;
+            _smsService = SMSService;
         }
 
         public async Task SendReminderEmails()
@@ -65,7 +69,11 @@ namespace WorldPlants.Services
                          if (result == true)
                          {
                              user.LastEmailReminderSendDate = _utilities.GetTodayDateTime();
-                         }
+
+                            _dbContext.Users.Update(user);
+
+                            _utilities.SaveChangesToDatabase();
+                        }
                      }
 
                  }
@@ -88,9 +96,16 @@ namespace WorldPlants.Services
 
                     if(reminder != null)
                     {
+                        var result = await _smsService.SendSMSReminder(new PhoneNumber(user.PhoneNumber), reminder);
                         
-                        //Send Sms
-                        Console.WriteLine(reminder);
+                        if(result == true)
+                        {
+                            user.LastSMSReminderSendDate= _utilities.GetTodayDateTime();
+
+                            _dbContext.Users.Update(user);
+
+                            _utilities.SaveChangesToDatabase();
+                        }
                     }
                 }
 
@@ -131,7 +146,7 @@ namespace WorldPlants.Services
         {
             string smsBody = string.Empty;
 
-            string smsHeder = "Posiadasz zaległe zadania:\n";
+            string smsHeder = "⏰ Posiadasz zaległe zadania:\n";
 
             string smsContent = string.Empty;
 
@@ -317,14 +332,12 @@ namespace WorldPlants.Services
 
         private string PrepareStringFromTodaysTasks(IEnumerable<TodayTask> tasks, Plant plant)
         {
-            string result = $"{plant.Name}: ";
+            string result = $"🌿 {plant.Name}: ";
 
             foreach(var task in tasks)
             {
                 result += $"{task.ActionType}, ";
             }
-
-            result += "\n";
 
             return result;
         }

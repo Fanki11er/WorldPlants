@@ -75,6 +75,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IActiveTasksService, ActiveTasksService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IRemindersService, RemindersService>();
+builder.Services.AddScoped<ISMSService, SMSService>();
 //
 
 //Validators

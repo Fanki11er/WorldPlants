@@ -42,7 +42,7 @@ namespace WorldPlants.Models.Validators
 
             RuleFor(u => u.PhoneNumber).Custom((value, context) =>
             {
-                string pattern = @"^\d{9}$";
+                string pattern = @"^\+\d{11}$";
                 if (value != "" && value != null && !Regex.IsMatch(value, pattern))
                 {
                     context.AddFailure("PhoneNumber", "Podany numer jest nie prawidłowy");
