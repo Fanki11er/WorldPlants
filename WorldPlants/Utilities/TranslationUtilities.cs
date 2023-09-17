@@ -33,6 +33,9 @@ namespace WorldPlants.Utilities
                 {
                     "part shade", SunScale.Medium.ToString()
                 },
+                {
+                    "Part shade", SunScale.Medium.ToString()
+                },
 
                 {
                     "part sun/part shade", SunScale.Medium.ToString()
@@ -58,6 +61,10 @@ namespace WorldPlants.Utilities
 
                 {
                     "Minimal", WateringScale.Low.ToString()
+                },
+
+                {
+                    "Minimum", WateringScale.Low.ToString()
                 },
 
                 // Cycle
@@ -107,6 +114,17 @@ namespace WorldPlants.Utilities
                     "Deciduous shrub", "Krzew liściasty"
                 },
 
+                {
+                    "Indoor foliage plant, Succulent or Cacti", "Kaktus"
+                },
+
+                {
+                    "Flowering pot plant, Succulent or Cacti", "Kaktus"
+                },
+
+                {
+                    "Epiphyte", "Kaktus"
+                },
                 // Watering period
 
                 {

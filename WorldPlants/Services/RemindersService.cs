@@ -90,6 +90,7 @@ namespace WorldPlants.Services
                     {
                         
                         //Send Sms
+                        Console.WriteLine(reminder);
                     }
                 }
 
@@ -297,17 +298,18 @@ namespace WorldPlants.Services
 
         private IEnumerable<TodayTask> PreparePlantReminders(Plant plant, List<string> userAcceptedReminders)
         {
-            var today = _utilities.GetTodayDate();
+            var today = _utilities.GetTodayDateTime();
 
             var plantWithReminders = plant.ActiveTasks
-               .Where(a => userAcceptedReminders.Contains(a.ActionType.ToString()))
+               .Where(a => userAcceptedReminders.Contains(a.ActionType.ToString()) && 
+               a.ActionDate <= today && a.ActionDate >= today.AddDays(-3))
                   .Select(t => new TodayTask()
                   {
                       ActionType = _translationUtilities.TranslateActionTypeEnum(t.ActionType),
 
                       PartOfTheDay = _translationUtilities.TranslatePartOfTheDayEnum(t.PartOfTheDay),
 
-                      DaysLate = today.DayNumber - DateOnly.FromDateTime(t.ActionDate).DayNumber
+                      DaysLate = (int)(today - t.ActionDate).TotalDays
                   });
 
             return plantWithReminders;
