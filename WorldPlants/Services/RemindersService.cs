@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SendGrid.Helpers.Mail;
-using Twilio.TwiML.Messaging;
 using Twilio.Types;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
@@ -46,38 +45,38 @@ namespace WorldPlants.Services
 
             await Parallel.ForEachAsync(targetSpaces, async (space, token) =>
             {
-                 var users = GetSpaceActiveUsers(space.Id);
+                var users = GetSpaceActiveUsers(space.Id);
 
-                 var plants = GetPlantsWithRemindersToSend(space.Id);
+                var plants = GetPlantsWithRemindersToSend(space.Id);
 
-                 foreach (var user in users)
-                 {
-                     var data = new DailyEmailReminder()
-                     {
-                         Data = PrepareUserReminders(plants, user)
-                     };
+                foreach (var user in users)
+                {
+                    var data = new DailyEmailReminder()
+                    {
+                        Data = PrepareUserReminders(plants, user)
+                    };
 
-                     if (data.Data.Any())
-                     {
-                         var subject = $"Zadania do wykonania  w dniu {_utilities.GetTodayDate()}";
+                    if (data.Data.Any())
+                    {
+                        var subject = $"Zadania do wykonania  w dniu {_utilities.GetTodayDate()}";
 
-                         data.Subject = subject;
+                        data.Subject = subject;
 
-                         var toEmail = new EmailAddress(user.Email);
+                        var toEmail = new EmailAddress(user.Email);
 
-                         var result = await _emailService.SendReminderEmail(toEmail, data);
+                        var result = await _emailService.SendReminderEmail(toEmail, data);
 
-                         if (result == true)
-                         {
-                             user.LastEmailReminderSendDate = _utilities.GetTodayDateTime();
+                        if (result == true)
+                        {
+                            user.LastEmailReminderSendDate = _utilities.GetTodayDateTime();
 
                             _dbContext.Users.Update(user);
 
                             _utilities.SaveChangesToDatabase();
                         }
-                     }
+                    }
 
-                 }
+                }
             });
         }
 
@@ -95,13 +94,13 @@ namespace WorldPlants.Services
                 {
                     var reminder = PrepareUserSmsReminder(plants, user);
 
-                    if(reminder.Length > 0)
+                    if (reminder.Length > 0)
                     {
                         var result = await _smsService.SendSMSReminder(new PhoneNumber($"+48{user.PhoneNumber}"), reminder);
-                        
-                        if(result == true)
+
+                        if (result == true)
                         {
-                            user.LastSMSReminderSendDate= _utilities.GetTodayDateTime();
+                            user.LastSMSReminderSendDate = _utilities.GetTodayDateTime();
 
                             _dbContext.Users.Update(user);
 
@@ -164,7 +163,7 @@ namespace WorldPlants.Services
                 }
             }
 
-            if(smsContent.Length > 0)
+            if (smsContent.Length > 0)
             {
                 smsBody = smsHeder + smsContent;
             }
@@ -250,10 +249,10 @@ namespace WorldPlants.Services
             var today = _utilities.GetTodayDateTime();
 
             var plantsFromSpace = _dbContext.Plants
+                .AsSplitQuery()
                 .Include(i => i.UserSite)
                 .AsSplitQuery()
                 .Include(i => i.ActiveTasks)
-                .AsSplitQuery()
                 .Where(p => p.UserSite.SpaceId == spaceId
                     && p.ActiveTasks.Any(at => at.ActionDate <= today
                     && at.ActionDate >= today.AddDays(-3)
@@ -265,10 +264,9 @@ namespace WorldPlants.Services
         private IEnumerable<Space> GetSpacesWithEmailRemindersToSend()
         {
             var today = _utilities.GetTodayDateTime();
-            var spaces = _dbContext
-                .Spaces
-                .Include(i => i.Users)
+            var spaces = _dbContext.Spaces
                 .AsSplitQuery()
+                .Include(i => i.Users)
                 .Where(u => u.Users.Any(u => u.LastEmailReminderSendDate < today &&
                        u.LastEmailReminderSendDate >= today.AddDays(-3)));
 
@@ -280,8 +278,8 @@ namespace WorldPlants.Services
             var today = _utilities.GetTodayDateTime();
             var spaces = _dbContext
                 .Spaces
-                .Include(i => i.Users)
                 .AsSplitQuery()
+                .Include(i => i.Users)
                 .Where(u => u.Users.Any(u => u.LastEmailReminderSendDate < today &&
                        u.LastSMSReminderSendDate >= today.AddDays(-3)));
 
@@ -295,8 +293,8 @@ namespace WorldPlants.Services
 
             var users = _dbContext
              .Users
-             .Include(i => i.UserSettings)
              .AsSplitQuery()
+             .Include(i => i.UserSettings)
              .Where(u => u.SpaceId == spaceId && u.IsActive &&
              u.LastEmailReminderSendDate < today &&
              u.LastEmailReminderSendDate >= today.AddDays(-3));
@@ -310,9 +308,8 @@ namespace WorldPlants.Services
 
             var users = _dbContext
              .Users
-             .Include(i => i.UserSettings)
              .AsSplitQuery()
-
+             .Include(i => i.UserSettings)
              .Where(u => u.SpaceId == spaceId && u.IsActive && u.PhoneNumber != null &&
              u.LastSMSReminderSendDate < today &&
              u.LastSMSReminderSendDate >= today.AddDays(-3));
@@ -326,7 +323,7 @@ namespace WorldPlants.Services
             var today = _utilities.GetTodayDateTime();
 
             var plantWithReminders = plant.ActiveTasks
-               .Where(a => userAcceptedReminders.Contains(a.ActionType.ToString()) && 
+               .Where(a => userAcceptedReminders.Contains(a.ActionType.ToString()) &&
                a.ActionDate <= today && a.ActionDate >= today.AddDays(-3))
                   .Select(t => new TodayTask()
                   {
@@ -344,7 +341,7 @@ namespace WorldPlants.Services
         {
             string result = $"🌿 {plant.Name}: ";
 
-            foreach(var task in tasks)
+            foreach (var task in tasks)
             {
                 result += $"{task.ActionType}, ";
             }

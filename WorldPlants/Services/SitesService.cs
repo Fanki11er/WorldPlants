@@ -34,9 +34,9 @@ namespace WorldPlants.Services
         private readonly IImageService _imageService;
 
         public SitesService(
-            IUserContextService userContextService, 
-            WorldPlantsDbContext dbContext, 
-            IMapper mapper, 
+            IUserContextService userContextService,
+            WorldPlantsDbContext dbContext,
+            IMapper mapper,
             IUtilities utilities,
             IImageService imageService
             )
@@ -52,7 +52,12 @@ namespace WorldPlants.Services
         {
             var userSpaceId = _utilities.GetUserSpaceId();
 
-            var userSites = _dbContext.UserSites.Include(i => i.Plants).ThenInclude(p => p.ActiveTasks)
+            var userSites = _dbContext
+                .UserSites
+                .AsSplitQuery()
+                .Include(i => i.Plants)
+                .ThenInclude(p => p.ActiveTasks)
+                .AsSplitQuery()
                 .Where(us => us.SpaceId.ToString() == userSpaceId).ToList();
 
             var userSiteDtos = userSites.Select(site => new UserSiteWithPlantsAndTasksDto
@@ -72,46 +77,25 @@ namespace WorldPlants.Services
 
         }
 
-        /*public SiteWithPlantsDto GetSiteWithPlants(int siteId)
-        {
-            var site = GetUserSiteWithPlantsAndActiveTasks(siteId);
-
-            var siteWithPlantsDto = new SiteWithPlantsDto()
-            {
-                Id = site!.Id,
-                Name = site.Name,
-                Plants = site.Plants.Select(p => new PlantBasicInformationDto
-                {
-                    Id = p.Id.ToString(),
-                    Name = p.Name,
-
-                    ImageUrl = p.ImageName,
-                    TasksInformation = p.ActiveTasks.Select(t => new ActiveTaskInformationDto()
-                    {
-                        IsDelayed = false,
-                        Name = "We will addd it later"
-                    }).ToList(),
-
-                }).ToList()
-            };
-            return siteWithPlantsDto;
-        }*/
-
         public List<PlantBasicInformationDto> GetSitePlants(int siteId)
         {
+
+            var today = _utilities.GetTodayDateTime();
+
             var sitePlants = new List<PlantBasicInformationDto>();
 
             var site = GetUserSiteWithPlantsAndActiveTasks(siteId);
 
-           foreach (var plant in site.Plants)
+            foreach (var plant in site.Plants)
             {
                 var plantInormation = _mapper.Map<PlantBasicInformationDto>(plant);
 
-                var shortTermTasks = plant.ActiveTasks.Where(d => (DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber) <= 7);
+                var shortTermTasks = plant.ActiveTasks.Where(d => (d.ActionDate - today).TotalDays <= 7);
 
                 var tasks = _mapper.Map<List<ActiveTaskInformationDto>>(shortTermTasks);
 
-                if(tasks != null) {
+                if (tasks != null)
+                {
                     plantInormation.TasksInformation.AddRange(tasks);
                 }
 
@@ -284,6 +268,7 @@ namespace WorldPlants.Services
         private UserSite GetUserSiteWithPlants(int siteId)
         {
             var userSite = _dbContext.UserSites
+                .AsSplitQuery()
                 .Include(i => i.Plants)
                 .FirstOrDefault(s => s.Id == siteId);
 
@@ -299,8 +284,10 @@ namespace WorldPlants.Services
         private UserSite GetUserSiteWithPlantsAndActiveTasks(int siteId)
         {
             var userSite = _dbContext.UserSites
+                .AsSplitQuery()
                 .Include(i => i.Plants)
                 .ThenInclude(i => i.ActiveTasks)
+                .AsSplitQuery()
                 .FirstOrDefault(s => s.Id == siteId);
 
             CheckIfUserSiteExists(userSite);

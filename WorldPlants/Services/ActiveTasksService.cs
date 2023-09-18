@@ -5,6 +5,7 @@ using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
+using WorldPlants.Models.PlantTaskHistory;
 using WorldPlants.Utilities;
 
 namespace WorldPlants.Services
@@ -19,6 +20,7 @@ namespace WorldPlants.Services
         public ActiveTaskInformationDto SnoozeTask(string taskId);
         public ActiveTaskInformationDto? SkipTask(string taskId);
         public ActiveTaskInformationDto? ExecuteTask(string taskId);
+        public List<PlantTaskHistoryDTO> GetTasksHistory(string plantId);
     }
     public class ActiveTasksService: IActiveTasksService
     {
@@ -209,6 +211,15 @@ namespace WorldPlants.Services
             }
         }
 
+        public List<PlantTaskHistoryDTO> GetTasksHistory(string plantId)
+        {
+            var tasksHistory = _dbContext.PlantTasksHistory.Where(p => p.PlantId.ToString() == plantId);
+
+            var listOfTasksHistoryDTOs = _mapper.Map<List<PlantTaskHistoryDTO>>(tasksHistory);
+
+            return listOfTasksHistoryDTOs;
+        }
+
         private ActiveTask GetTask(string taskId)
         {
             var task = _dbContext.ActiveTasks
@@ -220,7 +231,9 @@ namespace WorldPlants.Services
 
         private int GetNumberOfDaysLeft(ActiveTask task)
         {
-            return (DateOnly.FromDateTime(task.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber);
+            var today = _utilities.GetTodayDateTime();
+           
+            return (int)(task.ActionDate - today).TotalDays;
         }
 
         private PlantTaskHistory CreateTaskHistoryItem(ActiveTask task)
@@ -231,7 +244,8 @@ namespace WorldPlants.Services
             {
                 TaskType = task.ActionType,
                 UserName = user.Name,
-                ExecutionDate = _utilities.GetTodayDate().ToLongDateString(),
+                ExecutionDate = _utilities.GetTodayDate().ToShortDateString(),
+                PlantId = task.PlantId
             };
 
             return item;

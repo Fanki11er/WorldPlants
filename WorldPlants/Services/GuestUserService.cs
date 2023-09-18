@@ -77,7 +77,7 @@ namespace WorldPlants.Services
 
             var user = _context.Users.Include(i => i.UserSettings).FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
 
-           CheckIfUserExists(user);
+            CheckIfUserExists(user);
 
             var permissions = _mapper.Map<GuestUserPermissions>(user!.UserSettings);
 
@@ -125,7 +125,7 @@ namespace WorldPlants.Services
             var user = _context.Users
                 .FirstOrDefault(u => u.Id.ToString() == dto.UserId && u.SpaceId.ToString() == spaceId);
 
-           CheckIfUserExists(user);
+            CheckIfUserExists(user);
 
             user!.IsActive = dto.NewStatus;
 
@@ -141,8 +141,9 @@ namespace WorldPlants.Services
 
             _databaseUtils.CheckIfSpaceExists(spaceId);
 
-            var user = _context.Users.Include(i => i.UserSettings)
+            var user = _context.Users
                 .AsSplitQuery()
+                .Include(i => i.UserSettings)
                 .FirstOrDefault(u => u.Id.ToString() == userId && u.SpaceId.ToString() == spaceId);
 
             CheckIfUserExists(user);

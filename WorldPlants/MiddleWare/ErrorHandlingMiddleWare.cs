@@ -98,7 +98,7 @@ namespace WorldPlants.MiddleWare
             catch(Exception ex)
             { 
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Coś się wykrzaczyło)");
+                await context.Response.WriteAsync("Coś się wykrzaczyło");
                 _logger.LogError("Coś się wykrzaczyło: " + ex.Message, ex);
             }
         }
