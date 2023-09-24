@@ -33,7 +33,7 @@ namespace WorldPlants.Services
         public void RegisterOwnerUser(RegisterUserDto dto)
         {
             string accountType = UserRoles.Owner.ToString();
-            bool hasPhoneNumber =  dto.PhoneNumber != null;
+            bool hasPhoneNumber = dto.PhoneNumber != null;
 
             var spaceId = _databaseUtils.AddToDatabaseUserSpace();
             _databaseUtils.CheckIfSpaceExists(spaceId.ToString());
@@ -47,25 +47,27 @@ namespace WorldPlants.Services
             var userId = _userContextService.GetUserId;
             var spaceId = _userContextService.GetSpaceId;
 
-            if(spaceId == null)
+            if (spaceId == null)
             {
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
             }
 
-            var space = _context.Spaces.Include(i => i.Users)
+            var space = _context.Spaces
+                .AsSplitQuery()
+                .Include(i => i.Users)
                 .ThenInclude(i => i.UserSettings)
                 .AsSplitQuery()
                 .Include(i => i.UserSites)
                 .ThenInclude(i => i.Plants)
-                .AsSplitQuery()
                 .FirstOrDefault(s => s.Id.ToString() == spaceId);
-            
+
             if (space == null)
             {
                 throw new NotFoundException("Nie znaleziono przestrzeni uzytkownika");
             }
 
-            if(userId is null) { 
+            if (userId is null)
+            {
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
             }
 

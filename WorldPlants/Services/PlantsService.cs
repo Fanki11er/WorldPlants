@@ -312,8 +312,6 @@ namespace WorldPlants.Services
                 Console.WriteLine(ex.Message);
             }
 
-           
-
             return plantDetails;
         }
     }
