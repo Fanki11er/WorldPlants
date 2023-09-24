@@ -5,6 +5,7 @@ using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
+using WorldPlants.Utilities;
 
 namespace WorldPlants.Utils
 {
@@ -21,16 +22,22 @@ namespace WorldPlants.Utils
     {
         private readonly WorldPlantsDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IUtilities _utilities;
 
-        public DatabaseUtils(WorldPlantsDbContext context, IPasswordHasher<User> passwordHasher)
+        public DatabaseUtils(
+            WorldPlantsDbContext context, 
+            IPasswordHasher<User> passwordHasher, 
+            IUtilities utilities)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            _utilities = utilities;
 
         }
 
         public Guid AddUserToDatabase(RegisterUserDto dto, Guid spaceId, string accountType)
         {
+            var today = _utilities.GetTodayDateTime();
 
             var user = new User()
             {
@@ -39,6 +46,8 @@ namespace WorldPlants.Utils
                 AccountType = accountType,
                 SpaceId = spaceId,
                 PhoneNumber = dto.PhoneNumber,
+                LastEmailReminderSendDate = today,
+                LastSMSReminderSendDate = today
             };
 
             var hashedPassword = _passwordHasher.HashPassword(user, dto.Password);
@@ -78,6 +87,9 @@ namespace WorldPlants.Utils
                 CanAddSites = accountType == UserRoles.Owner.ToString(),
                 CanRemoveSites = accountType == UserRoles.Owner.ToString(),
                 CanEditSites = accountType == UserRoles.Owner.ToString(),
+                // TasksPermissions
+                CanCreateCustomTasks = accountType == UserRoles.Owner.ToString(),
+
             };
             _context.UserSettings.Add(userSettings);
             _context.SaveChanges();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WorldPlants.Services;
 
 namespace WorldPlants.Controllers
 {
@@ -8,13 +9,20 @@ namespace WorldPlants.Controllers
     [AllowAnonymous]
     public class WtfController : Controller
     {
-        [HttpPost]
-        public ActionResult RecognisePlant(List<IFormFile> images)
+        private readonly IRemindersService _remindersService;
+        public WtfController(IRemindersService remindersService)
         {
-
-           
-            return Ok();
+            _remindersService = remindersService;
         }
+
+        [HttpGet]
+        public async Task<ActionResult> TestReminders()
+        {
+            // await _remindersService.SendReminderEmails();
+             await _remindersService.SendReminderSMS();
+
+            return Ok();
+        } 
     }
 }
 

@@ -1,5 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Hangfire;
+using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -23,7 +25,7 @@ DotNetEnv.Env.Load();
 
 var authenticationSettings = new AuthenticationSettings
 {
-    JwtKey = Environment.GetEnvironmentVariable("JWTKEY")!
+    JwtKey = Environment.GetEnvironmentVariable("JWTKEY") ?? ""
 };
 
 builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
@@ -62,6 +64,17 @@ builder.Services.AddAuthentication(option =>
 builder.Services.AddDbContext<WorldPlantsDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("WorldPlantsDb")));
 
+builder.Services.AddHangfire((provider, options) =>
+{
+    options.UseSqlServerStorage(builder.Configuration
+        .GetConnectionString("HangfireCS"))
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings();
+});
+
+builder.Services.AddHangfireServer();
+
 //Services
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IOwnerUserService, OwnerUserService>();
@@ -73,6 +86,10 @@ builder.Services.AddScoped<IPlantService, PlantsService>();
 builder.Services.AddScoped<ITranslationService, TranslationService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IActiveTasksService, ActiveTasksService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IRemindersService, RemindersService>();
+builder.Services.AddScoped<ISMSService, SMSService>();
+builder.Services.AddScoped<IJobsService, JobsService>();
 //
 
 //Validators
@@ -117,10 +134,36 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseAuthentication();
 app.UseHttpsRedirection();
+
+app.UseHangfireDashboard("/Hangfire/Dashboard", new DashboardOptions()
+{
+    Authorization = new[]
+    {
+         new HangfireCustomBasicAuthenticationFilter
+         {
+             User =  Environment.GetEnvironmentVariable("HANGFIRE_DASHBOARD_USER")?? "",
+             Pass =  Environment.GetEnvironmentVariable("HANGFIRE_DASHBOARD_PASSWORD")?? "",
+         }
+    },
+
+}) ;
+//Temporaly off
+/*
+RecurringJob.AddOrUpdate<IJobsService>("SendEmailReminders", e => e.ExecuteSendEmailReminders(), "00 8 * * *", new RecurringJobOptions()
+{
+    TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time") ?? TimeZoneInfo.Utc
+});
+*/
+/* 
+RecurringJob.AddOrUpdate<IJobsService>("SendSMSReminders", e => e.ExecuteSendSMSReminders(), "00 20 * * *", new RecurringJobOptions()
+{
+    TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time") ?? TimeZoneInfo.Utc
+
+});*/
+
 app.UseRouting();
 app.UseCors("CORS");
 app.UseAuthorization();
-
 
 app.MapControllerRoute(
     name: "default",

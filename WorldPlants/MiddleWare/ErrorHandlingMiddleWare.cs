@@ -1,6 +1,7 @@
 ﻿using DeepL;
 using Microsoft.JSInterop;
 using System.IdentityModel.Tokens.Jwt;
+using Twilio.Exceptions;
 using WorldPlants.Exceptions;
 
 namespace WorldPlants.MiddleWare
@@ -82,14 +83,23 @@ namespace WorldPlants.MiddleWare
             {
                 context.Response.StatusCode = 415;
                 await context.Response.WriteAsync("Błąd tłumaczenia");
-                Console.WriteLine("Bład DeepL: " + ex.Message);
+                _logger.LogError("Bład DeepL: " + ex.Message);
             }
-            catch (Exception ex)
+            catch(TimeZoneNotFoundException ex)
             {
-                _logger.LogError(ex, ex.Message);
+                context.Response.StatusCode = 415;
+                await context.Response.WriteAsync(ex.Message);
+            }
+            catch(ApiException ex)
+            {
+                _logger.LogError("Twilio SMS reminder error: " + ex.Message);
+            }
+
+            catch(Exception ex)
+            { 
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Coś się wykrzaczyło)");
-                Console.WriteLine("Coś się wykrzaczyło: " + ex.Message);
+                await context.Response.WriteAsync("Coś się wykrzaczyło");
+                _logger.LogError("Coś się wykrzaczyło: " + ex.Message, ex);
             }
         }
     }

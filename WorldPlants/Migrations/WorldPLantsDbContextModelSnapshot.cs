@@ -130,6 +130,35 @@ namespace WorldPlants.Migrations
                     b.ToTable("Plants");
                 });
 
+            modelBuilder.Entity("WorldPlants.Entities.PlantTaskHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ExecutionDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PlantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TaskType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlantId");
+
+                    b.ToTable("PlantTasksHistory");
+                });
+
             modelBuilder.Entity("WorldPlants.Entities.Space", b =>
                 {
                     b.Property<Guid>("Id")
@@ -185,6 +214,12 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("LastEmailReminderSendDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastSMSReminderSendDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -218,6 +253,9 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanAddSites")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("CanCreateCustomTasks")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("CanCutPlants")
                         .HasColumnType("bit");
 
@@ -246,6 +284,12 @@ namespace WorldPlants.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanWaterPlants")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CustomTasksEmailReminder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CustomTasksSmsReminder")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CutPlantsEmailReminder")
@@ -359,6 +403,17 @@ namespace WorldPlants.Migrations
                     b.Navigation("UserSite");
                 });
 
+            modelBuilder.Entity("WorldPlants.Entities.PlantTaskHistory", b =>
+                {
+                    b.HasOne("WorldPlants.Entities.Plant", "Plant")
+                        .WithMany("TasksHistory")
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plant");
+                });
+
             modelBuilder.Entity("WorldPlants.Entities.User", b =>
                 {
                     b.HasOne("WorldPlants.Entities.Space", "Space")
@@ -403,6 +458,8 @@ namespace WorldPlants.Migrations
             modelBuilder.Entity("WorldPlants.Entities.Plant", b =>
                 {
                     b.Navigation("ActiveTasks");
+
+                    b.Navigation("TasksHistory");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.Space", b =>

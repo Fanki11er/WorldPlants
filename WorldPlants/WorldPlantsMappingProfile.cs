@@ -4,6 +4,7 @@ using WorldPlants.Enums;
 using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
 using WorldPlants.Models.PlantsModels;
+using WorldPlants.Models.PlantTaskHistory;
 
 namespace WorldPlants
 {
@@ -73,6 +74,9 @@ namespace WorldPlants
                 .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateTime.Parse(d.ActionDate)))
                 .ForMember(m => m.PartOfTheDay, m => m.MapFrom(p => Enum.Parse(typeof(PartOfTheDay), p.PartOfTheDay)))
                 .ForMember(m => m.ActionType, m => m.MapFrom(p => Enum.Parse(typeof(ActionType), p.ActionType)));
+            
+            CreateMap<PlantTaskHistory, PlantTaskHistoryDTO>()
+                .ForMember(m=> m.TaskType, m=> m.MapFrom(t => t.TaskType.ToString()));
 
         }
     }

@@ -9,6 +9,8 @@
         public bool IsActive { get; set; } = true;
         public string AccountType { get; set; }
         public string? PhoneNumber { get; set; }
+        public DateTime LastEmailReminderSendDate { get; set; }
+        public DateTime LastSMSReminderSendDate { get; set; }
         public virtual UserSettings UserSettings { get; set; }
         public virtual Space Space { get; set; }
         public Guid SpaceId { get; set; }

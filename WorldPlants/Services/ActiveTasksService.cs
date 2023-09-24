@@ -5,6 +5,7 @@ using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
+using WorldPlants.Models.PlantTaskHistory;
 using WorldPlants.Utilities;
 
 namespace WorldPlants.Services
@@ -19,6 +20,7 @@ namespace WorldPlants.Services
         public ActiveTaskInformationDto SnoozeTask(string taskId);
         public ActiveTaskInformationDto? SkipTask(string taskId);
         public ActiveTaskInformationDto? ExecuteTask(string taskId);
+        public List<PlantTaskHistoryDTO> GetTasksHistory(string plantId);
     }
     public class ActiveTasksService: IActiveTasksService
     {
@@ -122,7 +124,7 @@ namespace WorldPlants.Services
 
             if (GetNumberOfDaysLeft(task) < 0)
             {
-                task.ActionDate = DateTime.Now.AddDays(1);
+                task.ActionDate = _utilities.GetTodayDateTime().AddDays(1);
             }
             else
             {
@@ -147,7 +149,7 @@ namespace WorldPlants.Services
 
                 if (GetNumberOfDaysLeft(task) < 0)
                 {
-                    task.ActionDate = DateTime.Now.AddDays((double)task.Interval);
+                    task.ActionDate = _utilities.GetTodayDateTime().AddDays((double)task.Interval);
                 }
                 else
                 {
@@ -179,10 +181,14 @@ namespace WorldPlants.Services
 
             if (task.Interval != 0 && task.Interval != null)
             {
-                // Add executed task to the history, with date and user, plant name and maybe place
-                task.ActionDate =DateTime.Now.AddDays((double)task.Interval);
+                
+                task.ActionDate =_utilities.GetTodayDateTime().AddDays((double)task.Interval);
+
+                var taskHistory = CreateTaskHistoryItem(task);
 
                 _dbContext.Update(task);
+
+                _dbContext.Update(taskHistory);
 
                 _utilities.SaveChangesToDatabase();
 
@@ -193,13 +199,25 @@ namespace WorldPlants.Services
             }
             else
             {
-                // Add executed task to the history, with date and user, plant name and maybe place
+                var taskHistory = CreateTaskHistoryItem(task);
+
                 _dbContext.ActiveTasks.Remove(task);
+
+                _dbContext.Update(taskHistory);
 
                 _utilities.SaveChangesToDatabase();
 
                 return null;
             }
+        }
+
+        public List<PlantTaskHistoryDTO> GetTasksHistory(string plantId)
+        {
+            var tasksHistory = _dbContext.PlantTasksHistory.Where(p => p.PlantId.ToString() == plantId);
+
+            var listOfTasksHistoryDTOs = _mapper.Map<List<PlantTaskHistoryDTO>>(tasksHistory);
+
+            return listOfTasksHistoryDTOs;
         }
 
         private ActiveTask GetTask(string taskId)
@@ -213,7 +231,24 @@ namespace WorldPlants.Services
 
         private int GetNumberOfDaysLeft(ActiveTask task)
         {
-            return (DateOnly.FromDateTime(task.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber);
+            var today = _utilities.GetTodayDateTime();
+           
+            return (int)(task.ActionDate - today).TotalDays;
+        }
+
+        private PlantTaskHistory CreateTaskHistoryItem(ActiveTask task)
+        {
+            var user = _utilities.GetUser();
+
+            PlantTaskHistory item = new()
+            {
+                TaskType = task.ActionType,
+                UserName = user.Name,
+                ExecutionDate = _utilities.GetTodayDate().ToShortDateString(),
+                PlantId = task.PlantId
+            };
+
+            return item;
         }
     }
 }
