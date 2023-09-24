@@ -134,12 +134,11 @@ const router = createBrowserRouter(
 
 export default router;
 
-//todo poprawić kolory w zadaniach do roślin (niebieski zamiast żółtego)
-//todo Zrobić wskaźnik ładowania
-//todo Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section)
-//todo Poprawić kontrast w napisie błędu w errorach
-//todo Border na focus i chover dla inputa w register, login i search (input textowy)
-//todo AddPlantSearchOrRecognizeResultsListItemImage w AddPlantSearchOrRecognizeResults image jako tło
-//todo AddPlantSection plantDetails addplantform image jako tło
-//todo AddPhoto field padding i hover
-//todo PlantDetailsWithIconSection wstawić ikony
+//? Zrobić wskaźnik ładowania -zrobiony, ale nie użyty
+// Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section) - zrobione
+// Poprawić kontrast w napisie błędu w errorach - zrobione
+//todo Border na focus i hover dla inputa w register, login i search (input textowy) ???
+//todo AddPlantSearchOrRecognizeResultsListItemImage w AddPlantSearchOrRecognizeResults image jako tło ??
+//todo AddPlantSection plantDetails addplantform image jako tło ??
+// AddPhoto field padding i hover - zrobione
+// PlantDetailsWithIconSection wstawić ikony - zrobione

@@ -13,9 +13,10 @@ import { paths } from "../../../Router/paths";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import axios from "../../../Api/axios";
-import { Formik, FormikFormProps, FormikHelpers } from "formik";
+import { FormikFormProps } from "formik";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 interface Props {
   error: unknown;
@@ -68,7 +69,7 @@ const RegistrationForm = (props: Props & FormikFormProps) => {
       </FormInputsWrapper>
 
       {isLoading ? (
-        <div>Loading</div>
+        <LoadingIndicator />
       ) : (
         <ActionButton type="submit">Zarejestruj</ActionButton>
       )}

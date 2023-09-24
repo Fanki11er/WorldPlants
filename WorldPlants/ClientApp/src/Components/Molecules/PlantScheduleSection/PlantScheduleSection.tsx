@@ -15,6 +15,11 @@ import { PlantScheduleTipsDto } from "../../../Interfaces/PlantScheduleTipsDto";
 import PlantScheduleTip from "../PlantScheduleTip/PlantScheduleTip";
 import PlantStandardTaskScheduleForm from "../PlantStandardTaskScheduleForm/PlantStandardTaskScheduleForm";
 import { StandardTaskTypeEnum } from "../../../Interfaces/PlantActiveTask";
+import dropsOfWater from "../../../Assets/WateringsThree.svg";
+import flowerPot from "../../../Assets/Fertilizer.svg";
+import scissors from "../../../Assets/Pruning.svg";
+import transplantation from "../../../Assets/Transplantation.svg";
+import wetting from "../../../Assets/Wetting2.svg";
 
 const PlantScheduleSection = () => {
   const { plantId } = useParams();
@@ -40,7 +45,7 @@ const PlantScheduleSection = () => {
     <PlantScheduleSectionWrapper>
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona z kroplami wody"} />
+          <PlantInfoIcon src={dropsOfWater} alt={"Ikona z kroplami wody"} />
           <PlantScheduleConcreteTypeHeader>
             Podlewanie
           </PlantScheduleConcreteTypeHeader>
@@ -57,7 +62,7 @@ const PlantScheduleSection = () => {
 
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona z doniczką"} />
+          <PlantInfoIcon src={flowerPot} alt={"Ikona z doniczką"} />
           <PlantScheduleConcreteTypeHeader>
             Nawożenie
           </PlantScheduleConcreteTypeHeader>
@@ -67,7 +72,7 @@ const PlantScheduleSection = () => {
 
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona nożyczkami"} />
+          <PlantInfoIcon src={scissors} alt={"Ikona nożyczkami"} />
           <PlantScheduleConcreteTypeHeader>
             Przycinanie
           </PlantScheduleConcreteTypeHeader>
@@ -81,7 +86,7 @@ const PlantScheduleSection = () => {
       </PlantScheduleConcreteTypeWrapper>
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona z doniczką"} />
+          <PlantInfoIcon src={transplantation} alt={"Ikona z doniczką"} />
           <PlantScheduleConcreteTypeHeader>
             Przesadzanie
           </PlantScheduleConcreteTypeHeader>
@@ -91,7 +96,7 @@ const PlantScheduleSection = () => {
 
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona ze spryskiwaczem"} />
+          <PlantInfoIcon src={wetting} alt={"Ikona ze spryskiwaczem"} />
           <PlantScheduleConcreteTypeHeader>
             Zwilżanie
           </PlantScheduleConcreteTypeHeader>

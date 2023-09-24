@@ -197,14 +197,14 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
                 )}
                 {!isUpdated && isDeleted && <FormSuccess>Usunięto</FormSuccess>}
                 {(updatingInProgress || deletingInProgress) && (
-                  <div>Zapisywanie</div>
+                  <ActionButton>Zapisywanie</ActionButton>
                 )}
               </FormRowWrapper>
             </PlantStandardTaskScheduleFormWrapper>
           )}
         </Formik>
       ) : (
-        <LoadingIndicator>Loading...</LoadingIndicator>
+        <LoadingIndicator />
       )}
     </>
   );

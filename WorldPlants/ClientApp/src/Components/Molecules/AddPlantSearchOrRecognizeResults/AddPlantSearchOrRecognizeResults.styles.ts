@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
+// import imgFallback from "../../../Assets/ImageFallback.svg";
 
 export const AddPlantSearchOrRecognizeResultsWrapper = styled.ul`
   display: flex;
@@ -9,6 +10,7 @@ export const AddPlantSearchOrRecognizeResultsWrapper = styled.ul`
   width: 100%;
   list-style: none;
   padding: 0;
+  justify-content: center;
 `;
 
 export const AddPlantSearchOrRecognizeResultsListItem = styled.li`
@@ -31,6 +33,7 @@ export const AddPlantSearchOrRecognizeResultsListItemImage = styled.img`
   height: 100%;
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
+  /* background-image: url($); */
 `;
 
 export const AddPlantSearchOrRecognizeResultsListItemContentWrapper = styled.div`

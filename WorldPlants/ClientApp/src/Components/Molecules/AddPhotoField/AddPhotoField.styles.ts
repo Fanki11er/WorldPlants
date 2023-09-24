@@ -17,6 +17,10 @@ export const AddPhotoFieldLabel = styled.label`
   height: 30px;
   background-color: ${(props: AppTheme) => props.theme.colors.purple};
   border-radius: 10px;
+  :hover {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+  }
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 `;
 
 export const AddPhotoFieldInput = styled.input`

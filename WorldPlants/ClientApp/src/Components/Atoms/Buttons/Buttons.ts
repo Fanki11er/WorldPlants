@@ -136,6 +136,7 @@ export const PermissionsReturnButton = styled(ActionButton)`
 
 export const RedActionButton = styled(ActionButton)`
   background-color: ${(props: AppTheme) => props.theme.colors.red};
+  //margin-top: 1px;
 `;
 
 const StyledButton = styled.button`
@@ -163,9 +164,9 @@ export const GreenStyledButton = styled(StyledButton)`
 `;
 
 export const OrangeStyledButton = styled(StyledButton)`
-  background-color: ${(props: AppTheme) => props.theme.colors.orange};
+  background-color: ${(props: AppTheme) => props.theme.colors.orangeRed};
 `;
 
-export const YellowStyledButton = styled(StyledButton)`
-  background-color: ${(props: AppTheme) => props.theme.colors.yellow};
+export const BlueStyledButton = styled(StyledButton)`
+  background-color: ${(props: AppTheme) => props.theme.colors.blue};
 `;

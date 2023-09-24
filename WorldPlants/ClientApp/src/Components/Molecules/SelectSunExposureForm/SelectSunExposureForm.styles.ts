@@ -17,4 +17,5 @@ export const FieldsWrapper = styled.div`
 export const InfoHeader = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.orange};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
+  margin: 0;
 `;

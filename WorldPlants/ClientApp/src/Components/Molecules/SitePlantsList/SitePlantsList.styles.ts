@@ -79,5 +79,6 @@ export const SitePlantsListItemHeader = styled.h2`
 export const SitePlantsListItemTasksInformationWrapper = styled.div`
   display: flex;
   flex-flow: wrap row;
-  gap: 10px;
+  column-gap: 10px;
+  row-gap: 15px;
 `;

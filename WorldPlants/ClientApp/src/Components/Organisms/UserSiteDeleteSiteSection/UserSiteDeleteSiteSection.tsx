@@ -11,6 +11,7 @@ import {
   SettingsSectionWrapper,
 } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import DeleteSiteForm from "../DeleteSiteForm/DeleteSiteForm";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 const UserSiteDeleteSiteSection = () => {
   const { siteId } = useParams();
@@ -36,7 +37,7 @@ const UserSiteDeleteSiteSection = () => {
       <SettingsSectionHeader>
         {`Usuń miejsce: ${data?.name}`}
       </SettingsSectionHeader>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}

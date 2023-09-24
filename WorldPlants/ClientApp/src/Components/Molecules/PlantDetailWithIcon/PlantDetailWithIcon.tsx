@@ -2,8 +2,8 @@ import { PlantInfoIcon } from "../../Atoms/PlantInfoIcon/PlantInfoIcon.styles";
 import noIcon from "../../../Assets/NoIcon.svg";
 
 import {
-  PLantDetailWithIconTitle,
-  PLantDetailWithIconValue,
+  PlantDetailWithIconTitle,
+  PlantDetailWithIconValue,
   PlantDetailWithIconWrapper,
 } from "./PlantDetailWithIcon.styles";
 
@@ -23,8 +23,8 @@ const PlantDetailWithIcon = (props: Props) => {
   return (
     <PlantDetailWithIconWrapper>
       <PlantInfoIcon src={icon ? icon : noIcon} alt={`Ikona ${title}`} />
-      <PLantDetailWithIconTitle>{`${title}: `}</PLantDetailWithIconTitle>
-      <PLantDetailWithIconValue>{value}</PLantDetailWithIconValue>
+      <PlantDetailWithIconTitle>{`${title}: `}</PlantDetailWithIconTitle>
+      <PlantDetailWithIconValue>{value}</PlantDetailWithIconValue>
     </PlantDetailWithIconWrapper>
   );
 };

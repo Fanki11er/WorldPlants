@@ -23,9 +23,9 @@ import { useState } from "react";
 import { StandardTaskTypeEnum } from "../../../Interfaces/PlantActiveTask";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 import {
+  BlueStyledButton,
   GreenStyledButton,
   OrangeStyledButton,
-  YellowStyledButton,
 } from "../../Atoms/Buttons/Buttons";
 
 interface ActionErrorStatus {
@@ -113,7 +113,7 @@ const PlantTasksSection = () => {
             </PlantTasksSectionTaskHeader>
             {actionInProgress !== task.id && (
               <PantTasksSectionTaskButtonsWrapper>
-                <YellowStyledButton
+                <BlueStyledButton
                   onClick={() =>
                     executeTaskMutation({
                       taskId: task.id,
@@ -122,7 +122,7 @@ const PlantTasksSection = () => {
                   }
                 >
                   Odłuż
-                </YellowStyledButton>
+                </BlueStyledButton>
                 <OrangeStyledButton
                   onClick={() =>
                     executeTaskMutation({ taskId: task.id, endpoint: skipTask })
