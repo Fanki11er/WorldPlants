@@ -8,11 +8,12 @@ import {
 interface Props {
   label: string;
   fieldName: string;
+  multiple?: boolean;
   handleImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const AddPhotoField = (props: Props) => {
-  const { label, handleImageChange } = props;
+  const { label, handleImageChange, multiple } = props;
 
   return (
     <AddPhotoFieldWrapper>
@@ -22,6 +23,7 @@ const AddPhotoField = (props: Props) => {
           type={"file"}
           onChange={(e: ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
           accept="image/png, image/jpeg, image/jpg"
+          multiple={multiple}
         />
       </AddPhotoFieldLabel>
     </AddPhotoFieldWrapper>

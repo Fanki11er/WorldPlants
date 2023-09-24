@@ -9,4 +9,5 @@ export const AddPlantSearchFormWrapper = styled(Form)`
   background-color: #071d53;
   padding: 30px 50px;
   border-radius: 25px;
+  margin-bottom: 30px;
 `;

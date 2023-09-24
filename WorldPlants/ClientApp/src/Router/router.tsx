@@ -33,6 +33,7 @@ import UserSitePlantsSection from "../Components/Molecules/UserSitePlantsSection
 import PlantTasksSection from "../Components/Organisms/PlantTasksSection/PlantTasksSection";
 import PlantScheduleSection from "../Components/Molecules/PlantScheduleSection/PlantScheduleSection";
 import PlantTasksHistorySection from "../Components/Molecules/PlantTasksHistorySection/PlantTasksHistorySection";
+import RecognizePlantSection from "../Components/Organisms/RecognizePlantSection/RecognizePlantSection";
 
 const {
   rootPath,
@@ -55,6 +56,7 @@ const {
   selectedPlant,
   selectedPlantSchedule,
   selectedPlantTasksHistory,
+  addPlantRecognize,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -111,6 +113,7 @@ const router = createBrowserRouter(
         </Route>
         <Route path={`${addPlant}/:siteId`} element={<AddPlantView />}>
           <Route index element={<AddPlantSearchSection />} />
+          <Route path={addPlantRecognize} element={<RecognizePlantSection />} />
           <Route path=":detailsId" element={<AddPlantSection />} />
         </Route>
         //? Plant
@@ -148,3 +151,8 @@ export default router;
 //todo AddPlantSection plantDetails addplantform image jako tło ??
 // AddPhoto field padding i hover - zrobione
 // PlantDetailsWithIconSection wstawić ikony - zrobione
+
+// todo Poprawić loadery
+// todo Zrobić red button with margin
+// todo Przejrzeć wszystkie style i sprawdzić kolory
+// todo Hover focus miejsca

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const PlantTasksHistoryListWrapper = styled.ul`
   display: flex;
@@ -31,18 +32,14 @@ export const PlantTasksHistoryListItemInformationWrapper = styled.div`
   min-height: 40px;
   max-height: 80px;
   transform: translateX(-15px);
-  padding: 5px 5px 5px 35px;
-  background-image: linear-gradient(
-    93deg,
-    #28297b 3%,
-    #312061 97%,
-    #312061 97%
-  );
+  padding: 5px 10px 5px 35px;
+  background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 `;
+
 export const PlantTasksHistoryListItemInformation = styled.span`
-  color: #fe7a35;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
   width: fit-content;
 `;
 
@@ -53,6 +50,6 @@ export const PlantTasksHistoryListItemCircle = styled.div`
   border-radius: 50%;
   justify-content: center;
   align-items: center;
-  background-color: #4e4ea5;
+  background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
   z-index: 2;
 `;

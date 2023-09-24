@@ -72,6 +72,8 @@ export const apiEndpoints = {
     return `Plants/Tips/${plantId}`;
   },
 
+  recognizePlant: "Recognize",
+
   //? Tasks
 
   getStandardTask: (

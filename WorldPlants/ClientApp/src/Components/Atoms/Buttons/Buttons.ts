@@ -13,11 +13,12 @@ export const ActionButton = styled.button`
   padding: 5px 10px;
   margin-top: 30px;
   color: ${(props: AppTheme) => props.theme.colors.white};
+  transition: all 0.5s;
 
-  :hover {
+  :hover,
+  :focus {
     background-color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
-    transition: all 0.5s;
   }
   :disabled {
     background-color: ${(props: AppTheme) => props.theme.colors.lightGray};
@@ -40,12 +41,14 @@ export const NavigationLink = styled(NavLink)`
   justify-content: center;
   align-items: center;
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
+  transition: all 0.5s;
 
-  :hover:not(.active) {
+  :hover,
+  :focus {
     background-color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
-    transition: all 0.5s;
   }
+
   &.active {
     color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: not-allowed;
@@ -73,7 +76,8 @@ export const OrangeButton = styled.button`
   color: ${(props: AppTheme) => props.theme.colors.white};
   border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
 
-  :hover {
+  :hover,
+  :focus {
     background-color: transparent;
     cursor: pointer;
     transition: all 0.5s;
@@ -119,14 +123,18 @@ export const SideMenuLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
+  outline: none;
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
+  border: 2px solid transparent;
   &.active {
     color: ${(props: AppTheme) => props.theme.colors.orange};
     pointer-events: none;
     cursor: not-allowed;
   }
-  :hover {
+  :hover,
+  :focus {
     color: ${(props: AppTheme) => props.theme.colors.orange};
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
   }
 `;
 
@@ -153,7 +161,8 @@ const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
 
-  &:hover {
+  :hover,
+  :focus {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
   }
