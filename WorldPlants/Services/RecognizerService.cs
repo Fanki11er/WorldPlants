@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.SqlServer.Server;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
@@ -9,77 +7,55 @@ namespace WorldPlants.Services
 {
     public interface IRecognizerService
     {
-        public Task<RecognizedPlantDto?> RecognizePlant(List<IFormFile> images);
-        public Task<string?> RecognizeAndGetPlantAdditionalInformation(List<IFormFile> images);
+        public Task<List<RecognizedPlantDto>> RecognizePlant(List<IFormFile> images);
     }
 
 
     public class RecognizerService : IRecognizerService
     {
 
-        public async Task<RecognizedPlantDto?> RecognizePlant(List<IFormFile> images)
+        private readonly ILogger<RecognizerService> _logger;
+
+        public RecognizerService(ILogger<RecognizerService> logger)
         {
-            RecognizedPlantInformation? result = await RecognizePlantFromImages(images);
-
-            if(result == null)
-            {
-                return null;
-            }
-
-            RecognizedPlantDto resultDto = ConvertRecognizedPlantInformationToDto(result);
-
-            return resultDto;
+            _logger = logger;
         }
-
-        public async Task<string?> RecognizeAndGetPlantAdditionalInformation(List<IFormFile> images)
+        public async Task<List<RecognizedPlantDto>> RecognizePlant(List<IFormFile> images)
         {
-            RecognizedPlantInformation? result = await RecognizePlantFromImages(images);
+            var suggestions = await RecognizePlantFromImages(images);
 
-            if (result == null)
-            {
-                return null;
-            }
+            var resultDtos = ConvertSugestionsToDto(suggestions);
 
-            var additionalPlantInformation = await GetAddidionalPlantIformation(result);
-
-            return additionalPlantInformation;
+            return resultDtos;
         }
 
 
-        private async Task<string?> GetAddidionalPlantIformation(RecognizedPlantInformation recognizedPlantInformation)
+        private List<RecognizedPlantDto> ConvertSugestionsToDto(List<Suggestion> suggestions)
         {
-            var key = Environment.GetEnvironmentVariable("PARENUAL_API_KEY");
+            var results = new List<RecognizedPlantDto>();
 
-            string spieceName = recognizedPlantInformation.Species.Genus.ScientificName;
+            foreach (var suggestion in suggestions)
+            {
+                RecognizedPlantDto dto = new()
+                {
+                    Id = suggestion.Id,
+                    Name = suggestion.Name,
+                    Probability = $"{(int)(suggestion.Probability * 100)}%",
+                    Description = suggestion.Details?.Description?.Value ?? "",
+                    Images = suggestion.Details?.Images?.Select(i => i.Value ?? "").ToList() ?? new List<string>()
+                };
+                results.Add(dto);
+            }
+            return results;
+        }
+
+        private async Task<List<Suggestion>> RecognizePlantFromImages(List<IFormFile> images)
+        {
+
+            var key = Environment.GetEnvironmentVariable("PLANTID_API_KEY");
 
             using var client = new HttpClient();
-
-            var response = await client.GetAsync($"https://perenual.com/api/species-list?page=1&key={key}&q={spieceName}");
-
-            return await response.Content.ReadAsStringAsync();
-        }
-
-
-        private RecognizedPlantDto ConvertRecognizedPlantInformationToDto( RecognizedPlantInformation recognizedPlantInformation)
-        {
-            RecognizedPlantDto dto = new()
-            {
-                PlantGenus = recognizedPlantInformation.Species.Genus.ScientificName,
-                PlantFamily = recognizedPlantInformation.Species.Family.ScientificName,
-                PlantScientificName = recognizedPlantInformation.Species.ScientificName
-            };
-
-            return dto;
-        }
-
-
-
-        private async Task<RecognizedPlantInformation?> RecognizePlantFromImages(List<IFormFile> images)
-        {
-
-            var key = Environment.GetEnvironmentVariable("PLANTNET_API_KEY");
-
-            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Api-Key", key);
 
 
             var formData = new MultipartFormDataContent();
@@ -91,30 +67,32 @@ namespace WorldPlants.Services
                 formData.Add(imageContent, "images", image.FileName);
             }
 
-            var response = await client.PostAsync($"https://my-api.plantnet.org/v2/identify/all?lang=pl&api-key={key}", formData);
+            var response = await client.PostAsync("https://plant.id/api/v3/identification?details=description,images&language=pl", formData);
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Images uploaded successfully.");
                 var content = await response.Content.ReadAsStringAsync();
                 var recognizerResponse = new RecognizerResponse();
 
                 JsonConvert.PopulateObject(content, recognizerResponse);
 
-                if (recognizerResponse.Results.Length > 0)
+                if (recognizerResponse != null)
                 {
-                    return recognizerResponse.Results[0];
+                    return recognizerResponse.Result.Classification.Suggestions.Take(3).ToList();
                 }
                 else
                 {
-                    return null;
+                    return new List<Suggestion>();
                 }
 
             }
             else
             {
-                Console.WriteLine(response.RequestMessage);
-                throw new RecognizerException($"Recognizer response with code: ${response.StatusCode}")
+                _logger.LogError(response.Content.ReadAsStringAsync().Result);
+
+                _logger.LogError($"Recognizer response with code: {response.StatusCode}");
+
+                throw new RecognizerException("Błąd rozpoznawania")
 ;
             }
         }
