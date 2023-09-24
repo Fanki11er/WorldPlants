@@ -100,4 +100,7 @@ export const apiEndpoints = {
   executeTask: (taskId: string) => {
     return `Tasks/Execute/${taskId}`;
   },
+  getTasksHistory: (plantId: string | undefined) => {
+    return `Tasks/History/${plantId ? plantId : ""}`;
+  },
 };

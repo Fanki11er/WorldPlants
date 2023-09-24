@@ -15,4 +15,14 @@ export enum StandardTaskTypeEnum {
   Replant,
   Mist,
 }
-export type CustomTaskType = "custom";
+export type CustomTaskType = "Custom";
+
+export type StandardTaskType =
+  | "Water"
+  | "Fertilize"
+  | "Cut"
+  | "Replant"
+  | "Mist"
+  | "Custom";
+
+export type StandardTaskTypeFilter = StandardTaskType | "";

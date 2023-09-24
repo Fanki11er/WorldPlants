@@ -32,6 +32,7 @@ import SelectedPlantView from "../Views/SelectedPlantView/SelectedPlantView";
 import UserSitePlantsSection from "../Components/Molecules/UserSitePlantsSection/UserSitePlantsSection";
 import PlantTasksSection from "../Components/Organisms/PlantTasksSection/PlantTasksSection";
 import PlantScheduleSection from "../Components/Molecules/PlantScheduleSection/PlantScheduleSection";
+import PlantTasksHistorySection from "../Components/Molecules/PlantTasksHistorySection/PlantTasksHistorySection";
 
 const {
   rootPath,
@@ -53,6 +54,7 @@ const {
   addPlant,
   selectedPlant,
   selectedPlantSchedule,
+  selectedPlantTasksHistory,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -123,6 +125,10 @@ const router = createBrowserRouter(
           />
           <Route path={""} element={<div>PlanDetails</div>} />
           <Route path={""} element={<div>PlantNotes</div>} />
+          <Route
+            path={selectedPlantTasksHistory}
+            element={<PlantTasksHistorySection />}
+          />
           <Route path={""} element={<div>PlantSettings</div>} />
           <Route path={""} element={<div>DeletePlant</div>} />
         </Route>

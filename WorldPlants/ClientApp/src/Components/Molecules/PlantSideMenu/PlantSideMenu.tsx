@@ -8,13 +8,14 @@ const PlantSideMenu = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const from = state?.from?.siteId;
-  const { selectedPlantSchedule } = paths;
+  const { selectedPlantSchedule, selectedPlantTasksHistory } = paths;
   return (
     <SideMenu>
       <SideMenuLink to={""} end>
         Zadania
       </SideMenuLink>
       <SideMenuLink to={selectedPlantSchedule}>Harmonogram</SideMenuLink>
+      <SideMenuLink to={selectedPlantTasksHistory}>Historia akcji</SideMenuLink>
       <ActionButton
         onClick={() => {
           if (from) {

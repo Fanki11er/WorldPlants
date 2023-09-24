@@ -30,4 +30,5 @@ export const paths = {
   //? Selected plant
   selectedPlant: "SelectedPlant",
   selectedPlantSchedule: "PlantSchedule",
+  selectedPlantTasksHistory: "PlantHistory",
 };

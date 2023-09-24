@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using NLog.Web;
 using System.Text;
 using WorldPlants;
 using WorldPlants.DbSeeders;
@@ -146,7 +145,7 @@ app.UseHangfireDashboard("/Hangfire/Dashboard", new DashboardOptions()
          }
     },
 
-}) ;
+});
 //Temporaly off
 /*
 RecurringJob.AddOrUpdate<IJobsService>("SendEmailReminders", e => e.ExecuteSendEmailReminders(), "00 8 * * *", new RecurringJobOptions()
