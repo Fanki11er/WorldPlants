@@ -4,4 +4,5 @@ export interface NotificationSettings {
   cutPlantsReminder: boolean;
   replantPlantsReminder: boolean;
   mistPlantsReminder: boolean;
+  customTasksReminder: boolean;
 }

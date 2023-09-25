@@ -19,7 +19,7 @@ import dropsOfWater from "../../../Assets/WateringsThree.svg";
 import flowerPot from "../../../Assets/Fertilizer.svg";
 import scissors from "../../../Assets/Pruning.svg";
 import transplantation from "../../../Assets/Transplantation.svg";
-import wetting from "../../../Assets/Wetting2.svg";
+import mist from "../../../Assets/Wetting2.svg";
 
 const PlantScheduleSection = () => {
   const { plantId } = useParams();
@@ -51,13 +51,9 @@ const PlantScheduleSection = () => {
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
         <PlantScheduleTip
-          error={tipsDataError}
-          isLoading={isTipsDataLoading}
           tipData={tipsData?.watering ? tipsData.watering : ""}
         />
-        <PlantStandardTaskScheduleForm
-          taskType={StandardTaskTypeEnum.Fertilize}
-        />
+        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Water} />
       </PlantScheduleConcreteTypeWrapper>
 
       <PlantScheduleConcreteTypeWrapper>
@@ -67,7 +63,9 @@ const PlantScheduleSection = () => {
             Nawożenie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskType={"Fertilize"} />
+        <PlantStandardTaskScheduleForm
+          taskType={StandardTaskTypeEnum.Fertilize}
+        />
       </PlantScheduleConcreteTypeWrapper>
 
       <PlantScheduleConcreteTypeWrapper>
@@ -77,12 +75,8 @@ const PlantScheduleSection = () => {
             Przycinanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantScheduleTip
-          error={tipsDataError}
-          isLoading={isTipsDataLoading}
-          tipData={tipsData?.pruning ? tipsData.pruning : ""}
-        />
-        <PlantStandardTaskScheduleForm taskType={"Cut"} />
+        <PlantScheduleTip tipData={tipsData?.pruning ? tipsData.pruning : ""} />
+        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Cut} />
       </PlantScheduleConcreteTypeWrapper>
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
@@ -91,17 +85,19 @@ const PlantScheduleSection = () => {
             Przesadzanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskType={"Replant"} />
+        <PlantStandardTaskScheduleForm
+          taskType={StandardTaskTypeEnum.Replant}
+        />
       </PlantScheduleConcreteTypeWrapper>
 
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={wetting} alt={"Ikona ze spryskiwaczem"} />
+          <PlantInfoIcon src={mist} alt={"Ikona ze spryskiwaczem"} />
           <PlantScheduleConcreteTypeHeader>
             Zwilżanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskType={"Mist"} />
+        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Mist} />
       </PlantScheduleConcreteTypeWrapper>
     </PlantScheduleSectionWrapper>
   );

@@ -5,15 +5,16 @@ import {
   SelectFormFieldWrapper,
 } from "./SelectFormField.styles";
 import { FieldError } from "../../Atoms/FieldError/FieldError.styles.";
-import { PartOfTheDaySelect } from "../../../Interfaces/PartOfTheDaySelect";
-interface Props {
+import { SelectFieldOptions } from "../../../Interfaces/SelectFieldOption";
+
+interface Props<T> {
   name: string;
   label: string;
-  values: PartOfTheDaySelect[];
+  values: SelectFieldOptions<T>[];
   placeholder: string;
   isError: string | undefined | boolean;
 }
-const SelectFormField = (props: Props) => {
+const SelectFormField = <T extends React.Key>(props: Props<T>) => {
   const { name, values, placeholder, label, isError } = props;
   const [field] = useField(name);
 

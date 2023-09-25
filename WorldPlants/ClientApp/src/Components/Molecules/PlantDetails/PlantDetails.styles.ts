@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
+interface Props {
+  $imageUrl: string;
+}
+
 export const PlantDetailsWrapper = styled.article<AppTheme>`
   background-color: ${(props) => props.theme.colors.navyBlue};
   border-radius: 15px;
@@ -19,12 +23,16 @@ export const PlantDetailsHeaderSection = styled.div`
   column-gap: 20px;
 `;
 
-export const PLantsDetailsImage = styled.img`
+export const PLantsDetailsImage = styled.div<Props>`
   width: 100%;
   max-height: 350px;
   grid-column: 1/2;
   grid-row: 1/5;
   border-radius: 15px;
+  background-image: url(${(props) => props.$imageUrl});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 export const PlantDetailsName = styled.h2`

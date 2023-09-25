@@ -21,7 +21,7 @@ const PlantDetails = (props: Props) => {
     <PlantDetailsWrapper>
       <PlantDetailsHeaderSection>
         <PLantsDetailsImage
-          src={
+          $imageUrl={
             plantDetails.defaultImage ? plantDetails.defaultImage : imgFallback
           }
         />

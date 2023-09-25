@@ -80,7 +80,9 @@ export const apiEndpoints = {
     plantId: string | undefined,
     taskType: StandardTaskTypeEnum
   ) => {
-    return `Tasks/Standard/${plantId ? plantId : ""}/${taskType}`;
+    return `Tasks/Standard/${plantId ? plantId : ""}/${
+      StandardTaskTypeEnum[taskType]
+    }`;
   },
 
   setTask: "Tasks/SetTask",

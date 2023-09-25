@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { SUN_EXPOSURES } from "../../../Constants/Constants";
 import { SunExposureDto } from "../../../Interfaces/SunExposureDto";
 import SunExposuresRadioField from "../SunExposuresRadioField/SunExposuresRadioField";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 interface Props {
   fieldName: string;
@@ -69,7 +70,7 @@ const SelectSunExposureForm = (props: Props) => {
   return (
     <SelectSunExposureFormWrapper>
       <InfoHeader>Wybierz poziom nasłonecznienia</InfoHeader>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
