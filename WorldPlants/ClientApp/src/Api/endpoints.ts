@@ -72,13 +72,17 @@ export const apiEndpoints = {
     return `Plants/Tips/${plantId}`;
   },
 
+  recognizePlant: "Recognize",
+
   //? Tasks
 
   getStandardTask: (
     plantId: string | undefined,
     taskType: StandardTaskTypeEnum
   ) => {
-    return `Tasks/Standard/${plantId ? plantId : ""}/${taskType}`;
+    return `Tasks/Standard/${plantId ? plantId : ""}/${
+      StandardTaskTypeEnum[taskType]
+    }`;
   },
 
   setTask: "Tasks/SetTask",
@@ -99,5 +103,8 @@ export const apiEndpoints = {
   },
   executeTask: (taskId: string) => {
     return `Tasks/Execute/${taskId}`;
+  },
+  getTasksHistory: (plantId: string | undefined) => {
+    return `Tasks/History/${plantId ? plantId : ""}`;
   },
 };

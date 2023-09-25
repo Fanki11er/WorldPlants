@@ -24,10 +24,11 @@ export const TaskInformationTitle = styled.span<Status>`
 
 export const TaskInformationIndicator = styled.div<Status>`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50px;
   background-image: ${(props) =>
     props.$status === "Future"
@@ -35,13 +36,28 @@ export const TaskInformationIndicator = styled.div<Status>`
       : props.theme.colors.orangeGradient};
 `;
 
-export const TaskInformationIndicatorNumber = styled.span<Status>`
+const TaskInformationIndicatorInnerTextCore = styled.span<Status>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  font-weight: bold;
   color: ${(props) =>
     props.$status === "Future"
-      ? props.theme.colors.mainBlue
+      ? props.theme.colors.navyBlue
       : props.theme.colors.claret};
-  font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
-  font-weight: bold;
+`;
+
+export const TaskInformationIndicatorInnerText = styled(
+  TaskInformationIndicatorInnerTextCore
+)<Status>`
+  font-size: 10px;
+`;
+
+export const TaskInformationIndicatorNumber = styled(
+  TaskInformationIndicatorInnerTextCore
+)<Status>`
+  font-size: 16px;
 `;
 
 export const TaskInformationIndicatorToday = styled.span`

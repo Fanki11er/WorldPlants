@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import { apiEndpoints } from "../../../Api/endpoints";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
-import { AddPlantSearchSectionWrapper } from "./AddPlantSearchSection.styles";
 import useSearchPhrase from "../../../Hooks/useSearchPhrase";
 import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
 import { SearchPlantResultsDto } from "../../../Interfaces/SearchPlantResultsDto";
@@ -9,6 +8,7 @@ import { SEARCH_PLANT_RESULTS } from "../../../Constants/Constants";
 import AddPlantSearchForm from "../../Molecules/AddPlantSearchForm/AddPlantSearchForm";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 import AddPlantSearchOrRecognizeResults from "../../Molecules/AddPlantSearchOrRecognizeResults/AddPlantSearchOrRecognizeResults";
+import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 
 const AddPlantSearchSection = () => {
   const { searchForPlant } = apiEndpoints;
@@ -27,9 +27,9 @@ const AddPlantSearchSection = () => {
   );
 
   return (
-    <AddPlantSearchSectionWrapper>
+    <SettingsSectionWrapper>
       <AddPlantSearchForm isLoading={isLoading} />
-      {isLoading && <LoadingIndicator>Loading...</LoadingIndicator>}
+      {isLoading && <LoadingIndicator />}
       {data ? (
         data.length ? (
           <AddPlantSearchOrRecognizeResults results={data} />
@@ -40,7 +40,7 @@ const AddPlantSearchSection = () => {
           />
         )
       ) : null}
-    </AddPlantSearchSectionWrapper>
+    </SettingsSectionWrapper>
   );
 };
 

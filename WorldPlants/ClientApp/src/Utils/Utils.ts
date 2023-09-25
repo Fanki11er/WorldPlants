@@ -13,7 +13,7 @@ export const getErrorMessages = (e: unknown) => {
   const error: AxiosError = e as AxiosError;
   const data = error.response?.data;
   if (!data) {
-    errorMessages.push(error.message);
+    errorMessages.push("Wystąpił błąd");
     return errorMessages;
   }
 
@@ -168,5 +168,15 @@ export const translateActionType = (actionType: StandardTaskTypeEnum) => {
     default: {
       return "Inna";
     }
+  }
+};
+
+export const convertIndicatorText = (daysLeft: number) => {
+  const absoluteValue = Math.abs(daysLeft);
+
+  if (absoluteValue === 1) {
+    return "Dzień";
+  } else {
+    return "Dni";
   }
 };

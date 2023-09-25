@@ -25,6 +25,7 @@ export const SelectField = styled.select<ErrorProps>`
   padding: 0 10px;
   outline: none;
   text-align: center;
+
   &:hover,
   &:focus {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};

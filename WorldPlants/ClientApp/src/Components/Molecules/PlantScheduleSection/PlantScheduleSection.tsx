@@ -15,6 +15,11 @@ import { PlantScheduleTipsDto } from "../../../Interfaces/PlantScheduleTipsDto";
 import PlantScheduleTip from "../PlantScheduleTip/PlantScheduleTip";
 import PlantStandardTaskScheduleForm from "../PlantStandardTaskScheduleForm/PlantStandardTaskScheduleForm";
 import { StandardTaskTypeEnum } from "../../../Interfaces/PlantActiveTask";
+import dropsOfWater from "../../../Assets/WateringsThree.svg";
+import flowerPot from "../../../Assets/Fertilizer.svg";
+import scissors from "../../../Assets/Pruning.svg";
+import transplantation from "../../../Assets/Transplantation.svg";
+import mist from "../../../Assets/Wetting2.svg";
 
 const PlantScheduleSection = () => {
   const { plantId } = useParams();
@@ -40,16 +45,24 @@ const PlantScheduleSection = () => {
     <PlantScheduleSectionWrapper>
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona z kroplami wody"} />
+          <PlantInfoIcon src={dropsOfWater} alt={"Ikona z kroplami wody"} />
           <PlantScheduleConcreteTypeHeader>
             Podlewanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
         <PlantScheduleTip
-          error={tipsDataError}
-          isLoading={isTipsDataLoading}
           tipData={tipsData?.watering ? tipsData.watering : ""}
         />
+        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Water} />
+      </PlantScheduleConcreteTypeWrapper>
+
+      <PlantScheduleConcreteTypeWrapper>
+        <PlantScheduleConcreteTypeHeaderWrapper>
+          <PlantInfoIcon src={flowerPot} alt={"Ikona z doniczką"} />
+          <PlantScheduleConcreteTypeHeader>
+            Nawożenie
+          </PlantScheduleConcreteTypeHeader>
+        </PlantScheduleConcreteTypeHeaderWrapper>
         <PlantStandardTaskScheduleForm
           taskType={StandardTaskTypeEnum.Fertilize}
         />
@@ -57,46 +70,34 @@ const PlantScheduleSection = () => {
 
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona z doniczką"} />
-          <PlantScheduleConcreteTypeHeader>
-            Nawożenie
-          </PlantScheduleConcreteTypeHeader>
-        </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskType={"Fertilize"} />
-      </PlantScheduleConcreteTypeWrapper>
-
-      <PlantScheduleConcreteTypeWrapper>
-        <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona nożyczkami"} />
+          <PlantInfoIcon src={scissors} alt={"Ikona nożyczkami"} />
           <PlantScheduleConcreteTypeHeader>
             Przycinanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantScheduleTip
-          error={tipsDataError}
-          isLoading={isTipsDataLoading}
-          tipData={tipsData?.pruning ? tipsData.pruning : ""}
-        />
-        <PlantStandardTaskScheduleForm taskType={"Cut"} />
+        <PlantScheduleTip tipData={tipsData?.pruning ? tipsData.pruning : ""} />
+        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Cut} />
       </PlantScheduleConcreteTypeWrapper>
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona z doniczką"} />
+          <PlantInfoIcon src={transplantation} alt={"Ikona z doniczką"} />
           <PlantScheduleConcreteTypeHeader>
             Przesadzanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskType={"Replant"} />
+        <PlantStandardTaskScheduleForm
+          taskType={StandardTaskTypeEnum.Replant}
+        />
       </PlantScheduleConcreteTypeWrapper>
 
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={noIcon} alt={"Ikona ze spryskiwaczem"} />
+          <PlantInfoIcon src={mist} alt={"Ikona ze spryskiwaczem"} />
           <PlantScheduleConcreteTypeHeader>
             Zwilżanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskType={"Mist"} />
+        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Mist} />
       </PlantScheduleConcreteTypeWrapper>
     </PlantScheduleSectionWrapper>
   );

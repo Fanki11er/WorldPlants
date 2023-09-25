@@ -11,11 +11,11 @@ export const SitePlantsListWrapper = styled.ul`
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 340px);
+  grid-template-columns: repeat(auto-fit, 350px);
   justify-content: center;
   row-gap: 100px;
   column-gap: 25px;
-  margin-top: 100px;
+  transform: translateY(80px);
   align-items: flex-start;
 `;
 
@@ -23,38 +23,30 @@ export const SitePlantsListItem = styled.li<AppTheme>`
   display: flex;
   background-image: ${(props) => props.theme.colors.gradientPurple};
   border-radius: 30px;
-  min-height: 245px;
+  min-height: 290px;
   position: relative;
   padding: 0 20px 20px 20px;
   transition: all 0.5s;
   border: 2px solid transparent;
-  &:hover {
+  &:hover,
+  &:focus {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
   }
-
   opacity: 0;
   animation-name: show;
   animation-duration: 1s;
   animation-fill-mode: forwards;
-
-  @keyframes show {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 `;
 
 export const SitePlantsListItemLink = styled(Link)`
   align-items: center;
-  padding-top: 110px;
-  row-gap: 20px;
+  padding-top: 120px;
+  row-gap: 30px;
   width: 100%;
   display: flex;
   flex-direction: column;
   text-decoration: none;
+  outline: none;
 `;
 
 export const SitePlantsListItemImage = styled.div<ImageProp>`
@@ -79,5 +71,22 @@ export const SitePlantsListItemHeader = styled.h2`
 export const SitePlantsListItemTasksInformationWrapper = styled.div`
   display: flex;
   flex-flow: wrap row;
-  gap: 10px;
+  column-gap: 10px;
+  row-gap: 15px;
+`;
+
+export const SitePlantsListItemNoTasksInformation = styled.div`
+  width: 100%;
+  display: flex;
+  row-gap: 5px;
+  color: ${(props: AppTheme) => props.theme.colors.green};
+  font-weight: bold;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const NoTasksIcon = styled.img`
+  width: 60px;
+  height: 60px;
 `;

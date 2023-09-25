@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
+import { Field } from "formik";
 
 interface Props {
   $checked: string;
@@ -21,6 +22,13 @@ export const RadioInputFieldWrapper = styled.label`
         ? props.theme.colors.orange
         : props.theme.colors.transparent};
   transition: all 0.5s;
+  outline: none;
+  :hover,
+  :focus {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+    cursor: ${(props: Props) =>
+      props.$checked === "true" ? "not-allowed" : "pointer"};
+  }
 `;
 
 export const LabelText = styled.span`

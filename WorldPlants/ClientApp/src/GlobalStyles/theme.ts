@@ -26,6 +26,8 @@ export const theme: Theme = {
     greenSettings: "rgba(12, 108, 3, 1)",
     lightGray: "rgba(136, 142, 156, 1)",
     claret: "rgba(105, 12, 11, 1)",
+    red1: "rgba(210, 24, 24, 1)",
+    pink1: "rgba(250, 230, 226, 1)",
   },
   fontSizes: {
     xSmall: "8px",
@@ -78,6 +80,8 @@ export type Theme = {
     orangeGradient: string;
     claret: string;
     orangeRed: string;
+    pink1: string;
+    red1: string;
   };
 
   fontSizes: {

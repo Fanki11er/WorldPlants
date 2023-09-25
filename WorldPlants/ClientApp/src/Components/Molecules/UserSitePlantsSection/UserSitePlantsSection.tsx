@@ -34,17 +34,16 @@ const UserSitePlantsSection = () => {
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
 
-      {isLoading && <LoadingIndicator>Loading...</LoadingIndicator>}
+      {isLoading && <LoadingIndicator />}
 
-      {data?.length ? (
+      {data && data.length > 0 && (
         <SitePlantsList plantsBasicInformation={data} />
-      ) : (
-        !isLoading && (
-          <NoListContentInfo
-            informationHeaderText={"To miejsce nie posiada jeszcze roslin"}
-            informationText={"Dodaj rośliny..."}
-          />
-        )
+      )}
+      {data && data.length == 0 && (
+        <NoListContentInfo
+          informationHeaderText={"To miejsce nie posiada jeszcze roslin"}
+          informationText={"Dodaj rośliny..."}
+        />
       )}
     </SettingsSectionWrapper>
   );

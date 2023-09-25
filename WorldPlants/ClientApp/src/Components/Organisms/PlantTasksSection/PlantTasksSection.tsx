@@ -2,10 +2,16 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { apiEndpoints } from "../../../Api/endpoints";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { TaskBasicInformation } from "../../../Interfaces/TaskBasicInformation";
-import { getErrorMessages, translateActionType } from "../../../Utils/Utils";
+import {
+  convertIndicatorText,
+  getErrorMessages,
+  translateActionType,
+} from "../../../Utils/Utils";
 import {
   PantTasksSectionTaskButtonsWrapper,
   PantTasksSectionTaskListItem,
+  PlantTaskSectionTaskInformationIndicatorInnerText,
+  PlantTaskSectionTaskInformationIndicatorNumber,
   PlantTasksSectionTaskHeader,
   PlantTasksSectionTaskIndicator,
   PlantTasksSectionTasksList,
@@ -23,9 +29,9 @@ import { useState } from "react";
 import { StandardTaskTypeEnum } from "../../../Interfaces/PlantActiveTask";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 import {
+  BlueStyledButton,
   GreenStyledButton,
   OrangeStyledButton,
-  YellowStyledButton,
 } from "../../Atoms/Buttons/Buttons";
 
 interface ActionErrorStatus {
@@ -83,17 +89,6 @@ const PlantTasksSection = () => {
     },
   });
 
-  const convertIndicatorText = (daysLeft: number) => {
-    const absoluteValue = Math.abs(daysLeft);
-    if (absoluteValue === 0) {
-      return "Dzisiaj";
-    } else if (absoluteValue === 1) {
-      return `${absoluteValue} Dzień`;
-    } else {
-      return `${absoluteValue} Dni`;
-    }
-  };
-
   const renderTasks = (tasks: TaskBasicInformation[]) => {
     return tasks
       .sort((itemA, itemB) => {
@@ -106,14 +101,41 @@ const PlantTasksSection = () => {
         return (
           <PantTasksSectionTaskListItem key={task.id}>
             <PlantTasksSectionTaskIndicator $isDelayed={task.daysLeft < 0}>
-              {convertIndicatorText(task.daysLeft)}
+              {task.daysLeft !== 0 && (
+                <PlantTaskSectionTaskInformationIndicatorInnerText
+                  $isDelayed={task.daysLeft < 0}
+                >
+                  {task.daysLeft < 0 ? "Po" : "Za"}
+                </PlantTaskSectionTaskInformationIndicatorInnerText>
+              )}
+              {task.daysLeft === 0 && (
+                <PlantTaskSectionTaskInformationIndicatorNumber
+                  $isDelayed={false}
+                >
+                  Dziś
+                </PlantTaskSectionTaskInformationIndicatorNumber>
+              )}
+              {task.daysLeft !== 0 && (
+                <PlantTaskSectionTaskInformationIndicatorNumber
+                  $isDelayed={task.daysLeft < 0}
+                >
+                  {Math.abs(task.daysLeft)}
+                </PlantTaskSectionTaskInformationIndicatorNumber>
+              )}
+              {task.daysLeft !== 0 && (
+                <PlantTaskSectionTaskInformationIndicatorInnerText
+                  $isDelayed={task.daysLeft < 0}
+                >
+                  {convertIndicatorText(task.daysLeft)}
+                </PlantTaskSectionTaskInformationIndicatorInnerText>
+              )}
             </PlantTasksSectionTaskIndicator>
             <PlantTasksSectionTaskHeader>
               {translateActionType(task.actionType)}
             </PlantTasksSectionTaskHeader>
             {actionInProgress !== task.id && (
               <PantTasksSectionTaskButtonsWrapper>
-                <YellowStyledButton
+                <BlueStyledButton
                   onClick={() =>
                     executeTaskMutation({
                       taskId: task.id,
@@ -122,7 +144,7 @@ const PlantTasksSection = () => {
                   }
                 >
                   Odłuż
-                </YellowStyledButton>
+                </BlueStyledButton>
                 <OrangeStyledButton
                   onClick={() =>
                     executeTaskMutation({ taskId: task.id, endpoint: skipTask })
@@ -142,9 +164,7 @@ const PlantTasksSection = () => {
                 </GreenStyledButton>
               </PantTasksSectionTaskButtonsWrapper>
             )}
-            {actionInProgress === task.id && (
-              <LoadingIndicator>Wykonuję akcję</LoadingIndicator>
-            )}
+            {actionInProgress === task.id && <LoadingIndicator />}
             {actionSuccess === task.id && (
               <FormSuccess>Akcja wykonana</FormSuccess>
             )}
@@ -159,15 +179,16 @@ const PlantTasksSection = () => {
   };
   return (
     <PlantTasksSectionWrapper>
-      {isLoading && <LoadingIndicator>Ładuję...</LoadingIndicator>}
+      {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
-      {data && data.length > 0 ? (
+      {data && data.length > 0 && (
         <PlantTasksSectionTasksList>
           {renderTasks(data)}
         </PlantTasksSectionTasksList>
-      ) : (
+      )}
+      {data && data.length == 0 && (
         <NoListContentInfo
           informationHeaderText="Brak zadań"
           informationText="Tu będą widoczne zaplanowane zadania"

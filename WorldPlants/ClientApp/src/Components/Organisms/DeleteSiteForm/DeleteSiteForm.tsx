@@ -18,6 +18,7 @@ import {
   AttentionSiteIcon,
 } from "../../Atoms/AttentionSite/AttentionSite.styles";
 import iconWarningSign from "../../../Assets/WarningIcon.svg";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 interface Props {
   siteName: string;
@@ -83,7 +84,7 @@ const DeleteSiteForm = (props: Props) => {
             </DeleteFormInstruction>
           )}
           {isLoading ? (
-            <div>Loading</div>
+            <LoadingIndicator>Loading</LoadingIndicator>
           ) : (
             <RedActionButton disabled={!!errors.name} type="submit">
               Zapisz

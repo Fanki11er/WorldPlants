@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
+// import imgFallback from "../../../Assets/ImageFallback.svg";
+
+interface Props {
+  $imageUrl: string;
+}
 
 export const AddPlantSearchOrRecognizeResultsWrapper = styled.ul`
   display: flex;
@@ -9,6 +14,7 @@ export const AddPlantSearchOrRecognizeResultsWrapper = styled.ul`
   width: 100%;
   list-style: none;
   padding: 0;
+  justify-content: center;
 `;
 
 export const AddPlantSearchOrRecognizeResultsListItem = styled.li`
@@ -16,6 +22,12 @@ export const AddPlantSearchOrRecognizeResultsListItem = styled.li`
   height: 350px;
   border-radius: 15px;
   background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
+  border: 2px solid ${(props: AppTheme) => props.theme.colors.transparent};
+  transition: all 0.5s;
+  &:hover,
+  &:focus {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+  }
 `;
 
 export const AddPlantSearchOrRecognizeResultsListItemLink = styled(Link)`
@@ -26,9 +38,13 @@ export const AddPlantSearchOrRecognizeResultsListItemLink = styled(Link)`
   row-gap: 10px;
 `;
 
-export const AddPlantSearchOrRecognizeResultsListItemImage = styled.img`
+export const AddPlantSearchOrRecognizeResultsListItemImage = styled.div<Props>`
   width: 100%;
   height: 100%;
+  background-image: url(${(props) => props.$imageUrl});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
 `;

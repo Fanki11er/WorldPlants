@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
-export const SettingsSectionWrapper = styled.div`
+export const SettingsSectionWrapper = styled.section`
   width: 80%;
   display: grid;
   grid-template-columns: 1fr;

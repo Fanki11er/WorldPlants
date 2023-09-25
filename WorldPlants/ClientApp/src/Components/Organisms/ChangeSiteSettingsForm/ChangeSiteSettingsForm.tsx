@@ -1,5 +1,8 @@
 import { Formik, FormikFormProps } from "formik";
-import { ChangeSiteSettingsFormWrapper } from "./ChangeSiteSettingsForm.styles";
+import {
+  ChangeSiteSettingsFormWrapper,
+  FormNumberFieldWrapper,
+} from "./ChangeSiteSettingsForm.styles";
 import { GetUserSiteSettingsDto } from "../../../Interfaces/GetUserSiteSettingsDto";
 import SelectSunExposureForm from "../../Molecules/SelectSunExposureForm/SelectSunExposureForm";
 import { apiEndpoints } from "../../../Api/endpoints";
@@ -59,30 +62,32 @@ const ChangeSiteSettingsForm = (props: Props & FormikFormProps) => {
             <FormRequestError errorValues={getErrorMessages(error)} />
           ) : null}
 
-          <InputField name="name" label="Nazwa" placeholder="Nazwa" />
-          <FormNumberField
-            label={"Minimalna temperatura w okresie chłodnym"}
-            name="coldPeriodMinTemperature"
-            scale="C&ordm;"
-          />
+          <FormNumberFieldWrapper>
+            <InputField name="name" label="Nazwa" placeholder="Nazwa" />
+            <FormNumberField
+              label={"Minimalna temperatura w okresie chłodnym"}
+              name="coldPeriodMinTemperature"
+              scale="C&ordm;"
+            />
 
-          <FormNumberField
-            label={"Maksymalna temperatura w okresie chłodnym"}
-            name="coldPeriodMaxTemperature"
-            scale="C&ordm;"
-          />
+            <FormNumberField
+              label={"Maksymalna temperatura w okresie chłodnym"}
+              name="coldPeriodMaxTemperature"
+              scale="C&ordm;"
+            />
 
-          <FormNumberField
-            label={"Minimalna temperatura w okresie ciepłym"}
-            name="warmPeriodMinTemperature"
-            scale="C&ordm;"
-          />
+            <FormNumberField
+              label={"Minimalna temperatura w okresie ciepłym"}
+              name="warmPeriodMinTemperature"
+              scale="C&ordm;"
+            />
 
-          <FormNumberField
-            label={"Maksymalna temperatura w okresie ciepłym"}
-            name="warmPeriodMaxTemperature"
-            scale="C&ordm;"
-          />
+            <FormNumberField
+              label={"Maksymalna temperatura w okresie ciepłym"}
+              name="warmPeriodMaxTemperature"
+              scale="C&ordm;"
+            />
+          </FormNumberFieldWrapper>
 
           <SelectSunExposureForm
             fieldName={"sunExposureId"}

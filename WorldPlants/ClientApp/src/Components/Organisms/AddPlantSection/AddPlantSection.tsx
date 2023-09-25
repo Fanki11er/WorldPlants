@@ -15,13 +15,14 @@ import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.
 import PlantDetails from "../../Molecules/PlantDetails/PlantDetails";
 import AddPlantForm from "../../Molecules/AddPlantForm/AddPlantForm";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 
 const AddPlantSection = () => {
   const { getPlantDetails } = apiEndpoints;
   const navigate = useNavigate();
   const { detailsId } = useParams();
   const axiosPrivate = useAxiosPrivate();
-  const { error, isLoading, data, isFetching } = useQuery<PLantsDetailsDto>(
+  const { error, isLoading, data } = useQuery<PLantsDetailsDto>(
     [PLANT_DETAILS, detailsId],
     async () => {
       const result = await axiosPrivate.get(getPlantDetails(detailsId));
@@ -50,8 +51,8 @@ const AddPlantSection = () => {
   };
 
   return (
-    <AddPlantSectionWrapper>
-      {isLoading && <LoadingIndicator>Loading...</LoadingIndicator>}
+    <SettingsSectionWrapper>
+      {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
@@ -87,7 +88,7 @@ const AddPlantSection = () => {
           <ActionButton onClick={stepForward}>Dalej</ActionButton>
         )}
       </NextAndReturnButtonWrapper>
-    </AddPlantSectionWrapper>
+    </SettingsSectionWrapper>
   );
 };
 

@@ -3,16 +3,19 @@ import { paths } from "../../../Router/paths";
 import { TaskBasicInformation } from "../../../Interfaces/TaskBasicInformation";
 
 import {
+  NoTasksIcon,
   SitePlantsListItem,
   SitePlantsListItemHeader,
   SitePlantsListItemImage,
   SitePlantsListItemLink,
+  SitePlantsListItemNoTasksInformation,
   SitePlantsListItemTasksInformationWrapper,
   SitePlantsListWrapper,
 } from "./SitePlantsList.styles";
 import { useParams } from "react-router-dom";
 import imageFallback from "../../../Assets/ImageFallback.svg";
 import TaskInformation from "../TaskInformation/TaskInformation";
+import noTasksIcon from "../../../assets/NoTasksIcon.svg";
 
 interface Props {
   plantsBasicInformation: PlantBasicInformationDto[];
@@ -54,7 +57,14 @@ const SitePlantsList = (props: Props) => {
               {information.name}
             </SitePlantsListItemHeader>
             <SitePlantsListItemTasksInformationWrapper>
-              {renderTasksInformation(information.tasksInformation)}
+              {information.tasksInformation.length > 0 &&
+                renderTasksInformation(information.tasksInformation)}
+              {information.tasksInformation.length == 0 && (
+                <SitePlantsListItemNoTasksInformation>
+                  <NoTasksIcon src={noTasksIcon} />
+                  Brak zadań
+                </SitePlantsListItemNoTasksInformation>
+              )}
             </SitePlantsListItemTasksInformationWrapper>
           </SitePlantsListItemLink>
         </SitePlantsListItem>

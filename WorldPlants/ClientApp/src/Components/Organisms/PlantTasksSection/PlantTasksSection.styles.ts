@@ -20,7 +20,8 @@ export const PlantTasksSectionTasksList = styled.ul`
   grid-template-columns: repeat(auto-fit, 340px);
   row-gap: 80px;
   padding: 0;
-  justify-content: space-around;
+  column-gap: 15px;
+  justify-content: space-evenly;
   align-items: flex-start;
 `;
 
@@ -51,12 +52,10 @@ export const PantTasksSectionTaskListItem = styled.li`
 
 export const PlantTasksSectionTaskIndicator = styled.div<Props>`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  column-gap: 15px;
   align-items: center;
-  text-align: center;
-  font-weight: bold;
-  color: ${(props) =>
-    props.$isDelayed ? props.theme.colors.claret : props.theme.colors.navyBlue};
+  justify-content: center;
   padding: 15px;
   width: 80px;
   height: 80px;
@@ -70,6 +69,27 @@ export const PlantTasksSectionTaskIndicator = styled.div<Props>`
   top: 0;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+`;
+
+const PlantTasksSectionTaskIndicatorTextCore = styled.span<Props>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  color: ${(props) => (!props.$isDelayed ? "#071D53" : "#690C0B")};
+  font-weight: bold;
+`;
+
+export const PlantTaskSectionTaskInformationIndicatorInnerText = styled(
+  PlantTasksSectionTaskIndicatorTextCore
+)<Props>`
+  font-size: 12px;
+`;
+
+export const PlantTaskSectionTaskInformationIndicatorNumber = styled(
+  PlantTasksSectionTaskIndicatorTextCore
+)<Props>`
+  font-size: 20px;
 `;
 
 export const PlantTasksSectionTaskHeader = styled.h2`

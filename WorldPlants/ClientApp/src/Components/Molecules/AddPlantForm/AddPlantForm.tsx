@@ -23,7 +23,7 @@ import InputField from "../InputField/InputField";
 import AddPhotoField from "../AddPhotoField/AddPhotoField";
 import TextareaField from "../TextareaField/TextareaField";
 import imgFallback from "../../../Assets/ImageFallback.svg";
-import { ActionButton, OrangeButton } from "../../Atoms/Buttons/Buttons";
+import { RedActionButton } from "../../Atoms/Buttons/Buttons";
 
 interface FormValues {
   name: string;
@@ -142,9 +142,9 @@ const AddPlantForm = (props: Props) => {
                 label={"Ustaw własne zdjęcie"}
                 handleImageChange={handleImageChange}
               />
-              <OrangeButton onClick={handleResetImage} type="button">
-                Reset image
-              </OrangeButton>
+              <RedActionButton onClick={handleResetImage} type="button">
+                Usuń zdjecie
+              </RedActionButton>
             </AddPlantFormPhotoInputWrapper>
             <FormNumberField
               name="potHeight"
@@ -174,7 +174,7 @@ const AddPlantForm = (props: Props) => {
             />
           </AddPlantFormInputsWrapper>
 
-          {isLoading && <LoadingIndicator>Loading</LoadingIndicator>}
+          {isLoading && <LoadingIndicator />}
           {error ? (
             <FormRequestError errorValues={getErrorMessages(error)} />
           ) : null}

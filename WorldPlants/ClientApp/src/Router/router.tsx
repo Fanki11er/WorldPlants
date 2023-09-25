@@ -32,6 +32,8 @@ import SelectedPlantView from "../Views/SelectedPlantView/SelectedPlantView";
 import UserSitePlantsSection from "../Components/Molecules/UserSitePlantsSection/UserSitePlantsSection";
 import PlantTasksSection from "../Components/Organisms/PlantTasksSection/PlantTasksSection";
 import PlantScheduleSection from "../Components/Molecules/PlantScheduleSection/PlantScheduleSection";
+import PlantTasksHistorySection from "../Components/Molecules/PlantTasksHistorySection/PlantTasksHistorySection";
+import RecognizePlantSection from "../Components/Organisms/RecognizePlantSection/RecognizePlantSection";
 
 const {
   rootPath,
@@ -53,6 +55,8 @@ const {
   addPlant,
   selectedPlant,
   selectedPlantSchedule,
+  selectedPlantTasksHistory,
+  addPlantRecognize,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -109,6 +113,7 @@ const router = createBrowserRouter(
         </Route>
         <Route path={`${addPlant}/:siteId`} element={<AddPlantView />}>
           <Route index element={<AddPlantSearchSection />} />
+          <Route path={addPlantRecognize} element={<RecognizePlantSection />} />
           <Route path=":detailsId" element={<AddPlantSection />} />
         </Route>
         //? Plant
@@ -123,6 +128,10 @@ const router = createBrowserRouter(
           />
           <Route path={""} element={<div>PlanDetails</div>} />
           <Route path={""} element={<div>PlantNotes</div>} />
+          <Route
+            path={selectedPlantTasksHistory}
+            element={<PlantTasksHistorySection />}
+          />
           <Route path={""} element={<div>PlantSettings</div>} />
           <Route path={""} element={<div>DeletePlant</div>} />
         </Route>
@@ -134,12 +143,16 @@ const router = createBrowserRouter(
 
 export default router;
 
-//todo poprawić kolory w zadaniach do roślin (niebieski zamiast żółtego)
-//todo Zrobić wskaźnik ładowania
-//todo Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section)
-//todo Poprawić kontrast w napisie błędu w errorach
-//todo Border na focus i chover dla inputa w register, login i search (input textowy)
-//todo AddPlantSearchOrRecognizeResultsListItemImage w AddPlantSearchOrRecognizeResults image jako tło
-//todo AddPlantSection plantDetails addplantform image jako tło
-//todo AddPhoto field padding i hover
-//todo PlantDetailsWithIconSection wstawić ikony
+//? Zrobić wskaźnik ładowania -zrobiony, ale nie użyty
+// Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section) - zrobione
+// Poprawić kontrast w napisie błędu w errorach - zrobione
+//todo Border na focus i hover dla inputa w register, login i search (input textowy) ???
+//todo AddPlantSearchOrRecognizeResultsListItemImage w AddPlantSearchOrRecognizeResults image jako tło ??
+//todo AddPlantSection plantDetails addplantform image jako tło ??
+// AddPhoto field padding i hover - zrobione
+// PlantDetailsWithIconSection wstawić ikony - zrobione
+
+// todo Poprawić loadery
+// todo Zrobić red button with margin
+// todo Przejrzeć wszystkie style i sprawdzić kolory
+// todo Hover focus miejsca
