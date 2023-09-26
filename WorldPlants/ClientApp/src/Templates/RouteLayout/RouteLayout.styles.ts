@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { AppTheme } from "../../GlobalStyles/theme";
 
 export const RouteLayoutWrapper = styled.div`
-    width: 100%;
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: 1fr auto;
-    background-color:  ${(props: AppTheme) => props.theme.colors.mainBlue};
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  row-gap: 75px;
+  background-color: ${(props: AppTheme) => props.theme.colors.mainBlue};
 `;

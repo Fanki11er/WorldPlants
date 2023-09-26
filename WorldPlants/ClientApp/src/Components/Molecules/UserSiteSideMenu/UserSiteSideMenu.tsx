@@ -1,18 +1,18 @@
 import { paths } from "../../../Router/paths";
 import { SideMenuLink } from "../../Atoms/Buttons/Buttons";
-import { SideMenuWrapper } from "../../Atoms/SideMenuWrapper/SideMenuWrapper.styles";
+import SideMenu from "../SideMenu/SideMenu";
 
 const UserSiteSideMenu = () => {
   const { userSitesAddNew } = paths;
   return (
-    <SideMenuWrapper>
+    <SideMenu>
       <SideMenuLink to={""} end>
         Miejsca
       </SideMenuLink>
       <SideMenuLink to={userSitesAddNew} end>
         Dodaj nowe
       </SideMenuLink>
-    </SideMenuWrapper>
+    </SideMenu>
   );
 };
 

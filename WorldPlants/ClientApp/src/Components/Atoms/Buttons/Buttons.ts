@@ -13,12 +13,12 @@ export const ActionButton = styled.button`
   padding: 5px 10px;
   margin-top: 30px;
   color: ${(props: AppTheme) => props.theme.colors.white};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
+  transition: all 0.5s;
 
-  :hover {
+  :hover,
+  :focus {
     background-color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
-    transition: all 0.5s;
   }
   :disabled {
     background-color: ${(props: AppTheme) => props.theme.colors.lightGray};
@@ -40,18 +40,28 @@ export const NavigationLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
+  transition: all 0.5s;
 
-  :hover:not(.active) {
+  :hover,
+  :focus {
     background-color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
-    transition: all 0.5s;
   }
+
   &.active {
     color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+  }
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    min-width: 15px;
+    min-height: 15px;
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.xSmall};
   }
 `;
 
@@ -66,7 +76,8 @@ export const OrangeButton = styled.button`
   color: ${(props: AppTheme) => props.theme.colors.white};
   border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
 
-  :hover {
+  :hover,
+  :focus {
     background-color: transparent;
     cursor: pointer;
     transition: all 0.5s;
@@ -112,15 +123,18 @@ export const SideMenuLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
+  outline: none;
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
+  border: 2px solid transparent;
   &.active {
     color: ${(props: AppTheme) => props.theme.colors.orange};
     pointer-events: none;
     cursor: not-allowed;
   }
-  :hover {
+  :hover,
+  :focus {
     color: ${(props: AppTheme) => props.theme.colors.orange};
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
   }
 `;
 
@@ -130,4 +144,42 @@ export const PermissionsReturnButton = styled(ActionButton)`
 
 export const RedActionButton = styled(ActionButton)`
   background-color: ${(props: AppTheme) => props.theme.colors.red};
+  //margin-top: 1px;
+`;
+
+const StyledButton = styled.button`
+  min-width: 80px;
+  width: fit-content;
+  padding: 5px 15px;
+  height: 40px;
+  display: flex;
+  outline: none;
+  border-radius: 10px;
+  border: 2px solid ${(props: AppTheme) => props.theme.colors.transparent};
+  transition: all 0.5s;
+  color: ${(props: AppTheme) => props.theme.colors.white};
+  justify-content: center;
+  align-items: center;
+
+  :hover,
+  :focus {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+    cursor: pointer;
+  }
+`;
+
+export const GreenStyledButton = styled(StyledButton)`
+  background-color: ${(props: AppTheme) => props.theme.colors.green};
+`;
+
+export const OrangeStyledButton = styled(StyledButton)`
+  background-color: ${(props: AppTheme) => props.theme.colors.orangeRed};
+`;
+
+export const BlueStyledButton = styled(StyledButton)`
+  background-color: ${(props: AppTheme) => props.theme.colors.blue};
+`;
+
+export const RedButtonWithMargin = styled(RedActionButton)`
+  margin-top: 1px;
 `;

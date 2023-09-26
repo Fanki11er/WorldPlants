@@ -8,12 +8,11 @@ export const DeleteFormWrapper = styled(Form)`
   row-gap: 10px;
   justify-items: center;
   border: 2px solid ${(props: AppTheme) => props.theme.colors.red};
-  border-radius: 10px;
+  border-radius: 25px;
   padding: 40px;
 `;
 
 export const DeleteFormInstruction = styled.span`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
   color: ${(props: AppTheme) => props.theme.colors.red};
   width: 80%;

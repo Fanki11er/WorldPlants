@@ -29,4 +29,6 @@ export const paths = {
   addPlantRecognize: "Recognize",
   //? Selected plant
   selectedPlant: "SelectedPlant",
+  selectedPlantSchedule: "PlantSchedule",
+  selectedPlantTasksHistory: "PlantHistory",
 };

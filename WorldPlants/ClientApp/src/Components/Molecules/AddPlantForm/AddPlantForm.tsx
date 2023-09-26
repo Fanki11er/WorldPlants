@@ -23,6 +23,7 @@ import InputField from "../InputField/InputField";
 import AddPhotoField from "../AddPhotoField/AddPhotoField";
 import TextareaField from "../TextareaField/TextareaField";
 import imgFallback from "../../../Assets/ImageFallback.svg";
+import { RedActionButton } from "../../Atoms/Buttons/Buttons";
 
 interface FormValues {
   name: string;
@@ -36,12 +37,13 @@ interface FormValues {
 interface Props {
   currentImage: string;
   currentName: string;
+  externalId?: number;
 }
 
 const AddPlantSchema = Yup.object().shape(yupAddPlantValidationShape);
 
 const AddPlantForm = (props: Props) => {
-  const { currentImage, currentName } = props;
+  const { currentImage, currentName, externalId } = props;
   const { authorized, selectedPlant } = paths;
   const { addPlant } = apiEndpoints;
   const { siteId } = useParams();
@@ -75,6 +77,10 @@ const AddPlantForm = (props: Props) => {
       formData.delete("imageUrl");
     }
 
+    if (externalId) {
+      formData.append("externalId", externalId.toString());
+    }
+
     return formData;
   };
 
@@ -100,22 +106,23 @@ const AddPlantForm = (props: Props) => {
         additionalDescription: "",
       }}
       onSubmit={(values: FormValues, { setSubmitting }) => {
-        console.log(values);
         const addPlantValues = prepareFormData(values);
 
         mutate(addPlantValues, {
           onSuccess: async (response) => {
             const plantId = await response.data;
+            setSubmitting(false);
             navigate(`${authorized}/${selectedPlant}/${plantId}`);
           },
+          onError: () => {
+            setSubmitting(false);
+          },
         });
-
-        setSubmitting(false);
       }}
       validationSchema={AddPlantSchema}
     >
-      {({ values, isSubmitting }) => (
-        <AddPlantFormWrapper>
+      {({ values }) => (
+        <AddPlantFormWrapper id={"AddPlantForm"}>
           <AddPlantFormImagePreview
             src={
               imageFile
@@ -135,9 +142,9 @@ const AddPlantForm = (props: Props) => {
                 label={"Ustaw własne zdjęcie"}
                 handleImageChange={handleImageChange}
               />
-              <button onClick={handleResetImage} type="button">
-                Reset image
-              </button>
+              <RedActionButton onClick={handleResetImage} type="button">
+                Usuń zdjecie
+              </RedActionButton>
             </AddPlantFormPhotoInputWrapper>
             <FormNumberField
               name="potHeight"
@@ -165,12 +172,9 @@ const AddPlantForm = (props: Props) => {
               label="Dodatkowy opis"
               placeholder="Miejsce na dodatkowy opis"
             />
-            {!isLoading && !isSubmitting && (
-              <button type="submit">Submit</button>
-            )}
           </AddPlantFormInputsWrapper>
 
-          {isLoading && <LoadingIndicator>Loading</LoadingIndicator>}
+          {isLoading && <LoadingIndicator />}
           {error ? (
             <FormRequestError errorValues={getErrorMessages(error)} />
           ) : null}

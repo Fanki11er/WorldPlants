@@ -12,11 +12,10 @@ export const FieldsWrapper = styled.div`
   gap: 20px;
   color: ${(props: AppTheme) => props.theme.colors.turquoise};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
 `;
 
 export const InfoHeader = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.orange};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
+  margin: 0;
 `;

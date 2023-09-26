@@ -14,13 +14,11 @@ export const NoListContentInfoWrapper = styled.div`
 `;
 
 export const NoListContentInfoHeader = styled.h1`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   color: ${(props: AppTheme) => props.theme.colors.orange};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
 `;
 
 export const NoListContentInfoText = styled.p`
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   color: ${(props: AppTheme) => props.theme.colors.yellow};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 `;

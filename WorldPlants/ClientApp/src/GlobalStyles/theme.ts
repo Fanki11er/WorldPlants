@@ -4,7 +4,10 @@ export const theme: Theme = {
     darkBlue: "rgba(4, 16, 41, 1)",
     navyBlue: "rgba(7, 29, 83, 1)",
     gradientPurple: "linear-gradient(137deg, #28297B 0%, #312061 100%)",
+    gradientBlue: "linear-gradient(180deg, #1089EC 0%, #4BC4DB 100%)",
+    orangeGradient: "linear-gradient(180deg, #FA5D56 0%, #F4B167 100%)",
     orange: "rgba(254, 122, 53, 1)",
+    orangeRed: "rgba(238, 104, 74, 1)",
     green: "rgba(59, 214, 166, 1)",
     white: "rgba(255, 255, 255, 1)",
     purple: "rgba(49, 32, 97, 1)",
@@ -14,11 +17,7 @@ export const theme: Theme = {
     yellow: "rgba(255, 198, 67,1)",
     turquoise: "rgba(31, 204, 151, 1)",
     red: "rgba(217,20,36, 0.9)",
-    //red: "rgba(207,42,42,1)",
-    //pink: "rgba(255, 185, 185, 1)",
     pink: "rgba(215,178,178,1)",
-    //pink: "rgba(209,165, 165, 1)",
-    //orangePink: "rgba(238, 104, 74, 1)",
     greenSettingsActive: "rgba(44, 149, 34, 1)",
     darkPurple: "rgba(40, 41, 123, 1)",
     black: "rgba(0, 0, 0, 1)",
@@ -26,17 +25,23 @@ export const theme: Theme = {
     greenLight: "rgba(173, 230, 212, 1)",
     greenSettings: "rgba(12, 108, 3, 1)",
     lightGray: "rgba(136, 142, 156, 1)",
-    // lightGray: "rgba(161, 167, 179, 1)",
+    claret: "rgba(105, 12, 11, 1)",
+    red1: "rgba(210, 24, 24, 1)",
+    pink1: "rgba(250, 230, 226, 1)",
   },
   fontSizes: {
+    xSmall: "8px",
+    verySmall: "10px",
     small: "14px",
     medium: "16px",
     large: "20px",
+    veryLarge: "24px",
+    xLarge: "30px",
   },
 
   devices: {
-    small: `max-width: 860px`,
-    medium: `max-width: 12px`,
+    small: `max-width: 700px`,
+    medium: `max-width: 1200px`,
     //large: `min-width: 1440px`,
     veryLarge: "min-width: 1600px",
   },
@@ -71,13 +76,22 @@ export type Theme = {
     greenLight: string;
     greenSettingsActive: string;
     lightGray: string;
-    // orangePink: string;
+    gradientBlue: string;
+    orangeGradient: string;
+    claret: string;
+    orangeRed: string;
+    pink1: string;
+    red1: string;
   };
 
   fontSizes: {
+    xSmall: string;
+    verySmall: string;
     small: string;
     medium: string;
     large: string;
+    veryLarge: string;
+    xLarge: string;
   };
 
   devices: {

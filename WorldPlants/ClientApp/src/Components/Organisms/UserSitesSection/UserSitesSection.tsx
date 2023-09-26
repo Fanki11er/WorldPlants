@@ -8,6 +8,7 @@ import { UserSiteWithPlantsAndTasksDto } from "../../../Interfaces/UserSiteWithP
 import { USER_SITES } from "../../../Constants/Constants";
 import UserSitesList from "../../Molecules/UserSitesList/UserSitesList";
 import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 const UserSitesSection = () => {
   const { getUserSites } = apiEndpoints;
@@ -22,7 +23,7 @@ const UserSitesSection = () => {
 
   return (
     <SettingsSectionWrapper>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}

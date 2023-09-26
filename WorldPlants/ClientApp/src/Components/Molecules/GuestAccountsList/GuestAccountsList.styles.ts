@@ -25,6 +25,5 @@ export const GuestListItemWrapper = styled.li`
 
 export const HeaderGuestListItem = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.yellow};
-  font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 `;

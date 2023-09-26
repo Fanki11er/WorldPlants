@@ -14,6 +14,10 @@ namespace WorldPlants.Utilities
         public User GetUserWithSettings();
         public Plant FindPlant(string plantId);
         public Plant FindPlantWithTasks(string plantId);
+        public TimeZoneInfo GetPolishTimezone();
+        public DateOnly GetTodayDate();
+        public DateTime GetTodayDateTime();
+        public Plant FindPlantWithTasksHistory(string plantId);
     }
 
     public class Utilities : IUtilities
@@ -61,9 +65,10 @@ namespace WorldPlants.Utilities
 
             var user = _dbContext
                 .Users
-                .Include(i => i.UserSettings)
                 .AsSplitQuery()
-                .FirstOrDefault(u => u.Id.ToString() == userId) ??
+                .Include(i => i.UserSettings)
+                .FirstOrDefault(u => u.Id.ToString() == userId)
+                ??
                 throw new NotFoundException("Nie odnaleziono użytkownika");
 
             return user;
@@ -90,8 +95,9 @@ namespace WorldPlants.Utilities
 
         public Plant FindPlant(string plantId)
         {
-            var plant = _dbContext.Plants.Include(p => p.UserSite)
+            var plant = _dbContext.Plants
                .AsSplitQuery()
+               .Include(p => p.UserSite)
                .FirstOrDefault(p => p.Id.ToString() == plantId)
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 
@@ -102,14 +108,54 @@ namespace WorldPlants.Utilities
         {
             var plant = _dbContext
                .Plants
+               .AsSplitQuery()
                .Include(p => p.UserSite)
                .AsSplitQuery()
                .Include(p => p.ActiveTasks)
-               .AsSplitQuery()
                .FirstOrDefault(p => p.Id.ToString() == plantId)
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 
             return plant;
+        }
+
+        public Plant FindPlantWithTasksHistory(string plantId)
+        {
+            var plant = _dbContext
+               .Plants
+               .AsSplitQuery()
+               .Include(p => p.TasksHistory)
+               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+
+            return plant;
+        }
+
+        public TimeZoneInfo GetPolishTimezone()
+        {
+            var timezone = TimeZoneInfo
+                .FindSystemTimeZoneById("Central European Standard Time") 
+                ?? throw new TimeZoneNotFoundException("Nie odnaleziono ustawień strefy czasowej") ;
+            
+            return timezone;
+        }
+
+        public DateOnly GetTodayDate()
+        {
+            var timezone = GetPolishTimezone();
+
+            var today = DateOnly.FromDateTime(TimeZoneInfo.ConvertTime((DateTime.Today), timezone));
+
+            return today;
+        }
+
+        public DateTime GetTodayDateTime()
+        {
+            var timezone = GetPolishTimezone();
+
+            var today = TimeZoneInfo.ConvertTime((DateTime.Today), timezone);
+            
+
+            return today;
         }
     }
 

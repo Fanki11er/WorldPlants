@@ -2,7 +2,6 @@ import { ErrorMessage, useField } from "formik";
 import {
   FieldLabel,
   FieldWrapper,
-  FormNumberFieldWrapper,
   ScaleInfo,
   StyledField,
 } from "./FormNumberField.styles";
@@ -19,12 +18,12 @@ const FormNumberField = (props: Props) => {
   const { label, scale, minValue, maxValue, name } = props;
   const [field, meta] = useField(props);
   return (
-    <FormNumberFieldWrapper>
-      <FieldLabel>{label}</FieldLabel>
-      <FieldWrapper>
+    <FieldLabel>
+      {label}
+      <FieldWrapper $iserror={meta.error ? "error" : ""}>
         <StyledField
           {...field}
-          {...props}
+          name={name}
           type={"number"}
           iserror={meta.error ? "error" : ""}
           min={minValue || minValue === 0 ? minValue : ""}
@@ -36,7 +35,7 @@ const FormNumberField = (props: Props) => {
         name={name}
         render={(msg) => <FieldError>{msg}</FieldError>}
       />
-    </FormNumberFieldWrapper>
+    </FieldLabel>
   );
 };
 

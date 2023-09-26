@@ -25,11 +25,15 @@ import AddUserSiteSection from "../Components/Organisms/AddUserSiteSection/AddUs
 import UserSiteView from "../Views/UserSiteView/UserSiteView";
 import UserSiteSettingsSection from "../Components/Organisms/UserSiteSettingsSection/UserSiteSettingsSection";
 import UserSiteDeleteSiteSection from "../Components/Organisms/UserSiteDeleteSiteSection/UserSiteDeleteSiteSection";
-import BasicPlantInfo from "../Components/Organisms/BasicPlantsInfo/BasicPlantsInfo";
-import PlantDetails from "../Components/Organisms/PlantDetails/PlantDetails";
 import AddPlantView from "../Views/AddPlantView/AddPlantView";
 import AddPlantSearchSection from "../Components/Organisms/AddPlantSearchSection/AddPlantSearchSection";
 import AddPlantSection from "../Components/Organisms/AddPlantSection/AddPlantSection";
+import SelectedPlantView from "../Views/SelectedPlantView/SelectedPlantView";
+import UserSitePlantsSection from "../Components/Molecules/UserSitePlantsSection/UserSitePlantsSection";
+import PlantTasksSection from "../Components/Organisms/PlantTasksSection/PlantTasksSection";
+import PlantScheduleSection from "../Components/Molecules/PlantScheduleSection/PlantScheduleSection";
+import PlantTasksHistorySection from "../Components/Molecules/PlantTasksHistorySection/PlantTasksHistorySection";
+import RecognizePlantSection from "../Components/Organisms/RecognizePlantSection/RecognizePlantSection";
 
 const {
   rootPath,
@@ -49,6 +53,10 @@ const {
   userSiteSettings,
   userSiteDeleteSite,
   addPlant,
+  selectedPlant,
+  selectedPlantSchedule,
+  selectedPlantTasksHistory,
+  addPlantRecognize,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -83,19 +91,17 @@ const router = createBrowserRouter(
             element={<DeleteAccountSection />}
           />
         </Route>
-
         <Route
           path={`${guestUserPermissions}/:userId`}
           element={<GuestPermissionsView />}
         />
-
         <Route path={userSites} element={<UserSitesView />}>
           <Route index element={<UserSitesSection />} />
           <Route path={userSitesAddNew} element={<AddUserSiteSection />} />
         </Route>
         <Route path={`${userSite}/:siteId`} element={<UserSiteView />}>
-          {/* <Route index element={<BasicPlantInfo />} /> */}
-          {/* <Route path={userSiteAddPlant} element={<PlantDetails />} /> */}
+          <Route index element={<UserSitePlantsSection />} />
+
           <Route
             path={userSiteSettings}
             element={<UserSiteSettingsSection />}
@@ -107,7 +113,27 @@ const router = createBrowserRouter(
         </Route>
         <Route path={`${addPlant}/:siteId`} element={<AddPlantView />}>
           <Route index element={<AddPlantSearchSection />} />
+          <Route path={addPlantRecognize} element={<RecognizePlantSection />} />
           <Route path=":detailsId" element={<AddPlantSection />} />
+        </Route>
+        //? Plant
+        <Route
+          path={`${selectedPlant}/:plantId`}
+          element={<SelectedPlantView />}
+        >
+          <Route index element={<PlantTasksSection />} />
+          <Route
+            path={selectedPlantSchedule}
+            element={<PlantScheduleSection />}
+          />
+          <Route path={""} element={<div>PlanDetails</div>} />
+          <Route path={""} element={<div>PlantNotes</div>} />
+          <Route
+            path={selectedPlantTasksHistory}
+            element={<PlantTasksHistorySection />}
+          />
+          <Route path={""} element={<div>PlantSettings</div>} />
+          <Route path={""} element={<div>DeletePlant</div>} />
         </Route>
       </Route>
       <Route path={"*"} element={<LandingView />} />
@@ -117,6 +143,16 @@ const router = createBrowserRouter(
 
 export default router;
 
-/* <Route path={plantPlaces} element={<PlantPlacesView />} />
-        <Route path={plantPlacesAdded} element={<PlantPlacesAddedView />} /> */
-/* <Route path={guestSettings} element={<GuestSettingsView />} /> */
+//? Zrobić wskaźnik ładowania -zrobiony, ale nie użyty
+// Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section) - zrobione
+// Poprawić kontrast w napisie błędu w errorach - zrobione
+//todo Border na focus i hover dla inputa w register, login i search (input textowy) ???
+//todo AddPlantSearchOrRecognizeResultsListItemImage w AddPlantSearchOrRecognizeResults image jako tło ??
+//todo AddPlantSection plantDetails addplantform image jako tło ??
+// AddPhoto field padding i hover - zrobione
+// PlantDetailsWithIconSection wstawić ikony - zrobione
+
+// todo Poprawić loadery
+// todo Zrobić red button with margin
+// todo Przejrzeć wszystkie style i sprawdzić kolory
+// todo Hover focus miejsca

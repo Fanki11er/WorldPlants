@@ -6,13 +6,14 @@ import sunIcon from "../Assets/Sun.svg";
 import shadeIcon from "../Assets/Shade.svg";
 import darknessIcon from "../Assets/Darkness.svg";
 import penumbraIcon from "../Assets/Penumbra.svg";
+import { StandardTaskTypeEnum } from "../Interfaces/PlantActiveTask";
 
 export const getErrorMessages = (e: unknown) => {
   const errorMessages: string[] = [];
   const error: AxiosError = e as AxiosError;
   const data = error.response?.data;
   if (!data) {
-    errorMessages.push(error.message);
+    errorMessages.push("Wystąpił błąd");
     return errorMessages;
   }
 
@@ -145,4 +146,37 @@ export const translateSunScaleValue = (values: SunScale[] | null) => {
     }
   });
   return results;
+};
+
+export const translateActionType = (actionType: StandardTaskTypeEnum) => {
+  switch (StandardTaskTypeEnum[actionType] as unknown as number) {
+    case StandardTaskTypeEnum.Water: {
+      return "Podlewanie";
+    }
+    case StandardTaskTypeEnum.Fertilize: {
+      return "Nawożenie";
+    }
+    case StandardTaskTypeEnum.Cut: {
+      return "Przycinanie";
+    }
+    case StandardTaskTypeEnum.Mist: {
+      return "Nawilżanie";
+    }
+    case StandardTaskTypeEnum.Replant: {
+      return "Przesadzanie";
+    }
+    default: {
+      return "Inna";
+    }
+  }
+};
+
+export const convertIndicatorText = (daysLeft: number) => {
+  const absoluteValue = Math.abs(daysLeft);
+
+  if (absoluteValue === 1) {
+    return "Dzień";
+  } else {
+    return "Dni";
+  }
 };

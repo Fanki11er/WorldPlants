@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WorldPlants.Entities;
 using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
+using WorldPlants.Models.PlantTaskHistory;
 using WorldPlants.Services;
 
 namespace WorldPlants.Controllers
@@ -70,6 +71,14 @@ namespace WorldPlants.Controllers
         public ActionResult<ActiveTask?> ExecuteTask([FromRoute] string taskId)
         {
             var result = _activeTasksService.ExecuteTask(taskId);
+
+            return Ok(result);
+        }
+
+        [HttpGet("History/{plantId}")]
+        public ActionResult<List<PlantTaskHistoryDTO>> GetTasksHistory([FromRoute] string plantId)
+        {
+            var result = _activeTasksService.GetTasksHistory(plantId);
 
             return Ok(result);
         }

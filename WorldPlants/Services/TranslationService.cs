@@ -28,7 +28,7 @@ namespace WorldPlants.Services
             var translatedText = await translator
                 .TranslateTextAsync( input, LanguageCode.Polish, LanguageCode.EnglishBritish);
 
-            return translatedText.Text;
+            return translatedText.Text?? "";
         }
 
         public async Task<string> TranslateInputToPolish(string? input)
@@ -43,7 +43,7 @@ namespace WorldPlants.Services
             var translatedText = await translator
                 .TranslateTextAsync(input, LanguageCode.English, LanguageCode.Polish);
 
-            return translatedText.Text;
+            return translatedText.Text?? "";
         }
 
     }

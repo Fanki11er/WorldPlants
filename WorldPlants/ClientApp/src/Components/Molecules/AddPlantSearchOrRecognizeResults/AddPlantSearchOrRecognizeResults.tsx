@@ -26,7 +26,9 @@ const AddPlantSearchOrRecognizeResults = (props: Props) => {
             to={result.id.toString()}
           >
             <AddPlantSearchOrRecognizeResultsListItemImage
-              src={result.defaultImage ? result.defaultImage : imgFallback}
+              $imageUrl={
+                result.defaultImage ? result.defaultImage : imgFallback
+              }
             />
             <AddPlantSearchOrRecognizeResultsListItemContentWrapper>
               <AddPlantSearchOrRecognizeResultsListItemName>

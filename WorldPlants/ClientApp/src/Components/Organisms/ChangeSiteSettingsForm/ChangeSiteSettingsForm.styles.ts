@@ -7,9 +7,16 @@ export const ChangeSiteSettingsFormWrapper = styled(Form)`
   display: grid;
   grid-template-columns: 100%;
   grid-auto-rows: auto;
-  row-gap: 10px;
+  row-gap: 20px;
   background-color: ${(props: AppTheme) => props.theme.colors.mainBlue};
   padding: 40px;
-  border-radius: 10px;
+  border-radius: 25px;
   justify-items: center;
+`;
+
+export const FormNumberFieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  width: fit-content;
 `;
