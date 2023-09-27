@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
-using WorldPlants.Enums;
 using WorldPlants.Exceptions;
 using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
@@ -21,31 +20,37 @@ namespace WorldPlants.Services
         public ActiveTaskInformationDto? SkipTask(string taskId);
         public ActiveTaskInformationDto? ExecuteTask(string taskId);
         public List<PlantTaskHistoryDTO> GetTasksHistory(string plantId);
+        public List<PlantWithTasksDTO> GetTodayTasks();
+        public List<PlantWithTasksDTO> GetIncomingTasks();
     }
-    public class ActiveTasksService: IActiveTasksService
+    public class ActiveTasksService : IActiveTasksService
     {
         private readonly IUtilities _utilities;
         private readonly IMapper _mapper;
         private readonly WorldPlantsDbContext _dbContext;
+        private readonly IImageService _imageService;
+
         public ActiveTasksService(
             IUtilities utilities,
             WorldPlantsDbContext dbContext,
-            IMapper mapper
+            IMapper mapper,
+            IImageService imageService
             )
         {
             _utilities = utilities;
             _dbContext = dbContext;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
 
-        public ActiveTaskDTO GetStandardPlantTask(string plantId, string taskType) 
+        public ActiveTaskDTO GetStandardPlantTask(string plantId, string taskType)
         {
             var plant = _utilities.FindPlantWithTasks(plantId);
 
-            var task = plant.ActiveTasks.FirstOrDefault(t=> t.ActionType.ToString() == taskType);
+            var task = plant.ActiveTasks.FirstOrDefault(t => t.ActionType.ToString() == taskType);
 
-            if(task == null)
+            if (task == null)
             {
                 var emptyActiveTaskDto = new ActiveTaskDTO()
                 {
@@ -69,27 +74,27 @@ namespace WorldPlants.Services
 
         public ActiveTaskDTO SetPlantTask(ActiveTaskDTO task)
         {
-            if(task == null)
+            if (task == null)
             {
                 throw new ArgumentNullException("Nie prawidłowe dane zadania");
             }
 
             var currentTask = _dbContext.ActiveTasks.FirstOrDefault(t => t.Id.ToString() == task.Id);
 
-            if(currentTask == null)
+            if (currentTask == null)
             {
                 var newTask = _mapper.Map<ActiveTask>(task);
 
-               _dbContext.ActiveTasks.Add(newTask);
-                
-               _utilities.SaveChangesToDatabase();
+                _dbContext.ActiveTasks.Add(newTask);
+
+                _utilities.SaveChangesToDatabase();
 
                 task.Id = newTask.Id.ToString();
 
                 return task;
             }
 
-           _mapper.Map(task, currentTask);
+            _mapper.Map(task, currentTask);
 
             _dbContext.Update(currentTask);
 
@@ -101,7 +106,7 @@ namespace WorldPlants.Services
         public void DeletePlantTask(string taskId)
         {
             var currentTask = _dbContext.ActiveTasks
-                .FirstOrDefault(t => t.Id.ToString() == taskId) 
+                .FirstOrDefault(t => t.Id.ToString() == taskId)
                 ?? throw new NotFoundException("Nie znaleziono zadania");
 
             _dbContext.ActiveTasks.Remove(currentTask);
@@ -117,7 +122,7 @@ namespace WorldPlants.Services
 
             return tasks;
         }
-        
+
         public ActiveTaskInformationDto SnoozeTask(string taskId)
         {
             var task = GetTask(taskId);
@@ -181,8 +186,8 @@ namespace WorldPlants.Services
 
             if (task.Interval != 0 && task.Interval != null)
             {
-                
-                task.ActionDate =_utilities.GetTodayDateTime().AddDays((double)task.Interval);
+
+                task.ActionDate = _utilities.GetTodayDateTime().AddDays((double)task.Interval);
 
                 var taskHistory = CreateTaskHistoryItem(task);
 
@@ -213,7 +218,10 @@ namespace WorldPlants.Services
 
         public List<PlantTaskHistoryDTO> GetTasksHistory(string plantId)
         {
-            var tasksHistory = _dbContext.PlantTasksHistory.Where(p => p.PlantId.ToString() == plantId);
+            var tasksHistory = _dbContext
+                .PlantTasksHistory
+                .Where(p => p.PlantId.ToString() == plantId)
+                .OrderByDescending(o => o.Id);
 
             var listOfTasksHistoryDTOs = _mapper.Map<List<PlantTaskHistoryDTO>>(tasksHistory);
 
@@ -229,10 +237,87 @@ namespace WorldPlants.Services
             return task;
         }
 
+        public List<PlantWithTasksDTO> GetTodayTasks()
+        {
+            var spaceId = _utilities.GetUserSpaceId();
+
+            List<PlantWithTasksDTO> plantsWithTasks = new();
+
+            var today = _utilities.GetTodayDateTime();
+
+            var plants = _dbContext
+                .Plants
+                .Include(i => i.UserSite)
+                .AsSplitQuery()
+                .Include(i => i.ActiveTasks)
+                .AsSplitQuery()
+                .Where(p => p.UserSite.SpaceId.ToString() == spaceId &&
+                p.ActiveTasks.Any(t => t.ActionDate <= today))
+                .OrderBy(o => o.UserSite.Name);
+
+            foreach (var plant in plants)
+            {
+                var plantTodayTasks = plant
+                    .ActiveTasks
+                    .Where(t => t.ActionDate <= today);
+
+                var tasksInformation = _mapper.Map<List<ActiveTaskInformationDto>>(plantTodayTasks);
+
+                PlantWithTasksDTO plantInformation = _mapper.Map<PlantWithTasksDTO>(plant);
+
+                plantInformation.PlantPhoto = _imageService.GetImageUrl(plant.ImageName);
+
+                plantInformation.PlantTasks = tasksInformation;
+
+                plantsWithTasks.Add(plantInformation);
+            }
+
+            return plantsWithTasks;
+        }
+
+        public List<PlantWithTasksDTO> GetIncomingTasks()
+        {
+            var spaceId = _utilities.GetUserSpaceId();
+
+            List<PlantWithTasksDTO> plantsWithTasks = new();
+
+            var today = _utilities.GetTodayDateTime();
+
+            var plants = _dbContext
+                .Plants
+                .Include(i => i.UserSite)
+                .AsSplitQuery()
+                .Include(i => i.ActiveTasks)
+                .AsSplitQuery()
+                .Where(p => p.UserSite.SpaceId.ToString() == spaceId &&
+                p.ActiveTasks.Any(t => t.ActionDate > today && 
+                t.ActionDate <= today.AddDays(7)))
+                .OrderBy(o => o.UserSite.Name);
+                
+            foreach (var plant in plants)
+            {
+                var plantTodayTasks = plant.ActiveTasks
+                .Where(t => t.ActionDate > today && 
+                t.ActionDate <= today.AddDays(7));
+
+                var tasksInformation = _mapper.Map<List<ActiveTaskInformationDto>>(plantTodayTasks);
+
+                PlantWithTasksDTO plantInformation = _mapper.Map<PlantWithTasksDTO>(plant);
+
+                plantInformation.PlantPhoto = _imageService.GetImageUrl(plant.ImageName);
+
+                plantInformation.PlantTasks = tasksInformation;
+
+                plantsWithTasks.Add(plantInformation);
+            }
+
+            return plantsWithTasks;
+        }
+
         private int GetNumberOfDaysLeft(ActiveTask task)
         {
             var today = _utilities.GetTodayDateTime();
-           
+
             return (int)(task.ActionDate - today).TotalDays;
         }
 
