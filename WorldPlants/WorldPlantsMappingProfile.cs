@@ -86,6 +86,9 @@ namespace WorldPlants
                 .ForMember(m => m.PlantPhoto, m => m.Ignore())
                 .ForMember(m => m.PlantTasks, m => m.Ignore());
 
+            CreateMap<Plant, PlantCurrentSettingsDTO>();
+
+            CreateMap<UserSite, SiteWithIdAndNameDto>();
 
         }
     }
