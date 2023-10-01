@@ -1,5 +1,5 @@
 export interface DefaultSiteDto {
-  id: string;
+  id: number;
   name: string;
   location: Location;
 }

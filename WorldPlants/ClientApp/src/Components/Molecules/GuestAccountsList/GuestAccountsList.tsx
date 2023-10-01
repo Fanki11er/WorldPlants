@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { apiEndpoints } from "../../../Api/endpoints";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { paths } from "../../../Router/paths";
@@ -7,35 +7,30 @@ import {
   GuestListItemWrapper,
   HeaderGuestListItem,
 } from "./GuestAccountsList.styles";
-import { GUEST_ACCOUNTS } from "../../../Constants/Constants";
 import { ChangeGuestUserStatusDto } from "../../../Interfaces/ChangeGuestUserStatusDto";
 import { GuestUserDto } from "../../../Interfaces/GuestUserDto";
 import { SideMenuLink } from "../../Atoms/Buttons/Buttons";
 import ToggleInput from "../ToggleInput/ToggleInput";
-import FormRequestError from "../FormRequestError/FormRequestError";
-import { getErrorMessages } from "../../../Utils/Utils";
-import NoListContentInfo from "../NoListContentInfo/NoListContentInfo";
-import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
+import useQueryKey from "../../../Hooks/useQueryKey";
 
-const GuestAccountsList = () => {
+interface Props {
+  guestAccounts: GuestUserDto[];
+}
+
+const GuestAccountsList = (props: Props) => {
+  const { guestAccounts } = props;
+  const { authorized, guestUserPermissions } = paths;
+  const { changeGuestUserStatus } = apiEndpoints;
   const axiosPrivate = useAxiosPrivate();
-  const { getGuestUsers, changeGuestUserStatus } = apiEndpoints;
-  const { guestUserPermissions, authorized } = paths;
-  const queryClient = useQueryClient();
+  const client = useQueryClient();
+  const { guestAccountsQueryKey } = useQueryKey();
 
-  const { isLoading, error, data } = useQuery<GuestUserDto[]>(
-    GUEST_ACCOUNTS,
-    async () => {
-      const result = await axiosPrivate.get(getGuestUsers);
-      return result.data;
-    }
-  );
   const { mutate } = useMutation({
     mutationFn: (dto: ChangeGuestUserStatusDto) => {
       return axiosPrivate.post(changeGuestUserStatus, dto);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(GUEST_ACCOUNTS);
+      client.invalidateQueries(guestAccountsQueryKey());
     },
   });
 
@@ -67,22 +62,9 @@ const GuestAccountsList = () => {
     });
   };
   return (
-    <>
-      {isLoading && <LoadingIndicator />}
-      {error ? (
-        <FormRequestError errorValues={getErrorMessages(error)} />
-      ) : null}
-      {data && data.length ? (
-        <GuestAccountsListWrapper>
-          {renderGuestAccounts(data)}
-        </GuestAccountsListWrapper>
-      ) : (
-        <NoListContentInfo
-          informationHeaderText={"Brak kont gości"}
-          informationText={"Tu będą widoczne utworzone konta gości. "}
-        />
-      )}
-    </>
+    <GuestAccountsListWrapper>
+      {renderGuestAccounts(guestAccounts)}
+    </GuestAccountsListWrapper>
   );
 };
 

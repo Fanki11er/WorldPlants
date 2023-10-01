@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  AddPlantSectionWrapper,
-  NextAndReturnButtonWrapper,
-} from "./AddPlantSection.styles";
-import { useQuery } from "react-query";
-import { PLantsDetailsDto } from "../../../Interfaces/PlantDetailsDto";
-import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+import { NextAndReturnButtonWrapper } from "./AddPlantSection.styles";
 import { apiEndpoints } from "../../../Api/endpoints";
-import { PLANT_DETAILS } from "../../../Constants/Constants";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
@@ -16,28 +9,16 @@ import PlantDetails from "../../Molecules/PlantDetails/PlantDetails";
 import AddPlantForm from "../../Molecules/AddPlantForm/AddPlantForm";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
+import usePlantDetails from "../../../Hooks/usePlantDetails";
 
 const AddPlantSection = () => {
-  const { getPlantDetails } = apiEndpoints;
+  const { addPlant } = apiEndpoints;
   const navigate = useNavigate();
   const { detailsId } = useParams();
-  const axiosPrivate = useAxiosPrivate();
-  const { error, isLoading, data } = useQuery<PLantsDetailsDto>(
-    [PLANT_DETAILS, detailsId],
-    async () => {
-      const result = await axiosPrivate.get(getPlantDetails(detailsId));
-      return result.data;
-    },
-    {
-      enabled: !!detailsId,
-    }
+  const { plantDetails, detailsError, areDetailsLoading } = usePlantDetails(
+    detailsId ? Number(detailsId) : undefined
   );
   const [step, setStep] = useState(1);
-  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-
-  const toggleIsFormSubmitting = async (isSubmitting: boolean) => {
-    setIsFormSubmitting(isSubmitting);
-  };
 
   const stepForward = () => {
     if (step < 2) {
@@ -52,20 +33,26 @@ const AddPlantSection = () => {
 
   return (
     <SettingsSectionWrapper>
-      {isLoading && <LoadingIndicator />}
-      {error ? (
-        <FormRequestError errorValues={getErrorMessages(error)} />
+      {areDetailsLoading && <LoadingIndicator />}
+      {detailsError ? (
+        <FormRequestError errorValues={getErrorMessages(detailsError)} />
       ) : null}
-      {data && step === 1 ? <PlantDetails plantDetails={data} /> : null}
+      {plantDetails && step === 1 ? (
+        <PlantDetails plantDetails={plantDetails} />
+      ) : null}
+
       {step === 2 ? (
         <AddPlantForm
-          currentImage={data?.defaultImage || ""}
-          currentName={data?.commonName || ""}
-          externalId={data?.id || undefined}
+          currentSettings={{
+            name: plantDetails?.commonName,
+            imageUrl: plantDetails?.defaultImage,
+            externalId: plantDetails?.id,
+          }}
+          submitEndpoint={addPlant}
         />
       ) : null}
       <NextAndReturnButtonWrapper>
-        {!isLoading && (
+        {!areDetailsLoading && (
           <ActionButton
             onClick={() => {
               if (step === 2) {
@@ -78,13 +65,13 @@ const AddPlantSection = () => {
           </ActionButton>
         )}
 
-        {step === 2 && !isFormSubmitting && (
+        {!areDetailsLoading && (
           <ActionButton type="submit" form="AddPlantForm">
             Zapisz
           </ActionButton>
         )}
 
-        {step === 1 && !isLoading && (
+        {step === 1 && !areDetailsLoading && (
           <ActionButton onClick={stepForward}>Dalej</ActionButton>
         )}
       </NextAndReturnButtonWrapper>

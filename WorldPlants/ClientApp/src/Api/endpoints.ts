@@ -52,18 +52,24 @@ export const apiEndpoints = {
   getSitePlantsInformation: (siteId: string | undefined) => {
     return `UserSites/Plants/${siteId ? siteId : ""}`;
   },
+
+  getSiteHeaderInformation: (siteId: string | undefined) => {
+    return `UserSites/Header/${siteId ? siteId : ""}`;
+  },
+
   //? Plants
   searchForPlant: (searchPhrase: string) => {
     return `Plants/Search?searchPhrase=${searchPhrase}`;
   },
 
-  getPlantDetails: (plantId: string | undefined) => {
+  getPlantDetails: (plantId: number | undefined) => {
     return `Plants/Details/${plantId ? plantId : ""}`;
   },
 
   addPlant: (siteId: string | undefined) => {
     return `Plants/Add/${siteId ? siteId : ""}`;
   },
+
   getPlantHeaderInformation: (plantId: string | undefined) => {
     return `Plants/HeaderInfo/${plantId ? plantId : ""}`;
   },
@@ -73,6 +79,24 @@ export const apiEndpoints = {
   },
 
   recognizePlant: "Recognize",
+
+  getPLantExternalId: (plantId: string | undefined) => {
+    return `Plants/ExternalId/${plantId ? plantId : ""}`;
+  },
+
+  plantSettings: (plantId: string | undefined) => {
+    return `Plants/Settings/${plantId ? plantId : ""}`;
+  },
+
+  getMovePlantInformation: (plantId: string | undefined) => {
+    return `Plants/MoveInformation/${plantId ? plantId : ""}`;
+  },
+
+  movePlant: "Plants/Move",
+
+  deletePlant: (plantId: string | undefined) => {
+    return `Plants/${plantId ? plantId : ""}`;
+  },
 
   //? Tasks
 
@@ -107,4 +131,8 @@ export const apiEndpoints = {
   getTasksHistory: (plantId: string | undefined) => {
     return `Tasks/History/${plantId ? plantId : ""}`;
   },
+
+  getTodayTasks: `Tasks/Today`,
+
+  getIncomingTasks: `Tasks/Incoming`,
 };

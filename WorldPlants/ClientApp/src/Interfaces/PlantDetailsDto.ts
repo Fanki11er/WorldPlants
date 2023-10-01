@@ -2,31 +2,31 @@ import { SunScale } from "./SunExposureDto";
 
 export interface PLantsDetailsDto {
   id: number;
-  commonName: string | null;
+  commonName: string | undefined;
   scientificName: string[];
   otherName: string[];
-  defaultImage: string | null;
-  watering: string | null;
+  defaultImage: string | undefined;
+  watering: string | undefined;
   sunlight: SunScale[];
-  plantType: string | null;
-  averageHeight: number | null;
-  lifeCycle: string | null;
-  wateringPeriod: string | null;
-  wateringGeneralBenchmark: PlantDetailsWateringGeneralBenchmark | null;
+  plantType: string | undefined;
+  averageHeight: number | undefined;
+  lifeCycle: string | undefined;
+  wateringPeriod: string | undefined;
+  wateringGeneralBenchmark: PlantDetailsWateringGeneralBenchmark | undefined;
   pruningMonth: string[];
   pruningCount: PlantDetailsPruningCount;
-  careLevel: string | null;
-  growthRate: string | null;
-  floweringSeason: string | null;
-  harvestSeason: string | null;
-  poisonousToHumans: string | null;
-  poisonousToPets: string | null;
-  fruits: boolean | null;
-  edibleFruits: boolean | null;
-  droughtTolerant: boolean | null;
-  invasive: boolean | null;
-  indoor: boolean | null;
-  description: string | null;
+  careLevel: string | undefined;
+  growthRate: string | undefined;
+  floweringSeason: string | undefined;
+  harvestSeason: string | undefined;
+  poisonousToHumans: string | undefined;
+  poisonousToPets: string | undefined;
+  fruits: boolean | undefined;
+  edibleFruits: boolean | undefined;
+  droughtTolerant: boolean | undefined;
+  invasive: boolean | undefined;
+  indoor: boolean | undefined;
+  description: string | undefined;
 }
 
 export type LevelScale = "Low" | "Medium" | "High";
@@ -34,11 +34,11 @@ export type Watering = LevelScale;
 export type Sunlight = LevelScale | "None";
 
 type PlantDetailsWateringGeneralBenchmark = {
-  value: string | null;
-  unit: string | null;
+  value: string | undefined;
+  unit: string | undefined;
 };
 
 type PlantDetailsPruningCount = {
-  amount: number | null;
-  interval: string | null;
+  amount: number | undefined;
+  interval: string | undefined;
 };

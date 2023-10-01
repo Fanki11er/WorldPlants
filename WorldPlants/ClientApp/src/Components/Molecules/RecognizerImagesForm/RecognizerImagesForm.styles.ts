@@ -53,7 +53,7 @@ export const AddedImageField = styled.li<Props>`
   outline: none;
   transition: all 0.5s;
   &:hover:has(button),
-  &:focus:has(button) {
+  &:focus-within:has(button) {
     border: 2px solid ${(props) => props.theme.colors.orange};
     ${RemoveImageButton} {
       opacity: 1;

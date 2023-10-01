@@ -25,6 +25,7 @@ export const SelectField = styled.select<ErrorProps>`
   padding: 0 10px;
   outline: none;
   text-align: center;
+  transition: all 0.5s;
 
   &:hover,
   &:focus {

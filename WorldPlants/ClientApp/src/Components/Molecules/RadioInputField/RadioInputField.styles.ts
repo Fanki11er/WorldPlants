@@ -10,6 +10,7 @@ export const RadioInputFieldWrapper = styled.label`
   display: grid;
   grid-template-columns: 1fr auto;
   position: relative;
+  overflow: hidden;
   align-items: center;
   width: 180px;
   column-gap: 20px;
@@ -23,8 +24,8 @@ export const RadioInputFieldWrapper = styled.label`
         : props.theme.colors.transparent};
   transition: all 0.5s;
   outline: none;
-  :hover,
-  :focus {
+  &:hover,
+  &:focus-within {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
     cursor: ${(props: Props) =>
       props.$checked === "true" ? "not-allowed" : "pointer"};

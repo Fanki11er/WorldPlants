@@ -5,6 +5,8 @@ export const AddPlantFormWrapper = styled(Form)`
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: 20px;
+  width: 100%;
+  max-width: 700px;
 `;
 
 export const AddPlantFormInputsWrapper = styled.div`
@@ -22,4 +24,12 @@ export const AddPlantFormImagePreview = styled.img`
 
 export const AddPlantFormPhotoInputWrapper = styled.div`
   display: flex;
+  align-items: center;
+`;
+
+export const IndicatorsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  grid-column: 1/3;
 `;

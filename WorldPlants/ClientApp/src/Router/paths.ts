@@ -6,6 +6,7 @@ export const paths = {
   login: "/Login",
   authorized: "/Authorized",
   plantsTasks: "",
+  plantTasksIncoming: "Incoming",
   //? User settings
   userSettings: "UserSettings",
   userSettingsNotifications: "",
@@ -31,4 +32,8 @@ export const paths = {
   selectedPlant: "SelectedPlant",
   selectedPlantSchedule: "PlantSchedule",
   selectedPlantTasksHistory: "PlantHistory",
+  selectedPlantDetails: "PlantDetails",
+  selectedPlantSettings: "PlantSettings",
+  selectedPlantMove: "MovePlant",
+  selectedPlantDelete: "DeletePlant",
 };

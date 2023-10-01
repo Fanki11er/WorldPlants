@@ -29,7 +29,7 @@ export const SitePlantsListItem = styled.li<AppTheme>`
   transition: all 0.5s;
   border: 2px solid transparent;
   &:hover,
-  &:focus {
+  &:focus-within {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
   }
   opacity: 0;

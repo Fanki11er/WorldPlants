@@ -17,7 +17,8 @@ import { getErrorMessages } from "../../../Utils/Utils";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 import { apiEndpoints } from "../../../Api/endpoints";
 import imageCompression from "browser-image-compression";
-import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import useQueryKey from "../../../Hooks/useQueryKey";
 
 type PhotoFile = File | "";
 
@@ -78,8 +79,9 @@ const RecognizerImagesForm = (props: Props) => {
   const [imageFiles, setImageFiles] = useState<PhotoFile[]>(initialValue);
   const { recognizePlant } = apiEndpoints;
   const axiosPrivate = useAxiosPrivate();
+  const { recognizedResultsQueryKey } = useQueryKey();
   const { isLoading, error, mutate } = useMutation({
-    mutationKey: RECOGNIZED_RESULTS,
+    mutationKey: recognizedResultsQueryKey(),
     mutationFn: async (data: FormData) => {
       const result = await axiosPrivate.post<PlantRecognizeResult[]>(
         recognizePlant,
@@ -103,8 +105,10 @@ const RecognizerImagesForm = (props: Props) => {
       const newImages = [...e.target.files];
       setImageFiles((existingImages) => {
         const imageFiles = [...existingImages];
+
         newImages.forEach((newImage) => {
           const index = imageFiles.indexOf("");
+
           if (index >= 0) {
             imageFiles[index] = newImage;
           }
@@ -147,7 +151,6 @@ const RecognizerImagesForm = (props: Props) => {
         <AddedImageField
           $imageUrl={photo ? URL.createObjectURL(photo) : noPhoto}
           key={index}
-          tabIndex={5}
         >
           {!photo && (
             <AddPhotoField
@@ -161,7 +164,6 @@ const RecognizerImagesForm = (props: Props) => {
             <RemoveImageButton
               type="button"
               onClick={() => handleRemovePhoto(index)}
-              tabIndex={5}
             >
               Usuń
             </RemoveImageButton>

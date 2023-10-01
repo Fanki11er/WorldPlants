@@ -27,23 +27,10 @@ export const UserSitesListItemWrapper = styled.li<AppTheme>`
   border: 2px solid transparent;
   outline: none;
   &:hover,
-  &:focus {
+  &:focus-within {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
   }
   transition: all 0.5s;
-  opacity: 0;
-  animation-name: show;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-
-  @keyframes show {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 `;
 
 export const LinkToSite = styled(Link)`

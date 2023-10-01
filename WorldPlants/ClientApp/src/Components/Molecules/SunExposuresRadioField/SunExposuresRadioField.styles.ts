@@ -10,6 +10,7 @@ export const SunExposuresRadioFieldWrapper = styled.label`
   display: grid;
   grid-template-columns: auto 110px 1fr;
   position: relative;
+  overflow: hidden;
   column-gap: 25px;
   align-items: center;
   max-width: 600px;
@@ -23,8 +24,8 @@ export const SunExposuresRadioFieldWrapper = styled.label`
         ? props.theme.colors.orange
         : props.theme.colors.transparent};
   transition: all 0.5s;
-  :hover,
-  :focus {
+  &:hover,
+  &:focus-within {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
   }
 `;

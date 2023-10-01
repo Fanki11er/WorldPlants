@@ -14,7 +14,7 @@ export const AddPhotoFieldLabel = styled.label`
   color: ${(props: AppTheme) => props.theme.colors.orange};
   position: relative;
   width: 180px;
-  height: 30px;
+  height: 35px;
   background-color: ${(props: AppTheme) => props.theme.colors.darkPurple};
   border-radius: 10px;
   transition: all 0.5s;
