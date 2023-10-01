@@ -34,6 +34,7 @@ import PlantTasksSection from "../Components/Organisms/PlantTasksSection/PlantTa
 import PlantScheduleSection from "../Components/Molecules/PlantScheduleSection/PlantScheduleSection";
 import PlantTasksHistorySection from "../Components/Molecules/PlantTasksHistorySection/PlantTasksHistorySection";
 import RecognizePlantSection from "../Components/Organisms/RecognizePlantSection/RecognizePlantSection";
+import PlantDetailsSection from "../Components/Molecules/PlantDetailsSection/PlantDetailsSection";
 
 const {
   rootPath,
@@ -57,6 +58,7 @@ const {
   selectedPlantSchedule,
   selectedPlantTasksHistory,
   addPlantRecognize,
+  selectedPlantDetails,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -126,7 +128,10 @@ const router = createBrowserRouter(
             path={selectedPlantSchedule}
             element={<PlantScheduleSection />}
           />
-          <Route path={""} element={<div>PlanDetails</div>} />
+          <Route
+            path={selectedPlantDetails}
+            element={<PlantDetailsSection />}
+          />
           <Route path={""} element={<div>PlantNotes</div>} />
           <Route
             path={selectedPlantTasksHistory}

@@ -31,4 +31,8 @@ export const paths = {
   selectedPlant: "SelectedPlant",
   selectedPlantSchedule: "PlantSchedule",
   selectedPlantTasksHistory: "PlantHistory",
+  selectedPlantDetails: "PlantDetails",
+  selectedPlantSettings: "PlantSettings",
+  selectedPlantMove: "MovePlant",
+  selectedPlantDelete: "DeletePlant",
 };
