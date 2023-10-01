@@ -15,6 +15,7 @@ import ToggleInput from "../ToggleInput/ToggleInput";
 import FormRequestError from "../FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
 import NoListContentInfo from "../NoListContentInfo/NoListContentInfo";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 const GuestAccountsList = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -67,7 +68,7 @@ const GuestAccountsList = () => {
   };
   return (
     <>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}

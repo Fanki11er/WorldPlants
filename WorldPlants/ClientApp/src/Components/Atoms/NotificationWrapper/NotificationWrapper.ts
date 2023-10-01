@@ -2,12 +2,6 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const NotificationWrapper = styled.div`
-  /* display: flex;
-  flex-flow: row wrap;
-  gap: 15px;
-  //padding: 0 75px;
-  justify-content: space-evenly;
-  background: ${(props: AppTheme) => props.theme.colors.navyBlue}; */
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 200px));

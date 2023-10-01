@@ -18,6 +18,7 @@ import { Formik, FormikHelpers } from "formik";
 import { AuthenticatedUser } from "../../../Interfaces/AuthenticatedUser";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 interface Values {
   email: string;
@@ -64,7 +65,7 @@ const LoginForm = () => {
       }}
     >
       <AuthFormWrapper>
-        <ImgAuth src={ImgAuthSunFlower} alt="ImgAuthSunFlowers" />
+        <ImgAuth src={ImgAuthSunFlower} alt="Obraz słonecznika" />
         <AuthFormHeader>Logowanie</AuthFormHeader>
         {loginMutation.isError && (
           <FormRequestError
@@ -88,7 +89,7 @@ const LoginForm = () => {
         </FormInputsWrapper>
 
         {loginMutation.isLoading ? (
-          <div>Loading</div>
+          <LoadingIndicator />
         ) : (
           <ActionButton type="submit">Zaloguj</ActionButton>
         )}

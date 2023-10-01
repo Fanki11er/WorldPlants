@@ -144,7 +144,6 @@ export const PermissionsReturnButton = styled(ActionButton)`
 
 export const RedActionButton = styled(ActionButton)`
   background-color: ${(props: AppTheme) => props.theme.colors.red};
-  //margin-top: 1px;
 `;
 
 const StyledButton = styled.button`

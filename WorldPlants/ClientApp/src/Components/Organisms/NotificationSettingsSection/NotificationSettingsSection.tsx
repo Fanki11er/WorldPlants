@@ -13,6 +13,7 @@ import { NOTIFICATION_SETTINGS } from "../../../Constants/Constants";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
 import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 const NotificationSettingsSection = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -33,7 +34,7 @@ const NotificationSettingsSection = () => {
       ) : null}
       <OptionsWrapper>
         {isLoading ? (
-          <div>Loading</div>
+          <LoadingIndicator />
         ) : (
           data && (
             <NotificationForm
@@ -47,7 +48,7 @@ const NotificationSettingsSection = () => {
 
       <OptionsWrapper>
         {isLoading ? (
-          <div>Loading</div>
+          <LoadingIndicator />
         ) : data && data.data.smsSettings ? (
           <NotificationForm
             actualValues={data.data.smsSettings}

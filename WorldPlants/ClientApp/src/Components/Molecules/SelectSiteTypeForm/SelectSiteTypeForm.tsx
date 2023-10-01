@@ -11,6 +11,7 @@ import { getErrorMessages } from "../../../Utils/Utils";
 import { apiEndpoints } from "../../../Api/endpoints";
 import { DefaultSiteDto } from "../../../Interfaces/DefaultSiteDto";
 import RadioInputField from "../RadioInputField/RadioInputField";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 interface Props {
   fieldName: string;
@@ -46,7 +47,7 @@ const SelectSiteTypeForm = (props: Props) => {
   return (
     <SelectSiteTypeFormWrapper>
       <InfoHeader>Wybierz miejsce</InfoHeader>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}

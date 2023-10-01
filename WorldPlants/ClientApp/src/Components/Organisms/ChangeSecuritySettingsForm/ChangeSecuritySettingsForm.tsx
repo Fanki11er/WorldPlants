@@ -13,6 +13,7 @@ import FormRequestError from "../../Molecules/FormRequestError/FormRequestError"
 import InputField from "../../Molecules/InputField/InputField";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 const SecuritySettingsSchema = Yup.object().shape(
   yupSecuritySettingsValidationShape
@@ -76,7 +77,7 @@ const ChangeSecuritySettingsForm = () => {
           type="password"
         />
         {isLoading ? (
-          <div>Loading</div>
+          <LoadingIndicator />
         ) : (
           <ActionButton type="submit">Zapisz</ActionButton>
         )}

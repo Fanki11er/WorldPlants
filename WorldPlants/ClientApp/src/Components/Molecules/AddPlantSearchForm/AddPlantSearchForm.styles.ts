@@ -1,12 +1,13 @@
 import { Form } from "formik";
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const AddPlantSearchFormWrapper = styled(Form)`
   width: fit-content;
   display: flex;
   column-gap: 25px;
   grid-template-columns: 100%;
-  background-color: #071d53;
+  background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
   padding: 30px 50px;
   border-radius: 25px;
   margin-bottom: 30px;

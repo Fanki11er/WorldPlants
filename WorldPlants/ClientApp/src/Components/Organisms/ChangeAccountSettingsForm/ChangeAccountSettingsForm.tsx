@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import InputField from "../../Molecules/InputField/InputField";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 interface Props {
   actualValues: AccountSettingsDto;
@@ -86,7 +87,7 @@ const ChangeAccountSettingsForm = (props: Props) => {
         />
 
         {isLoading ? (
-          <div>Loading</div>
+          <LoadingIndicator />
         ) : (
           <ActionButton type="submit">Zapisz</ActionButton>
         )}

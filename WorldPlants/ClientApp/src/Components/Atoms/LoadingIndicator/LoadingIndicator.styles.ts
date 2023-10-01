@@ -3,8 +3,6 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 import loadingPlant from "../../../Assets/Loading.svg";
 
 export const LoadingIndicator = styled.div`
-  /* color: ${(props: AppTheme) => props.theme.colors.orange}; */
-  /* font-size: ${(props: AppTheme) => props.theme.fontSizes.veryLarge}; */
   display: flex;
   justify-content: center;
   align-items: center;

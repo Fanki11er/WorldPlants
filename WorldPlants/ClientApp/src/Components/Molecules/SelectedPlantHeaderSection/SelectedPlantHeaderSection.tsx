@@ -53,9 +53,7 @@ const SelectedPlantHeaderSection = () => {
         }
       />
 
-      {isPlantHeaderInfoLoading && (
-        <LoadingIndicator>Loading...</LoadingIndicator>
-      )}
+      {isPlantHeaderInfoLoading && <LoadingIndicator />}
       {plantHeaderInfoError ? (
         <FormRequestError
           errorValues={getErrorMessages(plantHeaderInfoError)}

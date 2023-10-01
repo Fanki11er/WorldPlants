@@ -22,6 +22,7 @@ import GuestUserPermissionsForm from "../../Components/Organisms/GuestUserPermis
 import DeleteUserAccountFormFormik from "../../Components/Organisms/DeleteUserAccountFormFormik/DeleteUserAccountFormFormik";
 import { paths } from "../../Router/paths";
 import SideMenu from "../../Components/Molecules/SideMenu/SideMenu";
+import { LoadingIndicator } from "../../Components/Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 const GuestPermissionsView = () => {
   const { authorized, userSettings, userSettingsGuestAccounts } = paths;
@@ -46,7 +47,7 @@ const GuestPermissionsView = () => {
   return (
     <GuestPermissionsViewWrapper>
       <FullRowWrapper>
-        {isLoading && <div>Loading</div>}
+        {isLoading && <LoadingIndicator />}
         {error ? (
           <FormRequestError errorValues={getErrorMessages(error)} />
         ) : null}
