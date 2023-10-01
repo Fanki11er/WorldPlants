@@ -8,6 +8,7 @@ import {
   DeleteFormInstruction,
   DeleteFormWrapper,
 } from "../../Atoms/DeleteFormWrapper/DeleteFormWrapper.styles";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 interface Props {
   error: unknown;
@@ -33,7 +34,7 @@ const DeleteAccountForm = (props: Props & FormikFormProps) => {
       )}
 
       {isLoading ? (
-        <div>Loading</div>
+        <LoadingIndicator />
       ) : (
         <RedActionButton disabled={confirmed} type="submit">
           Zapisz

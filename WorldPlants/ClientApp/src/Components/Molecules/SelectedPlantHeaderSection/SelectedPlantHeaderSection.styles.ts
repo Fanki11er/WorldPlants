@@ -17,7 +17,6 @@ export const SelectedPlantHeaderSectionWrapper = styled.section`
   align-items: center;
   row-gap: 15px;
   margin: 100px 0;
-  //transform: translateY(80px);
 `;
 
 export const SelectedPlantHeaderSectionImage = styled.div<ImageProp>`

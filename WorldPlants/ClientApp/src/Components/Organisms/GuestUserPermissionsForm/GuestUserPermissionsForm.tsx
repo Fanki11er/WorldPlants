@@ -13,6 +13,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { apiEndpoints } from "../../../Api/endpoints";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 interface Props {
   actualValues: GuestUserWithPermissionsDto;
@@ -45,6 +46,7 @@ const GuestUserPermissionsForm = (props: Props) => {
         canAddSites: guestUserPermissions.canAddSites,
         canRemoveSites: guestUserPermissions.canRemoveSites,
         canEditSites: guestUserPermissions.canEditSites,
+        canAddCustomTasks: guestUserPermissions.canAddCustomTasks,
       }}
       onSubmit={(values: GuestUserPermissionsDto, { setSubmitting }) => {
         mutate(values, {
@@ -64,6 +66,7 @@ const GuestUserPermissionsForm = (props: Props) => {
           <CheckboxInput id={"canCutPlants"} label={"Przycinanie"} />
           <CheckboxInput id={"canReplantPlants"} label={"Przesadzanie"} />
           <CheckboxInput id={"canMistPlants"} label={"Zwilżanie"} />
+          <CheckboxInput id={"canAddCustomTasks"} label={"Własne"} />
         </PermissionsGroup>
         <PermissionsGroup>
           <PermissionsGroupHeder>Miejsca</PermissionsGroupHeder>
@@ -80,7 +83,7 @@ const GuestUserPermissionsForm = (props: Props) => {
         </PermissionsGroup>
 
         {isLoading ? (
-          <div>Loading...</div>
+          <LoadingIndicator />
         ) : (
           <ActionButton type="submit">Zapisz</ActionButton>
         )}

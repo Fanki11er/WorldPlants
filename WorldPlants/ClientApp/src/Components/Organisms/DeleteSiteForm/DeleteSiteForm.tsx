@@ -84,7 +84,7 @@ const DeleteSiteForm = (props: Props) => {
             </DeleteFormInstruction>
           )}
           {isLoading ? (
-            <LoadingIndicator>Loading</LoadingIndicator>
+            <LoadingIndicator />
           ) : (
             <RedActionButton disabled={!!errors.name} type="submit">
               Zapisz

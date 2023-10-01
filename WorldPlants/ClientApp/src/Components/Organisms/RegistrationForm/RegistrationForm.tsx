@@ -7,12 +7,6 @@ import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import InputField from "../../Molecules/InputField/InputField";
 import ImgAuthSunFlower from "../../../Assets/SunFlower.svg";
 import { FormInputsWrapper } from "../../Atoms/FormInputsWrapper/FormInputsWrapper";
-import * as Yup from "yup";
-import { apiEndpoints } from "../../../Api/endpoints";
-import { paths } from "../../../Router/paths";
-import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
-import axios from "../../../Api/axios";
 import { FormikFormProps } from "formik";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
@@ -28,7 +22,7 @@ const RegistrationForm = (props: Props & FormikFormProps) => {
 
   return (
     <AuthFormWrapper noValidate={true}>
-      <ImgAuth src={ImgAuthSunFlower} alt="ImgAuthSunFlowers" />
+      <ImgAuth src={ImgAuthSunFlower} alt="Obraz słonecznika" />
       <AuthFormHeader>Rejestracja</AuthFormHeader>
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />

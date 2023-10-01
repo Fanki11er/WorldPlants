@@ -76,7 +76,10 @@ const PlantTasksSectionTaskIndicatorTextCore = styled.span<Props>`
   justify-content: center;
   align-items: center;
   width: fit-content;
-  color: ${(props) => (!props.$isDelayed ? "#071D53" : "#690C0B")};
+  color: ${(props) =>
+    !props.$isDelayed
+      ? props.theme.colors.navyBlue
+      : props.theme.colors.claret};
   font-weight: bold;
 `;
 

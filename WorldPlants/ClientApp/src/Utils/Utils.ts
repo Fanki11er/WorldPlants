@@ -63,11 +63,11 @@ export const yupRegistrationValidationShape = {
     .oneOf([Yup.ref("password")], "Hasła muszą być takie same")
     .required("Hasło jest wymagane"),
   email: Yup.string()
-    .email("Nie prawidłowy format adresu email")
+    .email("Nieprawidłowy format adresu email")
     .required("Email jest wymagany"),
   phoneNumber: Yup.string().matches(
     /^\d{9}$/,
-    "Nie prawidłowy format numeru telefonu"
+    "Nieprawidłowy format numeru telefonu"
   ),
 };
 
@@ -77,11 +77,11 @@ export const yupAccountSettingsValidationShape = {
     .max(30, "Imię może mieć maksymalnie 30 znaków ")
     .required("Imię jest wymagane"),
   email: Yup.string()
-    .email("Nie prawidłowy format adresu email")
+    .email("Nieprawidłowy format adresu email")
     .required("Email jest wymagany"),
   phoneNumber:
-    Yup.string().matches(/^\d{9}$/, "Nie prawidłowy format numeru telefonu") ||
-    Yup.string().length(0, "Nie prawidłowy format numeru telefonu"),
+    Yup.string().matches(/^\d{9}$/, "Nieprawidłowy format numeru telefonu") ||
+    Yup.string().length(0, "Nieprawidłowy format numeru telefonu"),
 };
 
 export const yupSecuritySettingsValidationShape = {
@@ -103,11 +103,11 @@ export const yupAddPlantValidationShape = {
 
   potWidth: Yup.number()
     .min(0, "Wartość pola nie może być mniejsza od 0")
-    .max(1000, "Wartośc pola musi być mniejsza od 1000"),
+    .max(1000, "Wartość pola musi być mniejsza od 1000"),
 
   plantHeight: Yup.number()
     .min(0, "Wartość pola nie może być mniejsza od 0")
-    .max(5000, "Wartośc pola musi być mniejsza od 1000"),
+    .max(5000, "Wartość pola musi być mniejsza od 1000"),
 
   additionalDescription: Yup.string().max(
     300,

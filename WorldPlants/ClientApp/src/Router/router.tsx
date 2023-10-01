@@ -143,7 +143,7 @@ const router = createBrowserRouter(
 
 export default router;
 
-//? Zrobić wskaźnik ładowania -zrobiony, ale nie użyty
+// Zrobić wskaźnik ładowania -zrobiony
 // Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section) - zrobione
 // Poprawić kontrast w napisie błędu w errorach - zrobione
 //todo Border na focus i hover dla inputa w register, login i search (input textowy) ???
@@ -152,7 +152,7 @@ export default router;
 // AddPhoto field padding i hover - zrobione
 // PlantDetailsWithIconSection wstawić ikony - zrobione
 
-// todo Poprawić loadery
-// todo Zrobić red button with margin
-// todo Przejrzeć wszystkie style i sprawdzić kolory
+// Poprawić loadery -zrobione
+//  Zrobić red button with margin - zrobione
+// Przejrzeć wszystkie style i sprawdzić kolory - zrobione
 // todo Hover focus miejsca

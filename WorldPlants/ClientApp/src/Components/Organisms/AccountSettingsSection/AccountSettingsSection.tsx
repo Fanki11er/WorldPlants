@@ -12,6 +12,7 @@ import {
   SettingsSectionWrapper,
 } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import ChangeAccountSettingsForm from "../ChangeAccountSettingsForm/ChangeAccountSettingsForm";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 const AccountSettingsSection = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -30,7 +31,7 @@ const AccountSettingsSection = () => {
 
       <OptionsWrapper>
         {isLoading ? (
-          <div>Loading</div>
+          <LoadingIndicator />
         ) : (
           data && <ChangeAccountSettingsForm actualValues={data.data} />
         )}
