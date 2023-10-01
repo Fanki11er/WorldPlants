@@ -52,6 +52,11 @@ export const apiEndpoints = {
   getSitePlantsInformation: (siteId: string | undefined) => {
     return `UserSites/Plants/${siteId ? siteId : ""}`;
   },
+
+  getSiteHeaderInformation: (siteId: string | undefined) => {
+    return `UserSites/Header/${siteId ? siteId : ""}`;
+  },
+
   //? Plants
   searchForPlant: (searchPhrase: string) => {
     return `Plants/Search?searchPhrase=${searchPhrase}`;
@@ -64,6 +69,7 @@ export const apiEndpoints = {
   addPlant: (siteId: string | undefined) => {
     return `Plants/Add/${siteId ? siteId : ""}`;
   },
+
   getPlantHeaderInformation: (plantId: string | undefined) => {
     return `Plants/HeaderInfo/${plantId ? plantId : ""}`;
   },

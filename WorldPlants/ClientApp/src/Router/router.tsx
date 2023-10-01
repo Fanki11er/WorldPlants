@@ -35,6 +35,9 @@ import PlantScheduleSection from "../Components/Molecules/PlantScheduleSection/P
 import PlantTasksHistorySection from "../Components/Molecules/PlantTasksHistorySection/PlantTasksHistorySection";
 import RecognizePlantSection from "../Components/Organisms/RecognizePlantSection/RecognizePlantSection";
 import PlantDetailsSection from "../Components/Molecules/PlantDetailsSection/PlantDetailsSection";
+import PlantSettingsSection from "../Components/Molecules/PlantSettingsSection/PlantSettingsSection";
+import MovePlantSection from "../Components/Organisms/MovePlantSection/MovePlantSection";
+import DeletePlantSection from "../Components/Organisms/DeletePlantSection/DeletePlantSection";
 
 const {
   rootPath,
@@ -59,6 +62,9 @@ const {
   selectedPlantTasksHistory,
   addPlantRecognize,
   selectedPlantDetails,
+  selectedPlantSettings,
+  selectedPlantMove,
+  selectedPlantDelete,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -137,8 +143,12 @@ const router = createBrowserRouter(
             path={selectedPlantTasksHistory}
             element={<PlantTasksHistorySection />}
           />
-          <Route path={""} element={<div>PlantSettings</div>} />
-          <Route path={""} element={<div>DeletePlant</div>} />
+          <Route
+            path={selectedPlantSettings}
+            element={<PlantSettingsSection />}
+          />
+          <Route path={selectedPlantMove} element={<MovePlantSection />} />
+          <Route path={selectedPlantDelete} element={<DeletePlantSection />} />
         </Route>
       </Route>
       <Route path={"*"} element={<LandingView />} />

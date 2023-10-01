@@ -7,6 +7,9 @@ import shadeIcon from "../Assets/Shade.svg";
 import darknessIcon from "../Assets/Darkness.svg";
 import penumbraIcon from "../Assets/Penumbra.svg";
 import { StandardTaskTypeEnum } from "../Interfaces/PlantActiveTask";
+import { Location } from "../Interfaces/DefaultSiteDto";
+import placeInside from "../Assets/PlaceHouse.svg";
+import placeOutside from "../Assets/Sun.svg";
 
 export const getErrorMessages = (e: unknown) => {
   const errorMessages: string[] = [];
@@ -178,5 +181,16 @@ export const convertIndicatorText = (daysLeft: number) => {
     return "Dzień";
   } else {
     return "Dni";
+  }
+};
+
+export const getLocationIcon = (location: Location) => {
+  switch (location) {
+    case "Indoor": {
+      return placeInside;
+    }
+    case "Outdoor": {
+      return placeOutside;
+    }
   }
 };

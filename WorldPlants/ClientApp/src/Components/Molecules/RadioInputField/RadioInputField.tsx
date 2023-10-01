@@ -13,14 +13,14 @@ interface Props {
   name: string;
   label: string;
   location: Location;
-  id: string;
+  id: number;
 }
 
 const RadioInputField = (props: Props) => {
   const { name, label, location, id } = props;
   const [field] = useField(name);
   return (
-    <RadioInputFieldWrapper $checked={String(field.value === id.toString())}>
+    <RadioInputFieldWrapper $checked={String(field.value === id)}>
       <LabelText>{label}</LabelText>
       <SiteIcon src={location === "Indoor" ? placeInside : placeOutside} />
       <HiddenRadioInput name={name} id={name} value={id} type={"radio"} />

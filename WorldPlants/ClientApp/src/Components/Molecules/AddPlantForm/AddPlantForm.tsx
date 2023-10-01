@@ -8,7 +8,7 @@ import {
   AddPlantFormPhotoInputWrapper,
   AddPlantFormWrapper,
 } from "./AddPlantForm.styles";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import {
   getErrorMessages,
@@ -16,7 +16,6 @@ import {
 } from "../../../Utils/Utils";
 import FormRequestError from "../FormRequestError/FormRequestError";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
-import { apiEndpoints } from "../../../Api/endpoints";
 import { useNavigate, useParams } from "react-router-dom";
 import { paths } from "../../../Router/paths";
 import InputField from "../InputField/InputField";
@@ -24,6 +23,7 @@ import AddPhotoField from "../AddPhotoField/AddPhotoField";
 import TextareaField from "../TextareaField/TextareaField";
 import imgFallback from "../../../Assets/ImageFallback.svg";
 import { RedActionButton } from "../../Atoms/Buttons/Buttons";
+import { PlantCurrentSettingsDto } from "../../../Interfaces/PlantCurrentSettingsDto";
 
 interface FormValues {
   name: string;
@@ -35,19 +35,19 @@ interface FormValues {
 }
 
 interface Props {
-  currentImage: string;
-  currentName: string;
-  externalId?: number;
+  currentSettings: PlantCurrentSettingsDto;
+  submitEndpoint: (id: string | undefined) => string;
+  invalidateQueries?: string[][];
 }
 
 const AddPlantSchema = Yup.object().shape(yupAddPlantValidationShape);
 
 const AddPlantForm = (props: Props) => {
-  const { currentImage, currentName, externalId } = props;
+  const { currentSettings, submitEndpoint, invalidateQueries } = props;
   const { authorized, selectedPlant } = paths;
-  const { addPlant } = apiEndpoints;
   const { siteId } = useParams();
   const navigate = useNavigate();
+  const client = useQueryClient();
 
   const [imageFile, setImageFile] = useState<File | null>(null);
 
@@ -55,7 +55,7 @@ const AddPlantForm = (props: Props) => {
 
   const { error, isLoading, mutate } = useMutation({
     mutationFn: (values: FormData) => {
-      return axiosPrivate.post(addPlant(siteId), values, {
+      return axiosPrivate.post(submitEndpoint(siteId), values, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -77,8 +77,8 @@ const AddPlantForm = (props: Props) => {
       formData.delete("imageUrl");
     }
 
-    if (externalId) {
-      formData.append("externalId", externalId.toString());
+    if (currentSettings.externalId) {
+      formData.append("externalId", currentSettings.externalId.toString());
     }
 
     return formData;
@@ -98,12 +98,12 @@ const AddPlantForm = (props: Props) => {
   return (
     <Formik
       initialValues={{
-        name: currentName,
-        imageUrl: currentImage,
-        potHeight: 0,
-        potWidth: 0,
-        plantHeight: 0,
-        additionalDescription: "",
+        name: currentSettings.name || "",
+        imageUrl: currentSettings.imageUrl || "",
+        potHeight: currentSettings.potHeight || 0,
+        potWidth: currentSettings.potWidth || 0,
+        plantHeight: currentSettings.plantHeight || 0,
+        additionalDescription: currentSettings.additionalDescription || "",
       }}
       onSubmit={(values: FormValues, { setSubmitting }) => {
         const addPlantValues = prepareFormData(values);
@@ -111,7 +111,11 @@ const AddPlantForm = (props: Props) => {
         mutate(addPlantValues, {
           onSuccess: async (response) => {
             const plantId = await response.data;
-            setSubmitting(false);
+            if (invalidateQueries) {
+              invalidateQueries.forEach((query) => {
+                client.invalidateQueries(query);
+              });
+            }
             navigate(`${authorized}/${selectedPlant}/${plantId}`);
           },
           onError: () => {
