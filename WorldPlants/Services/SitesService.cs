@@ -14,7 +14,6 @@ namespace WorldPlants.Services
     public interface ISiteService
     {
         public List<UserSiteWithPlantsAndTasksDto> GetUserSitesWithPlants();
-        //public SiteWithPlantsDto GetSiteWithPlants(int siteId);
         public List<SiteWithIdAndNameDto> GetDefaultSites();
         public List<SunExposureDto> GetSunExposures(int locationId);
         public List<SunExposureDto> GetSunExposuresByLocation(int locationId);
@@ -182,9 +181,16 @@ namespace WorldPlants.Services
 
             var userSite = GetUserSiteWithPlants(siteId);
 
+            var images = userSite.Plants.Select(p => p.ImageName);
+
             _dbContext.Remove(userSite!);
 
             _utilities.SaveChangesToDatabase("Nie udało się usunąć miejsca");
+
+            foreach(var image in images)
+            {
+                _imageService.DeleteImage(image);
+            }
         }
 
         public GetUserSiteSettingsDto GetSiteSettings(int siteId)

@@ -96,7 +96,15 @@ namespace WorldPlants.Controllers
         {
             _plantService.MovePlant(dto);
 
-            return Ok("Roślina przeniesiona");
+            return Ok("Plant moved");
+        }
+
+        [HttpDelete("{plantId}")]
+        public ActionResult DeletePlant([FromRoute] string plantId)
+        {
+            _plantService.DeletePlant(plantId);
+
+            return Ok("Plant deleted");
         }
     }
 }

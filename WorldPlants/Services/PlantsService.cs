@@ -25,6 +25,7 @@ namespace WorldPlants.Services
         public Task<string> EditCurrentPlantSettings(string plantId, AddPlantDto newSettings);
         public MovePlantInformationDTO GetMovePlantInformation(string plantId);
         public void MovePlant(MovePlantDTO dto);
+        public void DeletePlant(string plantId);
 
     }
     public class PlantsService : IPlantService
@@ -132,7 +133,7 @@ namespace WorldPlants.Services
 
             _dbContext.Plants.Add(plant);
 
-            _utilities.SaveChangesToDatabase();
+            _utilities.SaveChangesToDatabase("Nie udało się dodać rośliny");
 
             return plant.Id.ToString();
         }
@@ -206,7 +207,7 @@ namespace WorldPlants.Services
 
                 _dbContext.Update(plant);
 
-                _utilities.SaveChangesToDatabase();
+                _utilities.SaveChangesToDatabase("Nie udało się przenieść rośliny");
             }
         }
 
@@ -248,9 +249,27 @@ namespace WorldPlants.Services
 
             _dbContext.Update(plant);
 
-            _utilities.SaveChangesToDatabase();
+            _utilities.SaveChangesToDatabase("Nie udało się zmienić ustawień rośliny");
 
             return plant.Id.ToString();
+        }
+
+        public void DeletePlant(string plantId)
+        {
+            var user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanRemovePlants);
+
+            var plant = _utilities.FindPlant(plantId);
+
+            var imageName = plant.ImageName;
+
+            _dbContext.Plants.Remove(plant);
+
+            _utilities.SaveChangesToDatabase("Nie udało się usunąć rosliny");
+
+            _imageService.DeleteImage(imageName);
+
         }
 
         private async Task<PlantTipsDTO?> PreparePlantTipsData(RawPlantTipsDataDTO? data)

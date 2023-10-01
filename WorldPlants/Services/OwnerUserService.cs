@@ -21,14 +21,23 @@ namespace WorldPlants.Services
         private readonly IDatabaseUtils _databaseUtils;
         private readonly WorldPlantsDbContext _context;
         private readonly IUserContextService _userContextService;
-        private readonly IUtilities _Utilities;
+        private readonly IUtilities _utilities;
+        private readonly IImageService _imageService;
 
-        public OwnerUserService(IDatabaseUtils databaseUtils, WorldPlantsDbContext context, IUserContextService userContextService, IUtilities utilities)
+        public OwnerUserService(
+            IDatabaseUtils databaseUtils, 
+            WorldPlantsDbContext context, 
+            IUserContextService userContextService, 
+            IUtilities utilities,
+            IImageService imageService
+            )
         {
             _databaseUtils = databaseUtils;
             _context = context;
             _userContextService = userContextService;
-            _Utilities = utilities;
+            _utilities = utilities;
+            _imageService = imageService;
+
         }
         public void RegisterOwnerUser(RegisterUserDto dto)
         {
@@ -78,10 +87,25 @@ namespace WorldPlants.Services
                 throw new ForbidException("Brak uprawnień do wykonania akcji");
             }
 
+            List<string> images = new();
+
+            foreach( var site in space.UserSites ) {
+
+                var plantsImages = site.Plants
+                    .Where( p => p.ImageName != null)
+                    .Select(p => p.ImageName);
+                
+                images.AddRange(plantsImages!);
+            }
+
             _context.Spaces.Remove(space);
 
-            _Utilities.SaveChangesToDatabase("Nie udało się usunąć przestrzeni");
+            _utilities.SaveChangesToDatabase("Nie udało się usunąć przestrzeni");
 
+            foreach(var image in  images)
+            {
+                _imageService.DeleteImage(image);
+            }
         }
 
     }
