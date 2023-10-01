@@ -90,6 +90,9 @@ namespace WorldPlants
 
             CreateMap<UserSite, SiteWithIdAndNameDto>();
 
+            CreateMap<UserSite, SiteHeaderInformationDTO>()
+                .ForMember(m => m.SunScale, m => m.Ignore());
+
         }
     }
 }

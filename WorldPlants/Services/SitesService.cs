@@ -23,6 +23,7 @@ namespace WorldPlants.Services
         public GetUserSiteSettingsDto GetSiteSettings(int siteId);
         public void EditUserSite(int siteId, EditUserSiteSettingsDto dto);
         public List<PlantBasicInformationDto> GetSitePlants(int siteId);
+        public SiteHeaderInformationDTO GetSiteHeaderInformation(int siteId);
     }
     public class SitesService : ISiteService
     {
@@ -225,6 +226,20 @@ namespace WorldPlants.Services
             _dbContext.Update(userSite!);
 
             _utilities.SaveChangesToDatabase("Nie udało się zmienić ustawień dla miejsca");
+        }
+
+        public SiteHeaderInformationDTO GetSiteHeaderInformation(int siteId)
+        {
+            var site = GetUserSite(siteId);
+
+            var dto = _mapper.Map<SiteHeaderInformationDTO>(site);
+
+            var sunExposure = _dbContext.SunExposures.FirstOrDefault(e => e.Id == site.SunExposureId) ?? 
+                throw new NotFoundException("Nie odnaleziono poziomu nasłonecznienia");
+
+            dto.SunScale = sunExposure.SunScale.ToString();
+
+            return dto;
         }
 
         // Helper functions
