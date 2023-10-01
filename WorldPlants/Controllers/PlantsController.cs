@@ -90,5 +90,13 @@ namespace WorldPlants.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("Move")]
+        public ActionResult MovePlant([FromBody] MovePlantDTO dto)
+        {
+            _plantService.MovePlant(dto);
+
+            return Ok("Roślina przeniesiona");
+        }
     }
 }

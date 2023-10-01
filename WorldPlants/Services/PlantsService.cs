@@ -24,6 +24,8 @@ namespace WorldPlants.Services
         public PlantCurrentSettingsDTO GetPlantCurrentSettings(string plantId);
         public Task<string> EditCurrentPlantSettings(string plantId, AddPlantDto newSettings);
         public MovePlantInformationDTO GetMovePlantInformation(string plantId);
+        public void MovePlant(MovePlantDTO dto);
+
     }
     public class PlantsService : IPlantService
     {
@@ -35,10 +37,10 @@ namespace WorldPlants.Services
         private readonly IImageService _imageService;
 
         public PlantsService(
-            ITranslationService translationService, 
-            IMapper mapper, 
-            ITranslationUtilities translationUtilities, 
-            WorldPlantsDbContext dbContext, 
+            ITranslationService translationService,
+            IMapper mapper,
+            ITranslationUtilities translationUtilities,
+            WorldPlantsDbContext dbContext,
             IUtilities utilities,
             IImageService ImageService
             )
@@ -104,6 +106,231 @@ namespace WorldPlants.Services
             return plantCurrentSettings;
         }
 
+        public async Task<string?> AddPlant(AddPlantDto plantDto, int siteId)
+        {
+            string? fileName = "";
+
+            var site = _dbContext.UserSites
+                .Include(i => i.Plants)
+                .AsSplitQuery()
+                .FirstOrDefault(s => s.Id == siteId) ?? throw new Exceptions.NotFoundException("Nie odnaleziono miejsca");
+
+            if (plantDto.ImageFile != null)
+            {
+                fileName = await _imageService.SaveImageOnServer(plantDto.ImageFile);
+            }
+            else if (plantDto.ImageUrl != null)
+            {
+                fileName = await _imageService.SaveImageFromApiOnServer(plantDto.ImageUrl);
+            }
+
+            Plant plant = _mapper.Map<Plant>(plantDto);
+
+            plant.ImageName = fileName;
+
+            plant.UserSiteId = siteId;
+
+            _dbContext.Plants.Add(plant);
+
+            _utilities.SaveChangesToDatabase();
+
+            return plant.Id.ToString();
+        }
+
+        public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId)
+        {
+            Plant plant = _utilities.FindPlant(plantId);
+
+            PlantHeaderInformationDTO plantHeaderInformation = _mapper.Map<PlantHeaderInformationDTO>(plant);
+
+            plantHeaderInformation.ImageUrl = _imageService.GetImageUrl(plant.ImageName);
+
+            return plantHeaderInformation;
+        }
+
+        public async Task<PlantTipsDTO?> GetPlantTips(string plantId)
+        {
+            var plant = _utilities.FindPlant(plantId);
+
+            var rawTips = await GetRawPlantTips(plant.ExternalId);
+
+            var plantTipsDTO = await PreparePlantTipsData(rawTips);
+
+            return plantTipsDTO;
+
+        }
+
+        public int? GetPlantExternalId(string plantId)
+        {
+            var plant = _utilities.FindPlant(plantId);
+
+            return plant.ExternalId;
+        }
+
+        public MovePlantInformationDTO GetMovePlantInformation(string plantId)
+        {
+            var spaceId = _utilities.GetUserSpaceId();
+
+            var plant = _utilities.FindPlant(plantId);
+
+            var currentSite = plant.UserSite;
+
+            var availableSites = _dbContext
+                .UserSites.
+                Where(s => s.SpaceId.ToString() == spaceId &&
+                s.Id != currentSite.Id);
+
+            MovePlantInformationDTO dto = new()
+            {
+                PlantId = plantId,
+                CurrentSite = _mapper.Map<SiteWithIdAndNameDto>(currentSite),
+                AvailableSites = _mapper.Map<List<SiteWithIdAndNameDto>>(availableSites)
+            };
+
+            return dto;
+        }
+
+        public void MovePlant(MovePlantDTO dto)
+        {
+            var user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanMovePlants);
+
+            _utilities.CheckIfUserSiteExists(dto.NewPlantSiteId);
+
+            var plant = _utilities.FindPlant(dto.PlantId);
+
+            if (plant.UserSiteId != dto.NewPlantSiteId)
+            {
+                plant.UserSiteId = dto.NewPlantSiteId;
+
+                _dbContext.Update(plant);
+
+                _utilities.SaveChangesToDatabase();
+            }
+        }
+
+        public async Task<string> EditCurrentPlantSettings(string plantId, AddPlantDto newSettings)
+        {
+            var plant = _utilities.FindPlant(plantId);
+
+            if (plant.Name != newSettings.Name)
+            {
+                plant.Name = newSettings.Name;
+            }
+
+            if (newSettings.ImageFile != null)
+            {
+                _imageService.DeleteImage(plant.ImageName);
+
+                plant.ImageName = await _imageService.SaveImageOnServer(newSettings.ImageFile);
+            }
+
+            if (plant.PotHeight != newSettings.PotHeight)
+            {
+                plant.PotHeight = newSettings.PotHeight!;
+            }
+
+            if (plant.PotWidth != newSettings.PotWidth)
+            {
+                plant.PotWidth = newSettings.PotWidth!;
+            }
+
+            if (plant.PlantHeight != newSettings.PlantHeight)
+            {
+                plant.PlantHeight = newSettings.PlantHeight!;
+            }
+
+            if (plant.AdditionalDescription != newSettings.AdditionalDescription)
+            {
+                plant.AdditionalDescription = newSettings.AdditionalDescription;
+            }
+
+            _dbContext.Update(plant);
+
+            _utilities.SaveChangesToDatabase();
+
+            return plant.Id.ToString();
+        }
+
+        private async Task<PlantTipsDTO?> PreparePlantTipsData(RawPlantTipsDataDTO? data)
+        {
+            if (data == null || data.Data.Length == 0)
+            {
+                return null;
+            }
+
+            var plantTipsDto = new PlantTipsDTO()
+            {
+                Id = data.Data[0].SpeciesId
+            };
+
+            var watering = data.Data[0].Section.FirstOrDefault(s => s.Type == "watering");
+
+            var pruning = data.Data[0].Section.FirstOrDefault(s => s.Type == "pruning");
+
+            if (watering != null)
+            {
+                var translatedWateringTip = await _translationService.TranslateInputToPolish(watering.Description);
+
+                plantTipsDto.Watering = translatedWateringTip;
+            }
+
+            if (pruning != null)
+            {
+                var translatedPruningTip = await _translationService.TranslateInputToPolish(pruning.Description);
+
+                plantTipsDto.Pruning = translatedPruningTip;
+            }
+
+            return plantTipsDto;
+        }
+
+        private async Task<PlantDetailsDto> PreparePlandDetailsDto(RawPlantDetailsData rawData)
+        {
+            var plantDetails = _mapper.Map<PlantDetailsDto>(rawData);
+
+            plantDetails.Watering = _translationUtilities.TransformStringProperty(rawData.Watering);
+
+            plantDetails.Sunlight = _translationUtilities.TransformStringProperty(rawData.Sunlight);
+
+            plantDetails.LifeCycle = _translationUtilities.TransformStringProperty(rawData.LifeCycle);
+
+            plantDetails.AverageHeight = _translationUtilities.TransformDimensionProperty(rawData.Dimensions);
+
+            plantDetails.PlantType = _translationUtilities.TransformStringProperty(rawData.PlantType);
+
+            plantDetails.WateringPeriod = _translationUtilities.TransformStringProperty(rawData.WateringPeriod);
+
+            plantDetails.WateringGeneralBenchmark = _translationUtilities
+                .TransformGeneralWateringBenchmark(rawData.RawPlantDetailsWateringGeneralBenchmark);
+
+            plantDetails.PruningMonth = _translationUtilities.TransformStringProperty(rawData.PruningMonth);
+
+            plantDetails.PruningCount = _translationUtilities.TransformPruningCount(rawData.PruningCount);
+
+            plantDetails.CareLevel = _translationUtilities.TransformStringProperty(rawData.CareLevel);
+
+            plantDetails.GrowthRate = _translationUtilities.TransformStringProperty(rawData.GrowthRate);
+
+            plantDetails.FloweringSeason = _translationUtilities.TransformStringProperty(rawData.FloweringSeason);
+
+            plantDetails.HarvestSeason = _translationUtilities.TransformStringProperty(rawData.HarvestSeason);
+
+            try
+            {
+                plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
+            }
+            catch (QuotaExceededException ex)
+            {
+                plantDetails.Description = "Nie udało się uzyskać inforacji";
+
+                Console.WriteLine(ex.Message);
+            }
+
+            return plantDetails;
+        }
+
         private async Task<RawPlantDetailsData> GetPlantDetailsFromPerenualAPI(int plantId)
         {
             var key = Environment.GetEnvironmentVariable("PARENUAL_API_KEY");
@@ -117,9 +344,9 @@ namespace WorldPlants.Services
                 var content = await response.Content.ReadAsStringAsync();
 
                 RawPlantDetailsData? plantDetailsData = JsonConvert
-                    .DeserializeObject<RawPlantDetailsData>(content) ?? 
+                    .DeserializeObject<RawPlantDetailsData>(content) ??
                     throw new JsonException("Transformacja rezultatu nie udała się");
-                
+
                 return plantDetailsData;
 
             }
@@ -170,95 +397,6 @@ namespace WorldPlants.Services
             return searchResultsList;
         }
 
-        public async Task<string?> AddPlant(AddPlantDto plantDto, int siteId)
-        {
-            string? fileName = "";
-
-            var site = _dbContext.UserSites
-                .Include(i => i.Plants)
-                .AsSplitQuery()
-                .FirstOrDefault(s => s.Id == siteId) ?? throw new Exceptions.NotFoundException("Nie odnaleziono miejsca");
-
-            if (plantDto.ImageFile != null)
-            {
-                fileName = await _imageService.SaveImageOnServer(plantDto.ImageFile);
-            }
-            else if (plantDto.ImageUrl != null)
-            {
-                fileName = await _imageService.SaveImageFromApiOnServer(plantDto.ImageUrl);
-            }
-
-            Plant plant = _mapper.Map<Plant>(plantDto);
-
-            plant.ImageName = fileName;
-
-            plant.UserSiteId = siteId;
-
-            _dbContext.Plants.Add(plant);
-
-            _utilities.SaveChangesToDatabase();
-
-            return plant.Id.ToString();
-        }
-
-        public PlantHeaderInformationDTO GetPlantHeaderInformationData(string plantId)
-        {
-           Plant plant = _utilities.FindPlant(plantId);
-
-            PlantHeaderInformationDTO plantHeaderInformation = _mapper.Map<PlantHeaderInformationDTO>(plant);
-
-            plantHeaderInformation.ImageUrl = _imageService.GetImageUrl(plant.ImageName);
-
-            return plantHeaderInformation;
-        }
-
-        public async Task<PlantTipsDTO?> GetPlantTips(string plantId)
-        {
-            var plant = _utilities.FindPlant(plantId);
-
-            var rawTips = await GetRawPlantTips(plant.ExternalId);
-
-            var plantTipsDTO = await PreparePlantTipsData(rawTips);
-
-            return plantTipsDTO;
-
-        }
-
-
-        public int? GetPlantExternalId(string plantId)
-        {
-            var plant = _utilities.FindPlant(plantId);
-
-            return plant.ExternalId;
-        } 
-
-        public MovePlantInformationDTO GetMovePlantInformation(string plantId)
-        {
-            /*var user = _utilities.GetUserWithSettings();
-
-            _utilities.CheckForUserPermission(user.UserSettings.CanMovePlants);*/
-
-            var spaceId = _utilities.GetUserSpaceId();
-
-            var plant = _utilities.FindPlant(plantId);
-
-            var currentSite = plant.UserSite;
-            
-            var availableSites = _dbContext
-                .UserSites.
-                Where(s => s.SpaceId.ToString() == spaceId && 
-                s.Id !=  currentSite.Id);
-
-            MovePlantInformationDTO dto = new()
-            {
-                PlantId = plantId,
-                CurrentSite = _mapper.Map<SiteWithIdAndNameDto>(currentSite),
-                AvailableSites = _mapper.Map<List<SiteWithIdAndNameDto>>(availableSites)
-            };
-
-            return dto;
-        }
-
         private async Task<RawPlantTipsDataDTO?> GetRawPlantTips(int? tipsId)
         {
 
@@ -285,127 +423,6 @@ namespace WorldPlants.Services
             {
                 throw new SearchPlantException("Wystapił bład podczas wyszukiwania rosliny");
             }
-        }
-
-        public async Task<string> EditCurrentPlantSettings(string plantId, AddPlantDto newSettings)
-        {
-            var plant = _utilities.FindPlant(plantId);
-
-            if(plant.Name != newSettings.Name)
-            {
-                plant.Name = newSettings.Name;
-            }
-
-            if (newSettings.ImageFile != null)
-            {
-                _imageService.DeleteImage(plant.ImageName);
-
-                plant.ImageName = await _imageService.SaveImageOnServer(newSettings.ImageFile);
-            }
-
-            if (plant.PotHeight !=newSettings.PotHeight)
-            {
-                plant.PotHeight = newSettings.PotHeight!;
-            }
-
-            if(plant.PotWidth != newSettings.PotWidth)
-            {
-                plant.PotWidth = newSettings.PotWidth!;
-            }
-
-            if(plant.PlantHeight != newSettings.PlantHeight)
-            {
-                plant.PlantHeight = newSettings.PlantHeight!;
-            }
-
-            if(plant.AdditionalDescription != newSettings.AdditionalDescription)
-            {
-                plant.AdditionalDescription = newSettings.AdditionalDescription;
-            }
-
-            _dbContext.Update(plant);
-
-            _utilities.SaveChangesToDatabase();
-
-            return plant.Id.ToString();
-        }
-
-        private async Task<PlantTipsDTO?> PreparePlantTipsData(RawPlantTipsDataDTO? data)
-        {
-            if(data == null || data.Data.Length == 0)
-            {
-                return null;
-            }
-
-            var plantTipsDto = new PlantTipsDTO()
-            {
-                Id = data.Data[0].SpeciesId
-            };
-
-            var watering = data.Data[0].Section.FirstOrDefault(s => s.Type == "watering");
-
-            var pruning = data.Data[0].Section.FirstOrDefault(s => s.Type == "pruning");
-
-            if (watering != null)
-            {
-                var translatedWateringTip = await _translationService.TranslateInputToPolish(watering.Description);
-
-                plantTipsDto.Watering = translatedWateringTip;
-            }
-
-            if(pruning != null) 
-            {
-                var translatedPruningTip = await _translationService.TranslateInputToPolish(pruning.Description);
-
-                plantTipsDto.Pruning = translatedPruningTip;
-            }
-
-            return plantTipsDto;
-        }
-
-        private async Task<PlantDetailsDto> PreparePlandDetailsDto(RawPlantDetailsData rawData)
-        {
-            var plantDetails = _mapper.Map<PlantDetailsDto>(rawData);
-
-            plantDetails.Watering = _translationUtilities.TransformStringProperty(rawData.Watering);
-
-            plantDetails.Sunlight = _translationUtilities.TransformStringProperty(rawData.Sunlight);
-
-            plantDetails.LifeCycle = _translationUtilities.TransformStringProperty(rawData.LifeCycle);
-
-            plantDetails.AverageHeight = _translationUtilities.TransformDimensionProperty(rawData.Dimensions);
-
-            plantDetails.PlantType = _translationUtilities.TransformStringProperty(rawData.PlantType);
-
-            plantDetails.WateringPeriod = _translationUtilities.TransformStringProperty(rawData.WateringPeriod);
-
-            plantDetails.WateringGeneralBenchmark = _translationUtilities
-                .TransformGeneralWateringBenchmark(rawData.RawPlantDetailsWateringGeneralBenchmark);
-
-            plantDetails.PruningMonth = _translationUtilities.TransformStringProperty(rawData.PruningMonth);
-
-            plantDetails.PruningCount = _translationUtilities.TransformPruningCount(rawData.PruningCount);
-
-            plantDetails.CareLevel = _translationUtilities.TransformStringProperty(rawData.CareLevel);
-
-            plantDetails.GrowthRate = _translationUtilities.TransformStringProperty(rawData.GrowthRate);
-
-            plantDetails.FloweringSeason = _translationUtilities.TransformStringProperty(rawData.FloweringSeason);
-
-            plantDetails.HarvestSeason = _translationUtilities.TransformStringProperty(rawData.HarvestSeason);
-
-            try
-            {
-                plantDetails.Description = await _translationService.TranslateInputToPolish(rawData.Description);
-            }
-            catch(QuotaExceededException ex)
-            {
-                plantDetails.Description = "Nie udało się uzyskać inforacji";
-
-                Console.WriteLine(ex.Message);
-            }
-
-            return plantDetails;
         }
     }
 }
