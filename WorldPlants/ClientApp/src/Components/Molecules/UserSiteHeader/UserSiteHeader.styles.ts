@@ -10,7 +10,7 @@ export const UserSiteHeaderWrapper = styled.h1`
   background-color: ${(props) => props.theme.colors.navyBlue};
   border-radius: 25px;
   padding: 25px;
-  margin: 0;
+  margin: 50px 0 0 0;
 `;
 
 export const UserSiteHeaderIconsWrapper = styled.div`

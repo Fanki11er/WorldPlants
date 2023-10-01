@@ -1,12 +1,18 @@
 import {
   ACTIONS_PERMISSIONS,
+  ALL_PLANT_TASKS,
   GUEST_ACCOUNTS,
+  INCOMING_TASKS,
   MOVE_PLANT_INFORMATION,
   NOTIFICATION_SETTINGS,
   PLANT_DETAILS,
   PLANT_EXTERNAL_ID,
   PLANT_HEADER_INFORMATION,
   PLANT_SETTINGS,
+  SITE_PLANTS,
+  STANDARD_PLANT_TASKS,
+  TASKS_HISTORY,
+  TODAY_TASKS,
   USER_SITE_HEADER,
 } from "../Constants/Constants";
 
@@ -35,11 +41,31 @@ const useQueryKey = () => {
     return [MOVE_PLANT_INFORMATION, plantId || ""];
   };
 
+  const sitePlantsQueryKey = (siteId: string | undefined) => {
+    return [SITE_PLANTS, siteId || ""];
+  };
+
+  const standardPlantTasksQueryKey = (plantId: string | undefined) => {
+    return [STANDARD_PLANT_TASKS, plantId || ""];
+  };
+
+  const tasksHistoryQueryKey = (plantId: string | undefined) => {
+    return [TASKS_HISTORY, plantId || ""];
+  };
+
   const guestAccountsQueryKey = () => [GUEST_ACCOUNTS];
 
   const notificationSettingsQueryKey = () => [NOTIFICATION_SETTINGS];
 
   const actionsPermissionsQueryKey = () => [ACTIONS_PERMISSIONS];
+
+  const recognizedResultsQueryKey = () => [ACTIONS_PERMISSIONS];
+
+  const todayTasksQueryKey = () => [TODAY_TASKS];
+
+  const incomingTasksQueryKey = () => [INCOMING_TASKS];
+
+  const allPlantTasksQueryKey = () => [ALL_PLANT_TASKS];
 
   return {
     userSiteHeaderQueryKey,
@@ -51,6 +77,13 @@ const useQueryKey = () => {
     plantSettingsQueryKey,
     plantHeaderInformationQueryKey,
     movePlantInformationQueryKey,
+    recognizedResultsQueryKey,
+    sitePlantsQueryKey,
+    todayTasksQueryKey,
+    incomingTasksQueryKey,
+    standardPlantTasksQueryKey,
+    allPlantTasksQueryKey,
+    tasksHistoryQueryKey,
   };
 };
 

@@ -8,12 +8,11 @@ import {
 import NotificationForm from "../../Molecules/NotificationForm/NotificationForm";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { CurrentNotificationSettingsDto } from "../../../Interfaces/CurrentNotificationSettingsDto";
-import { AxiosResponse } from "axios";
-import { NOTIFICATION_SETTINGS } from "../../../Constants/Constants";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
 import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
+import useQueryKey from "../../../Hooks/useQueryKey";
 
 const NotificationSettingsSection = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -22,10 +21,15 @@ const NotificationSettingsSection = () => {
     setEmailNotificationsSettings,
     setSmsNotificationsSettings,
   } = apiEndpoints;
+  const { notificationSettingsQueryKey } = useQueryKey();
 
-  const { isLoading, error, data } = useQuery<
-    AxiosResponse<CurrentNotificationSettingsDto>
-  >(NOTIFICATION_SETTINGS, () => axiosPrivate.get(getNotificationsSettings));
+  const { isLoading, error, data } = useQuery<CurrentNotificationSettingsDto>(
+    notificationSettingsQueryKey(),
+    async () => {
+      const result = await axiosPrivate.get(getNotificationsSettings);
+      return result.data;
+    }
+  );
   return (
     <SettingsSectionWrapper>
       <SettingsSectionHeader>Powiadomienia</SettingsSectionHeader>
@@ -38,7 +42,7 @@ const NotificationSettingsSection = () => {
         ) : (
           data && (
             <NotificationForm
-              actualValues={data.data.emailSettings}
+              actualValues={data.emailSettings}
               submitPath={setEmailNotificationsSettings}
               header="Email"
             />
@@ -49,9 +53,9 @@ const NotificationSettingsSection = () => {
       <OptionsWrapper>
         {isLoading ? (
           <LoadingIndicator />
-        ) : data && data.data.smsSettings ? (
+        ) : data && data.smsSettings ? (
           <NotificationForm
-            actualValues={data.data.smsSettings}
+            actualValues={data.smsSettings}
             submitPath={setSmsNotificationsSettings}
             header="Sms"
           />

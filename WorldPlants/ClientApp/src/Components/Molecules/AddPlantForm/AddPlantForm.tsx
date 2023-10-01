@@ -7,6 +7,7 @@ import {
   AddPlantFormInputsWrapper,
   AddPlantFormPhotoInputWrapper,
   AddPlantFormWrapper,
+  IndicatorsWrapper,
 } from "./AddPlantForm.styles";
 import { useMutation, useQueryClient } from "react-query";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
@@ -22,7 +23,11 @@ import InputField from "../InputField/InputField";
 import AddPhotoField from "../AddPhotoField/AddPhotoField";
 import TextareaField from "../TextareaField/TextareaField";
 import imgFallback from "../../../Assets/ImageFallback.svg";
-import { RedActionButton } from "../../Atoms/Buttons/Buttons";
+import {
+  ActionButton,
+  RedActionButton,
+  RedButtonWithoutMargin,
+} from "../../Atoms/Buttons/Buttons";
 import { PlantCurrentSettingsDto } from "../../../Interfaces/PlantCurrentSettingsDto";
 
 interface FormValues {
@@ -146,9 +151,9 @@ const AddPlantForm = (props: Props) => {
                 label={"Ustaw własne zdjęcie"}
                 handleImageChange={handleImageChange}
               />
-              <RedActionButton onClick={handleResetImage} type="button">
+              <RedButtonWithoutMargin onClick={handleResetImage} type="button">
                 Usuń zdjecie
-              </RedActionButton>
+              </RedButtonWithoutMargin>
             </AddPlantFormPhotoInputWrapper>
             <FormNumberField
               name="potHeight"
@@ -177,11 +182,12 @@ const AddPlantForm = (props: Props) => {
               placeholder="Miejsce na dodatkowy opis"
             />
           </AddPlantFormInputsWrapper>
-
-          {isLoading && <LoadingIndicator />}
-          {error ? (
-            <FormRequestError errorValues={getErrorMessages(error)} />
-          ) : null}
+          <IndicatorsWrapper>
+            {isLoading && <LoadingIndicator />}
+            {error ? (
+              <FormRequestError errorValues={getErrorMessages(error)} />
+            ) : null}
+          </IndicatorsWrapper>
         </AddPlantFormWrapper>
       )}
     </Formik>

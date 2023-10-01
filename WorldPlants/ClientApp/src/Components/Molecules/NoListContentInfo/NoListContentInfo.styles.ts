@@ -7,10 +7,11 @@ export const NoListContentInfoWrapper = styled.div`
   grid-template-columns: 1fr;
   justify-items: center;
   align-content: center;
-  width: 80%;
-  min-width: 300px;
+  width: fit-content;
+  min-width: 340px;
+  max-width: 600px;
   border-radius: 25px;
-  padding: 50px;
+  padding: 40px 40px 40px 60px;
 `;
 
 export const NoListContentInfoHeader = styled.h1`

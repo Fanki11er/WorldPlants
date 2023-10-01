@@ -7,6 +7,7 @@ export const SettingsSectionWrapper = styled.section`
   grid-template-columns: 1fr;
   justify-items: center;
   align-items: center;
+  row-gap: 15px;
   grid-column: 2/3;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {

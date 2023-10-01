@@ -9,7 +9,6 @@ import {
   PlantDetailsScientificName,
   PlantDetailsWrapper,
 } from "./PlantDetails.styles";
-import imgFallback from "../../../Assets/ImageFallback.svg";
 
 interface Props {
   plantDetails: PLantsDetailsDto;
@@ -20,11 +19,9 @@ const PlantDetails = (props: Props) => {
   return (
     <PlantDetailsWrapper>
       <PlantDetailsHeaderSection>
-        <PLantsDetailsImage
-          $imageUrl={
-            plantDetails.defaultImage ? plantDetails.defaultImage : imgFallback
-          }
-        />
+        {plantDetails.defaultImage && (
+          <PLantsDetailsImage $imageUrl={plantDetails.defaultImage} />
+        )}
 
         <PlantDetailsName>{plantDetails.commonName}</PlantDetailsName>
         <PlantDetailsScientificName>

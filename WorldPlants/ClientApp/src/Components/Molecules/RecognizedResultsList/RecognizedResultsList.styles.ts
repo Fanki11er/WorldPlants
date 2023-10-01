@@ -25,7 +25,7 @@ export const RecognizedResultsListItem = styled.li`
   transition: all 0.5s;
   border: 2px solid transparent;
   &:hover,
-  &:focus {
+  &:focus-within {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
   }
 `;
@@ -36,6 +36,7 @@ export const RecognizedResultsListItemLink = styled(Link)`
   align-items: center;
   text-decoration: none;
   row-gap: 15px;
+  outline: none;
 `;
 
 export const RecognizedResultsListItemProbability = styled.span`

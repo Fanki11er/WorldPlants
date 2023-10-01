@@ -34,11 +34,6 @@ const GuestUserPermissionsForm = (props: Props) => {
   return (
     <Formik
       initialValues={{
-        canWaterPlants: guestUserPermissions.canWaterPlants,
-        canMistPlants: guestUserPermissions.canMistPlants,
-        canFertilizePlants: guestUserPermissions.canFertilizePlants,
-        canReplantPlants: guestUserPermissions.canReplantPlants,
-        canCutPlants: guestUserPermissions.canCutPlants,
         canMovePlants: guestUserPermissions.canMovePlants,
         canAddPlants: guestUserPermissions.canAddPlants,
         canRemovePlants: guestUserPermissions.canRemovePlants,
@@ -59,15 +54,7 @@ const GuestUserPermissionsForm = (props: Props) => {
     >
       <GuestUserPermissionsFormWrapper>
         {isSuccess ? <FormSuccess>Sukces</FormSuccess> : null}
-        <PermissionsGroup>
-          <PermissionsGroupHeder>Zadania</PermissionsGroupHeder>
-          <CheckboxInput id={"canWaterPlants"} label={"Podlewanie"} />
-          <CheckboxInput id={"canFertilizePlants"} label={"Nawożenie"} />
-          <CheckboxInput id={"canCutPlants"} label={"Przycinanie"} />
-          <CheckboxInput id={"canReplantPlants"} label={"Przesadzanie"} />
-          <CheckboxInput id={"canMistPlants"} label={"Zwilżanie"} />
-          <CheckboxInput id={"canAddCustomTasks"} label={"Własne"} />
-        </PermissionsGroup>
+
         <PermissionsGroup>
           <PermissionsGroupHeder>Miejsca</PermissionsGroupHeder>
           <CheckboxInput id={"canAddSites"} label={"Dodawanie"} />
@@ -80,6 +67,10 @@ const GuestUserPermissionsForm = (props: Props) => {
           <CheckboxInput id={"canEditPlants"} label={"Edycja"} />
           <CheckboxInput id={"canMovePlants"} label={"Przenoszenie"} />
           <CheckboxInput id={"canRemovePlants"} label={"Usuwanie"} />
+        </PermissionsGroup>
+        <PermissionsGroup>
+          <PermissionsGroupHeder>Zadania</PermissionsGroupHeder>
+          <CheckboxInput id={"canAddCustomTasks"} label={"Własne"} />
         </PermissionsGroup>
 
         {isLoading ? (

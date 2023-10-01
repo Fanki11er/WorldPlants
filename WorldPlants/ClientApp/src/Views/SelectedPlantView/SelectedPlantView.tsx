@@ -4,15 +4,16 @@ import { AuthorizedViewWrapper } from "../../Components/Atoms/AuthorizedViewWrap
 import PlantSideMenu from "../../Components/Molecules/PlantSideMenu/PlantSideMenu";
 import SelectedPlantHeaderSection from "../../Components/Molecules/SelectedPlantHeaderSection/SelectedPlantHeaderSection";
 import { SettingsSectionWrapper } from "../../Components/Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
+import { ViewSectionsWrapper } from "../../Components/Atoms/ViewWrapper/ViewWrapper";
 
 const SelectedPlantView = () => {
   return (
     <AuthorizedViewWrapper>
       <PlantSideMenu />
-      <SettingsSectionWrapper>
+      <ViewSectionsWrapper>
         <SelectedPlantHeaderSection />
         <Outlet />
-      </SettingsSectionWrapper>
+      </ViewSectionsWrapper>
     </AuthorizedViewWrapper>
   );
 };

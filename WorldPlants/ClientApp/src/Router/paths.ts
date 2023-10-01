@@ -6,6 +6,7 @@ export const paths = {
   login: "/Login",
   authorized: "/Authorized",
   plantsTasks: "",
+  plantTasksIncoming: "Incoming",
   //? User settings
   userSettings: "UserSettings",
   userSettingsNotifications: "",

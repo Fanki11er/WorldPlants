@@ -1,13 +1,10 @@
 import { useParams } from "react-router-dom";
-//import PlantWarningInformation from "../PlantWarningInformation/PlantWarningInformation";
 import {
   SelectedPlantHeaderSectionAdditionalDescription,
   SelectedPlantHeaderSectionImage,
-  //SelectedPlantHeaderSectionInformationWrapper,
   SelectedPlantHeaderSectionPlantName,
   SelectedPlantHeaderSectionToUserSiteLink,
   SelectedPlantHeaderSectionTopWrapper,
-  //SelectedPlantHeaderSectionWarningsWrapper,
   SelectedPlantHeaderSectionWrapper,
 } from "./SelectedPlantHeaderSection.styles";
 import { useQuery } from "react-query";
@@ -18,20 +15,21 @@ import FormRequestError from "../FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
 import { paths } from "../../../Router/paths";
 import imageFallback from "../../../Assets/ImageFallback.svg";
-import { PLANT_HEADER_INFORMATION } from "../../../Constants/Constants";
 import { PlantHeaderInformation } from "../../../Interfaces/PlantHeaderInformation";
+import useQueryKey from "../../../Hooks/useQueryKey";
 
 const SelectedPlantHeaderSection = () => {
   const { plantId } = useParams();
   const { userSite, authorized } = paths;
   const axiosPrivate = useAxiosPrivate();
+  const { plantHeaderInformationQueryKey } = useQueryKey();
   const { getPlantHeaderInformation } = apiEndpoints;
   const {
     isLoading: isPlantHeaderInfoLoading,
     data: plantHeaderInfoData,
     error: plantHeaderInfoError,
   } = useQuery<PlantHeaderInformation>(
-    [PLANT_HEADER_INFORMATION, plantId],
+    plantHeaderInformationQueryKey(plantId),
     async () => {
       const result = await axiosPrivate.get(getPlantHeaderInformation(plantId));
       return result.data;
@@ -42,7 +40,6 @@ const SelectedPlantHeaderSection = () => {
     }
   );
 
-  //const plantWarningsInformation = useQuery(["", plantId]);
   return (
     <SelectedPlantHeaderSectionWrapper>
       <SelectedPlantHeaderSectionImage

@@ -6,7 +6,7 @@ export const ViewWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 175px 0 100px 0;
+  padding: 150px 0 100px 0;
   justify-content: center;
 `;
 
@@ -14,6 +14,7 @@ export const ViewSectionsWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  row-gap: 120px;
+  row-gap: 50px;
   align-items: center;
+  grid-column: 2/3;
 `;

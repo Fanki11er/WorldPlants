@@ -179,6 +179,6 @@ export const BlueStyledButton = styled(StyledButton)`
   background-color: ${(props: AppTheme) => props.theme.colors.blue};
 `;
 
-export const RedButtonWithMargin = styled(RedActionButton)`
-  margin-top: 1px;
+export const RedButtonWithoutMargin = styled(RedActionButton)`
+  margin-top: 0;
 `;

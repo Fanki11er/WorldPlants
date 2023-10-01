@@ -50,7 +50,9 @@ export const SelectedPlantHeaderSectionToUserSiteLink = styled(Link)`
   color: ${(props: AppTheme) => props.theme.colors.turquoise};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
   transition: all 0.5s;
-  &:hover {
+  outline: none;
+  &:hover,
+  &:focus {
     color: ${(props: AppTheme) => props.theme.colors.orange};
   }
 `;

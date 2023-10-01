@@ -20,7 +20,7 @@ const AddPlantSideMenu = () => {
           if (from) {
             navigate(`${authorized}/${userSite}/${from}`);
           } else {
-            navigate(`${authorized}/${userSites}`);
+            navigate(-1);
           }
         }}
       >

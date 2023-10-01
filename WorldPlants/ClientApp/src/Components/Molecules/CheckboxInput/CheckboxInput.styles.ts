@@ -19,6 +19,14 @@ export const NotificationFormLabel = styled.label`
   padding: 5px 20px;
   box-shadow: 5px 5px 5px ${(props: AppTheme) => props.theme.colors.mainBlue};
   position: relative;
+  border: 2px solid ${(props: AppTheme) => props.theme.colors.transparent};
+  transition: all 0.5s;
+  overflow: hidden;
+  &:hover,
+  &:focus-within {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+    cursor: pointer;
+  }
 `;
 
 export const HeaderNotification = styled.h2`
@@ -45,10 +53,11 @@ export const CheckboxNotification = styled.div`
 
 export const HiddenCheckbox = styled(Field)`
   position: absolute;
-  left: 0;
+  left: -100%;
   top: 0;
   width: 20px;
   height: 20px;
   justify-self: center;
-  display: none;
+  opacity: 0;
+  outline: none;
 `;

@@ -38,6 +38,9 @@ import PlantDetailsSection from "../Components/Molecules/PlantDetailsSection/Pla
 import PlantSettingsSection from "../Components/Molecules/PlantSettingsSection/PlantSettingsSection";
 import MovePlantSection from "../Components/Organisms/MovePlantSection/MovePlantSection";
 import DeletePlantSection from "../Components/Organisms/DeletePlantSection/DeletePlantSection";
+import PlantsTasksView from "../Views/PlantsTasksView/PlantsTasksView";
+import TodayPlantsTasksSection from "../Components/Organisms/TodayPlantsTasksSection/TodayPlantsTasksSection";
+import IncomingPlantsTasksSection from "../Components/Organisms/IncomingPlantsTasksSection/IncomingPlantsTasksSection";
 
 const {
   rootPath,
@@ -65,6 +68,8 @@ const {
   selectedPlantSettings,
   selectedPlantMove,
   selectedPlantDelete,
+  plantsTasks,
+  plantTasksIncoming,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -75,7 +80,13 @@ const router = createBrowserRouter(
         <Route path={registration} element={<RegistrationView />} />
       </Route>
       <Route path={authorized} element={<MainLayout />}>
-        <Route index element={<TasksView />} />
+        <Route path={plantsTasks} element={<PlantsTasksView />}>
+          <Route index element={<TodayPlantsTasksSection />} />
+          <Route
+            path={plantTasksIncoming}
+            element={<IncomingPlantsTasksSection />}
+          />
+        </Route>
         <Route path={userSettings} element={<OwnerSettingsView />}>
           <Route index element={<NotificationSettingsSection />} />
           <Route
@@ -171,3 +182,6 @@ export default router;
 //  Zrobić red button with margin - zrobione
 // Przejrzeć wszystkie style i sprawdzić kolory - zrobione
 // todo Hover focus miejsca
+
+//todo Ikona do RecognisePlantSection
+//todo Ikona do AddPlantSearchSection

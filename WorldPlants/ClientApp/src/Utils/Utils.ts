@@ -9,7 +9,7 @@ import penumbraIcon from "../Assets/Penumbra.svg";
 import { StandardTaskTypeEnum } from "../Interfaces/PlantActiveTask";
 import { Location } from "../Interfaces/DefaultSiteDto";
 import placeInside from "../Assets/PlaceHouse.svg";
-import placeOutside from "../Assets/Sun.svg";
+import placeOutside from "../Assets/PlaceOutside.svg";
 
 export const getErrorMessages = (e: unknown) => {
   const errorMessages: string[] = [];

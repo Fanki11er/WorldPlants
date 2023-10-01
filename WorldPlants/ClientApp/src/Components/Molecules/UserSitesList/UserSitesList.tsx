@@ -74,7 +74,7 @@ const UserSitesList = (props: Props) => {
   const renderSites = (sites: UserSiteWithPlantsAndTasksDto[]) => {
     return sites.map((site) => {
       return (
-        <UserSitesListItemWrapper key={site.siteId} tabIndex={3}>
+        <UserSitesListItemWrapper key={site.siteId}>
           <LinkToSite to={`${authorized}/${userSite}/${site.siteId}`}>
             <UserSitesListItemHeader>{site.siteName}</UserSitesListItemHeader>
             <UserSitesListItemPlantsCountInfo>
