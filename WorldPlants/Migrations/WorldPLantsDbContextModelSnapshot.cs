@@ -256,19 +256,10 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanCreateCustomTasks")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("CanCutPlants")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("CanEditPlants")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanEditSites")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanFertilizePlants")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanMistPlants")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanMovePlants")
@@ -278,12 +269,6 @@ namespace WorldPlants.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanRemoveSites")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanReplantPlants")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanWaterPlants")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CustomTasksEmailReminder")

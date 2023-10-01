@@ -33,9 +33,6 @@ namespace WorldPlants.Utilities
                 {
                     "part shade", SunScale.Medium.ToString()
                 },
-                {
-                    "Part shade", SunScale.Medium.ToString()
-                },
 
                 {
                     "part sun/part shade", SunScale.Medium.ToString()
@@ -52,78 +49,75 @@ namespace WorldPlants.Utilities
                 // Watering
 
                 {
-                    "Average",  WateringScale.High.ToString()
+                    "average",  WateringScale.High.ToString()
                 },
 
                 {
-                    "Frequent", WateringScale.Medium.ToString()
+                    "frequent", WateringScale.Medium.ToString()
                 },
 
                 {
-                    "Minimal", WateringScale.Low.ToString()
+                    "minimal", WateringScale.Low.ToString()
                 },
 
                 {
-                    "Minimum", WateringScale.Low.ToString()
+                    "minimum", WateringScale.Low.ToString()
                 },
 
                 // Cycle
 
                 {
-                    "Herbaceous Perennial", "Roślina wieloletnia"
+                    "herbaceous perennial", "Roślina wieloletnia"
                 },
 
                 {
-                    "Perennial",  "Roślina wieloletnia"
+                    "perennial",  "Roślina wieloletnia"
                 },
 
                 // PlantType
 
                 {
-                    "Fruit", "Krzew owocowy"
+                    "fruit", "Krzew owocowy"
                 },
 
                 {
-                    "Tree", "Drzewo"
-                },
-                                {
                     "tree", "Drzewo"
                 },
 
                 {
-                    "Herb", "Zioło"
+                    "herb", "Zioło"
                 },
 
                 {
-                    "Ornamental grass", "Trawa ozdobna"
+                    "ornamental grass", "Trawa ozdobna"
                 },
 
                 {
-                    "Flower", "Kwiat"
+                    "flower", "Kwiat"
                 },
 
                 {
-                    "Broadleaf evergreen", "Liściasta, wiecznie zielona"
+                    "broadleaf evergreen", "Liściasta, wiecznie zielona"
                 },
 
                 {
-                    "Needled evergreen", "Iglaste, wiecznie zielone"
+                    "needled evergreen", "Iglaste, wiecznie zielone"
                 },
 
                 {
-                    "Deciduous shrub", "Krzew liściasty"
+                    "deciduous shrub", "Krzew liściasty"
                 },
 
                 {
-                    "Indoor foliage plant, Succulent or Cacti", "Kaktus"
+                    "indoor foliage plant, succulent or cacti", "Kaktus"
                 },
 
                 {
-                    "Flowering pot plant, Succulent or Cacti", "Kaktus"
+                    "flowering pot plant, succulent or cacti", "Kaktus"
                 },
 
                 {
-                    "Epiphyte", "Kaktus"
+                    "epiphyte", "Kaktus"
                 },
                 // Watering period
 
@@ -144,51 +138,51 @@ namespace WorldPlants.Utilities
                 // Months
 
                 {
-                    "January", "Styczeń"
+                    "january", "Styczeń"
                 },
 
                 {
-                    "February", "Luty"
+                    "february", "Luty"
                 },
 
                 {
-                    "March", "Marzec"
+                    "march", "Marzec"
                 },
 
                 {
-                    "April", "Kwiecień"
+                    "april", "Kwiecień"
                 },
 
                 {
-                    "May", "Maj"
+                    "may", "Maj"
                 },
 
                 {
-                    "June", "Czerwiec"
+                    "june", "Czerwiec"
                 },
 
                 {
-                    "July", "Lipiec"
+                    "july", "Lipiec"
                 },
 
                 {
-                    "August", "Sierpień"
+                    "august", "Sierpień"
                 },
 
                 {
-                    "September", "Wrzesień"
+                    "september", "Wrzesień"
                 },
 
                 {
-                    "October", "Październik"
+                    "october", "Październik"
                 },
 
                 {
-                    "November","Listopad"
+                    "november","Listopad"
                 },
 
                 {
-                    "December","Grudzień"
+                    "december","Grudzień"
                 },
 
                 {
@@ -197,37 +191,37 @@ namespace WorldPlants.Utilities
 
                 // CareLevel / GrowRate
                 {
-                    "Low", "Mały"
+                    "low", "Mały"
                 },
 
                 {
-                    "Medium", "Średni"
+                    "medium", "Średni"
                 },
 
                 {
-                    "Moderate", "Umiarkowany"
+                    "moderate", "Umiarkowany"
                 },
 
                 {
-                    "High", "Duży"
+                    "high", "Duży"
                 },
 
                 // Seasons
 
                 {
-                    "Fall", "Jeśień"
+                    "fall", "Jeśień"
                 },
 
                 {
-                    "Winter", "Zima"
+                    "winter", "Zima"
                 },
 
                 {
-                    "Spring", "Wiosna"
+                    "spring", "Wiosna"
                 },
 
                 {
-                    "Summer", "Lato"
+                    "summer", "Lato"
                 }
 
 
@@ -245,7 +239,7 @@ namespace WorldPlants.Utilities
 
             try
             {
-                var result = _propertiesTranslations[property];
+                var result = _propertiesTranslations[property.ToLower()];
 
                 return result;
             }
@@ -266,7 +260,7 @@ namespace WorldPlants.Utilities
             {
                 try
                 {
-                    var result = _propertiesTranslations[property];
+                    var result = _propertiesTranslations[property.ToLower()];
 
                     if (!results.Contains(property))
                     {

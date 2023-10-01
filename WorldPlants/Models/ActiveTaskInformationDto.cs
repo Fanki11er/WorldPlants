@@ -1,4 +1,6 @@
-﻿namespace WorldPlants.Models
+﻿// Ignore Spelling: Dto
+
+namespace WorldPlants.Models
 {
     public class ActiveTaskInformationDto
     {
