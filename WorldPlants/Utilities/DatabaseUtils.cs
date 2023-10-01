@@ -74,11 +74,6 @@ namespace WorldPlants.Utils
                 MistPlantsEmailReminder = accountType == UserRoles.Owner.ToString(),
                 MistPlantsSmsReminder = hasPhoneNumber && accountType == UserRoles.Owner.ToString(),
                 // Plants Permissions
-                CanWaterPlants = true,
-                CanMistPlants = true,
-                CanFertilizePlants = accountType == UserRoles.Owner.ToString(),
-                CanReplantPlants = accountType == UserRoles.Owner.ToString(),
-                CanCutPlants = accountType == UserRoles.Owner.ToString(),
                 CanMovePlants = accountType == UserRoles.Owner.ToString(),
                 CanAddPlants = accountType == UserRoles.Owner.ToString(),
                 CanRemovePlants = accountType == UserRoles.Owner.ToString(),
