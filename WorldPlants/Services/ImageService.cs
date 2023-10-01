@@ -10,15 +10,21 @@ namespace WorldPlants.Services
         public Task<string?> SaveImageFromApiOnServer(string url);
         public string CheckFileExtension(string path);
         public string? GetImageUrl(string? imageName);
+        public void DeleteImage(string? imageName);
     }
     public class ImageService: IImageService
     {
 
         private readonly IPathHelper _pathHelper;
+        private readonly ILogger<ImageService> _logger;
 
-        public ImageService(IPathHelper pathHelper)
+        public ImageService(
+            IPathHelper pathHelper,
+            ILogger<ImageService> logger
+            )
         {
             _pathHelper = pathHelper;
+            _logger = logger;
         }
 
         public async Task<string> SaveImageOnServer(IFormFile image)
@@ -33,6 +39,22 @@ namespace WorldPlants.Services
             }
 
             return fileName;
+        }
+
+        public void DeleteImage(string? imageName)
+        {
+            if (imageName != null)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"Store/Images", imageName);
+
+                try
+                {
+                    File.Delete(filePath);
+                }catch{
+                    _logger.LogError($"Cant delete image: {imageName}");
+                }
+            }
+            
         }
 
         public async Task<string?> SaveImageFromApiOnServer(string url)

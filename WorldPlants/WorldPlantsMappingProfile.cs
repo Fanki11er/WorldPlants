@@ -78,6 +78,21 @@ namespace WorldPlants
             CreateMap<PlantTaskHistory, PlantTaskHistoryDTO>()
                 .ForMember(m=> m.TaskType, m=> m.MapFrom(t => t.TaskType.ToString()));
 
+            CreateMap<Plant, PlantWithTasksDTO>()
+                .ForMember(m => m.PlantId, m => m.MapFrom(p => p.Id))
+                .ForMember(m => m.PlantName, m => m.MapFrom(p => p.Name))
+                .ForMember(m => m.UserSiteId, m => m.MapFrom(p => p.UserSite.Id))
+                .ForMember(m => m.UserSiteName, m => m.MapFrom(p => p.UserSite.Name))
+                .ForMember(m => m.PlantPhoto, m => m.Ignore())
+                .ForMember(m => m.PlantTasks, m => m.Ignore());
+
+            CreateMap<Plant, PlantCurrentSettingsDTO>();
+
+            CreateMap<UserSite, SiteWithIdAndNameDto>();
+
+            CreateMap<UserSite, SiteHeaderInformationDTO>()
+                .ForMember(m => m.SunScale, m => m.Ignore());
+
         }
     }
 }

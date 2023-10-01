@@ -82,5 +82,21 @@ namespace WorldPlants.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("Today")]
+        public ActionResult<List<PlantWithTasksDTO>> GetTodayTasks()
+        {
+            var result = _activeTasksService.GetTodayTasks();
+
+            return Ok(result);
+        }
+
+        [HttpGet("Incoming")]
+        public ActionResult<List<PlantWithTasksDTO>> GetIncomingTasks()
+        {
+            var result = _activeTasksService.GetIncomingTasks();
+
+            return Ok(result);
+        }
     }
 }

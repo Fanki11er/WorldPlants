@@ -18,6 +18,7 @@ namespace WorldPlants.Utilities
         public DateOnly GetTodayDate();
         public DateTime GetTodayDateTime();
         public Plant FindPlantWithTasksHistory(string plantId);
+        public void CheckIfUserSiteExists(int siteId);
     }
 
     public class Utilities : IUtilities
@@ -156,6 +157,16 @@ namespace WorldPlants.Utilities
             
 
             return today;
+        }
+
+        public void CheckIfUserSiteExists(int siteId)
+        {
+            var exists = _dbContext.UserSites.Any(s => s.Id == siteId);
+
+           if(!exists)
+            {
+                throw new NotFoundException("Nie znaleziono miejsca o podanym id");
+            }
         }
     }
 

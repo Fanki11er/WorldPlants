@@ -25,12 +25,6 @@ namespace WorldPlants.Controllers
             var userSites = _siteService.GetUserSitesWithPlants();
             return Ok(userSites);
         }
-        /*[HttpGet("Site/{siteId}")]
-        public ActionResult<SiteWithPlantsDto> GetSiteWithPlants([FromRoute] int siteId)
-        {
-            var siteWithPlantsDto = _siteService.GetSiteWithPlants(siteId);
-            return Ok(siteWithPlantsDto);
-        }*/
 
         [HttpGet("DefaultSites")]
         public ActionResult<SiteWithIdAndNameDto> GetDefaultSites()
@@ -93,9 +87,17 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("Plants/{siteId}")]
-        public ActionResult<List<PlantBasicInformationDto>> GetSitePlants([FromRoute]int siteId)
+        public ActionResult<List<PlantBasicInformationDto>> GetSitePlants([FromRoute] int siteId)
         {
             var result = _siteService.GetSitePlants(siteId);
+
+            return Ok(result);
+        }
+
+        [HttpGet("Header/{siteId}")]
+        public ActionResult<SiteHeaderInformationDTO> GetSiteHeaderInformation([FromRoute] int siteId)
+        {
+            var result = _siteService.GetSiteHeaderInformation(siteId);
 
             return Ok(result);
         }

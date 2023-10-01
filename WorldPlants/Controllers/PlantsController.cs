@@ -58,5 +58,53 @@ namespace WorldPlants.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("ExternalId/{plantId}")]
+        public ActionResult<int?> GetPlantExternalId([FromRoute] string plantId)
+        {
+            var result = _plantService.GetPlantExternalId(plantId);
+
+            return Ok(result);
+        }
+
+        [HttpGet("Settings/{plantId}")]
+        public ActionResult<PlantCurrentSettingsDTO> GetPlantCurrentSettings([FromRoute] string plantId)
+        {
+            var result = _plantService.GetPlantCurrentSettings(plantId);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Settings/{plantId}")]
+        public async Task<ActionResult<string>> EditCurrentPlantSettings([FromRoute] string plantId, [FromForm] AddPlantDto newSettings)
+        {
+           var result =  await _plantService.EditCurrentPlantSettings(plantId, newSettings);
+
+            return Ok(result);
+        }
+
+        [HttpGet("MoveInformation/{plantId}")]
+        public ActionResult<MovePlantInformationDTO> GetMovePlantInformation([FromRoute] string plantId)
+        {
+            var result = _plantService.GetMovePlantInformation(plantId);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Move")]
+        public ActionResult MovePlant([FromBody] MovePlantDTO dto)
+        {
+            _plantService.MovePlant(dto);
+
+            return Ok("Plant moved");
+        }
+
+        [HttpDelete("{plantId}")]
+        public ActionResult DeletePlant([FromRoute] string plantId)
+        {
+            _plantService.DeletePlant(plantId);
+
+            return Ok("Plant deleted");
+        }
     }
 }

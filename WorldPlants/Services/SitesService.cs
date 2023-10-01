@@ -14,7 +14,6 @@ namespace WorldPlants.Services
     public interface ISiteService
     {
         public List<UserSiteWithPlantsAndTasksDto> GetUserSitesWithPlants();
-        //public SiteWithPlantsDto GetSiteWithPlants(int siteId);
         public List<SiteWithIdAndNameDto> GetDefaultSites();
         public List<SunExposureDto> GetSunExposures(int locationId);
         public List<SunExposureDto> GetSunExposuresByLocation(int locationId);
@@ -24,6 +23,7 @@ namespace WorldPlants.Services
         public GetUserSiteSettingsDto GetSiteSettings(int siteId);
         public void EditUserSite(int siteId, EditUserSiteSettingsDto dto);
         public List<PlantBasicInformationDto> GetSitePlants(int siteId);
+        public SiteHeaderInformationDTO GetSiteHeaderInformation(int siteId);
     }
     public class SitesService : ISiteService
     {
@@ -182,9 +182,16 @@ namespace WorldPlants.Services
 
             var userSite = GetUserSiteWithPlants(siteId);
 
+            var images = userSite.Plants.Select(p => p.ImageName);
+
             _dbContext.Remove(userSite!);
 
             _utilities.SaveChangesToDatabase("Nie udało się usunąć miejsca");
+
+            foreach(var image in images)
+            {
+                _imageService.DeleteImage(image);
+            }
         }
 
         public GetUserSiteSettingsDto GetSiteSettings(int siteId)
@@ -219,6 +226,20 @@ namespace WorldPlants.Services
             _dbContext.Update(userSite!);
 
             _utilities.SaveChangesToDatabase("Nie udało się zmienić ustawień dla miejsca");
+        }
+
+        public SiteHeaderInformationDTO GetSiteHeaderInformation(int siteId)
+        {
+            var site = GetUserSite(siteId);
+
+            var dto = _mapper.Map<SiteHeaderInformationDTO>(site);
+
+            var sunExposure = _dbContext.SunExposures.FirstOrDefault(e => e.Id == site.SunExposureId) ?? 
+                throw new NotFoundException("Nie odnaleziono poziomu nasłonecznienia");
+
+            dto.SunScale = sunExposure.SunScale.ToString();
+
+            return dto;
         }
 
         // Helper functions
