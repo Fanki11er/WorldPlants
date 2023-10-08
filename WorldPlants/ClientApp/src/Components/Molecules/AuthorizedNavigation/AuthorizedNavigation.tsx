@@ -10,6 +10,7 @@ import UserInfo from "../UserInfo/UserInfo";
 import useAuth from "../../../Hooks/useAuth";
 import { paths } from "../../../Router/paths";
 import { NavigationWrapper } from "../../Atoms/NavigationWrapper/NavigationWrapper.styles";
+import NavigationBackground from "../NavigationBackground/NavigationBackground";
 
 const AuthorizedNavigation = () => {
   const { plantsTasks, userSettings, userSites } = paths;
@@ -31,6 +32,7 @@ const AuthorizedNavigation = () => {
           <OrangeButton onClick={logout}>Wyloguj</OrangeButton>
         </UserSectionWrapper>
       </InnerNavigationWrapper>
+      <NavigationBackground />
     </NavigationWrapper>
   );
 };

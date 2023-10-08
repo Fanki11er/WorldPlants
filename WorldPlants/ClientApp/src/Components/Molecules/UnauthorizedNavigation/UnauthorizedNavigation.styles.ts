@@ -2,10 +2,17 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const InnerNavigationWrapper = styled.div`
-  display: flex;
-  height: 100px;
+  display: grid;
+  grid-template-columns: 130px repeat(3, auto) 1fr;
+  height: 50px;
+  justify-items: center;
   align-items: center;
-  width: 100%;
+  column-gap: 20px;
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    grid-template-columns: 50px repeat(3, auto) 1fr;
+    padding-top: 4px;
+  }
 `;
 
 export const UnauthorizedNavigationLinksWrapper = styled.div`

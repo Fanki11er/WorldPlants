@@ -1,8 +1,7 @@
 import { StandardTaskTypeEnum } from "../Interfaces/PlantActiveTask";
 
 export const apiEndpoints = {
-  //baseURL: "https://localhost:7126/",
-  baseURL: "https://192.168.10.101:7126",
+  baseURL: "https://localhost:7126/",
   registerOwnerUser: "Owner/Register",
   registerGuestAccount: "Guest/Register",
   loginUser: "Account/Login",

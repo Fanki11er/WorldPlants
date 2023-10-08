@@ -7,6 +7,7 @@ import logoImage from "../../../Assets/Logo.svg";
 import { NavigationLink } from "../../Atoms/Buttons/Buttons";
 import { paths } from "../../../Router/paths";
 import { NavigationWrapper } from "../../Atoms/NavigationWrapper/NavigationWrapper.styles";
+import NavigationBackground from "../NavigationBackground/NavigationBackground";
 
 const UnauthorizedNavigation = () => {
   const { rootPath, registration, login } = paths;
@@ -20,6 +21,7 @@ const UnauthorizedNavigation = () => {
           <NavigationLink to={login}>Logowanie</NavigationLink>
         </UnauthorizedNavigationLinksWrapper>
       </InnerNavigationWrapper>
+      <NavigationBackground />
     </NavigationWrapper>
   );
 };
