@@ -60,25 +60,28 @@ const PlantTasksSectionTaskIndicatorTextCore = styled.span<Props>`
   justify-content: center;
   align-items: center;
   width: fit-content;
-  color: ${(props) => (!props.$isDelayed ? "#071D53" : "#690C0B")};
+  color: ${(props) =>
+    !props.$isDelayed
+      ? props.theme.colors.navyBlue
+      : props.theme.colors.claret};
   font-weight: bold;
 `;
 
 export const PlantTaskSectionTaskInformationIndicatorInnerText = styled(
   PlantTasksSectionTaskIndicatorTextCore
 )<Props>`
-  font-size: 12px;
+  font-size: ${(props) => props.theme.fontSizes.smallX};
 `;
 
 export const PlantTaskSectionTaskInformationIndicatorNumber = styled(
   PlantTasksSectionTaskIndicatorTextCore
 )<Props>`
-  font-size: 20px;
+  font-size: ${(props) => props.theme.fontSizes.large};
 `;
 
 export const PlantTasksSectionTaskHeader = styled.h2`
   margin: 0;
-  color: #fe7a35;
+  color: ${(props) => props.theme.colors.orange};
   text-align: center;
 `;
 
@@ -99,14 +102,13 @@ export const StyledButton = styled.button`
   border: 2px solid transparent;
   transition: all 0.5s;
 
-  background-color: #4e4ea5;
-  color: white;
+  background-color: ${(props) => props.theme.colors.purpleLight};
+  color: ${(props) => props.theme.colors.white};
   justify-content: center;
   align-items: center;
-  //!! Change
   &:hover,
   &:focus {
-    border: 2px solid orange;
+    border: 2px solid ${(props) => props.theme.colors.orange};
     cursor: pointer;
   }
 `;

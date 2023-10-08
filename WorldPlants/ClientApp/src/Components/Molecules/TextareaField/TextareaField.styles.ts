@@ -9,6 +9,7 @@ export const TextareaFieldWrapper = styled.label`
   color: ${(props: AppTheme) => props.theme.colors.orange};
   row-gap: 5px;
   margin-top: 20px;
+  font-weight: bold;
 `;
 
 export const TextareaFieldInput = styled(Field)`

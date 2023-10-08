@@ -71,7 +71,7 @@ const ChangeSecuritySettingsForm = () => {
         />
 
         <InputField
-          label="Powtórz Nowe hasło"
+          label="Powtórz nowe hasło"
           name="newRepeatedPassword"
           placeholder="Powtórz nowe hasło"
           type="password"

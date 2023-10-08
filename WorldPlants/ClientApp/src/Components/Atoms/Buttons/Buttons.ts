@@ -27,9 +27,8 @@ export const ActionButton = styled.button`
 `;
 
 export const NavigationLink = styled(NavLink)`
-  min-width: 110px;
-  width: fit-content;
-  min-height: 35px;
+  width: 110px;
+  height: 35px;
   background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
   border-radius: 25px;
   outline: none;
@@ -43,8 +42,8 @@ export const NavigationLink = styled(NavLink)`
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
   transition: all 0.5s;
 
-  :hover,
-  :focus {
+  &:hover,
+  &:focus {
     background-color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
   }
@@ -59,16 +58,16 @@ export const NavigationLink = styled(NavLink)`
   }
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
-    min-width: 15px;
-    min-height: 15px;
+    width: 60px;
+    height: 25px;
+    border-radius: 10px;
     font-size: ${(props: AppTheme) => props.theme.fontSizes.xSmall};
   }
 `;
 
 export const OrangeButton = styled.button`
-  min-width: 110px;
-  width: fit-content;
-  min-height: 35px;
+  width: 110px;
+  height: 35px;
   background-color: ${(props: AppTheme) => props.theme.colors.orange};
   border-radius: 25px;
   outline: none;
@@ -76,11 +75,18 @@ export const OrangeButton = styled.button`
   color: ${(props: AppTheme) => props.theme.colors.white};
   border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
 
-  :hover,
-  :focus {
+  &:hover,
+  &:focus {
     background-color: transparent;
     cursor: pointer;
     transition: all 0.5s;
+  }
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    width: 60px;
+    height: 25px;
+    border-radius: 10px;
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.xSmall};
   }
 `;
 
@@ -90,7 +96,7 @@ export const ButtonSettings = styled.button`
   width: 203px;
   height: 39px;
 
-  :hover {
+  &:hover {
     color: ${(props: AppTheme) => props.theme.colors.orange};
   }
 `;
@@ -131,8 +137,8 @@ export const SideMenuLink = styled(NavLink)`
     pointer-events: none;
     cursor: not-allowed;
   }
-  :hover,
-  :focus {
+  &:hover,
+  &:focus {
     color: ${(props: AppTheme) => props.theme.colors.orange};
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
   }
@@ -160,8 +166,8 @@ const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
 
-  :hover,
-  :focus {
+  &:hover,
+  &:focus {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
   }
