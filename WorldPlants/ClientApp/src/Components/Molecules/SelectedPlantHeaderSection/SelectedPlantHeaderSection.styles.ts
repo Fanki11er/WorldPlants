@@ -9,14 +9,15 @@ interface ImageProp {
 export const SelectedPlantHeaderSectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  min-width: 100%;
+  width: 100%;
+  max-width: 800px;
   position: relative;
   background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
   border-radius: 40px;
   padding: 120px 25px 25px 25px;
   align-items: center;
   row-gap: 15px;
-  margin: 100px 0;
+  margin: 100px 0 20px 0;
 `;
 
 export const SelectedPlantHeaderSectionImage = styled.div<ImageProp>`

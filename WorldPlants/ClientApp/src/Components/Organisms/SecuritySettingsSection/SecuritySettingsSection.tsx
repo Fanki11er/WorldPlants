@@ -8,8 +8,7 @@ import ChangeSecuritySettingsForm from "../ChangeSecuritySettingsForm/ChangeSecu
 const SecuritySettingsSection = () => {
   return (
     <SettingsSectionWrapper>
-      <SettingsSectionHeader>Bezpieczeństwo</SettingsSectionHeader>
-
+      <SettingsSectionHeader>Zmień hasło</SettingsSectionHeader>
       <OptionsWrapper>
         <ChangeSecuritySettingsForm />
       </OptionsWrapper>

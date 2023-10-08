@@ -6,7 +6,7 @@ export const ViewWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 150px 0 100px 0;
+  padding: 180px 0 100px 0;
   justify-content: center;
 `;
 

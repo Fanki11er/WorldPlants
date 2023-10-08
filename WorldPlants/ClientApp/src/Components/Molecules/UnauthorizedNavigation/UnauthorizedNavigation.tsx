@@ -1,9 +1,13 @@
 import { AppLogoImage } from "../../Atoms/AppLogoImage/AppLogoImage.styles";
-import { NavigationWrapper } from "../NavigationWrapper/NavigationWrapper.styles";
-import { InnerNavigationWrapper } from "./UnauthorizedNavigation.styles";
+import {
+  InnerNavigationWrapper,
+  UnauthorizedNavigationLinksWrapper,
+} from "./UnauthorizedNavigation.styles";
 import logoImage from "../../../Assets/Logo.svg";
 import { NavigationLink } from "../../Atoms/Buttons/Buttons";
 import { paths } from "../../../Router/paths";
+import { NavigationWrapper } from "../../Atoms/NavigationWrapper/NavigationWrapper.styles";
+import NavigationBackground from "../NavigationBackground/NavigationBackground";
 
 const UnauthorizedNavigation = () => {
   const { rootPath, registration, login } = paths;
@@ -11,10 +15,13 @@ const UnauthorizedNavigation = () => {
     <NavigationWrapper>
       <InnerNavigationWrapper>
         <AppLogoImage src={logoImage} />
-        <NavigationLink to={rootPath}>Główna</NavigationLink>
-        <NavigationLink to={registration}>Rejestracja</NavigationLink>
-        <NavigationLink to={login}>Logowanie</NavigationLink>
+        <UnauthorizedNavigationLinksWrapper>
+          <NavigationLink to={rootPath}>Główna</NavigationLink>
+          <NavigationLink to={registration}>Rejestracja</NavigationLink>
+          <NavigationLink to={login}>Logowanie</NavigationLink>
+        </UnauthorizedNavigationLinksWrapper>
       </InnerNavigationWrapper>
+      <NavigationBackground />
     </NavigationWrapper>
   );
 };

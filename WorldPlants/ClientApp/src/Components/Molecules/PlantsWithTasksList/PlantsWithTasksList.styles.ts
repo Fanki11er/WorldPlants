@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 interface Props {
   $imageUrl: string;
@@ -10,19 +11,18 @@ export const PlantsWithTasksListWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   row-gap: 150px;
-  transform: translateY(80px);
-  padding: 0;
+  padding: 80px 0 0 0;
 `;
 
 export const PlantsWithTasksListItem = styled.li`
   width: 100%;
   display: flex;
   flex-direction: column;
-  row-gap: 15px;
-  background-color: #071d53;
+  row-gap: 30px;
+  background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
   border-radius: 25px;
   position: relative;
-  padding: 90px 20px 20px 20px;
+  padding: 90px 20px 40px 20px;
 `;
 
 export const PlantsWithTasksListItemHeaderWrapper = styled.div`
@@ -49,12 +49,12 @@ export const PlantsWithTasksListItemPlantPhoto = styled.div<Props>`
 export const PlantsWithTasksListItemHeader = styled(Link)`
   margin: 0;
   text-align: center;
-  color: orange;
+  color: ${(props: AppTheme) => props.theme.colors.orange};
   text-decoration: none;
   font-size: 26px;
   transition: all 0.5s;
   &:hover,
   &:focus {
-    color: #3bd6a6;
+    color: ${(props: AppTheme) => props.theme.colors.green};
   }
 `;

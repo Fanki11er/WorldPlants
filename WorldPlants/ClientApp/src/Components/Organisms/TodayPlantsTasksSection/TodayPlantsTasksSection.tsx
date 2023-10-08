@@ -41,7 +41,7 @@ const TodayPlantsTasksSection = () => {
       {!isLoading && data?.length === 0 && (
         <NoListContentInfo
           informationHeaderText="Brak zadań na dzisiaj"
-          informationText="Tu będą widoczne zadania które należy wykonać danego dnia"
+          informationText="Tu będą widoczne zadania, które należy wykonać danego dnia"
         />
       )}
       {data && data.length > 0 && (

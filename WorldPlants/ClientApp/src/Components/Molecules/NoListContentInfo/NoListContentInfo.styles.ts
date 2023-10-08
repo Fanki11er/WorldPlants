@@ -11,7 +11,7 @@ export const NoListContentInfoWrapper = styled.div`
   min-width: 340px;
   max-width: 600px;
   border-radius: 25px;
-  padding: 40px 40px 40px 60px;
+  padding: 40px;
 `;
 
 export const NoListContentInfoHeader = styled.h1`

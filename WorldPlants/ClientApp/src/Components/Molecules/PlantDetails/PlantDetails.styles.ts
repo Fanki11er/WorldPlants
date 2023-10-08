@@ -34,12 +34,12 @@ export const PLantsDetailsImage = styled.div<Props>`
 
 export const PlantDetailsName = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.orange};
-  margin: 0;
+  margin: 0 0 5px 0;
 `;
 
 export const PlantDetailsScientificName = styled.h3`
   color: ${(props: AppTheme) => props.theme.colors.greenSettingsActive};
-  margin: 0;
+  margin: 0 0 10px 0;
 `;
 
 export const PlantDetailsOtherName = styled.span`

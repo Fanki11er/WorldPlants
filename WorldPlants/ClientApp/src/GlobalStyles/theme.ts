@@ -32,6 +32,7 @@ export const theme: Theme = {
   fontSizes: {
     xSmall: "8px",
     verySmall: "10px",
+    smallX: "12px",
     small: "14px",
     medium: "16px",
     large: "20px",
@@ -40,7 +41,7 @@ export const theme: Theme = {
   },
 
   devices: {
-    small: `max-width: 700px`,
+    small: `max-width: 760px`,
     medium: `max-width: 1200px`,
     //large: `min-width: 1440px`,
     veryLarge: "min-width: 1600px",
@@ -87,6 +88,7 @@ export type Theme = {
   fontSizes: {
     xSmall: string;
     verySmall: string;
+    smallX: string;
     small: string;
     medium: string;
     large: string;

@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
-export const AppLogoImage = styled.img`
-  width: 70px;
-  height: 65px;
+export const NavigationBackgroundSvg = styled.svg`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 130px;
+  z-index: -1;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
-    width: 45px;
-    height: 40px;
+    height: 30%;
   }
 `;

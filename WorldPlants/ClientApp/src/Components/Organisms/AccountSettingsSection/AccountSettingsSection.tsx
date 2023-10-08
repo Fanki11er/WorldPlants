@@ -24,7 +24,7 @@ const AccountSettingsSection = () => {
 
   return (
     <SettingsSectionWrapper>
-      <SettingsSectionHeader>Konto</SettingsSectionHeader>
+      <SettingsSectionHeader>Edycja konta</SettingsSectionHeader>
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}

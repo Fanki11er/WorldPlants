@@ -5,15 +5,11 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 export const NavigationWrapper = styled.nav`
   width: 100vw;
   height: 130px;
-  background-image: url(${navigationBackground});
+  padding-right: 10px;
   position: fixed;
-  background-size: contain;
-  background-repeat: no-repeat;
   z-index: 10;
   top: 0;
-
-  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
-  }
+  min-width: 360px;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     width: 100%;

@@ -32,8 +32,6 @@ const UserSiteSettingsSection = () => {
 
   return (
     <SettingsSectionWrapper>
-      <SettingsSectionHeader>Ustawienia</SettingsSectionHeader>
-
       {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
