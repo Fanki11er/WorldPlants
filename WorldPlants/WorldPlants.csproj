@@ -44,12 +44,11 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Store\Images\" />
-    <Folder Include="Store\Images\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Store\Images" />
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 

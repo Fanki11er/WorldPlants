@@ -1,7 +1,12 @@
 import { StandardTaskTypeEnum } from "../Interfaces/PlantActiveTask";
 
 export const apiEndpoints = {
-  baseURL: "https://localhost:7126/",
+  //!! Development =>
+  //baseURL: "https://localhost:7126/",
+  //!!
+  //!! Production =>
+  baseURL: "https://worldplants.azurewebsites.net/",
+  //!!
   registerOwnerUser: "Owner/Register",
   registerGuestAccount: "Guest/Register",
   loginUser: "Account/Login",

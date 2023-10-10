@@ -1,4 +1,5 @@
-﻿using WorldPlants.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using WorldPlants.Entities;
 using WorldPlants.Enums;
 
 namespace WorldPlants.DbSeeders
@@ -19,7 +20,12 @@ namespace WorldPlants.DbSeeders
 
             if (_dbContext.Database.CanConnect())
             {
+                var pendingMigrations = _dbContext.Database.GetPendingMigrations();
 
+                if(pendingMigrations != null && pendingMigrations.Any()) 
+                {
+                    _dbContext.Database.Migrate();
+                }
 
                 if (!_dbContext.SunExposures.Any())
                 {
