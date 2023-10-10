@@ -147,18 +147,17 @@ app.UseHangfireDashboard("/Hangfire/Dashboard", new DashboardOptions()
 
 });
 //Temporaly off
-/*
+
 RecurringJob.AddOrUpdate<IJobsService>("SendEmailReminders", e => e.ExecuteSendEmailReminders(), "00 8 * * *", new RecurringJobOptions()
 {
     TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time") ?? TimeZoneInfo.Utc
 });
 
-/* 
 RecurringJob.AddOrUpdate<IJobsService>("SendSMSReminders", e => e.ExecuteSendSMSReminders(), "00 20 * * *", new RecurringJobOptions()
 {
     TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time") ?? TimeZoneInfo.Utc
 
-});*/
+});
 
 app.UseRouting();
 app.UseCors("CORS");
@@ -180,5 +179,3 @@ void SeedDatabase()
     };
 }
 public partial class Program { }
-
-

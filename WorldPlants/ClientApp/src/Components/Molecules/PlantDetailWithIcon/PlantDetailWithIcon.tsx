@@ -10,7 +10,7 @@ import {
 interface Props {
   icon: string | undefined;
   title: string;
-  value: string | number | boolean | null;
+  value: string | number | boolean | undefined;
 }
 
 const PlantDetailWithIcon = (props: Props) => {
