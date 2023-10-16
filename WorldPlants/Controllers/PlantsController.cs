@@ -106,5 +106,13 @@ namespace WorldPlants.Controllers
 
             return Ok("Plant deleted");
         }
+
+        [HttpGet("Check/{plantId}")]
+        public ActionResult CheckIfPlantExists([FromRoute] string plantId)
+        {
+            _plantService.CheckIfPlantExists(plantId);
+
+            return Ok();
+        }
     }
 }

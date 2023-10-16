@@ -96,10 +96,13 @@ namespace WorldPlants.Utilities
 
         public Plant FindPlant(string plantId)
         {
+            var spaceId = GetUserSpaceId();
+
             var plant = _dbContext.Plants
                .AsSplitQuery()
                .Include(p => p.UserSite)
-               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               .FirstOrDefault(p => p.Id.ToString() == plantId &&
+               p.UserSite.SpaceId.ToString() == spaceId)
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 
             return plant;
@@ -134,9 +137,9 @@ namespace WorldPlants.Utilities
         public TimeZoneInfo GetPolishTimezone()
         {
             var timezone = TimeZoneInfo
-                .FindSystemTimeZoneById("Central European Standard Time") 
-                ?? throw new TimeZoneNotFoundException("Nie odnaleziono ustawień strefy czasowej") ;
-            
+                .FindSystemTimeZoneById("Central European Standard Time")
+                ?? throw new TimeZoneNotFoundException("Nie odnaleziono ustawień strefy czasowej");
+
             return timezone;
         }
 
@@ -154,7 +157,7 @@ namespace WorldPlants.Utilities
             var timezone = GetPolishTimezone();
 
             var today = TimeZoneInfo.ConvertTime((DateTime.Today), timezone);
-            
+
 
             return today;
         }
@@ -163,7 +166,7 @@ namespace WorldPlants.Utilities
         {
             var exists = _dbContext.UserSites.Any(s => s.Id == siteId);
 
-           if(!exists)
+            if (!exists)
             {
                 throw new NotFoundException("Nie znaleziono miejsca o podanym id");
             }

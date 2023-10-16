@@ -159,6 +159,30 @@ namespace WorldPlants.Migrations
                     b.ToTable("PlantTasksHistory");
                 });
 
+            modelBuilder.Entity("WorldPlants.Entities.QrCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PlantId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlantName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("SpaceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QrCodes");
+                });
+
             modelBuilder.Entity("WorldPlants.Entities.Space", b =>
                 {
                     b.Property<Guid>("Id")
