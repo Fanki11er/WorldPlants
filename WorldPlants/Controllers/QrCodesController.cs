@@ -39,5 +39,12 @@ namespace WorldPlants.Controllers
 
             return Ok("Usunięto kod");
         }
+        [HttpDelete]
+        public ActionResult DeleteUserQrCodes()
+        {
+            _qrCodesService.DeleteUserQrCodes();
+
+            return Ok("Usunięto kody");
+        }
     }
 }

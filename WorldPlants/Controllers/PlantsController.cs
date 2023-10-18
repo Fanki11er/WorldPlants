@@ -108,11 +108,11 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("Check/{plantId}")]
-        public ActionResult CheckIfPlantExists([FromRoute] string plantId)
+        public ActionResult<string?> CheckIfPlantExists([FromRoute] string plantId)
         {
-            _plantService.CheckIfPlantExists(plantId);
+           var result = _plantService.CheckIfPlantExists(plantId);
 
-            return Ok();
+            return Ok(result);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace WorldPlants.Services
         public void CreateQrCode(string plantId);
         public List<QrCodeDTO> GetQrCodes();
         public void DeleteQrCode(int id);
+        public void DeleteUserQrCodes();
     }
     public class QrCodesService: IQrCodesService
     {
@@ -29,6 +30,16 @@ namespace WorldPlants.Services
         }
         public void CreateQrCode(string plantId)
         {
+            var spaceId = _utilities.GetUserSpaceId();
+
+           var existingCodesCounter = _dbContext
+                .QrCodes
+                .Where(qr => qr.SpaceId.ToString() == spaceId )
+                .Count();
+           if(existingCodesCounter == 20 )
+            {
+                throw new MaxNumberOfQrCodesException("Osiągnięto maksymalną liczbę kodów");
+            }
            var plant =  _utilities.FindPlant(plantId);
 
             QrCode qrCode = new()
@@ -58,11 +69,25 @@ namespace WorldPlants.Services
         {
             var spaceId = _utilities.GetUserSpaceId();
 
-            var qrCode = _dbContext.QrCodes.FirstOrDefault(qc => qc.Id == id && 
-            qc.SpaceId.ToString() == spaceId) ?? 
+            var qrCode = _dbContext
+                .QrCodes
+                .FirstOrDefault(qc => qc.Id == id && 
+                qc.SpaceId.ToString() == spaceId) ?? 
                 throw new NotFoundException("Nie znaleziono kodu");
 
             _dbContext.QrCodes.Remove(qrCode);
+
+            _utilities.SaveChangesToDatabase();
+        }
+
+        public void DeleteUserQrCodes()
+        {
+            var spaceId = _utilities.GetUserSpaceId();
+
+            var qrCodes = _dbContext.QrCodes
+                .Where(qc => qc.SpaceId.ToString() == spaceId);
+
+            _dbContext.QrCodes.RemoveRange(qrCodes);
 
             _utilities.SaveChangesToDatabase();
         }
