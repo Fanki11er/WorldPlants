@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { apiEndpoints } from "../../../Api/endpoints";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import AddPlantForm from "../AddPlantForm/AddPlantForm";
@@ -9,13 +9,20 @@ import { getErrorMessages } from "../../../Utils/Utils";
 import { PlantCurrentSettingsDto } from "../../../Interfaces/PlantCurrentSettingsDto";
 import useQueryKey from "../../../Hooks/useQueryKey";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
+import { QrGeneratorWrapper } from "./PlantSettingsSection.styles";
+import { ActionButton, GenerateQRButton } from "../../Atoms/Buttons/Buttons";
+import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 
 const PlantSettingsSection = () => {
-  const { plantSettings } = apiEndpoints;
+  const { plantSettings, createQrCode } = apiEndpoints;
   const { plantId } = useParams();
   const axiosPrivate = useAxiosPrivate();
-  const { plantSettingsQueryKey, plantHeaderInformationQueryKey } =
-    useQueryKey();
+  const client = useQueryClient();
+  const {
+    plantSettingsQueryKey,
+    plantHeaderInformationQueryKey,
+    savedQrCodesQueryKey,
+  } = useQueryKey();
   const {
     data: plantCurrentSettings,
     error,
@@ -30,8 +37,33 @@ const PlantSettingsSection = () => {
       enabled: !!plantId,
     }
   );
+
+  const {
+    mutate,
+    isSuccess,
+    error: mutationError,
+    isLoading: isMutating,
+  } = useMutation({
+    mutationFn: async (plantId: string | undefined) => {
+      const result = await axiosPrivate.post(createQrCode(plantId), undefined);
+      return result.data;
+    },
+    onSuccess: () => {
+      client.invalidateQueries(savedQrCodesQueryKey());
+    },
+  });
   return (
     <SettingsSectionWrapper>
+      <QrGeneratorWrapper>
+        <GenerateQRButton onClick={() => mutate(plantId)}>
+          Generuj kod QR
+        </GenerateQRButton>
+        {mutationError ? (
+          <FormRequestError errorValues={getErrorMessages(mutationError)} />
+        ) : null}
+        {isMutating && <LoadingIndicator />}
+        {isSuccess && <FormSuccess>Wygenerowano</FormSuccess>}
+      </QrGeneratorWrapper>
       {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
@@ -45,6 +77,11 @@ const PlantSettingsSection = () => {
             plantHeaderInformationQueryKey(plantId),
           ]}
         />
+      )}
+      {plantCurrentSettings && (
+        <ActionButton type="submit" form="AddPlantForm">
+          Zapisz
+        </ActionButton>
       )}
     </SettingsSectionWrapper>
   );

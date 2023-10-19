@@ -10,6 +10,6 @@ export const NavigationBackgroundSvg = styled.svg`
   z-index: -1;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
-    height: 30%;
+    height: 60%;
   }
 `;

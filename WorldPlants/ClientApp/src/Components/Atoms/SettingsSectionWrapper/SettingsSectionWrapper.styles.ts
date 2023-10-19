@@ -14,6 +14,7 @@ export const SettingsSectionWrapper = styled.section`
   }
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    grid-column: 1/2;
   }
 `;
 

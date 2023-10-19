@@ -6,6 +6,5 @@ export const RouteLayoutWrapper = styled.div`
   min-height: 100vh;
   display: grid;
   grid-template-rows: 1fr auto;
-  row-gap: 75px;
   background-color: ${(props: AppTheme) => props.theme.colors.mainBlue};
 `;

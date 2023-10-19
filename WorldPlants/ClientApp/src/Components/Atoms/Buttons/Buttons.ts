@@ -32,7 +32,7 @@ export const NavigationLink = styled(NavLink)`
   background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
   border-radius: 25px;
   outline: none;
-  border: none;
+  border: 2px solid ${(props) => props.theme.colors.transparent};
   padding: 5px 10px;
   color: ${(props: AppTheme) => props.theme.colors.white};
   text-decoration: none;
@@ -46,6 +46,10 @@ export const NavigationLink = styled(NavLink)`
   &:focus {
     background-color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
+    &.active {
+      background-color: ${(props) => props.theme.colors.purpleLight};
+      border: 2px solid ${(props) => props.theme.colors.orange};
+    }
   }
 
   &.active {
@@ -191,5 +195,9 @@ export const RedButtonWithoutMargin = styled(RedActionButton)`
 
 export const ReturnButton = styled(ActionButton)`
   width: 200px;
+  margin: 0;
+`;
+
+export const GenerateQRButton = styled(ActionButton)`
   margin: 0;
 `;

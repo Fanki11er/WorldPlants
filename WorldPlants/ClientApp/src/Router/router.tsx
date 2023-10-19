@@ -40,6 +40,9 @@ import DeletePlantSection from "../Components/Organisms/DeletePlantSection/Delet
 import PlantsTasksView from "../Views/PlantsTasksView/PlantsTasksView";
 import TodayPlantsTasksSection from "../Components/Organisms/TodayPlantsTasksSection/TodayPlantsTasksSection";
 import IncomingPlantsTasksSection from "../Components/Organisms/IncomingPlantsTasksSection/IncomingPlantsTasksSection";
+import QrView from "../Views/QrView/QrView";
+import QrScannerSection from "../Components/Organisms/QrScannerSection/QrScannerSection";
+import QrPrintSection from "../Components/Organisms/QrPrintSection/QrPrintSection";
 
 const {
   rootPath,
@@ -69,6 +72,8 @@ const {
   selectedPlantDelete,
   plantsTasks,
   plantTasksIncoming,
+  qrCodes,
+  qrPrints,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -159,6 +164,10 @@ const router = createBrowserRouter(
           />
           <Route path={selectedPlantMove} element={<MovePlantSection />} />
           <Route path={selectedPlantDelete} element={<DeletePlantSection />} />
+        </Route>
+        <Route path={qrCodes} element={<QrView />}>
+          <Route index element={<QrScannerSection />} />
+          <Route path={qrPrints} element={<QrPrintSection />} />
         </Route>
       </Route>
       <Route path={"*"} element={<LandingView />} />

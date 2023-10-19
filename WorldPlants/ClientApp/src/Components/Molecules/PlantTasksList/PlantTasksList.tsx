@@ -6,6 +6,11 @@ import {
   getErrorMessages,
   translateActionType,
 } from "../../../Utils/Utils";
+import {
+  BlueStyledButton,
+  GreenStyledButton,
+  OrangeStyledButton,
+} from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 import FormRequestError from "../FormRequestError/FormRequestError";
@@ -17,7 +22,6 @@ import {
   PlantTasksSectionTaskHeader,
   PlantTasksSectionTaskIndicator,
   PlantTasksSectionTasksListWrapper,
-  StyledButton,
 } from "./PlantTasksList.styles";
 
 interface Props {
@@ -83,7 +87,7 @@ const PlantTasksList = (props: Props) => {
             </PlantTasksSectionTaskHeader>
             {actionInProgress !== task.id && (
               <PantTasksSectionTaskButtonsWrapper>
-                <StyledButton
+                <BlueStyledButton
                   onClick={() =>
                     executeTaskMutation({
                       taskId: task.id,
@@ -92,15 +96,15 @@ const PlantTasksList = (props: Props) => {
                   }
                 >
                   Odłóż
-                </StyledButton>
-                <StyledButton
+                </BlueStyledButton>
+                <OrangeStyledButton
                   onClick={() =>
                     executeTaskMutation({ taskId: task.id, endpoint: skipTask })
                   }
                 >
                   Pomiń
-                </StyledButton>
-                <StyledButton
+                </OrangeStyledButton>
+                <GreenStyledButton
                   onClick={() =>
                     executeTaskMutation({
                       taskId: task.id,
@@ -109,7 +113,7 @@ const PlantTasksList = (props: Props) => {
                   }
                 >
                   Wykonaj
-                </StyledButton>
+                </GreenStyledButton>
               </PantTasksSectionTaskButtonsWrapper>
             )}
             {actionInProgress === task.id && <LoadingIndicator />}
