@@ -1,6 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { paths } from "../../../Router/paths";
-import { ActionButton, SideMenuLink } from "../../Atoms/Buttons/Buttons";
+import {
+  ActionButton,
+  ReturnButton,
+  SideMenuLink,
+} from "../../Atoms/Buttons/Buttons";
 import SideMenu from "../SideMenu/SideMenu";
 
 const AddPlantSideMenu = () => {
@@ -15,7 +19,7 @@ const AddPlantSideMenu = () => {
         Znajdź
       </SideMenuLink>
       <SideMenuLink to={addPlantRecognize}>Rozpoznaj</SideMenuLink>
-      <ActionButton
+      <ReturnButton
         onClick={() => {
           if (from) {
             navigate(`${authorized}/${userSite}/${from}`);
@@ -25,7 +29,7 @@ const AddPlantSideMenu = () => {
         }}
       >
         Powrót
-      </ActionButton>
+      </ReturnButton>
     </SideMenu>
   );
 };

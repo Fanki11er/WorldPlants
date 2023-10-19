@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { apiEndpoints } from "../../Api/endpoints";
 import {
   PermissionsReturnButton,
+  ReturnButton,
   SideMenuLink,
 } from "../../Components/Atoms/Buttons/Buttons";
 import { HeaderAndOptionsWrapper } from "../../Components/Atoms/HeaderAntOptionsWrapper/HeaderAndOptionsWrapper";
@@ -23,6 +24,8 @@ import DeleteUserAccountFormFormik from "../../Components/Organisms/DeleteUserAc
 import { paths } from "../../Router/paths";
 import SideMenu from "../../Components/Molecules/SideMenu/SideMenu";
 import { LoadingIndicator } from "../../Components/Atoms/LoadingIndicator/LoadingIndicator.styles";
+import { AuthorizedViewWrapper } from "../../Components/Atoms/AuthorizedViewWrapper/AuthorizedViewWrapper.styles";
+import { SettingsSectionWrapper } from "../../Components/Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 
 const GuestPermissionsView = () => {
   const { authorized, userSettings, userSettingsGuestAccounts } = paths;
@@ -45,7 +48,7 @@ const GuestPermissionsView = () => {
     }
   );
   return (
-    <GuestPermissionsViewWrapper>
+    <AuthorizedViewWrapper>
       <FullRowWrapper>
         {isLoading && <LoadingIndicator />}
         {error ? (
@@ -56,17 +59,15 @@ const GuestPermissionsView = () => {
         <>
           <SideMenu>
             <SideMenuLink to={""} end>
-              Uprawnienia
+              Ustawienia
             </SideMenuLink>
-            <PermissionsReturnButton onClick={() => navigate(-1)}>
-              Powrót
-            </PermissionsReturnButton>
+            <ReturnButton onClick={() => navigate(-1)}>Powrót</ReturnButton>
           </SideMenu>
           <HeaderAndOptionsWrapper>
             <HeaderPermissions>
               {`Konto gościa: ${data?.data?.name}`}
             </HeaderPermissions>
-            <SettingsHeader>Uprawnienia</SettingsHeader>
+            <SettingsHeader>Ustawienia</SettingsHeader>
 
             <GuestUserPermissionsForm actualValues={data.data} />
             <DeleteUserAccountFormFormik
@@ -78,7 +79,7 @@ const GuestPermissionsView = () => {
           </HeaderAndOptionsWrapper>
         </>
       )}
-    </GuestPermissionsViewWrapper>
+    </AuthorizedViewWrapper>
   );
 };
 

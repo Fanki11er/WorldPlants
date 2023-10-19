@@ -91,7 +91,7 @@ const PlantTasksList = (props: Props) => {
                     })
                   }
                 >
-                  Odłuż
+                  Odłóż
                 </StyledButton>
                 <StyledButton
                   onClick={() =>

@@ -1,6 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { paths } from "../../../Router/paths";
-import { ActionButton, SideMenuLink } from "../../Atoms/Buttons/Buttons";
+import {
+  ActionButton,
+  ReturnButton,
+  SideMenuLink,
+} from "../../Atoms/Buttons/Buttons";
 import SideMenu from "../SideMenu/SideMenu";
 
 const SelectedUserSiteSideMenu = () => {
@@ -23,9 +27,9 @@ const SelectedUserSiteSideMenu = () => {
       </SideMenuLink>
       <SideMenuLink to={userSiteSettings}>Ustawienia</SideMenuLink>
       <SideMenuLink to={userSiteDeleteSite}>Usuwanie</SideMenuLink>
-      <ActionButton onClick={() => navigate(`${authorized}/${userSites}`)}>
+      <ReturnButton onClick={() => navigate(`${authorized}/${userSites}`)}>
         Powrót
-      </ActionButton>
+      </ReturnButton>
     </SideMenu>
   );
 };

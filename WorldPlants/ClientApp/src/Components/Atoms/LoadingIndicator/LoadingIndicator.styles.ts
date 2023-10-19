@@ -5,7 +5,7 @@ import loadingPlant from "../../../Assets/Loading.svg";
 export const LoadingIndicator = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-self: center;
   background-image: url(${loadingPlant});
   background-size: cover;
   width: 40px;
@@ -16,6 +16,7 @@ export const LoadingIndicator = styled.div`
   animation-fill-mode: forwards;
   transform-origin: 50% 50%;
   margin: 10px;
+  margin-top: 50px;
 
   @keyframes rotate {
     to {

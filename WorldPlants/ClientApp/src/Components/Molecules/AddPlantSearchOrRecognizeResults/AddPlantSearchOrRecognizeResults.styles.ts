@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
-// import imgFallback from "../../../Assets/ImageFallback.svg";
 
 interface Props {
   $imageUrl: string;

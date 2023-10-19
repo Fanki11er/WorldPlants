@@ -15,8 +15,8 @@ export const ActionButton = styled.button`
   color: ${(props: AppTheme) => props.theme.colors.white};
   transition: all 0.5s;
 
-  :hover,
-  :focus {
+  &:hover,
+  &:focus {
     background-color: ${(props: AppTheme) => props.theme.colors.orange};
     cursor: pointer;
   }
@@ -187,4 +187,9 @@ export const BlueStyledButton = styled(StyledButton)`
 
 export const RedButtonWithoutMargin = styled(RedActionButton)`
   margin-top: 0;
+`;
+
+export const ReturnButton = styled(ActionButton)`
+  width: 200px;
+  margin: 0;
 `;
