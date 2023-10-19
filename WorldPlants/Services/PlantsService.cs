@@ -27,6 +27,8 @@ namespace WorldPlants.Services
         public void MovePlant(MovePlantDTO dto);
         public void DeletePlant(string plantId);
 
+        public string CheckIfPlantExists(string plantId);
+
     }
     public class PlantsService : IPlantService
     {
@@ -270,6 +272,13 @@ namespace WorldPlants.Services
 
             _imageService.DeleteImage(imageName);
 
+        }
+
+        public string CheckIfPlantExists(string plantId)
+        {
+            var plant = _utilities.FindPlant(plantId);
+
+            return plant.Id.ToString();
         }
 
         private async Task<PlantTipsDTO?> PreparePlantTipsData(RawPlantTipsDataDTO? data)

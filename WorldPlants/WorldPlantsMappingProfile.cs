@@ -5,6 +5,7 @@ using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
 using WorldPlants.Models.PlantsModels;
 using WorldPlants.Models.PlantTaskHistory;
+using WorldPlants.Models.QrCodes;
 
 namespace WorldPlants
 {
@@ -63,20 +64,20 @@ namespace WorldPlants
                  .ForMember(p => p.TasksInformation, p => p.MapFrom(s => new List<ActiveTaskInformationDto>()));
 
             CreateMap<ActiveTask, ActiveTaskInformationDto>()
-                .ForMember(m => m.DaysLeft, m => m.MapFrom(d => ( DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber)));
-                
+                .ForMember(m => m.DaysLeft, m => m.MapFrom(d => (DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber)));
+
 
             CreateMap<ActiveTask, ActiveTaskDTO>()
-                .ForMember(m=> m.ActionDate, m=> m.MapFrom(d => DateOnly.FromDateTime(d.ActionDate)));
+                .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateOnly.FromDateTime(d.ActionDate)));
 
             CreateMap<ActiveTaskDTO, ActiveTask>()
                 .ForMember(m => m.Id, m => m.Ignore())
                 .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateTime.Parse(d.ActionDate)))
                 .ForMember(m => m.PartOfTheDay, m => m.MapFrom(p => Enum.Parse(typeof(PartOfTheDay), p.PartOfTheDay)))
                 .ForMember(m => m.ActionType, m => m.MapFrom(p => Enum.Parse(typeof(ActionType), p.ActionType)));
-            
+
             CreateMap<PlantTaskHistory, PlantTaskHistoryDTO>()
-                .ForMember(m=> m.TaskType, m=> m.MapFrom(t => t.TaskType.ToString()));
+                .ForMember(m => m.TaskType, m => m.MapFrom(t => t.TaskType.ToString()));
 
             CreateMap<Plant, PlantWithTasksDTO>()
                 .ForMember(m => m.PlantId, m => m.MapFrom(p => p.Id))
@@ -92,6 +93,8 @@ namespace WorldPlants
 
             CreateMap<UserSite, SiteHeaderInformationDTO>()
                 .ForMember(m => m.SunScale, m => m.Ignore());
+
+            CreateMap<QrCode, QrCodeDTO>();
 
         }
     }

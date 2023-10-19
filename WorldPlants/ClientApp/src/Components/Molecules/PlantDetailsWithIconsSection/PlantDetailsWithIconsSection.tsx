@@ -52,7 +52,7 @@ const PlantDetailsWithIconsSection = (props: Props) => {
         value={
           plantDetails.wateringGeneralBenchmark
             ? `${plantDetails.wateringGeneralBenchmark?.value} ${plantDetails.wateringGeneralBenchmark?.unit}`
-            : null
+            : undefined
         }
       />
       <PlantDetailWithIcon
@@ -78,7 +78,7 @@ const PlantDetailsWithIconsSection = (props: Props) => {
             ? `${plantDetails.pruningCount.amount} ${
                 plantDetails.pruningCount.amount === 1 ? "raz" : "razy"
               } ${plantDetails.pruningCount.interval}`
-            : null
+            : undefined
         }
       />
       <PlantDetailWithIcon

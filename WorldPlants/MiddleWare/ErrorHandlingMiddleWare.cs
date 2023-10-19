@@ -94,7 +94,11 @@ namespace WorldPlants.MiddleWare
             {
                 _logger.LogError("Twilio SMS reminder error: " + ex.Message);
             }
-
+            catch(MaxNumberOfQrCodesException ex)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(ex.Message);
+            }
             catch(Exception ex)
             { 
                 context.Response.StatusCode = 500;
