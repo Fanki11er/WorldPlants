@@ -14,7 +14,7 @@ export const LandingViewWrapper = styled.div`
   @media screen and (${(props: AppTheme) => props.theme.devices.veryLarge}) {
   }
 
-  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
   }
@@ -23,17 +23,18 @@ export const LandingViewWrapper = styled.div`
 export const HeaderWrapper = styled.div`
   display: grid;
   width: 100%;
-  grid-template-rows: 220px 1fr;
+  grid-template-rows: 1fr 100px;
   justify-items: center;
   align-self: center;
 
-  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+  /* @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
     order: 1;
     grid-template-rows: 350px 50px;
-  }
+  } */
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-template-rows: 180px 1fr;
+    order: 1;
   }
 `;
 
@@ -41,12 +42,13 @@ export const HeroTitle = styled.img`
   width: 60%;
   align-self: center;
 
-  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+  /* @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
     max-width: 40%;
-  }
+  } */
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     max-width: 300px;
+    min-width: 230px;
   }
 `;
 
@@ -58,14 +60,16 @@ export const HeroImageWrapper = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 
-  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
+  /* @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
     order: 2;
     transform: translateY(-80px);
-  }
+  } */
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     max-width: 600px;
+    min-width: 360px;
     justify-self: center;
+    order: 2;
   }
 `;
 

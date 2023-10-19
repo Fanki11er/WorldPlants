@@ -25,7 +25,7 @@ const AuthorizedNavigation = () => {
           </NavigationLink>
           <NavigationLink to={userSites}>Miejsca</NavigationLink>
           <NavigationLink to={userSettings}>Ustawienia</NavigationLink>
-          <NavigationLink to={qrCodes}>Skaner QR</NavigationLink>
+          <NavigationLink to={qrCodes}>QR</NavigationLink>
         </AuthorizedNavigationLinksWrapper>
         <UserSectionWrapper>
           <UserInfo />
