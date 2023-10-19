@@ -10,7 +10,6 @@ export const NotificationFormLabel = styled.label`
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 220px;
-  align-items: center;
   column-gap: 10px;
   background-color: ${(props: AppTheme) => props.theme.colors.darkPurple};
   border-radius: 25px;

@@ -75,14 +75,14 @@ const DeletePlantForm = (props: Props) => {
             placeholder="Nazwa rosliny"
           />
           <DeleteFormInstruction>
-            Wpisz nazwę tej rosliny aby móc ją usunąć{" "}
+            Wpisz nazwę tej rośliny, aby móc ją usunąć{" "}
           </DeleteFormInstruction>
 
           {isLoading ? (
             <LoadingIndicator />
           ) : (
             <ActionButton disabled={!!errors.name} type="submit">
-              Submit
+              Zapisz
             </ActionButton>
           )}
         </DeleteFormWrapper>

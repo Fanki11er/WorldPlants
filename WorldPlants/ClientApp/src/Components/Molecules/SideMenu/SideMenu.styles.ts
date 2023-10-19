@@ -9,7 +9,7 @@ export const SideMenuWrapper = styled.div<MobileProps>`
   display: flex;
   flex-direction: column;
   row-gap: 15px;
-  padding: 25px 15px;
+  padding: 0 15px;
   flex-basis: 250px;
   justify-self: flex-start;
   min-height: 300px;
@@ -32,6 +32,7 @@ export const SideMenuWrapper = styled.div<MobileProps>`
 
 export const MobileButton = styled.button<MobileProps>`
   visibility: hidden;
+
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     visibility: visible;
     border-radius: 50px;

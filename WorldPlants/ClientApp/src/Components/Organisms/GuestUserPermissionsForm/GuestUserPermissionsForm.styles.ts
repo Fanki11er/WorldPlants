@@ -17,10 +17,10 @@ export const GuestUserPermissionsFormWrapper = styled(Form)`
 export const PermissionsGroup = styled.section`
   display: flex;
   flex-flow: row wrap;
+  width: 100%;
   gap: 30px;
   justify-content: space-evenly;
   padding-bottom: 30px;
-  border-bottom: 2px solid ${(props: AppTheme) => props.theme.colors.mainBlue};
 `;
 
 export const PermissionsGroupHeder = styled.h2`

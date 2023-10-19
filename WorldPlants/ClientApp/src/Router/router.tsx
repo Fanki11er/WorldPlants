@@ -10,7 +10,6 @@ import { paths } from "./paths";
 import LandingView from "../Views/LandingView/LandingView";
 import MainLayout from "../Templates/MainLayout/MainLayout";
 import UnauthorizedUserLayout from "../Templates/UnauthorizedUserLayout/UnauthorizedUserLayout";
-import TasksView from "../Views/TasksView/TasksView";
 import OwnerSettingsView from "../Views/OwnerSettingsView/OwnerSettingsView";
 import GuestPermissionsView from "../Views/GuestPermissionsView/GuestPermissionsView";
 import NotificationSettingsSection from "../Components/Organisms/NotificationSettingsSection/NotificationSettingsSection";

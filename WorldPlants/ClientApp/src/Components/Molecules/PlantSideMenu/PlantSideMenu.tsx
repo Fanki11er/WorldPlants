@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { paths } from "../../../Router/paths";
 import SideMenu from "../SideMenu/SideMenu";
-import { ActionButton, SideMenuLink } from "../../Atoms/Buttons/Buttons";
+import { SideMenuLink, ReturnButton } from "../../Atoms/Buttons/Buttons";
 
 const PlantSideMenu = () => {
   const { authorized, userSites, userSite } = paths;
@@ -26,8 +26,8 @@ const PlantSideMenu = () => {
       <SideMenuLink to={selectedPlantDetails}>Szczegóły</SideMenuLink>
       <SideMenuLink to={selectedPlantMove}>Przenieś</SideMenuLink>
       <SideMenuLink to={selectedPlantSettings}>Ustawienia</SideMenuLink>
-      <SideMenuLink to={selectedPlantDelete}>Usuń</SideMenuLink>
-      <ActionButton
+      <SideMenuLink to={selectedPlantDelete}>Usuwanie</SideMenuLink>
+      <ReturnButton
         onClick={() => {
           if (from) {
             navigate(`${authorized}/${userSite}/${from}`);
@@ -37,7 +37,7 @@ const PlantSideMenu = () => {
         }}
       >
         Powrót
-      </ActionButton>
+      </ReturnButton>
     </SideMenu>
   );
 };

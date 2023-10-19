@@ -10,7 +10,6 @@ import {
 } from "./PlantScheduleSection.styles";
 import { useQuery } from "react-query";
 import { PLANTS_SCHEDULE_TIPS } from "../../../Constants/Constants";
-import noIcon from "../../../assets/NoIcon.svg";
 import { PlantScheduleTipsDto } from "../../../Interfaces/PlantScheduleTipsDto";
 import PlantScheduleTip from "../PlantScheduleTip/PlantScheduleTip";
 import PlantStandardTaskScheduleForm from "../PlantStandardTaskScheduleForm/PlantStandardTaskScheduleForm";

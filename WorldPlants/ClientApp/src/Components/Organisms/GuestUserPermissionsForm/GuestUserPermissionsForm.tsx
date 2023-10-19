@@ -61,6 +61,7 @@ const GuestUserPermissionsForm = (props: Props) => {
           <CheckboxInput id={"canEditSites"} label={"Edycja"} />
           <CheckboxInput id={"canRemoveSites"} label={"Usuwanie"} />
         </PermissionsGroup>
+
         <PermissionsGroup>
           <PermissionsGroupHeder>Rośliny</PermissionsGroupHeder>
           <CheckboxInput id={"canAddPlants"} label={"Dodawanie"} />
@@ -68,6 +69,7 @@ const GuestUserPermissionsForm = (props: Props) => {
           <CheckboxInput id={"canMovePlants"} label={"Przenoszenie"} />
           <CheckboxInput id={"canRemovePlants"} label={"Usuwanie"} />
         </PermissionsGroup>
+
         <PermissionsGroup>
           <PermissionsGroupHeder>Zadania</PermissionsGroupHeder>
           <CheckboxInput id={"canAddCustomTasks"} label={"Własne"} />
