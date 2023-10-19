@@ -89,6 +89,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IRemindersService, RemindersService>();
 builder.Services.AddScoped<ISMSService, SMSService>();
 builder.Services.AddScoped<IJobsService, JobsService>();
+builder.Services.AddScoped<IQrCodesService, QrCodesService>();
 //
 
 //Validators
@@ -148,7 +149,7 @@ app.UseHangfireDashboard("/Hangfire/Dashboard", new DashboardOptions()
 });
 //Temporaly off
 
-RecurringJob.AddOrUpdate<IJobsService>("SendEmailReminders", e => e.ExecuteSendEmailReminders(), "00 8 * * *", new RecurringJobOptions()
+/*RecurringJob.AddOrUpdate<IJobsService>("SendEmailReminders", e => e.ExecuteSendEmailReminders(), "00 8 * * *", new RecurringJobOptions()
 {
     TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time") ?? TimeZoneInfo.Utc
 });
@@ -157,7 +158,7 @@ RecurringJob.AddOrUpdate<IJobsService>("SendSMSReminders", e => e.ExecuteSendSMS
 {
     TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time") ?? TimeZoneInfo.Utc
 
-});
+});*/
 
 app.UseRouting();
 app.UseCors("CORS");
