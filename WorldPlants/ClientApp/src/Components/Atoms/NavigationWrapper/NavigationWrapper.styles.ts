@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import navigationBackground from "../../../Assets/NavigationBackground.svg";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const NavigationWrapper = styled.nav`
@@ -14,5 +13,9 @@ export const NavigationWrapper = styled.nav`
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     width: 100%;
     height: 190px;
+  }
+
+  @media print {
+    display: none;
   }
 `;

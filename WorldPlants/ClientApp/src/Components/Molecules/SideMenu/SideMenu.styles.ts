@@ -28,6 +28,10 @@ export const SideMenuWrapper = styled.div<MobileProps>`
     width: 280px;
     transition: all 0.5s;
   }
+
+  @media print {
+    display: none;
+  }
 `;
 
 export const MobileButton = styled.button<MobileProps>`

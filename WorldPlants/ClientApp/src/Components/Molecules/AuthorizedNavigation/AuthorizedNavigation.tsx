@@ -13,7 +13,7 @@ import { NavigationWrapper } from "../../Atoms/NavigationWrapper/NavigationWrapp
 import NavigationBackground from "../NavigationBackground/NavigationBackground";
 
 const AuthorizedNavigation = () => {
-  const { plantsTasks, userSettings, userSites } = paths;
+  const { plantsTasks, userSettings, userSites, qrCodes } = paths;
   const { logout } = useAuth();
   return (
     <NavigationWrapper>
@@ -25,7 +25,7 @@ const AuthorizedNavigation = () => {
           </NavigationLink>
           <NavigationLink to={userSites}>Miejsca</NavigationLink>
           <NavigationLink to={userSettings}>Ustawienia</NavigationLink>
-          <NavigationLink to={""}>Skaner QR</NavigationLink>
+          <NavigationLink to={qrCodes}>Skaner QR</NavigationLink>
         </AuthorizedNavigationLinksWrapper>
         <UserSectionWrapper>
           <UserInfo />

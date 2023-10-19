@@ -2,10 +2,10 @@ import { StandardTaskTypeEnum } from "../Interfaces/PlantActiveTask";
 
 export const apiEndpoints = {
   //!! Development =>
-  //baseURL: "https://localhost:7126/",
+  baseURL: "https://localhost:7126/",
   //!!
   //!! Production =>
-  baseURL: "https://worldplants.azurewebsites.net/",
+  // baseURL: "https://worldplants.azurewebsites.net/",
   //!!
   registerOwnerUser: "Owner/Register",
   registerGuestAccount: "Guest/Register",
@@ -103,6 +103,9 @@ export const apiEndpoints = {
     return `Plants/${plantId ? plantId : ""}`;
   },
 
+  checkIfPlantExists: (plantId: string) => {
+    return `Plants/Check/${plantId}`;
+  },
   //? Tasks
 
   getStandardTask: (
@@ -140,4 +143,18 @@ export const apiEndpoints = {
   getTodayTasks: `Tasks/Today`,
 
   getIncomingTasks: `Tasks/Incoming`,
+
+  //?? QR
+
+  createQrCode: (plantId: string | undefined) => {
+    return `Qr/${plantId ? plantId : ""}`;
+  },
+
+  getQrCodes: "Qr",
+
+  deleteQrCode: (id: number) => {
+    return `QR/${id}`;
+  },
+
+  deleteAllCodes: "QR",
 };

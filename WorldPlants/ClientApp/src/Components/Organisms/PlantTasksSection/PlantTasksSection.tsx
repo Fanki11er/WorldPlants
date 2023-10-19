@@ -143,7 +143,7 @@ const PlantTasksSection = () => {
                     })
                   }
                 >
-                  Odłuż
+                  Odłóż
                 </BlueStyledButton>
                 <OrangeStyledButton
                   onClick={() =>

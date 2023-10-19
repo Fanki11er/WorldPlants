@@ -8,7 +8,9 @@ import {
   PLANT_DETAILS,
   PLANT_EXTERNAL_ID,
   PLANT_HEADER_INFORMATION,
+  PLANT_QR,
   PLANT_SETTINGS,
+  SAVED_QR_CODES,
   SITE_PLANTS,
   STANDARD_PLANT_TASKS,
   TASKS_HISTORY,
@@ -67,6 +69,10 @@ const useQueryKey = () => {
 
   const allPlantTasksQueryKey = () => [ALL_PLANT_TASKS];
 
+  const savedQrCodesQueryKey = () => [SAVED_QR_CODES];
+
+  const plantQrQueryKey = () => [PLANT_QR];
+
   return {
     userSiteHeaderQueryKey,
     guestAccountsQueryKey,
@@ -84,6 +90,8 @@ const useQueryKey = () => {
     standardPlantTasksQueryKey,
     allPlantTasksQueryKey,
     tasksHistoryQueryKey,
+    plantQrQueryKey,
+    savedQrCodesQueryKey,
   };
 };
 

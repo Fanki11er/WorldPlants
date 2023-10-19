@@ -36,4 +36,7 @@ export const paths = {
   selectedPlantSettings: "PlantSettings",
   selectedPlantMove: "MovePlant",
   selectedPlantDelete: "DeletePlant",
+  //? QR
+  qrCodes: "Qr",
+  qrPrints: "Prints",
 };

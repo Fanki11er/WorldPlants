@@ -7,6 +7,10 @@ export const FooterWrapper = styled.footer`
   height: 100px;
   grid-row: 2/3;
   position: relative;
+
+  @media print {
+    display: none;
+  }
 `;
 
 export const FooterImage = styled.img`

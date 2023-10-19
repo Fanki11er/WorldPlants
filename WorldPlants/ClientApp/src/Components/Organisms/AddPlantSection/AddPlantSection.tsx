@@ -65,7 +65,7 @@ const AddPlantSection = () => {
           </ActionButton>
         )}
 
-        {!areDetailsLoading && (
+        {!areDetailsLoading && step === 2 && (
           <ActionButton type="submit" form="AddPlantForm">
             Zapisz
           </ActionButton>
