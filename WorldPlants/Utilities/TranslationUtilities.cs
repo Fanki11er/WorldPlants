@@ -256,6 +256,11 @@ namespace WorldPlants.Utilities
         {
             var results = new List<string>();
 
+            if(properties == null)
+            {
+                return results;
+            }
+
             foreach (string property in properties)
             {
                 try
