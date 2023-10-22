@@ -18,6 +18,7 @@ namespace WorldPlants.Entities
         public DbSet<ActiveTask> ActiveTasks { get; set; }
         public DbSet<PlantTaskHistory> PlantTasksHistory { get; set; }
         public DbSet<QrCode> QrCodes { get; set; }
+        public DbSet<PlantNote> PlantNotes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

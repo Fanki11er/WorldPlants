@@ -3,6 +3,7 @@ using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
+using WorldPlants.Models.PlantNotes;
 using WorldPlants.Models.PlantsModels;
 using WorldPlants.Models.PlantTaskHistory;
 using WorldPlants.Models.QrCodes;
@@ -95,6 +96,8 @@ namespace WorldPlants
                 .ForMember(m => m.SunScale, m => m.Ignore());
 
             CreateMap<QrCode, QrCodeDTO>();
+
+            CreateMap<PlantNote, PlantNoteDTO>();
 
         }
     }

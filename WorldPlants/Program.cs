@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using NLog.Web;
 using System.Text;
 using WorldPlants;
 using WorldPlants.DbSeeders;
@@ -32,7 +33,7 @@ builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
 
 
 // Add services to the container.
-//builder.Host.UseNLog();
+builder.Host.UseNLog();
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSingleton(authenticationSettings);
@@ -90,6 +91,7 @@ builder.Services.AddScoped<IRemindersService, RemindersService>();
 builder.Services.AddScoped<ISMSService, SMSService>();
 builder.Services.AddScoped<IJobsService, JobsService>();
 builder.Services.AddScoped<IQrCodesService, QrCodesService>();
+builder.Services.AddScoped<IPlantNotesService, PlantNotesService>();
 //
 
 //Validators
