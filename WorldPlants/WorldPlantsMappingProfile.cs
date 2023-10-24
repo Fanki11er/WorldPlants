@@ -97,8 +97,6 @@ namespace WorldPlants
 
             CreateMap<QrCode, QrCodeDTO>();
 
-            CreateMap<PlantNote, PlantNoteDTO>();
-
         }
     }
 }

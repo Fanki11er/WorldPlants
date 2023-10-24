@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WorldPlants.Entities;
+using WorldPlants.Exceptions;
 using WorldPlants.Models.PlantNotes;
 using WorldPlants.Utilities;
 
@@ -9,6 +10,7 @@ namespace WorldPlants.Services
     {
         public List<PlantNoteDTO> GetPlantNotes(string plantId);
         public  Task AddNote(NewPlantNoteDTO note, string plantId);
+        public Task EditNote(NewPlantNoteDTO note, string noteId);
 
     }
     public class PlantNotesService: IPlantNotesService
@@ -34,14 +36,25 @@ namespace WorldPlants.Services
         }
         public List<PlantNoteDTO> GetPlantNotes(string plantId)
         {
+            List< PlantNoteDTO> newNotesDtos = new();
             var notes = _dbContext
                 .PlantNotes
                 .Where(n => n.PlantId.ToString() == plantId)
-                .OrderByDescending(o=> o.Id);
+                .OrderByDescending(o=> o.Id); 
+           
+            foreach( var note in notes )
+            {
+                var newDto = new PlantNoteDTO()
+                {
+                    ImageUrl = _imageService.GetImageUrl(note.ImageUrl),
+                    Title = note.Title,
+                    Note = note.Note,
+                    CreationDate = note.CreationDate,
+                };
+                newNotesDtos.Add(newDto);
+            }
 
-           var notesDto = _mapper.Map<List<PlantNoteDTO>>( notes ); 
-
-           return notesDto;
+            return newNotesDtos;
         }
 
         public  async Task AddNote(NewPlantNoteDTO note, string plantId)
@@ -57,8 +70,8 @@ namespace WorldPlants.Services
 
             PlantNote newNote = new()
             {
-                Title = note.Title,
-                Note = note.Note,
+                Title = note.title,
+                Note = note.note,
                 ImageUrl = fileName,
                 PlantId = plant.Id,
                 CreationDate = _utilities.GetTodayDate().ToString(),
@@ -67,6 +80,33 @@ namespace WorldPlants.Services
             _dbContext.PlantNotes.Add(newNote);
 
             _utilities.SaveChangesToDatabase();
+
+        }
+
+        public async Task EditNote(NewPlantNoteDTO note, string noteId)
+        {
+            string? fileName = "";
+
+            var oldNote = _dbContext
+                .PlantNotes
+                .FirstOrDefault(o => o.Id.ToString() == noteId) ?? 
+                throw new NotFoundException("Nie odnaleziono notatki");
+
+            if (note.ImageFile != null)
+            {
+                _imageService.DeleteImage(oldNote.ImageUrl);
+
+                fileName = await _imageService.SaveImageOnServer(note.ImageFile);
+
+                oldNote.ImageUrl = fileName;
+            }
+
+            oldNote.Title = note.title;
+            oldNote.Note = note.note;
+            
+            _dbContext.Update(oldNote);
+
+            _utilities .SaveChangesToDatabase();
 
         }
 

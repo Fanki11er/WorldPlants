@@ -27,11 +27,19 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Add/{plantId}")]
-        public async Task<ActionResult> AddNote([FromRoute]string plantId, [FromForm] NewPlantNoteDTO note) 
+        public async Task<ActionResult> AddNote([FromForm] NewPlantNoteDTO plantNoteDTO, [FromRoute] string plantId) 
         {
-            await _plantNotesService.AddNote(note, plantId);
+            await _plantNotesService.AddNote(plantNoteDTO, plantId);
 
             return Ok("Notatka utworzona");
+        }
+
+        [HttpPost("Edit/{noteId}")]
+        public async Task<ActionResult> EditNote([FromForm] NewPlantNoteDTO plantNoteDTO, [FromRoute] string noteId)
+        {
+            await _plantNotesService.EditNote(plantNoteDTO, noteId);
+
+            return Ok("Zapisano nową wersję notatki");
         }
 
     }

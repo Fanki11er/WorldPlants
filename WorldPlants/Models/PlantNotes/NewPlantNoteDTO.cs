@@ -2,8 +2,8 @@
 {
     public class NewPlantNoteDTO
     {
-        public string Title { get; set; }
-        public string Note { get; set; }
+        public string title { get; set; }
+        public string note { get; set; }
         public IFormFile? ImageFile { get; set; }
     }
 }
