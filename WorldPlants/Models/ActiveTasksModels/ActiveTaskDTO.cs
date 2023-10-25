@@ -8,7 +8,8 @@ namespace WorldPlants.Models.ActiveTasksModels
         public string? Id { get; set; }
         public string ActionDate { get; set; }
         public string PartOfTheDay { get; set; }
-        public string ActionType { get; set; }
+        public int ActionTypeId { get; set; }
+        public string ActionName { get; set; }
         public string Description { get; set; }
         public int Interval { get; set; }
         public string PlantId { get; set; }

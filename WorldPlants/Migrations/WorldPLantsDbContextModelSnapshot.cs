@@ -22,6 +22,35 @@ namespace WorldPlants.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("WorldPlants.Entities.ActionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("SpaceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("StandardType")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpaceId");
+
+                    b.ToTable("ActionTypes");
+                });
+
             modelBuilder.Entity("WorldPlants.Entities.ActiveTask", b =>
                 {
                     b.Property<Guid>("Id")
@@ -31,7 +60,7 @@ namespace WorldPlants.Migrations
                     b.Property<DateTime>("ActionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ActionType")
+                    b.Property<int>("ActionTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -48,6 +77,8 @@ namespace WorldPlants.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ActionTypeId");
 
                     b.HasIndex("PlantId");
 
@@ -143,7 +174,6 @@ namespace WorldPlants.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Note")
@@ -179,8 +209,9 @@ namespace WorldPlants.Migrations
                     b.Property<Guid>("PlantId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TaskType")
-                        .HasColumnType("int");
+                    b.Property<string>("TaskType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -424,13 +455,30 @@ namespace WorldPlants.Migrations
                     b.ToTable("UserSites");
                 });
 
+            modelBuilder.Entity("WorldPlants.Entities.ActionType", b =>
+                {
+                    b.HasOne("WorldPlants.Entities.Space", null)
+                        .WithMany("ActionTypes")
+                        .HasForeignKey("SpaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WorldPlants.Entities.ActiveTask", b =>
                 {
+                    b.HasOne("WorldPlants.Entities.ActionType", "ActionType")
+                        .WithMany()
+                        .HasForeignKey("ActionTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("WorldPlants.Entities.Plant", "Plant")
                         .WithMany("ActiveTasks")
                         .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ActionType");
 
                     b.Navigation("Plant");
                 });
@@ -448,11 +496,13 @@ namespace WorldPlants.Migrations
 
             modelBuilder.Entity("WorldPlants.Entities.PlantNote", b =>
                 {
-                    b.HasOne("WorldPlants.Entities.Plant", null)
+                    b.HasOne("WorldPlants.Entities.Plant", "Plant")
                         .WithMany("PlantNotes")
                         .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Plant");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.PlantTaskHistory", b =>
@@ -518,6 +568,8 @@ namespace WorldPlants.Migrations
 
             modelBuilder.Entity("WorldPlants.Entities.Space", b =>
                 {
+                    b.Navigation("ActionTypes");
+
                     b.Navigation("UserSites");
 
                     b.Navigation("Users");

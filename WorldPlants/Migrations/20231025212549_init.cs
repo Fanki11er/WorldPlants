@@ -74,6 +74,28 @@ namespace WorldPlants.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ActionTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StandardType = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActionTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActionTypes_Spaces_SpaceId",
+                        column: x => x.SpaceId,
+                        principalTable: "Spaces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -203,14 +225,19 @@ namespace WorldPlants.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ActionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PartOfTheDay = table.Column<int>(type: "int", nullable: false),
-                    ActionType = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Interval = table.Column<int>(type: "int", nullable: true),
-                    PlantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PlantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ActionTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ActiveTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActiveTasks_ActionTypes_ActionTypeId",
+                        column: x => x.ActionTypeId,
+                        principalTable: "ActionTypes",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ActiveTasks_Plants_PlantId",
                         column: x => x.PlantId,
@@ -227,7 +254,7 @@ namespace WorldPlants.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PlantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -248,7 +275,7 @@ namespace WorldPlants.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TaskType = table.Column<int>(type: "int", nullable: false),
+                    TaskType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExecutionDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PlantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -263,6 +290,16 @@ namespace WorldPlants.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActionTypes_SpaceId",
+                table: "ActionTypes",
+                column: "SpaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActiveTasks_ActionTypeId",
+                table: "ActiveTasks",
+                column: "ActionTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActiveTasks_PlantId",
@@ -326,6 +363,9 @@ namespace WorldPlants.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserSettings");
+
+            migrationBuilder.DropTable(
+                name: "ActionTypes");
 
             migrationBuilder.DropTable(
                 name: "Plants");

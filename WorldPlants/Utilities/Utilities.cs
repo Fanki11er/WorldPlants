@@ -125,6 +125,7 @@ namespace WorldPlants.Utilities
                .Include(p => p.UserSite)
                .AsSplitQuery()
                .Include(p => p.ActiveTasks)
+               .ThenInclude(t => t.ActionType)
                .FirstOrDefault(p => p.Id.ToString() == plantId &&
                p.UserSite.SpaceId.ToString() == spaceId)
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
