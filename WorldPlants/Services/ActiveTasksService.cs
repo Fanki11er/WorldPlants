@@ -76,7 +76,7 @@ namespace WorldPlants.Services
         {
             if (task == null)
             {
-                throw new ArgumentNullException("Nie prawidłowe dane zadania");
+                throw new ArgumentNullException(nameof(task), "Nie prawidłowe dane zadania");
             }
 
             var currentTask = _dbContext.ActiveTasks.FirstOrDefault(t => t.Id.ToString() == task.Id);

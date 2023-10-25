@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using WorldPlants.Entities;
 using WorldPlants.Exceptions;
 using WorldPlants.Models.PlantNotes;
@@ -10,7 +11,8 @@ namespace WorldPlants.Services
     {
         public List<PlantNoteDTO> GetPlantNotes(string plantId);
         public  Task AddNote(NewPlantNoteDTO note, string plantId);
-        public Task EditNote(NewPlantNoteDTO note, string noteId);
+        public Task EditNote(NewPlantNoteDTO note, int noteId);
+        public void DeletePlantNote(int noteId);
 
     }
     public class PlantNotesService: IPlantNotesService
@@ -70,8 +72,8 @@ namespace WorldPlants.Services
 
             PlantNote newNote = new()
             {
-                Title = note.title,
-                Note = note.note,
+                Title = note.Title,
+                Note = note.Note,
                 ImageUrl = fileName,
                 PlantId = plant.Id,
                 CreationDate = _utilities.GetTodayDate().ToString(),
@@ -83,26 +85,22 @@ namespace WorldPlants.Services
 
         }
 
-        public async Task EditNote(NewPlantNoteDTO note, string noteId)
+        public async Task EditNote(NewPlantNoteDTO note, int noteId)
         {
-            string? fileName = "";
 
-            var oldNote = _dbContext
-                .PlantNotes
-                .FirstOrDefault(o => o.Id.ToString() == noteId) ?? 
-                throw new NotFoundException("Nie odnaleziono notatki");
+            var oldNote = GetNoteById(noteId);
 
             if (note.ImageFile != null)
             {
                 _imageService.DeleteImage(oldNote.ImageUrl);
 
-                fileName = await _imageService.SaveImageOnServer(note.ImageFile);
+                var fileName = await _imageService.SaveImageOnServer(note.ImageFile);
 
                 oldNote.ImageUrl = fileName;
             }
 
-            oldNote.Title = note.title;
-            oldNote.Note = note.note;
+            oldNote.Title = note.Title;
+            oldNote.Note = note.Note;
             
             _dbContext.Update(oldNote);
 
@@ -112,12 +110,36 @@ namespace WorldPlants.Services
 
         public void DeletePlantNote(int noteId)
         {
+            var note = GetNoteById(noteId);
+
+            var imageName = note.ImageUrl;
+
+            _imageService.DeleteImage(imageName);
+
+            _dbContext.PlantNotes.Remove(note);
+
+            _utilities .SaveChangesToDatabase();
 
         }
 
-        public void DeleteAllPlantNotes(string plantId)
+        private PlantNote GetNoteById(int noteId)
         {
+            var spaceId = _utilities.GetUserSpaceId();
 
+            var note = _dbContext
+                .PlantNotes
+                .AsSingleQuery()
+                .Include(i => i.Plant)
+                .ThenInclude(i => i.UserSite)
+                .ThenInclude(i => i.Space)
+                .FirstOrDefault(n => n.Id == noteId &&
+                n.Plant.
+                UserSite.
+                SpaceId.
+                ToString() == spaceId) ??
+                throw new NotFoundException("Nie odnaleziono notatki");
+
+            return note;
         }
     }
 }

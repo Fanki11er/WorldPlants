@@ -15,7 +15,7 @@ namespace WorldPlants.Controllers
 
         public PlantNotesController(IPlantNotesService plantNotesService)
         {
-                _plantNotesService = plantNotesService;
+            _plantNotesService = plantNotesService;
         }
 
         [HttpGet("{plantId}")]
@@ -27,7 +27,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Add/{plantId}")]
-        public async Task<ActionResult> AddNote([FromForm] NewPlantNoteDTO plantNoteDTO, [FromRoute] string plantId) 
+        public async Task<ActionResult> AddNote([FromForm] NewPlantNoteDTO plantNoteDTO, [FromRoute] string plantId)
         {
             await _plantNotesService.AddNote(plantNoteDTO, plantId);
 
@@ -35,12 +35,22 @@ namespace WorldPlants.Controllers
         }
 
         [HttpPost("Edit/{noteId}")]
-        public async Task<ActionResult> EditNote([FromForm] NewPlantNoteDTO plantNoteDTO, [FromRoute] string noteId)
+        public async Task<ActionResult> EditNote([FromForm] NewPlantNoteDTO plantNoteDTO, [FromRoute] int noteId)
         {
             await _plantNotesService.EditNote(plantNoteDTO, noteId);
 
             return Ok("Zapisano nową wersję notatki");
         }
+
+        [HttpDelete("{noteId}")]
+
+        public ActionResult DeletePlantNote(int noteId)
+        {
+            _plantNotesService.DeletePlantNote(noteId);
+
+            return Ok("Usunięto notatkę");
+        }
+
 
     }
 }
