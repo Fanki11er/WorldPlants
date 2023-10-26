@@ -259,6 +259,7 @@ namespace WorldPlants.Services
                 .Include(i => i.UserSite)
                 .AsSplitQuery()
                 .Include(i => i.ActiveTasks)
+                .ThenInclude(i => i.ActionType)
                 .AsSplitQuery()
                 .Where(p => p.UserSite.SpaceId.ToString() == spaceId &&
                 p.ActiveTasks.Any(t => t.ActionDate <= today))
@@ -297,6 +298,7 @@ namespace WorldPlants.Services
                 .Include(i => i.UserSite)
                 .AsSplitQuery()
                 .Include(i => i.ActiveTasks)
+                .ThenInclude(i => i.ActionType)
                 .AsSplitQuery()
                 .Where(p => p.UserSite.SpaceId.ToString() == spaceId &&
                 p.ActiveTasks.Any(t => t.ActionDate > today && 

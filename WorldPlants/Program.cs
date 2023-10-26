@@ -33,7 +33,7 @@ builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
 
 
 // Add services to the container.
-builder.Host.UseNLog();
+//builder.Host.UseNLog();
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSingleton(authenticationSettings);
