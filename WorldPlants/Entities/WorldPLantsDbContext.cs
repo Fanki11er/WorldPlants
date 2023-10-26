@@ -18,6 +18,8 @@ namespace WorldPlants.Entities
         public DbSet<ActiveTask> ActiveTasks { get; set; }
         public DbSet<PlantTaskHistory> PlantTasksHistory { get; set; }
         public DbSet<QrCode> QrCodes { get; set; }
+        public DbSet<PlantNote> PlantNotes { get; set; }
+        public DbSet<ActionType> ActionTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +39,12 @@ namespace WorldPlants.Entities
             {
                 eb.HasMany(eb => eb.UserSites).WithOne(s => s.Space).OnDelete(DeleteBehavior.Cascade);
                 eb.HasMany(eb => eb.Users).WithOne(u => u.Space).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<ActiveTask>(eb =>
+            {
+                eb.HasOne(u => u.ActionType).WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
         }

@@ -44,16 +44,22 @@ namespace WorldPlants.Services
             string accountType = UserRoles.Owner.ToString();
             bool hasPhoneNumber = dto.PhoneNumber != null;
 
+
             var spaceId = _databaseUtils.AddToDatabaseUserSpace();
+
             _databaseUtils.CheckIfSpaceExists(spaceId.ToString());
 
             var userId = _databaseUtils.AddUserToDatabase(dto, spaceId, accountType);
+
             _databaseUtils.AddToDatabaseUserSettings(accountType, userId, hasPhoneNumber);
+
+            _databaseUtils.AddStandardTasks(spaceId);
         }
 
         public void DeleteUserAndAppAccount()
         {
             var userId = _userContextService.GetUserId;
+
             var spaceId = _userContextService.GetSpaceId;
 
             if (spaceId == null)

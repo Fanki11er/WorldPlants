@@ -266,6 +266,8 @@ namespace WorldPlants.Services
 
             var imageName = plant.ImageName;
 
+            _utilities.DeletePlantNotesImages(plant.Id.ToString());
+
             _dbContext.Plants.Remove(plant);
 
             _utilities.SaveChangesToDatabase("Nie udało się usunąć rosliny");

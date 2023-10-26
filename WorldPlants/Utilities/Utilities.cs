@@ -19,17 +19,24 @@ namespace WorldPlants.Utilities
         public DateTime GetTodayDateTime();
         public Plant FindPlantWithTasksHistory(string plantId);
         public void CheckIfUserSiteExists(int siteId);
+        public Plant FindPlantWithNotes(string plantId);
+        public void DeletePlantNotesImages(string plantId);
     }
 
     public class Utilities : IUtilities
     {
         private readonly IUserContextService _userContextService;
+        private readonly IImageService _imageService;
         private readonly WorldPlantsDbContext _dbContext;
 
-        public Utilities(WorldPlantsDbContext worldPlantsDbContext, IUserContextService userContextService)
+        public Utilities(WorldPlantsDbContext worldPlantsDbContext,
+            IUserContextService userContextService,
+            IImageService imageService
+            )
         {
             _dbContext = worldPlantsDbContext;
             _userContextService = userContextService;
+            _imageService = imageService;
         }
 
         public Utilities()
@@ -110,13 +117,17 @@ namespace WorldPlants.Utilities
 
         public Plant FindPlantWithTasks(string plantId)
         {
+            var spaceId = GetUserSpaceId();
+
             var plant = _dbContext
                .Plants
                .AsSplitQuery()
                .Include(p => p.UserSite)
                .AsSplitQuery()
                .Include(p => p.ActiveTasks)
-               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               .ThenInclude(t => t.ActionType)
+               .FirstOrDefault(p => p.Id.ToString() == plantId &&
+               p.UserSite.SpaceId.ToString() == spaceId)
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 
             return plant;
@@ -124,11 +135,33 @@ namespace WorldPlants.Utilities
 
         public Plant FindPlantWithTasksHistory(string plantId)
         {
+            var spaceId = GetUserSpaceId();
+
             var plant = _dbContext
                .Plants
                .AsSplitQuery()
                .Include(p => p.TasksHistory)
-               .FirstOrDefault(p => p.Id.ToString() == plantId)
+               .AsSplitQuery()
+               .Include(i => i.UserSite)
+               .FirstOrDefault(p => p.Id.ToString() == plantId &&
+               p.UserSite.SpaceId.ToString() == spaceId)
+               ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
+
+            return plant;
+        }
+
+        public Plant FindPlantWithNotes(string plantId)
+        {
+            var spaceId = GetUserSpaceId();
+
+            var plant = _dbContext
+               .Plants
+               .AsSplitQuery()
+               .Include(p => p.PlantNotes)
+               .AsSplitQuery()
+               .Include(i => i.UserSite)
+               .FirstOrDefault(p => p.Id.ToString() == plantId &&
+               p.UserSite.SpaceId.ToString() == spaceId)
                ?? throw new NotFoundException($"Nie znaleziono rośliny o id: {plantId}");
 
             return plant;
@@ -171,6 +204,20 @@ namespace WorldPlants.Utilities
                 throw new NotFoundException("Nie znaleziono miejsca o podanym id");
             }
         }
+
+        public void DeletePlantNotesImages(string plantId)
+        {
+            var plant = FindPlantWithNotes(plantId);
+
+            foreach (var plantNote in plant.PlantNotes)
+            {
+                _imageService.DeleteImage(plantNote.ImageUrl);
+
+                plantNote.ImageUrl = null;
+            }
+        }
+
+
     }
 
 }

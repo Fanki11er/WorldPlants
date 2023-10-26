@@ -12,7 +12,7 @@ namespace WorldPlants.Utilities
         public int? TransformDimensionProperty(RawPlantDetailsDimension? dimension);
         public PlantDetailsWateringGeneralBenchmark? TransformGeneralWateringBenchmark(PlantDetailsWateringGeneralBenchmark? data);
         public RawPlantDetailsPruningCount? TransformPruningCount(object? data);
-        public string TranslateActionTypeEnum(ActionType actionType);
+        //public string TranslateActionTypeEnum(ActionType actionType);
         public string TranslatePartOfTheDayEnum(PartOfTheDay partOfTheDay);
     }
     public class TranslationUtilities : ITranslationUtilities
@@ -256,6 +256,11 @@ namespace WorldPlants.Utilities
         {
             var results = new List<string>();
 
+            if(properties == null)
+            {
+                return results;
+            }
+
             foreach (string property in properties)
             {
                 try
@@ -342,7 +347,7 @@ namespace WorldPlants.Utilities
             return castedData;
         }
 
-        public string TranslateActionTypeEnum(ActionType actionType)
+        /*public string TranslateActionTypeEnum(ActionType actionType)
         {
             switch (actionType)
             {
@@ -371,7 +376,7 @@ namespace WorldPlants.Utilities
                         return "Użytkownika";
                     }
             }
-        }
+        }*/
 
         public string TranslatePartOfTheDayEnum(PartOfTheDay partOfTheDay)
         {

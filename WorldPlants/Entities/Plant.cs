@@ -14,5 +14,6 @@
         public virtual UserSite UserSite { get; set; }
         public virtual List<ActiveTask> ActiveTasks { get; set; }
         public virtual List<PlantTaskHistory> TasksHistory { get; set; }
+        public virtual List<PlantNote> PlantNotes { get; set; }
     }
 }
