@@ -157,4 +157,21 @@ export const apiEndpoints = {
   },
 
   deleteAllCodes: "QR",
+
+  //?? Notes
+  getNotes: (plantId: string | undefined) => {
+    return `Notes/${plantId ? plantId : ""}`;
+  },
+
+  addNote: (plantId: string | undefined) => {
+    return `Notes/Add/${plantId ? plantId : ""}`;
+  },
+
+  editNote: (noteId: number) => {
+    return `Notes/Edit/${noteId}`;
+  },
+
+  deleteNote: (noteId: number) => {
+    return `Notes/${noteId}`;
+  },
 };

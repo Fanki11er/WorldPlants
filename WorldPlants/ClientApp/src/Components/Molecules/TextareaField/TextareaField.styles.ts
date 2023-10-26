@@ -17,5 +17,11 @@ export const TextareaFieldInput = styled(Field)`
   border-radius: 10px;
   padding: 10px 20px;
   resize: none;
-  border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+  border: 2px solid ${(props: AppTheme) => props.theme.colors.transparent};
+  outline: none;
+  transition: all 0.5s;
+  &:hover,
+  &:focus {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+  }
 `;

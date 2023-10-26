@@ -37,6 +37,8 @@ export const paths = {
   selectedPlantSettings: "PlantSettings",
   selectedPlantMove: "MovePlant",
   selectedPlantDelete: "DeletePlant",
+  selectedPlantNotes: "Notes",
+  selectedPlanEditNote: "Note",
   //? QR
   qrCodes: "Qr",
   qrPrints: "Prints",

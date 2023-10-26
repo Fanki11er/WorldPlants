@@ -10,6 +10,7 @@ import { StandardTaskTypeEnum } from "../Interfaces/PlantActiveTask";
 import { Location } from "../Interfaces/DefaultSiteDto";
 import placeInside from "../Assets/PlaceHouse.svg";
 import placeOutside from "../Assets/PlaceOutside.svg";
+import imageCompression from "browser-image-compression";
 
 export const getErrorMessages = (e: unknown) => {
   const errorMessages: string[] = [];
@@ -26,10 +27,14 @@ export const getErrorMessages = (e: unknown) => {
   }
 
   const errorData = data as ErrorData;
-  const errorValues = Object.values(errorData.errors).flat();
-  errorValues.forEach((value) => {
-    errorMessages.push(value);
-  });
+  if (errorData.errors) {
+    const errorValues = Object.values(errorData.errors).flat();
+    errorValues.forEach((value) => {
+      errorMessages.push(value);
+    });
+  } else {
+    errorMessages.push(`Wystąpił błąd o statusie: ${errorData.status}`);
+  }
 
   return errorMessages;
 };
@@ -192,5 +197,18 @@ export const getLocationIcon = (location: Location) => {
     case "Outdoor": {
       return placeOutside;
     }
+  }
+};
+
+export const compressFile = async (image: File) => {
+  try {
+    const compressedFile = await imageCompression(image, {
+      maxSizeMB: 2,
+      useWebWorker: true,
+    });
+    return compressedFile;
+  } catch (e) {
+    console.log(e);
+    return image;
   }
 };

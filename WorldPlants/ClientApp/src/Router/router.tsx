@@ -44,6 +44,8 @@ import QrView from "../Views/QrView/QrView";
 import QrScannerSection from "../Components/Organisms/QrScannerSection/QrScannerSection";
 import QrPrintSection from "../Components/Organisms/QrPrintSection/QrPrintSection";
 import AddCustomPlantSection from "../Components/Organisms/AddCustomPlantSection/AddCustomPlantSection";
+import PlantNotesSection from "../Components/Organisms/PlantNotesSection/PlantNotesSection";
+import EditNoteSection from "../Components/Organisms/EditNoteSection/EditNoteSection";
 
 const {
   rootPath,
@@ -76,6 +78,8 @@ const {
   qrCodes,
   qrPrints,
   addCustomPlant,
+  selectedPlantNotes,
+  selectedPlanEditNote,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -152,6 +156,11 @@ const router = createBrowserRouter(
             path={selectedPlantSchedule}
             element={<PlantScheduleSection />}
           />
+          <Route path={selectedPlantNotes} element={<PlantNotesSection />} />
+          <Route
+            path={`${selectedPlanEditNote}/:noteId`}
+            element={<EditNoteSection />}
+          />
           <Route
             path={selectedPlantDetails}
             element={<PlantDetailsSection />}
@@ -196,3 +205,6 @@ export default router;
 
 //todo Ikona do RecognisePlantSection
 //todo Ikona do AddPlantSearchSection
+
+//!! AddPhotoFieldStyles
+//!! TextAreaField.styles

@@ -13,7 +13,7 @@ import { useMutation } from "react-query";
 import { RECOGNIZED_RESULTS } from "../../../Constants/Constants";
 import { PlantRecognizeResult } from "../../../Interfaces/PlantRecognizeResult";
 import FormRequestError from "../FormRequestError/FormRequestError";
-import { getErrorMessages } from "../../../Utils/Utils";
+import { compressFile, getErrorMessages } from "../../../Utils/Utils";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 import { apiEndpoints } from "../../../Api/endpoints";
 import imageCompression from "browser-image-compression";
@@ -21,19 +21,6 @@ import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import useQueryKey from "../../../Hooks/useQueryKey";
 
 type PhotoFile = File | "";
-
-const compressFile = async (image: File) => {
-  try {
-    const compressedFile = await imageCompression(
-      image,
-      imageCompressionOptions
-    );
-    return compressedFile;
-  } catch (e) {
-    console.log(e);
-    return image;
-  }
-};
 
 const prepareFormData = async (values: PhotoFile[]) => {
   const formData = new FormData();

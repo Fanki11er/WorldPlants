@@ -5,6 +5,13 @@ export const AddPhotoFieldWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 0 30px;
+  border: 2px solid ${(props: AppTheme) => props.theme.colors.transparent};
+  &:hover,
+  &:focus-within {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+  }
+  overflow: hidden;
+  height: 30px;
 `;
 
 export const AddPhotoFieldLabel = styled.label`
