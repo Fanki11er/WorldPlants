@@ -12,7 +12,7 @@ namespace WorldPlants.Services
 
     public interface IActiveTasksService
     {
-        public ActiveTaskDTO GetStandardPlantTask(string taskType, string plantId);
+        public ActiveTaskDTO GetStandardPlantTask(int taskId, string plantId);
         public ActiveTaskDTO SetPlantTask(ActiveTaskDTO task);
         public void DeletePlantTask(string taskId);
         public List<ActiveTaskInformationDto> GetPlantAllTasks(string plantId);
@@ -44,11 +44,16 @@ namespace WorldPlants.Services
         }
 
 
-        public ActiveTaskDTO GetStandardPlantTask(string plantId, string taskType)
+        public ActiveTaskDTO GetStandardPlantTask(int typeId, string plantId)
         {
-            var plant = _utilities.FindPlantWithTasks(plantId);
+            var plant = _utilities
+                .FindPlantWithTasks(plantId);
 
-            var task = plant.ActiveTasks.FirstOrDefault(t => t.ActionType.ToString() == taskType);
+            var taskType = _dbContext.ActionTypes.FirstOrDefault(at => at.Id == typeId) ??
+                throw new NotFoundException("Nie odnaleziono typu akcji");
+
+            var task = plant.ActiveTasks
+                .FirstOrDefault(t => t.ActionTypeId == typeId);
 
             if (task == null)
             {
@@ -58,7 +63,8 @@ namespace WorldPlants.Services
                     Description = "",
                     ActionDate = "",
                     PartOfTheDay = "",
-                    ActionType = taskType,
+                    ActionName = taskType.Name,
+                    ActionTypeId = typeId,
                     Interval = 0,
                     PlantId = plantId,
                 };
@@ -76,10 +82,11 @@ namespace WorldPlants.Services
         {
             if (task == null)
             {
-                throw new ArgumentNullException("Nie prawidłowe dane zadania");
+                throw new ArgumentNullException(nameof(task), "Nie prawidłowe dane zadania");
             }
 
-            var currentTask = _dbContext.ActiveTasks.FirstOrDefault(t => t.Id.ToString() == task.Id);
+            var currentTask = _dbContext.ActiveTasks
+                .FirstOrDefault(t => t.Id.ToString() == task.Id);
 
             if (currentTask == null)
             {
@@ -231,6 +238,8 @@ namespace WorldPlants.Services
         private ActiveTask GetTask(string taskId)
         {
             var task = _dbContext.ActiveTasks
+               .AsSplitQuery()
+               .Include(i => i.ActionType)
                .FirstOrDefault(t => t.Id.ToString() == taskId)
                ?? throw new NotFoundException("Nie odnaleziono zadania");
 
@@ -250,6 +259,7 @@ namespace WorldPlants.Services
                 .Include(i => i.UserSite)
                 .AsSplitQuery()
                 .Include(i => i.ActiveTasks)
+                .ThenInclude(i => i.ActionType)
                 .AsSplitQuery()
                 .Where(p => p.UserSite.SpaceId.ToString() == spaceId &&
                 p.ActiveTasks.Any(t => t.ActionDate <= today))
@@ -288,6 +298,7 @@ namespace WorldPlants.Services
                 .Include(i => i.UserSite)
                 .AsSplitQuery()
                 .Include(i => i.ActiveTasks)
+                .ThenInclude(i => i.ActionType)
                 .AsSplitQuery()
                 .Where(p => p.UserSite.SpaceId.ToString() == spaceId &&
                 p.ActiveTasks.Any(t => t.ActionDate > today && 
@@ -327,7 +338,7 @@ namespace WorldPlants.Services
 
             PlantTaskHistory item = new()
             {
-                TaskType = task.ActionType,
+                TaskType = task.ActionType.Name,
                 UserName = user.Name,
                 ExecutionDate = _utilities.GetTodayDate().ToShortDateString(),
                 PlantId = task.PlantId
@@ -335,5 +346,6 @@ namespace WorldPlants.Services
 
             return item;
         }
+
     }
 }

@@ -178,31 +178,31 @@ namespace WorldPlants.Services
 
             if (userSettings.WaterPlantsEmailReminder == true)
             {
-                userActiveEmailRemindersTypes.Add(ActionType.Water.ToString());
+                userActiveEmailRemindersTypes.Add("Water");
             }
 
             if (userSettings.FertilizePlantsEmailReminder == true)
             {
-                userActiveEmailRemindersTypes.Add(ActionType.Fertilize.ToString());
+                userActiveEmailRemindersTypes.Add("Fertilize");
             }
 
             if (userSettings.CutPlantsEmailReminder == true)
             {
-                userActiveEmailRemindersTypes.Add(ActionType.Cut.ToString());
+                userActiveEmailRemindersTypes.Add("Cut");
             }
 
             if (userSettings.MistPlantsEmailReminder == true)
             {
-                userActiveEmailRemindersTypes.Add(ActionType.Mist.ToString());
+                userActiveEmailRemindersTypes.Add("Mist");
             }
 
             if (userSettings.ReplantPlantsEmailReminder == true)
             {
-                userActiveEmailRemindersTypes.Add(ActionType.Replant.ToString());
+                userActiveEmailRemindersTypes.Add("Replant");
             }
             if (userSettings.CustomTasksEmailReminder == true)
             {
-                userActiveEmailRemindersTypes.Add(ActionType.Custom.ToString());
+                userActiveEmailRemindersTypes.Add("Custom");
             }
 
             return userActiveEmailRemindersTypes;
@@ -214,31 +214,31 @@ namespace WorldPlants.Services
 
             if (userSettings.WaterPlantsSmsReminder == true)
             {
-                userActiveSmsRemindersTypes.Add(ActionType.Water.ToString());
+                userActiveSmsRemindersTypes.Add(StandardActionType.Water.ToString());
             }
 
             if (userSettings.FertilizePlantsSmsReminder == true)
             {
-                userActiveSmsRemindersTypes.Add(ActionType.Fertilize.ToString());
+                userActiveSmsRemindersTypes.Add(StandardActionType.Fertilize.ToString());
             }
 
             if (userSettings.CutPlantsSmsReminder == true)
             {
-                userActiveSmsRemindersTypes.Add(ActionType.Cut.ToString());
+                userActiveSmsRemindersTypes.Add(StandardActionType.Cut.ToString());
             }
 
             if (userSettings.MistPlantsSmsReminder == true)
             {
-                userActiveSmsRemindersTypes.Add(ActionType.Mist.ToString());
+                userActiveSmsRemindersTypes.Add(StandardActionType.Mist.ToString());
             }
 
             if (userSettings.ReplantPlantsSmsReminder == true)
             {
-                userActiveSmsRemindersTypes.Add(ActionType.Replant.ToString());
+                userActiveSmsRemindersTypes.Add(StandardActionType.Replant.ToString());
             }
             if (userSettings.CustomTasksSmsReminder == true)
             {
-                userActiveSmsRemindersTypes.Add(ActionType.Custom.ToString());
+                userActiveSmsRemindersTypes.Add(StandardActionType.Custom.ToString());
             }
 
             return userActiveSmsRemindersTypes;
@@ -323,11 +323,11 @@ namespace WorldPlants.Services
             var today = _utilities.GetTodayDateTime();
 
             var plantWithReminders = plant.ActiveTasks
-               .Where(a => userAcceptedReminders.Contains(a.ActionType.ToString()) &&
+               .Where(a => userAcceptedReminders.Contains(a.ActionType.Name) &&
                a.ActionDate <= today && a.ActionDate >= today.AddDays(-3))
                   .Select(t => new TodayTask()
                   {
-                      ActionType = _translationUtilities.TranslateActionTypeEnum(t.ActionType),
+                      ActionType = t.ActionType.Name,
 
                       PartOfTheDay = _translationUtilities.TranslatePartOfTheDayEnum(t.PartOfTheDay),
 

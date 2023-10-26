@@ -3,6 +3,7 @@ using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
+using WorldPlants.Models.PlantNotes;
 using WorldPlants.Models.PlantsModels;
 using WorldPlants.Models.PlantTaskHistory;
 using WorldPlants.Models.QrCodes;
@@ -64,7 +65,8 @@ namespace WorldPlants
                  .ForMember(p => p.TasksInformation, p => p.MapFrom(s => new List<ActiveTaskInformationDto>()));
 
             CreateMap<ActiveTask, ActiveTaskInformationDto>()
-                .ForMember(m => m.DaysLeft, m => m.MapFrom(d => (DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber)));
+                .ForMember(m => m.DaysLeft, m => m.MapFrom(d => (DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber)))
+                .ForMember(m => m.ActionType, m => m.MapFrom(t => t.ActionType.Name));
 
 
             CreateMap<ActiveTask, ActiveTaskDTO>()
@@ -74,7 +76,7 @@ namespace WorldPlants
                 .ForMember(m => m.Id, m => m.Ignore())
                 .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateTime.Parse(d.ActionDate)))
                 .ForMember(m => m.PartOfTheDay, m => m.MapFrom(p => Enum.Parse(typeof(PartOfTheDay), p.PartOfTheDay)))
-                .ForMember(m => m.ActionType, m => m.MapFrom(p => Enum.Parse(typeof(ActionType), p.ActionType)));
+                .ForMember(m => m.ActionTypeId, m => m.MapFrom(p => p.ActionTypeId));
 
             CreateMap<PlantTaskHistory, PlantTaskHistoryDTO>()
                 .ForMember(m => m.TaskType, m => m.MapFrom(t => t.TaskType.ToString()));

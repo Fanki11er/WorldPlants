@@ -2,7 +2,7 @@
 
 namespace WorldPlants.Enums
 {
-    public enum ActionType
+    public enum StandardActionType
     {
         Custom,
         Water,

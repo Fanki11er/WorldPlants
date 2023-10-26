@@ -7,7 +7,7 @@ namespace WorldPlants.Controllers
 {
     [ApiController]
     [Route("Recognize")]
-    [AllowAnonymous]
+    [Authorize]
     public class RecognizerController : Controller
     {
         private readonly IRecognizerService _recognizerService;

@@ -19,10 +19,10 @@ namespace WorldPlants.Controllers
             _activeTasksService = activeTasksService;
         }
 
-        [HttpGet("Standard/{plantId}/{taskType}")]
-        public ActionResult<ActiveTaskDTO> GetStandardTask([FromRoute] string plantId, [FromRoute] string taskType) 
+        [HttpGet("Standard/{plantId}/{typeId}")]
+        public ActionResult<ActiveTaskDTO> GetStandardTask([FromRoute] string plantId, [FromRoute] int typeId) 
         {
-            var result = _activeTasksService.GetStandardPlantTask(plantId, taskType);
+            var result = _activeTasksService.GetStandardPlantTask(typeId, plantId);
 
             return Ok(result);
         }
