@@ -43,6 +43,7 @@ import IncomingPlantsTasksSection from "../Components/Organisms/IncomingPlantsTa
 import QrView from "../Views/QrView/QrView";
 import QrScannerSection from "../Components/Organisms/QrScannerSection/QrScannerSection";
 import QrPrintSection from "../Components/Organisms/QrPrintSection/QrPrintSection";
+import AddCustomPlantSection from "../Components/Organisms/AddCustomPlantSection/AddCustomPlantSection";
 
 const {
   rootPath,
@@ -74,6 +75,7 @@ const {
   plantTasksIncoming,
   qrCodes,
   qrPrints,
+  addCustomPlant,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -138,6 +140,7 @@ const router = createBrowserRouter(
           <Route index element={<AddPlantSearchSection />} />
           <Route path={addPlantRecognize} element={<RecognizePlantSection />} />
           <Route path=":detailsId" element={<AddPlantSection />} />
+          <Route path={addCustomPlant} element={<AddCustomPlantSection />} />
         </Route>
         //? Plant
         <Route

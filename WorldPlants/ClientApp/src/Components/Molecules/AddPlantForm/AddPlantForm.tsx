@@ -23,11 +23,7 @@ import InputField from "../InputField/InputField";
 import AddPhotoField from "../AddPhotoField/AddPhotoField";
 import TextareaField from "../TextareaField/TextareaField";
 import imgFallback from "../../../Assets/ImageFallback.svg";
-import {
-  ActionButton,
-  RedActionButton,
-  RedButtonWithoutMargin,
-} from "../../Atoms/Buttons/Buttons";
+import { RedButtonWithoutMargin } from "../../Atoms/Buttons/Buttons";
 import { PlantCurrentSettingsDto } from "../../../Interfaces/PlantCurrentSettingsDto";
 
 interface FormValues {
@@ -40,7 +36,7 @@ interface FormValues {
 }
 
 interface Props {
-  currentSettings: PlantCurrentSettingsDto;
+  currentSettings: PlantCurrentSettingsDto | null;
   submitEndpoint: (id: string | undefined) => string;
   invalidateQueries?: string[][];
 }
@@ -82,7 +78,7 @@ const AddPlantForm = (props: Props) => {
       formData.delete("imageUrl");
     }
 
-    if (currentSettings.externalId) {
+    if (currentSettings && currentSettings.externalId) {
       formData.append("externalId", currentSettings.externalId.toString());
     }
 
@@ -103,12 +99,13 @@ const AddPlantForm = (props: Props) => {
   return (
     <Formik
       initialValues={{
-        name: currentSettings.name || "",
-        imageUrl: currentSettings.imageUrl || "",
-        potHeight: currentSettings.potHeight || 0,
-        potWidth: currentSettings.potWidth || 0,
-        plantHeight: currentSettings.plantHeight || 0,
-        additionalDescription: currentSettings.additionalDescription || "",
+        name: (currentSettings && currentSettings.name) || "",
+        imageUrl: (currentSettings && currentSettings.imageUrl) || "",
+        potHeight: (currentSettings && currentSettings.potHeight) || 0,
+        potWidth: (currentSettings && currentSettings.potWidth) || 0,
+        plantHeight: (currentSettings && currentSettings.plantHeight) || 0,
+        additionalDescription:
+          (currentSettings && currentSettings.additionalDescription) || "",
       }}
       onSubmit={(values: FormValues, { setSubmitting }) => {
         const addPlantValues = prepareFormData(values);
