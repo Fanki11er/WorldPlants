@@ -24,11 +24,7 @@ const PlantScheduleSection = () => {
   const { plantId } = useParams();
   const { getPlantTipsData } = apiEndpoints;
   const axiosPrivate = useAxiosPrivate();
-  const {
-    data: tipsData,
-    isLoading: isTipsDataLoading,
-    error: tipsDataError,
-  } = useQuery<PlantScheduleTipsDto>(
+  const { data: tipsData } = useQuery<PlantScheduleTipsDto>(
     [PLANTS_SCHEDULE_TIPS, plantId],
     async () => {
       const result = await axiosPrivate.get(getPlantTipsData(plantId));
@@ -52,7 +48,7 @@ const PlantScheduleSection = () => {
         <PlantScheduleTip
           tipData={tipsData?.watering ? tipsData.watering : ""}
         />
-        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Water} />
+        <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Water} />
       </PlantScheduleConcreteTypeWrapper>
 
       <PlantScheduleConcreteTypeWrapper>
@@ -63,7 +59,7 @@ const PlantScheduleSection = () => {
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
         <PlantStandardTaskScheduleForm
-          taskType={StandardTaskTypeEnum.Fertilize}
+          taskId={StandardTaskTypeEnum.Fertilize}
         />
       </PlantScheduleConcreteTypeWrapper>
 
@@ -75,7 +71,7 @@ const PlantScheduleSection = () => {
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
         <PlantScheduleTip tipData={tipsData?.pruning ? tipsData.pruning : ""} />
-        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Cut} />
+        <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Cut} />
       </PlantScheduleConcreteTypeWrapper>
       <PlantScheduleConcreteTypeWrapper>
         <PlantScheduleConcreteTypeHeaderWrapper>
@@ -84,9 +80,7 @@ const PlantScheduleSection = () => {
             Przesadzanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm
-          taskType={StandardTaskTypeEnum.Replant}
-        />
+        <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Replant} />
       </PlantScheduleConcreteTypeWrapper>
 
       <PlantScheduleConcreteTypeWrapper>
@@ -96,7 +90,7 @@ const PlantScheduleSection = () => {
             Zwilżanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskType={StandardTaskTypeEnum.Mist} />
+        <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Mist} />
       </PlantScheduleConcreteTypeWrapper>
     </PlantScheduleSectionWrapper>
   );

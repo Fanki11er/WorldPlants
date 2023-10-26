@@ -1,7 +1,8 @@
 export interface PlantActiveTask {
   id: string | null;
   plantId: string;
-  actionType: string;
+  actionTypeId: number;
+  actionName: string;
   actionDate: string;
   partOfTheDay: string;
   description: string;
@@ -9,11 +10,11 @@ export interface PlantActiveTask {
 }
 
 export enum StandardTaskTypeEnum {
-  Water,
-  Fertilize,
-  Cut,
-  Replant,
-  Mist,
+  Water = 1,
+  Fertilize = 2,
+  Cut = 3,
+  Replant = 4,
+  Mist = 5,
 }
 export type CustomTaskType = "Custom";
 

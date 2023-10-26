@@ -26,7 +26,7 @@ import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 
 interface Props {
-  taskType: StandardTaskTypeEnum;
+  taskId: StandardTaskTypeEnum;
 }
 
 interface FormValues {
@@ -36,14 +36,14 @@ interface FormValues {
 }
 
 const PlantStandardTaskScheduleForm = (props: Props) => {
-  const { taskType } = props;
+  const { taskId } = props;
   const { plantId } = useParams();
   const { getStandardTask, setTask, deletePlantTask } = apiEndpoints;
   const axiosPrivate = useAxiosPrivate();
   const { data, isLoading, error } = useQuery<PlantActiveTask>(
-    [STANDARD_PLANT_TASKS, plantId, taskType],
+    [STANDARD_PLANT_TASKS, plantId, taskId],
     async () => {
-      const result = await axiosPrivate.get(getStandardTask(plantId, taskType));
+      const result = await axiosPrivate.get(getStandardTask(plantId, taskId));
       return result.data;
     },
     {
@@ -62,7 +62,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
       return axiosPrivate.post(setTask, value);
     },
     onSuccess: async () => {
-      await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskType]);
+      await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskId]);
       await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
     },
   });
@@ -77,7 +77,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
       return axiosPrivate.delete(deletePlantTask(taskId));
     },
     onSuccess: async () => {
-      await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskType]);
+      await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskId]);
       await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
     },
   });
@@ -114,7 +114,8 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
               partOfTheDay: values.partOfTheDay,
               plantId: data ? data.plantId : plantId || "",
               description: data ? data.description : "",
-              actionType: data ? data.actionType : taskType.toString(),
+              actionTypeId: data ? data.actionTypeId : taskId,
+              actionName: data ? data.actionName : StandardTaskTypeEnum[taskId],
             };
 
             updateTask(newTask, {
@@ -122,7 +123,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
                 await client.invalidateQueries([
                   STANDARD_PLANT_TASKS,
                   plantId,
-                  taskType,
+                  taskId,
                 ]);
                 await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
               },
