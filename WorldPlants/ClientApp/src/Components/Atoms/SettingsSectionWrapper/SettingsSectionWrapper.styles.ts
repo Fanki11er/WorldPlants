@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const SettingsSectionWrapper = styled.section`
-  width: 80%;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
@@ -10,11 +10,9 @@ export const SettingsSectionWrapper = styled.section`
   row-gap: 15px;
   grid-column: 2/3;
 
-  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
-  }
-
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-column: 1/2;
+    padding: 0 20px;
   }
 `;
 

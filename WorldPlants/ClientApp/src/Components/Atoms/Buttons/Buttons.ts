@@ -185,6 +185,19 @@ export const OrangeStyledButton = styled(StyledButton)`
   background-color: ${(props: AppTheme) => props.theme.colors.orangeRed};
 `;
 
+export const EditOrangeButton = styled(OrangeButton)`
+  min-width: 130px;
+  width: fit-content;
+  min-height: 35px;
+  &:hover,
+  &:focus {
+    background-color: ${(props: AppTheme) =>
+      props.theme.colors.greenSettingsActive};
+    border: 2px solid
+      ${(props: AppTheme) => props.theme.colors.greenSettingsActive};
+  }
+`;
+
 export const BlueStyledButton = styled(StyledButton)`
   background-color: ${(props: AppTheme) => props.theme.colors.blue};
 `;

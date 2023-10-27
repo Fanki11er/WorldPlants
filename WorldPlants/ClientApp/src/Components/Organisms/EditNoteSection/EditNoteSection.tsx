@@ -12,7 +12,12 @@ import { useEffect, useState } from "react";
 import { PlantNoteDto } from "../../../Interfaces/PlantNoteDto";
 import { apiEndpoints } from "../../../Api/endpoints";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
-import { ActionButton, OrangeButton } from "../../Atoms/Buttons/Buttons";
+import {
+  ActionButton,
+  EditOrangeButton,
+  GenerateQRButton,
+  OrangeButton,
+} from "../../Atoms/Buttons/Buttons";
 
 const EditNoteSection = () => {
   const { editNote } = apiEndpoints;
@@ -49,10 +54,12 @@ const EditNoteSection = () => {
             successIndicatorText="Pomyślnie edytowano"
           />
           <EditNoteSectionButtonsWrapper>
-            <OrangeButton type="submit" form="noteEditForm">
+            <GenerateQRButton type="submit" form="noteEditForm">
               Edytuj
-            </OrangeButton>
-            <ActionButton onClick={() => navigate(-1)}>Powrót</ActionButton>
+            </GenerateQRButton>
+            <GenerateQRButton onClick={() => navigate(-1)}>
+              Powrót
+            </GenerateQRButton>
           </EditNoteSectionButtonsWrapper>
         </EditNoteSectionFormWrapper>
       )}

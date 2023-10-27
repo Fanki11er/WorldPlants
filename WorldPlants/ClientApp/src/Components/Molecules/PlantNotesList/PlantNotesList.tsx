@@ -16,8 +16,10 @@ import { getErrorMessages } from "../../../Utils/Utils";
 import PlantNote from "../PlantNote/PlantNote";
 import {
   ActionButton,
+  GenerateQRButton,
   OrangeButton,
   RedActionButton,
+  RedButtonWithoutMargin,
 } from "../../Atoms/Buttons/Buttons";
 
 interface Props {
@@ -54,7 +56,7 @@ const PlantNotesList = (props: Props) => {
         <PlantNoteListItem key={note.id}>
           <PlantNote note={note} />
           <PlantNotesItemButtonsWrapper>
-            <OrangeButton
+            <GenerateQRButton
               onClick={() =>
                 navigate(
                   `${authorized}/${selectedPlant}/${plantId}/${selectedPlanEditNote}/${note.id}`
@@ -62,10 +64,10 @@ const PlantNotesList = (props: Props) => {
               }
             >
               Edytuj
-            </OrangeButton>
-            <RedActionButton onClick={() => deleteItem(note.id)}>
+            </GenerateQRButton>
+            <RedButtonWithoutMargin onClick={() => deleteItem(note.id)}>
               Usuń
-            </RedActionButton>
+            </RedButtonWithoutMargin>
           </PlantNotesItemButtonsWrapper>
           {error ? (
             <FormRequestError errorValues={getErrorMessages(error)} />

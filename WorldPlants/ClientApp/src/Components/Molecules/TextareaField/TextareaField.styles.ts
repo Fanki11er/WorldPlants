@@ -13,13 +13,14 @@ export const TextareaFieldWrapper = styled.label`
 `;
 
 export const TextareaFieldInput = styled(Field)`
-  background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
+  background-color: ${(props: AppTheme) => props.theme.colors.darkPurple};
   border-radius: 10px;
   padding: 10px 20px;
   resize: none;
   border: 2px solid ${(props: AppTheme) => props.theme.colors.transparent};
   outline: none;
   transition: all 0.5s;
+  color: ${(props: AppTheme) => props.theme.colors.greenSettingsActive};
   &:hover,
   &:focus {
     border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};

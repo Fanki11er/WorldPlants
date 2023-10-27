@@ -5,7 +5,7 @@ import {
   PlantNoteTitle,
   PlantNoteWrapper,
 } from "./PlantNote.styles";
-import noImage from "../../../assets/NoPhoto.svg";
+import noImage from "../../../assets/ImageFallback.svg";
 import { PlantNoteDto } from "../../../Interfaces/PlantNoteDto";
 
 interface Props {

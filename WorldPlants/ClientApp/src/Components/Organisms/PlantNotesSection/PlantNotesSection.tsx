@@ -13,7 +13,7 @@ import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/Setti
 import { PlantNoteDto } from "../../../Interfaces/PlantNoteDto";
 import PlantNoteForm from "../../Molecules/PlantNoteForm/PlantNoteForm";
 import PlantNotesList from "../../Molecules/PlantNotesList/PlantNotesList";
-import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import { ActionButton, GenerateQRButton } from "../../Atoms/Buttons/Buttons";
 
 const PlantNotesSection = () => {
   const { addNote, getNotes } = apiEndpoints;
@@ -39,9 +39,9 @@ const PlantNotesSection = () => {
         submitEndpoint={addNote}
         successIndicatorText="Notatka utworzona"
       />
-      <ActionButton type="submit" form="AddNoteForm">
+      <GenerateQRButton type="submit" form="AddNoteForm">
         Zapisz
-      </ActionButton>
+      </GenerateQRButton>
       {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />

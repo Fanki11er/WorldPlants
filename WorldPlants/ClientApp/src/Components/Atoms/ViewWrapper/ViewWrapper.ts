@@ -1,12 +1,12 @@
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const ViewWrapper = styled.div`
   width: 100%;
-  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 180px 0 100px 0;
+  padding: 180px 0 150px 0;
   justify-content: center;
 `;
 

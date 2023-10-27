@@ -25,6 +25,7 @@ export const AddPlantFormImagePreview = styled.img`
 export const AddPlantFormPhotoInputWrapper = styled.div`
   display: flex;
   align-items: center;
+  column-gap: 20px;
 `;
 
 export const IndicatorsWrapper = styled.div`

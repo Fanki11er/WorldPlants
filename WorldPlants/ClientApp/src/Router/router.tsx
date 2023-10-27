@@ -206,5 +206,12 @@ export default router;
 //todo Ikona do RecognisePlantSection
 //todo Ikona do AddPlantSearchSection
 
-//!! AddPhotoFieldStyles
-//!! TextAreaField.styles
+//!! poprawić stopkę
+//! brak błędu przy dodawaniu nazwy podczas dodawania rośliny
+//! dodać kółko przy brakach obrazków
+//AddNoteSection zmienić przycisk bez marginesu
+//! dodać walidację do dodawania notatek
+// plant note zmienić button czerwony bez marginesu
+// plant note description zmienić kolor tłą na darkpurple i kolor czcionki na zielony greensettingaction
+//! poprawić edycję notatek i usuwanie
+//! w harmonogramie poprawić inputy

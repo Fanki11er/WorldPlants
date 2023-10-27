@@ -9,9 +9,10 @@ interface Props {
 export const PlantsWithTasksListWrapper = styled.ul`
   width: 100%;
   display: flex;
-  flex-direction: column;
-  row-gap: 150px;
-  padding: 80px 0 0 0;
+  column-gap: 40px;
+  padding: 80px 0 20px 0;
+  margin: 0;
+  overflow-x: scroll;
 `;
 
 export const PlantsWithTasksListItem = styled.li`

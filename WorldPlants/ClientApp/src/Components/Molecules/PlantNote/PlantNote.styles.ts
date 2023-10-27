@@ -30,10 +30,11 @@ export const PlantNoteContent = styled.p`
   margin: 0;
   width: 100%;
   height: 180px;
-  background-color: ${(props: AppTheme) => props.theme.colors.lightGray};
+  background-color: ${(props: AppTheme) => props.theme.colors.darkPurple};
   border-radius: 10px;
   padding: 10px 20px;
   overflow-y: scroll;
+  color: ${(props: AppTheme) => props.theme.colors.greenSettingsActive};
 
   &::-webkit-scrollbar {
     width: 15px;
