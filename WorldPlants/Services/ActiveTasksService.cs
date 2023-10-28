@@ -86,6 +86,8 @@ namespace WorldPlants.Services
             }
 
             var currentTask = _dbContext.ActiveTasks
+                .AsSplitQuery()
+                .Include(i => i.ActionType)
                 .FirstOrDefault(t => t.Id.ToString() == task.Id);
 
             if (currentTask == null)
