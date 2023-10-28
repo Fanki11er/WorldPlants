@@ -5,6 +5,7 @@ export const SelectSiteTypeFormWrapper = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 1000px;
   row-gap: 20px;
   font-size: ${(props: AppTheme) => props.theme.fontSizes.medium};
 `;

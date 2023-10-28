@@ -23,6 +23,7 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const AddedImagesWrapper = styled.ul`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, 220px);
   gap: 30px;

@@ -8,14 +8,15 @@ interface ImageProp {
 
 export const SitePlantsListWrapper = styled.ul`
   width: 100%;
+  max-width: 1000px;
   list-style: none;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, 350px);
   justify-content: center;
   row-gap: 100px;
-  column-gap: 25px;
-  transform: translateY(80px);
+  column-gap: 40px;
+  margin-top: 80px;
   align-items: flex-start;
 `;
 

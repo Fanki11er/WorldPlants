@@ -10,9 +10,9 @@ export const AddSiteMultiStepFormSummaryWrapper = styled.section`
 
 export const SectionHeader = styled.h2`
   color: ${(props: AppTheme) => props.theme.colors.orange};
-  align-self: flex-start;
   font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
   font-family: ${(props: AppTheme) => props.theme.fontFamilies.Roboto};
+  justify-self: center;
 `;
 
 export const SunExposureInfoWrapper = styled.div`

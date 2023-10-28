@@ -3,6 +3,7 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const SettingsSectionWrapper = styled.section`
   width: 100%;
+  max-width: 1200px;
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
@@ -17,9 +18,9 @@ export const SettingsSectionWrapper = styled.section`
 `;
 
 export const SettingsSectionHeader = styled.h1`
+  width: 100%;
   color: ${(props: AppTheme) => props.theme.colors.orange};
   font-size: ${(props: AppTheme) => props.theme.fontSizes.large};
   margin-bottom: 8px;
-  width: fit-content;
-  justify-self: flex-start;
+  text-align: center;
 `;

@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 export const ActionButton = styled.button`
   min-width: 130px;
   width: fit-content;
-  min-height: 35px;
+  height: 35px;
   background-color: ${(props: AppTheme) => props.theme.colors.blue};
   border-radius: 25px;
   outline: none;
