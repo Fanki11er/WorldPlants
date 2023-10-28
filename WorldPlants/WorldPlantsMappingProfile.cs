@@ -70,7 +70,8 @@ namespace WorldPlants
 
 
             CreateMap<ActiveTask, ActiveTaskDTO>()
-                .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateOnly.FromDateTime(d.ActionDate)));
+                .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateOnly.FromDateTime(d.ActionDate)))
+                .ForMember(m => m.ActionName, m => m.MapFrom(t=> t.ActionType.Name));
 
             CreateMap<ActiveTaskDTO, ActiveTask>()
                 .ForMember(m => m.Id, m => m.Ignore())
