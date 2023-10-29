@@ -342,7 +342,13 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanAddSites")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("CanCreateCustomTasks")
+                    b.Property<bool>("CanCreateCustomActionTypes")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanDeleteCustomActionTypes")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanEditCustomActionTypes")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanEditPlants")

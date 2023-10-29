@@ -12,8 +12,8 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPlantsDbContext))]
-    [Migration("20231028152645_NewInit")]
-    partial class NewInit
+    [Migration("20231029173359_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -345,7 +345,13 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanAddSites")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("CanCreateCustomTasks")
+                    b.Property<bool>("CanCreateCustomActionTypes")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanDeleteCustomActionTypes")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanEditCustomActionTypes")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanEditPlants")

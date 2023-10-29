@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorldPlants.Migrations
 {
     /// <inheritdoc />
-    public partial class NewInit : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -178,7 +178,9 @@ namespace WorldPlants.Migrations
                     CanAddSites = table.Column<bool>(type: "bit", nullable: false),
                     CanRemoveSites = table.Column<bool>(type: "bit", nullable: false),
                     CanEditSites = table.Column<bool>(type: "bit", nullable: false),
-                    CanCreateCustomTasks = table.Column<bool>(type: "bit", nullable: false),
+                    CanCreateCustomActionTypes = table.Column<bool>(type: "bit", nullable: false),
+                    CanEditCustomActionTypes = table.Column<bool>(type: "bit", nullable: false),
+                    CanDeleteCustomActionTypes = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WorldPlants.Entities;
 using WorldPlants.Enums;
+using WorldPlants.Exceptions;
 using WorldPlants.Models.CustomActionTypes;
 using WorldPlants.Models.CustomTaskModels;
 using WorldPlants.Utilities;
@@ -11,7 +12,10 @@ namespace WorldPlants.Services
     {
         public void AddCustomActionType(AddCustomActionTypeDTO newType);
         public List<CustomActionTypeInformationDTO> GetCustomActionTypesInformation();
+        public void EditCustomActionType(AddCustomActionTypeDTO editedCustomActionTypeDTO, int actionTypeId);
+        public void DeleteCustomActionType(int actionTypeId);
     }
+
     public class CustomActionTypesService : ICustomActionTypesService
     {
         private readonly WorldPlantsDbContext _dbContext;
@@ -34,7 +38,7 @@ namespace WorldPlants.Services
 
             var user = _utilities.GetUserWithSettings();
 
-            _utilities.CheckForUserPermission(user.UserSettings.CanCreateCustomTasks);
+            _utilities.CheckForUserPermission(user.UserSettings.CanCreateCustomActionTypes);
 
             ActionType newActionType = new()
             {
@@ -51,6 +55,7 @@ namespace WorldPlants.Services
 
         public List<CustomActionTypeInformationDTO> GetCustomActionTypesInformation()
         {
+
             var spaceId = _utilities.GetUserSpaceId();
 
             var customActions = _dbContext
@@ -64,9 +69,50 @@ namespace WorldPlants.Services
             return customTaksInformationDTOList;
         }
 
-        public void GetCustomActionTypes()
+        public void EditCustomActionType(AddCustomActionTypeDTO editedCustomActionTypeDTO, int actionTypeId) 
         {
+            var user = _utilities.GetUserWithSettings();
 
+            _utilities.CheckForUserPermission(user.UserSettings.CanEditCustomActionTypes);
+
+            var actionType = FindActionType(actionTypeId);
+
+            actionType.Description = editedCustomActionTypeDTO.Description;
+
+            _dbContext.Update(actionType);
+
+            _utilities.SaveChangesToDatabase();
+        }
+
+        public void DeleteCustomActionType(int actionTypeId)
+        {
+            var user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanEditCustomActionTypes);
+
+            var actionType = FindActionType(actionTypeId);
+
+            var list = _dbContext.ActiveTasks.Where(t => t.ActionTypeId == actionTypeId);
+
+            _dbContext.RemoveRange(list);
+
+            _dbContext.ActionTypes.Remove(actionType);
+
+            _utilities.SaveChangesToDatabase();
+        }
+
+        private ActionType FindActionType(int actionTypeId)
+        {
+            var spaceId = _utilities.GetUserSpaceId();
+
+            var actionType = _dbContext
+                .ActionTypes.
+                FirstOrDefault(at => at.Id == actionTypeId
+                && at.StandardType == false
+                && at.SpaceId.ToString() == spaceId)
+                ?? throw new NotFoundException("Nie odnaleziono typu akcji");
+
+            return actionType;
         }
     }
 }

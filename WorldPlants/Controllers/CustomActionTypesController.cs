@@ -34,6 +34,21 @@ namespace WorldPlants.Controllers
             return Ok(result);
         }
 
+        [HttpPost("Edit/{actionTypeId}")]
+        public ActionResult EditCustomActionType(AddCustomActionTypeDTO editedCustomActionTypeDTO, [FromRoute] int actionTypeId)
+        {
+            _customActionTypesService.EditCustomActionType(editedCustomActionTypeDTO, actionTypeId);
+
+            return Ok("Zapisano zmiany w typie akcji");
+        }
+
+        [HttpDelete("Delete/{actionTypeId}")]
+        public ActionResult DeleteCustomActionType(int actionTypeId)
+        {
+            _customActionTypesService.DeleteCustomActionType(actionTypeId);
+
+            return Ok("Usunięto typ akcji");
+        }
 
     }
 }

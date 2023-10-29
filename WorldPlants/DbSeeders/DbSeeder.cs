@@ -284,7 +284,7 @@ namespace WorldPlants.DbSeeders
                 new ActionType()
                 {
                     Name =  StandardActionType.Mist.ToString(),
-                    Description = "Zwilżanie",
+                    Description = "Zraszanie",
                     StandardType = true
                 },
             };

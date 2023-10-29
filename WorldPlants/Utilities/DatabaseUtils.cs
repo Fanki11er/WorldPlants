@@ -83,7 +83,9 @@ namespace WorldPlants.Utils
                 CanRemoveSites = accountType == UserRoles.Owner.ToString(),
                 CanEditSites = accountType == UserRoles.Owner.ToString(),
                 // TasksPermissions
-                CanCreateCustomTasks = accountType == UserRoles.Owner.ToString(),
+                CanCreateCustomActionTypes = accountType == UserRoles.Owner.ToString(),
+                CanEditCustomActionTypes = accountType == UserRoles.Owner.ToString(),
+                CanDeleteCustomActionTypes = accountType == UserRoles.Owner.ToString(),
 
             };
             _context.UserSettings.Add(userSettings);
