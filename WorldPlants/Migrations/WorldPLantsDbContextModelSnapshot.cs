@@ -38,7 +38,7 @@ namespace WorldPlants.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("SpaceId")
+                    b.Property<Guid?>("SpaceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("StandardType")
@@ -459,9 +459,7 @@ namespace WorldPlants.Migrations
                 {
                     b.HasOne("WorldPlants.Entities.Space", null)
                         .WithMany("ActionTypes")
-                        .HasForeignKey("SpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SpaceId");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.ActiveTask", b =>

@@ -111,6 +111,10 @@ namespace WorldPlants.Services
 
         public async Task<string?> AddPlant(AddPlantDto plantDto, int siteId)
         {
+            var user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanAddPlants);
+
             string? fileName = "";
 
             var site = _dbContext.UserSites
@@ -215,6 +219,10 @@ namespace WorldPlants.Services
 
         public async Task<string> EditCurrentPlantSettings(string plantId, AddPlantDto newSettings)
         {
+            var user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanEditPlants);
+
             var plant = _utilities.FindPlant(plantId);
 
             if (plant.Name != newSettings.Name)

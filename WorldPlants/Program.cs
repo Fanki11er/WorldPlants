@@ -13,6 +13,8 @@ using WorldPlants.DbSeeders;
 using WorldPlants.Entities;
 using WorldPlants.MiddleWare;
 using WorldPlants.Models;
+using WorldPlants.Models.CustomTaskModels;
+using WorldPlants.Models.PlantNotes;
 using WorldPlants.Models.PlantsModels;
 using WorldPlants.Models.Validators;
 using WorldPlants.Services;
@@ -92,6 +94,7 @@ builder.Services.AddScoped<ISMSService, SMSService>();
 builder.Services.AddScoped<IJobsService, JobsService>();
 builder.Services.AddScoped<IQrCodesService, QrCodesService>();
 builder.Services.AddScoped<IPlantNotesService, PlantNotesService>();
+builder.Services.AddScoped<ICustomActionTypesService, CustomActionTypesService>();
 //
 
 //Validators
@@ -102,6 +105,8 @@ builder.Services.AddScoped<IValidator<NewUserSiteDto>, NewUserSiteValidator>();
 builder.Services.AddScoped<IValidator<EditUserSiteSettingsDto>, EditUserSiteValidator>();
 builder.Services.AddScoped<IValidator<AccountSettingsDto>, AccountSettingsValidator>();
 builder.Services.AddScoped<IValidator<AddPlantDto>, AddPlantValidator>();
+builder.Services.AddScoped<IValidator<AddCustomActionTypeDTO>, AddCustomActionTypeValidator>();
+builder.Services.AddScoped<IValidator<NewPlantNoteDTO>, NewPlantNoteValidator>();
 //
 
 builder.Services.AddScoped<DbSeeder, DbSeeder>();

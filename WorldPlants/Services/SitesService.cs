@@ -308,6 +308,7 @@ namespace WorldPlants.Services
                 .AsSplitQuery()
                 .Include(i => i.Plants)
                 .ThenInclude(i => i.ActiveTasks)
+                .ThenInclude(i => i.ActionType)
                 .AsSplitQuery()
                 .FirstOrDefault(s => s.Id == siteId);
 

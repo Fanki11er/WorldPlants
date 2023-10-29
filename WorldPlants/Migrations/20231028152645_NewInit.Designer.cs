@@ -12,8 +12,8 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPlantsDbContext))]
-    [Migration("20231025212549_init")]
-    partial class init
+    [Migration("20231028152645_NewInit")]
+    partial class NewInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace WorldPlants.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("SpaceId")
+                    b.Property<Guid?>("SpaceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("StandardType")
@@ -462,9 +462,7 @@ namespace WorldPlants.Migrations
                 {
                     b.HasOne("WorldPlants.Entities.Space", null)
                         .WithMany("ActionTypes")
-                        .HasForeignKey("SpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SpaceId");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.ActiveTask", b =>

@@ -42,6 +42,14 @@ namespace WorldPlants.DbSeeders
                     _dbContext.SaveChanges();
 
                 }
+
+                if (!_dbContext.ActionTypes.Any())
+                {
+                    var actionTypes = GetDefaultActionTypes();
+                    _dbContext.ActionTypes.AddRange(actionTypes);
+                    _dbContext.SaveChanges();
+
+                }
             }
         }
 
@@ -239,6 +247,48 @@ namespace WorldPlants.DbSeeders
              };
             return defaultSites;
 
+        }
+
+        private IEnumerable<ActionType> GetDefaultActionTypes()
+        {
+            List<ActionType> actionTypes = new()
+            {
+                new ActionType()
+                {
+                    Name = StandardActionType.Water.ToString(),
+                    Description= "Podlewanie",
+                    StandardType = true
+                },
+
+                new ActionType()
+                {
+                    Name =  StandardActionType.Fertilize.ToString(),
+                    Description = "Nawożenie",
+                    StandardType = true
+                },
+
+                new ActionType()
+                {
+                    Name =  StandardActionType.Cut.ToString(),
+                    Description = "Przycinanie",
+                    StandardType = true
+                },
+
+                new ActionType()
+                {
+                    Name =  StandardActionType.Replant.ToString(),
+                    Description = "Przesadzanie",
+                    StandardType = true
+                },
+
+                new ActionType()
+                {
+                    Name =  StandardActionType.Mist.ToString(),
+                    Description = "Zwilżanie",
+                    StandardType = true
+                },
+            };
+            return actionTypes;
         }
 
     }

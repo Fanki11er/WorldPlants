@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorldPlants.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class NewInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,7 +81,7 @@ namespace WorldPlants.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StandardType = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -91,8 +91,7 @@ namespace WorldPlants.Migrations
                         name: "FK_ActionTypes_Spaces_SpaceId",
                         column: x => x.SpaceId,
                         principalTable: "Spaces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
