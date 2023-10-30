@@ -14,6 +14,7 @@ import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentIn
 import PlantsWithTasksList from "../../Molecules/PlantsWithTasksList/PlantsWithTasksList";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import useQueryKey from "../../../Hooks/useQueryKey";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const IncomingPlantsTasksSection = () => {
   const { getIncomingTasks } = apiEndpoints;
@@ -29,6 +30,7 @@ const IncomingPlantsTasksSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SectionHeaderWithIcon>
         <SectionHeaderWithIconIcon src={incomingTasksIcon} />
         Nadchodzące zadania

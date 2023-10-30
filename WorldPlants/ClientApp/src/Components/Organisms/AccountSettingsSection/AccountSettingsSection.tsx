@@ -13,6 +13,7 @@ import {
 } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import ChangeAccountSettingsForm from "../ChangeAccountSettingsForm/ChangeAccountSettingsForm";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const AccountSettingsSection = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -24,6 +25,7 @@ const AccountSettingsSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SettingsSectionHeader>Edycja konta</SettingsSectionHeader>
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />

@@ -4,6 +4,7 @@ import AuthorizedNavigation from "../../Components/Molecules/AuthorizedNavigatio
 import useAuth from "../../Hooks/useAuth";
 import { paths } from "../../Router/paths";
 import usePermissions from "../../Hooks/usePermissions";
+import { LoadingIndicator } from "../../Components/Atoms/LoadingIndicator/LoadingIndicator.styles";
 
 const MainLayout = () => {
   const { login } = paths;
@@ -22,7 +23,7 @@ const MainLayout = () => {
   return (
     <ViewWrapper>
       {isLoading ? (
-        <div>LOADING</div>
+        <LoadingIndicator />
       ) : (
         <>
           <AuthorizedNavigation />

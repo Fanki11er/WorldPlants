@@ -41,7 +41,11 @@ const GuestUserPermissionsForm = (props: Props) => {
         canAddSites: guestUserPermissions.canAddSites,
         canRemoveSites: guestUserPermissions.canRemoveSites,
         canEditSites: guestUserPermissions.canEditSites,
-        canAddCustomTasks: guestUserPermissions.canAddCustomTasks,
+        canCreateCustomActionTypes:
+          guestUserPermissions.canCreateCustomActionTypes,
+        canEditCustomActionTypes: guestUserPermissions.canEditCustomActionTypes,
+        canDeleteCustomActionTypes:
+          guestUserPermissions.canDeleteCustomActionTypes,
       }}
       onSubmit={(values: GuestUserPermissionsDto, { setSubmitting }) => {
         mutate(values, {
@@ -71,8 +75,13 @@ const GuestUserPermissionsForm = (props: Props) => {
         </PermissionsGroup>
 
         <PermissionsGroup>
-          <PermissionsGroupHeder>Zadania</PermissionsGroupHeder>
-          <CheckboxInput id={"canAddCustomTasks"} label={"Własne"} />
+          <PermissionsGroupHeder>Typy zadań</PermissionsGroupHeder>
+          <CheckboxInput
+            id={"canCreateCustomActionTypes"}
+            label={"Dodawanie"}
+          />
+          <CheckboxInput id={"canEditCustomActionTypes"} label={"Edycja"} />
+          <CheckboxInput id={"canDeleteCustomActionTypes"} label={"Usuwanie"} />
         </PermissionsGroup>
 
         {isLoading ? (

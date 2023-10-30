@@ -70,3 +70,10 @@ export const RecognizedResultsListItemImage = styled.div<Props>`
   height: 100px;
   border-radius: 50%;
 `;
+
+export const RecognizedResultsListItemButtonsWrapper = styled.div`
+  display: flex;
+  width: fit-content;
+  column-gap: 20px;
+  margin-top: 15px;
+`;

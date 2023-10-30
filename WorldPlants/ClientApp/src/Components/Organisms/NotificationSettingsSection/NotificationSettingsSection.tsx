@@ -13,6 +13,7 @@ import { getErrorMessages } from "../../../Utils/Utils";
 import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 import useQueryKey from "../../../Hooks/useQueryKey";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const NotificationSettingsSection = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -32,6 +33,7 @@ const NotificationSettingsSection = () => {
   );
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SettingsSectionHeader>Powiadomienia</SettingsSectionHeader>
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
@@ -63,7 +65,7 @@ const NotificationSettingsSection = () => {
           <NoListContentInfo
             informationHeaderText={"Powiadomienia sms"}
             informationText={
-              "Aby móc otrzymywać powiadomienia sms należy dodać w ustawiniach numer telefonu"
+              "Aby móc otrzymywać powiadomienia sms, należy dodać w ustawieniach numer telefonu"
             }
           />
         )}

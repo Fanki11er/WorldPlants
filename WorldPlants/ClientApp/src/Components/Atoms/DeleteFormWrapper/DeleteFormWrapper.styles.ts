@@ -4,6 +4,7 @@ import { Form } from "formik";
 
 export const DeleteFormWrapper = styled(Form)`
   width: 100%;
+  max-width: 1000px;
   display: grid;
   row-gap: 10px;
   justify-items: center;

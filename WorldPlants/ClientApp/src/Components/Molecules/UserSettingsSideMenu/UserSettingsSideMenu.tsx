@@ -1,6 +1,8 @@
 import useAuth from "../../../Hooks/useAuth";
+import useIsOnPath from "../../../Hooks/useIsOnPath";
 import { paths } from "../../../Router/paths";
 import { SideMenuLink } from "../../Atoms/Buttons/Buttons";
+import { SideMenuLocationIndicator } from "../../Atoms/SideMenuLocationIndicator/SideMenuLocationIndicator.styles";
 import SideMenu from "../SideMenu/SideMenu";
 
 const UserSettingsSideMenu = () => {
@@ -11,7 +13,10 @@ const UserSettingsSideMenu = () => {
     userSettingsAccount,
     userSettingsSecurity,
     userSettingsDeleteAccount,
+    customActionsEdit,
+    customActions,
   } = paths;
+  const isOnPath = useIsOnPath([customActionsEdit]);
   const { user } = useAuth();
 
   return (
@@ -26,6 +31,10 @@ const UserSettingsSideMenu = () => {
         <SideMenuLink to={userSettingsRegisterGuestAccount}>
           Nowe konto gościa
         </SideMenuLink>
+      )}
+      <SideMenuLink to={customActions}>Własne akcje</SideMenuLink>
+      {isOnPath && (
+        <SideMenuLocationIndicator>Edycja</SideMenuLocationIndicator>
       )}
       <SideMenuLink to={userSettingsAccount}>Konto</SideMenuLink>
       <SideMenuLink to={userSettingsSecurity}>Bezpieczeństwo</SideMenuLink>

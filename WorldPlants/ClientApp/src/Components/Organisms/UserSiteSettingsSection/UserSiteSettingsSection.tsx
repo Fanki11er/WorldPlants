@@ -13,6 +13,7 @@ import { GetUserSiteSettingsDto } from "../../../Interfaces/GetUserSiteSettingsD
 import { SITE_SETTINGS } from "../../../Constants/Constants";
 import ChangeSiteSettingsForm from "../ChangeSiteSettingsForm/ChangeSiteSettingsForm";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const UserSiteSettingsSection = () => {
   const { siteId } = useParams();
@@ -32,6 +33,7 @@ const UserSiteSettingsSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />

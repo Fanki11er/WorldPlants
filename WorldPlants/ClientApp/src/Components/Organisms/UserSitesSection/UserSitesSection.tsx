@@ -9,6 +9,7 @@ import { USER_SITES } from "../../../Constants/Constants";
 import UserSitesList from "../../Molecules/UserSitesList/UserSitesList";
 import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const UserSitesSection = () => {
   const { getUserSites } = apiEndpoints;
@@ -23,6 +24,7 @@ const UserSitesSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />

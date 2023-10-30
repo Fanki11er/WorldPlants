@@ -37,7 +37,7 @@ const filterByActionValues: SelectFieldOptions<StandardTaskTypeFilter>[] = [
   },
   {
     value: "Mist",
-    label: "Zwilżanie",
+    label: "Zraszanie",
   },
   {
     value: "Custom",

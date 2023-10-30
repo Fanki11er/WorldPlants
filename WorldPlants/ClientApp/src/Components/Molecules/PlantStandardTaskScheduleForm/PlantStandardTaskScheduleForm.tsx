@@ -26,7 +26,7 @@ import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 
 interface Props {
-  taskType: StandardTaskTypeEnum;
+  taskId: StandardTaskTypeEnum;
 }
 
 interface FormValues {
@@ -36,14 +36,14 @@ interface FormValues {
 }
 
 const PlantStandardTaskScheduleForm = (props: Props) => {
-  const { taskType } = props;
+  const { taskId } = props;
   const { plantId } = useParams();
   const { getStandardTask, setTask, deletePlantTask } = apiEndpoints;
   const axiosPrivate = useAxiosPrivate();
   const { data, isLoading, error } = useQuery<PlantActiveTask>(
-    [STANDARD_PLANT_TASKS, plantId, taskType],
+    [STANDARD_PLANT_TASKS, plantId, taskId],
     async () => {
-      const result = await axiosPrivate.get(getStandardTask(plantId, taskType));
+      const result = await axiosPrivate.get(getStandardTask(plantId, taskId));
       return result.data;
     },
     {
@@ -62,7 +62,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
       return axiosPrivate.post(setTask, value);
     },
     onSuccess: async () => {
-      await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskType]);
+      await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskId]);
       await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
     },
   });
@@ -77,17 +77,28 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
       return axiosPrivate.delete(deletePlantTask(taskId));
     },
     onSuccess: async () => {
-      await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskType]);
+      await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskId]);
       await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
     },
   });
   const client = useQueryClient();
 
-  const formatDate = (date: string, divideBy: string) => {
-    const divided = date.split(divideBy);
+  const formatDate = (date: string) => {
+    const separator = detectSeparator(date);
+    const divided = date.split(separator);
     const reversed = divided.reverse();
     const result = reversed.join("-");
     return result;
+  };
+
+  const detectSeparator = (date: string) => {
+    if (date.includes("/")) {
+      return "/";
+    } else if (date.includes(".")) {
+      return ".";
+    } else {
+      return "-";
+    }
   };
 
   const handleDeleteTask = () => {
@@ -101,7 +112,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
           enableReinitialize
           initialValues={{
             interval: data.interval || 0,
-            actionDate: data.actionDate ? formatDate(data.actionDate, ".") : "",
+            actionDate: data.actionDate ? formatDate(data.actionDate) : "",
             partOfTheDay: (data && data.partOfTheDay) || "",
           }}
           onSubmit={async (values: FormValues, { setSubmitting }) => {
@@ -114,15 +125,17 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
               partOfTheDay: values.partOfTheDay,
               plantId: data ? data.plantId : plantId || "",
               description: data ? data.description : "",
-              actionType: data ? data.actionType : taskType.toString(),
+              actionTypeId: data ? data.actionTypeId : taskId,
+              actionName: data ? data.actionName : StandardTaskTypeEnum[taskId],
             };
+            console.log(data);
 
             updateTask(newTask, {
               onSuccess: async () => {
                 await client.invalidateQueries([
                   STANDARD_PLANT_TASKS,
                   plantId,
-                  taskType,
+                  taskId,
                 ]);
                 await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
               },

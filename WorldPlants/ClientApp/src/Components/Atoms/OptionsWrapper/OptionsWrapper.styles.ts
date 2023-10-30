@@ -4,6 +4,7 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 export const OptionsWrapper = styled.div`
   display: grid;
   width: 100%;
+  max-width: 1000px;
   grid-template-rows: 1fr auto;
   background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
   min-height: 400px;

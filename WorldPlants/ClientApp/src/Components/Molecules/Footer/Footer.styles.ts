@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const FooterWrapper = styled.footer`
+  display: flex;
   background-color: ${(props: AppTheme) => props.theme.colors.darkBlue};
   width: 100%;
   height: 100px;

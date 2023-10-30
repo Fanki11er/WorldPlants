@@ -1,5 +1,10 @@
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
-import { FormControlsWrapper } from "./FormControls.styles";
+import {
+  CenterButtonWrapper,
+  FormControlsWrapper,
+  LeftButtonWrapper,
+  RightButtonWrapper,
+} from "./FormControls.styles";
 
 interface Props {
   disabledForward: boolean;
@@ -21,22 +26,32 @@ const FormControls = (props: Props) => {
   return (
     <FormControlsWrapper>
       {moveBack && (
-        <ActionButton disabled={disabledBack} onClick={moveBack} type="button">
-          Powrót
-        </ActionButton>
+        <LeftButtonWrapper>
+          <ActionButton
+            disabled={disabledBack}
+            onClick={moveBack}
+            type="button"
+          >
+            Powrót
+          </ActionButton>
+        </LeftButtonWrapper>
       )}
 
-      <ActionButton disabled={disableSubmit} type="submit">
-        Zapisz
-      </ActionButton>
-      {moveForward && (
-        <ActionButton
-          disabled={disabledForward}
-          onClick={moveForward}
-          type="button"
-        >
-          Dalej
+      <CenterButtonWrapper>
+        <ActionButton disabled={disableSubmit} type="submit">
+          Zapisz
         </ActionButton>
+      </CenterButtonWrapper>
+      {moveForward && (
+        <RightButtonWrapper>
+          <ActionButton
+            disabled={disabledForward}
+            onClick={moveForward}
+            type="button"
+          >
+            Dalej
+          </ActionButton>
+        </RightButtonWrapper>
       )}
     </FormControlsWrapper>
   );

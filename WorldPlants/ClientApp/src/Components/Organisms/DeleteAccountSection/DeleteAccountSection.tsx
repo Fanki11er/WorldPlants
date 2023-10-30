@@ -6,6 +6,7 @@ import {
   SettingsSectionHeader,
   SettingsSectionWrapper,
 } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 import DeleteUserAccountFormFormik from "../DeleteUserAccountFormFormik/DeleteUserAccountFormFormik";
 
 const DeleteAccountSection = () => {
@@ -16,6 +17,7 @@ const DeleteAccountSection = () => {
   //const {userId} = useParams();
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SettingsSectionHeader>Usuwanie konta</SettingsSectionHeader>
       {user && user.accountType === "Owner" && (
         <DeleteUserAccountFormFormik

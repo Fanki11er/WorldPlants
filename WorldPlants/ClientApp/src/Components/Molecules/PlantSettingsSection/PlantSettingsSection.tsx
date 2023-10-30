@@ -12,6 +12,7 @@ import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/Setti
 import { QrGeneratorWrapper } from "./PlantSettingsSection.styles";
 import { ActionButton, GenerateQRButton } from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
+import GoToTop from "../GoToTop/GoToTop";
 
 const PlantSettingsSection = () => {
   const { plantSettings, createQrCode } = apiEndpoints;
@@ -54,6 +55,7 @@ const PlantSettingsSection = () => {
   });
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <QrGeneratorWrapper>
         <GenerateQRButton onClick={() => mutate(plantId)}>
           Generuj kod QR

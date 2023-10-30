@@ -10,6 +10,7 @@ import { MovePlantInformationDto } from "../../../Interfaces/MovePlantInformatio
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import useQueryKey from "../../../Hooks/useQueryKey";
 import MovePlantForm from "../../Molecules/MovePlantForm/MovePlantForm";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const MovePlantSection = () => {
   const { plantId } = useParams();
@@ -28,6 +29,7 @@ const MovePlantSection = () => {
   );
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />

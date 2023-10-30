@@ -7,6 +7,7 @@ interface Props {
 }
 export const UserSitesListWrapper = styled.ul<AppTheme>`
   width: 100%;
+  max-width: 1000px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 350px);
   gap: 20px;

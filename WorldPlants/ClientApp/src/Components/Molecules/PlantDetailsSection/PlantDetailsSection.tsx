@@ -10,6 +10,7 @@ import NoListContentInfo from "../NoListContentInfo/NoListContentInfo";
 import useQueryKey from "../../../Hooks/useQueryKey";
 import usePlantDetails from "../../../Hooks/usePlantDetails";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
+import GoToTop from "../GoToTop/GoToTop";
 
 const PlantDetailsSection = () => {
   const { getPLantExternalId } = apiEndpoints;
@@ -36,6 +37,7 @@ const PlantDetailsSection = () => {
     usePlantDetails(externalId);
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {(areDetailsLoading || isLoadingExternalId) && <LoadingIndicator />}
       {detailsError ? (
         <FormRequestError errorValues={getErrorMessages(detailsError)} />

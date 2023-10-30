@@ -70,7 +70,7 @@ const ChangeAccountSettingsForm = (props: Props) => {
         ) : null}
         {isSuccess && <FormSuccess>Sukces</FormSuccess>}
 
-        <InputField label="Name" name="name" placeholder="John" />
+        <InputField label="Imię" name="name" placeholder="John" />
 
         <InputField
           label="Email"
@@ -80,7 +80,7 @@ const ChangeAccountSettingsForm = (props: Props) => {
         />
 
         <InputField
-          label="Phone number"
+          label="Numer telefonu"
           name="phoneNumber"
           placeholder="999999999"
           type="phone"

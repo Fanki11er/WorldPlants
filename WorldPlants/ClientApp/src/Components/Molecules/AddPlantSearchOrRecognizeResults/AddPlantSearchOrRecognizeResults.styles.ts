@@ -7,8 +7,8 @@ interface Props {
 }
 
 export const AddPlantSearchOrRecognizeResultsWrapper = styled.ul`
-  display: flex;
-  flex-flow: wrap row;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
   gap: 35px;
   width: 100%;
   list-style: none;

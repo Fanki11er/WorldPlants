@@ -13,6 +13,7 @@ export const RadioInputFieldWrapper = styled.label`
   overflow: hidden;
   align-items: center;
   width: 180px;
+  height: 50px;
   column-gap: 20px;
   border-radius: 25px;
   background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
@@ -33,12 +34,14 @@ export const RadioInputFieldWrapper = styled.label`
 `;
 
 export const LabelText = styled.span`
+  display: flex;
   color: ${(props: AppTheme) => props.theme.colors.orange};
   font-weight: bold;
   justify-self: flex-start;
 `;
 
 export const SiteIcon = styled.img`
+  display: flex;
   width: 30px;
   height: 30px;
   justify-self: flex-end;

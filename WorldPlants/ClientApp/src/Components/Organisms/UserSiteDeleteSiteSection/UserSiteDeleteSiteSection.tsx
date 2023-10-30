@@ -12,6 +12,7 @@ import {
 } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import DeleteSiteForm from "../DeleteSiteForm/DeleteSiteForm";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const UserSiteDeleteSiteSection = () => {
   const { siteId } = useParams();
@@ -34,6 +35,7 @@ const UserSiteDeleteSiteSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SettingsSectionHeader>
         {`Usuń miejsce: ${data?.name}`}
       </SettingsSectionHeader>

@@ -11,6 +11,7 @@ import { apiEndpoints } from "../../../Api/endpoints";
 import useQueryKey from "../../../Hooks/useQueryKey";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const QrScannerSection = () => {
   const { authorized, selectedPlant } = paths;
@@ -51,6 +52,7 @@ const QrScannerSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <QrScannerWrapper>
         {isScanning && (
           <QrScanner

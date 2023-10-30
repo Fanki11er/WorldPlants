@@ -6,6 +6,7 @@ export const PlantScheduleSectionWrapper = styled.section`
   flex-direction: column;
   row-gap: 35px;
   width: 75%;
+  max-width: 800px;
 `;
 
 export const PlantScheduleConcreteTypeWrapper = styled.div<AppTheme>`

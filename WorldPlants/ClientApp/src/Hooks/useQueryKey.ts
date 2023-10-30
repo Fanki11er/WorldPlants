@@ -1,6 +1,7 @@
 import {
   ACTIONS_PERMISSIONS,
   ALL_PLANT_TASKS,
+  CUSTOM_ACTION_TYPES,
   GUEST_ACCOUNTS,
   INCOMING_TASKS,
   MOVE_PLANT_INFORMATION,
@@ -8,6 +9,7 @@ import {
   PLANT_DETAILS,
   PLANT_EXTERNAL_ID,
   PLANT_HEADER_INFORMATION,
+  PLANT_NOTES,
   PLANT_QR,
   PLANT_SETTINGS,
   SAVED_QR_CODES,
@@ -55,6 +57,10 @@ const useQueryKey = () => {
     return [TASKS_HISTORY, plantId || ""];
   };
 
+  const plantNotesQueryKey = (plantId: string | undefined) => {
+    return [PLANT_NOTES, plantId || ""];
+  };
+
   const guestAccountsQueryKey = () => [GUEST_ACCOUNTS];
 
   const notificationSettingsQueryKey = () => [NOTIFICATION_SETTINGS];
@@ -72,6 +78,8 @@ const useQueryKey = () => {
   const savedQrCodesQueryKey = () => [SAVED_QR_CODES];
 
   const plantQrQueryKey = () => [PLANT_QR];
+
+  const customActionTypesQueryKey = () => [CUSTOM_ACTION_TYPES];
 
   return {
     userSiteHeaderQueryKey,
@@ -92,6 +100,8 @@ const useQueryKey = () => {
     tasksHistoryQueryKey,
     plantQrQueryKey,
     savedQrCodesQueryKey,
+    plantNotesQueryKey,
+    customActionTypesQueryKey,
   };
 };
 

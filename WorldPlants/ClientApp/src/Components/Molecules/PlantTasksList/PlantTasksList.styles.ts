@@ -7,9 +7,10 @@ interface Props {
 export const PlantTasksSectionTasksListWrapper = styled.ul`
   margin-top: 40px;
   width: 100%;
+  min-width: 280px;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 340px);
+  grid-template-columns: repeat(auto-fit, 300px);
   row-gap: 80px;
   column-gap: 15px;
   justify-content: space-evenly;
@@ -21,7 +22,7 @@ export const PantTasksSectionTaskListItem = styled.li`
   display: flex;
   flex-direction: column;
   position: relative;
-  min-width: 340px;
+  flex-basis: 300px;
   background-image: ${(props) => props.theme.colors.gradientPurple};
   row-gap: 20px;
   padding: 50px 15px 15px 15px;

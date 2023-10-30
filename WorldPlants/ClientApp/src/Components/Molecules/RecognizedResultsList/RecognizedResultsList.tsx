@@ -1,8 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PlantRecognizeResult } from "../../../Interfaces/PlantRecognizeResult";
 import { paths } from "../../../Router/paths";
 import {
   RecognizedResultsListItem,
+  RecognizedResultsListItemButtonsWrapper,
   RecognizedResultsListItemDescription,
   RecognizedResultsListItemHeader,
   RecognizedResultsListItemImage,
@@ -12,15 +13,18 @@ import {
   RecognizedResultsListWrapper,
 } from "./RecognizedResultsList.styles";
 import useSearchPhrase from "../../../Hooks/useSearchPhrase";
+import { ActionButton } from "../../Atoms/Buttons/Buttons";
 
 interface Props {
   results: PlantRecognizeResult[];
 }
 const RecognizedResultsList = (props: Props) => {
   const { results } = props;
-  const { authorized, addPlant } = paths;
+  const { authorized, addPlant, addCustomPlant } = paths;
   const { siteId } = useParams();
-  const { handleSetSearchPhrase } = useSearchPhrase();
+  const navigate = useNavigate();
+  const { handleSetSearchPhrase, handleSetPlantRecognizeResult } =
+    useSearchPhrase();
 
   const renderImages = (images: string[]) => {
     return images.map((image, index) => {
@@ -32,23 +36,38 @@ const RecognizedResultsList = (props: Props) => {
     return results.map((result) => {
       return (
         <RecognizedResultsListItem key={result.id}>
-          <RecognizedResultsListItemLink
-            to={`${authorized}/${addPlant}/${siteId}`}
-            onClick={() => handleSetSearchPhrase(result.name)}
-          >
-            <RecognizedResultsListItemProbability>
-              {result.probability}
-            </RecognizedResultsListItemProbability>
-            <RecognizedResultsListItemHeader>
-              {result.name}
-            </RecognizedResultsListItemHeader>
-            <RecognizedResultsListItemDescription>
-              {result.description}
-            </RecognizedResultsListItemDescription>
-            <RecognizedResultsListItemImagesWrapper>
-              {result.images && renderImages(result.images)}
-            </RecognizedResultsListItemImagesWrapper>
-          </RecognizedResultsListItemLink>
+          <RecognizedResultsListItemProbability>
+            {result.probability}
+          </RecognizedResultsListItemProbability>
+          <RecognizedResultsListItemHeader>
+            {result.name}
+          </RecognizedResultsListItemHeader>
+          <RecognizedResultsListItemDescription>
+            {result.description}
+          </RecognizedResultsListItemDescription>
+          <RecognizedResultsListItemImagesWrapper>
+            {result.images && renderImages(result.images)}
+          </RecognizedResultsListItemImagesWrapper>
+          <RecognizedResultsListItemButtonsWrapper>
+            <ActionButton
+              onClick={() => {
+                handleSetSearchPhrase(result.name);
+                navigate(`${authorized}/${addPlant}/${siteId}`);
+              }}
+            >
+              Wyszukaj
+            </ActionButton>
+            <ActionButton
+              onClick={() => {
+                handleSetPlantRecognizeResult(result);
+                navigate(
+                  `${authorized}/${addPlant}/${siteId}/${addCustomPlant}`
+                );
+              }}
+            >
+              Dodaj
+            </ActionButton>
+          </RecognizedResultsListItemButtonsWrapper>
         </RecognizedResultsListItem>
       );
     });
