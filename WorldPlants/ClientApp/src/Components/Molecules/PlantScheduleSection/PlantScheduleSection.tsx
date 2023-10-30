@@ -87,7 +87,7 @@ const PlantScheduleSection = () => {
         <PlantScheduleConcreteTypeHeaderWrapper>
           <PlantInfoIcon src={mist} alt={"Ikona ze spryskiwaczem"} />
           <PlantScheduleConcreteTypeHeader>
-            Zwilżanie
+            Zraszanie
           </PlantScheduleConcreteTypeHeader>
         </PlantScheduleConcreteTypeHeaderWrapper>
         <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Mist} />

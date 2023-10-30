@@ -149,7 +149,7 @@ const AddPlantForm = (props: Props) => {
                 handleImageChange={handleImageChange}
               />
               <RedButtonWithoutMargin onClick={handleResetImage} type="button">
-                Usuń zdjecie
+                Usuń zdjęcie
               </RedButtonWithoutMargin>
             </AddPlantFormPhotoInputWrapper>
             <FormNumberField

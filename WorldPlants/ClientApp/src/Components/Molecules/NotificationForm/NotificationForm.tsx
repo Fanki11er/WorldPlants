@@ -57,7 +57,7 @@ const NotificationForm = (props: Props) => {
           <CheckboxInput id={"fertilizePlantsReminder"} label="Nawożenie" />
           <CheckboxInput id={"cutPlantsReminder"} label="Przycinanie" />
           <CheckboxInput id={"replantPlantsReminder"} label="Przesadzanie" />
-          <CheckboxInput id={"mistPlantsReminder"} label="Zwilżanie" />
+          <CheckboxInput id={"mistPlantsReminder"} label="Zraszanie" />
         </NotificationWrapper>
 
         <ActionButton type={"submit"}>Zapisz</ActionButton>

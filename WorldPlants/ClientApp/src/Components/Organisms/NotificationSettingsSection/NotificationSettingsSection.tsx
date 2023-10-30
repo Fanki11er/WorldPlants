@@ -63,7 +63,7 @@ const NotificationSettingsSection = () => {
           <NoListContentInfo
             informationHeaderText={"Powiadomienia sms"}
             informationText={
-              "Aby móc otrzymywać powiadomienia sms należy dodać w ustawiniach numer telefonu"
+              "Aby móc otrzymywać powiadomienia sms, należy dodać w ustawieniach numer telefonu"
             }
           />
         )}

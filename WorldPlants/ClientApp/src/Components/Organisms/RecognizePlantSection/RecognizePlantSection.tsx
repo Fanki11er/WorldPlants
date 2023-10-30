@@ -7,6 +7,7 @@ import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/Setti
 import RecognizedResultsList from "../../Molecules/RecognizedResultsList/RecognizedResultsList";
 import RecognizerImagesForm from "../../Molecules/RecognizerImagesForm/RecognizerImagesForm";
 import { useState } from "react";
+import magnifyingGlass from "../../../Assets/MagnifyingGlass.svg";
 
 const RecognizePlantSection = () => {
   const [recognizedResultsData, setRecognizedResultsData] = useState<
@@ -19,7 +20,7 @@ const RecognizePlantSection = () => {
   return (
     <SettingsSectionWrapper>
       <SectionHeaderWithIcon>
-        <SectionHeaderWithIconIcon src={""} />
+        <SectionHeaderWithIconIcon src={magnifyingGlass} alt="IkonaLupy" />
         Rozpoznawanie roślin
       </SectionHeaderWithIcon>
       <RecognizerImagesForm getResults={handleSetRecognizedData} />

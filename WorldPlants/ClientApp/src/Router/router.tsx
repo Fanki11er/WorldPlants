@@ -215,5 +215,3 @@ export default router;
 // plant note description zmienić kolor tłą na darkpurple i kolor czcionki na zielony greensettingaction
 //! poprawić edycję notatek i usuwanie
 //! w harmonogramie poprawić inputy
-
-//!!Recognize plant section IKona (lupa)
