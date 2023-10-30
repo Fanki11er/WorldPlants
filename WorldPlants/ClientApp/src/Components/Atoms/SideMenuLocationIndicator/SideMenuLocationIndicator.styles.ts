@@ -2,15 +2,13 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const SideMenuLocationIndicator = styled.div`
-  min-width: 150px;
-  width: fit-content;
+  width: 200px;
   padding: 5px 15px;
-  height: 40px;
+  height: 35px;
   display: flex;
   outline: none;
-  border-radius: 10px;
-  justify-self: flex-end;
-
+  border-radius: 15px;
+  font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
   background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
   color: ${(props: AppTheme) => props.theme.colors.orange};
   justify-content: center;

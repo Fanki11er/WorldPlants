@@ -88,6 +88,7 @@ const PlantNoteForm = (props: Props) => {
           mutate(addNote, {
             onSuccess: async () => {
               client.invalidateQueries(plantNotesQueryKey(plantId));
+              setImageFile(null);
               resetForm();
             },
           });
