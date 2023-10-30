@@ -48,6 +48,7 @@ namespace WorldPlants.Services
             {
                 var newDto = new PlantNoteDTO()
                 {
+                    Id = note.Id,
                     ImageUrl = _imageService.GetImageUrl(note.ImageUrl),
                     Title = note.Title,
                     Note = note.Note,

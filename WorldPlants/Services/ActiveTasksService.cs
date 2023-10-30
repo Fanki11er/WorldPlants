@@ -86,6 +86,8 @@ namespace WorldPlants.Services
             }
 
             var currentTask = _dbContext.ActiveTasks
+                .AsSplitQuery()
+                .Include(i => i.ActionType)
                 .FirstOrDefault(t => t.Id.ToString() == task.Id);
 
             if (currentTask == null)
@@ -338,7 +340,7 @@ namespace WorldPlants.Services
 
             PlantTaskHistory item = new()
             {
-                TaskType = task.ActionType.Name,
+                TaskType = task.ActionType.Description,
                 UserName = user.Name,
                 ExecutionDate = _utilities.GetTodayDate().ToShortDateString(),
                 PlantId = task.PlantId

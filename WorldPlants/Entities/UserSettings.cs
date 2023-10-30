@@ -26,7 +26,9 @@ namespace WorldPlants.Entities
         public bool CanAddSites { get; set; }
         public bool CanRemoveSites { get; set; }
         public bool CanEditSites { get; set; }
-        public bool CanCreateCustomTasks { get; set; }
+        public bool CanCreateCustomActionTypes { get; set; }
+        public bool CanEditCustomActionTypes { get; set; }
+        public bool CanDeleteCustomActionTypes { get; set; }
 
         public virtual User User { get; set; }
         public Guid UserId { get; set; }

@@ -3,6 +3,7 @@ using WorldPlants.Entities;
 using WorldPlants.Enums;
 using WorldPlants.Models;
 using WorldPlants.Models.ActiveTasksModels;
+using WorldPlants.Models.CustomActionTypes;
 using WorldPlants.Models.PlantNotes;
 using WorldPlants.Models.PlantsModels;
 using WorldPlants.Models.PlantTaskHistory;
@@ -66,11 +67,13 @@ namespace WorldPlants
 
             CreateMap<ActiveTask, ActiveTaskInformationDto>()
                 .ForMember(m => m.DaysLeft, m => m.MapFrom(d => (DateOnly.FromDateTime(d.ActionDate).DayNumber - DateOnly.FromDateTime(DateTime.UtcNow).DayNumber)))
-                .ForMember(m => m.ActionType, m => m.MapFrom(t => t.ActionType.Name));
+                .ForMember(m => m.ActionType, m => m.MapFrom(t => t.ActionType.Name))
+                .ForMember(m => m.ActionDescription,  m => m.MapFrom( t => t.ActionType.Description));
 
 
             CreateMap<ActiveTask, ActiveTaskDTO>()
-                .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateOnly.FromDateTime(d.ActionDate)));
+                .ForMember(m => m.ActionDate, m => m.MapFrom(d => DateOnly.FromDateTime(d.ActionDate)))
+                .ForMember(m => m.ActionName, m => m.MapFrom(t=> t.ActionType.Name));
 
             CreateMap<ActiveTaskDTO, ActiveTask>()
                 .ForMember(m => m.Id, m => m.Ignore())
@@ -97,6 +100,8 @@ namespace WorldPlants
                 .ForMember(m => m.SunScale, m => m.Ignore());
 
             CreateMap<QrCode, QrCodeDTO>();
+            
+            CreateMap<ActionType, CustomActionTypeInformationDTO>();
 
         }
     }

@@ -81,7 +81,7 @@ namespace WorldPlants.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SpaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StandardType = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -91,8 +91,7 @@ namespace WorldPlants.Migrations
                         name: "FK_ActionTypes_Spaces_SpaceId",
                         column: x => x.SpaceId,
                         principalTable: "Spaces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -179,7 +178,9 @@ namespace WorldPlants.Migrations
                     CanAddSites = table.Column<bool>(type: "bit", nullable: false),
                     CanRemoveSites = table.Column<bool>(type: "bit", nullable: false),
                     CanEditSites = table.Column<bool>(type: "bit", nullable: false),
-                    CanCreateCustomTasks = table.Column<bool>(type: "bit", nullable: false),
+                    CanCreateCustomActionTypes = table.Column<bool>(type: "bit", nullable: false),
+                    CanEditCustomActionTypes = table.Column<bool>(type: "bit", nullable: false),
+                    CanDeleteCustomActionTypes = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

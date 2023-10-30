@@ -111,12 +111,17 @@ namespace WorldPlants.Services
 
         public async Task<string?> AddPlant(AddPlantDto plantDto, int siteId)
         {
+            var user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanAddPlants);
+
             string? fileName = "";
 
             var site = _dbContext.UserSites
                 .Include(i => i.Plants)
                 .AsSplitQuery()
-                .FirstOrDefault(s => s.Id == siteId) ?? throw new Exceptions.NotFoundException("Nie odnaleziono miejsca");
+                .FirstOrDefault(s => s.Id == siteId) 
+                ?? throw new Exceptions.NotFoundException("Nie odnaleziono miejsca");
 
             if (plantDto.ImageFile != null)
             {
@@ -132,6 +137,8 @@ namespace WorldPlants.Services
             plant.ImageName = fileName;
 
             plant.UserSiteId = siteId;
+
+            plant.Name = _utilities.FirstLetterToUpper(plantDto.Name);
 
             _dbContext.Plants.Add(plant);
 
@@ -215,6 +222,10 @@ namespace WorldPlants.Services
 
         public async Task<string> EditCurrentPlantSettings(string plantId, AddPlantDto newSettings)
         {
+            var user = _utilities.GetUserWithSettings();
+
+            _utilities.CheckForUserPermission(user.UserSettings.CanEditPlants);
+
             var plant = _utilities.FindPlant(plantId);
 
             if (plant.Name != newSettings.Name)

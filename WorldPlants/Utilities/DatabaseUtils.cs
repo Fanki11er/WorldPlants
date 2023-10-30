@@ -15,8 +15,6 @@ namespace WorldPlants.Utils
         void AddToDatabaseUserSettings(string accountType, Guid userId, bool hasPhoneNumber);
         public Guid AddToDatabaseUserSpace();
         public void CheckIfSpaceExists(string spaceId);
-
-        public void AddStandardTasks(Guid spaceId);
     }
 
 
@@ -85,7 +83,9 @@ namespace WorldPlants.Utils
                 CanRemoveSites = accountType == UserRoles.Owner.ToString(),
                 CanEditSites = accountType == UserRoles.Owner.ToString(),
                 // TasksPermissions
-                CanCreateCustomTasks = accountType == UserRoles.Owner.ToString(),
+                CanCreateCustomActionTypes = accountType == UserRoles.Owner.ToString(),
+                CanEditCustomActionTypes = accountType == UserRoles.Owner.ToString(),
+                CanDeleteCustomActionTypes = accountType == UserRoles.Owner.ToString(),
 
             };
             _context.UserSettings.Add(userSettings);
@@ -108,58 +108,6 @@ namespace WorldPlants.Utils
             {
                 throw new NotFoundException("Nie znaleziono przestrzeni użytkownika");
             }
-        }
-
-        public void AddStandardTasks(Guid spaceId)
-        {
-            CheckIfSpaceExists(spaceId.ToString());
-
-            List<ActionType> actionTypes = new List<ActionType>()
-            {
-                new ActionType()
-                {
-                    Name = StandardActionType.Water.ToString(),
-                    Description= "Podlewanie",
-                    SpaceId = spaceId,
-                    StandardType = true
-                },
-
-                new ActionType()
-                {
-                    Name =  StandardActionType.Fertilize.ToString(),
-                    Description = "Nawożenie",
-                    SpaceId = spaceId,
-                    StandardType = true
-                },
-
-                new ActionType()
-                {
-                    Name =  StandardActionType.Cut.ToString(),
-                    Description = "Przycinanie",
-                    SpaceId = spaceId,
-                    StandardType = true
-                },
-
-                new ActionType()
-                {
-                    Name =  StandardActionType.Replant.ToString(),
-                    Description = "Przesadzanie",
-                    SpaceId = spaceId,
-                    StandardType = true
-                },
-
-                new ActionType()
-                {
-                    Name =  StandardActionType.Mist.ToString(),
-                    Description = "Zwilżanie",
-                    SpaceId = spaceId,
-                    StandardType = true
-                },
-            };
-
-            _context.ActionTypes.AddRange(actionTypes);
-
-            _context.SaveChanges();
         }
     }
 }
