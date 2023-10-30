@@ -33,6 +33,7 @@ import {
   GreenStyledButton,
   OrangeStyledButton,
 } from "../../Atoms/Buttons/Buttons";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 interface ActionErrorStatus {
   taskId: string;
@@ -179,6 +180,7 @@ const PlantTasksSection = () => {
   };
   return (
     <PlantTasksSectionWrapper>
+      <GoToTop />
       {isLoading && <LoadingIndicator />}
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />

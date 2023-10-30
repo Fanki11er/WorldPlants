@@ -27,11 +27,6 @@ export const HeaderWrapper = styled.div`
   justify-items: center;
   align-self: center;
 
-  /* @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
-    order: 1;
-    grid-template-rows: 350px 50px;
-  } */
-
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-template-rows: 180px 1fr;
     order: 1;
@@ -41,10 +36,6 @@ export const HeaderWrapper = styled.div`
 export const HeroTitle = styled.img`
   width: 60%;
   align-self: center;
-
-  /* @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
-    max-width: 40%;
-  } */
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     max-width: 300px;
@@ -59,11 +50,6 @@ export const HeroImageWrapper = styled.div`
   background-size: 60%;
   background-repeat: no-repeat;
   background-position: center;
-
-  /* @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
-    order: 2;
-    transform: translateY(-80px);
-  } */
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     max-width: 600px;

@@ -1,5 +1,6 @@
 import { Form } from "formik";
 import styled from "styled-components";
+import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const AddPlantFormWrapper = styled(Form)`
   display: grid;
@@ -7,6 +8,10 @@ export const AddPlantFormWrapper = styled(Form)`
   column-gap: 20px;
   width: 100%;
   max-width: 700px;
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const AddPlantFormInputsWrapper = styled.div`
@@ -14,6 +19,9 @@ export const AddPlantFormInputsWrapper = styled.div`
   flex-direction: column;
   row-gap: 20px;
   align-items: flex-start;
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    padding-left: 15px;
+  }
 `;
 
 export const AddPlantFormImagePreview = styled.img`
@@ -25,6 +33,7 @@ export const AddPlantFormImagePreview = styled.img`
 export const AddPlantFormPhotoInputWrapper = styled.div`
   display: flex;
   align-items: center;
+  column-gap: 20px;
 `;
 
 export const IndicatorsWrapper = styled.div`
@@ -32,4 +41,8 @@ export const IndicatorsWrapper = styled.div`
   display: flex;
   justify-content: center;
   grid-column: 1/3;
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    grid-column: 1/2;
+  }
 `;

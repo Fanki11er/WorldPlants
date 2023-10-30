@@ -8,7 +8,8 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 html{
-    //width: 100vw ;
+    width: 100vw ;
+    width: 100%;
     overflow-x: hidden;
     min-height: 100vh ;
 }
@@ -19,6 +20,7 @@ body {
     width: 100% ;
     font-family: "Roboto";
     background-color: ${theme.colors.mainBlue} ;
+    
 }
 
 body, ul{

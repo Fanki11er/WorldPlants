@@ -49,6 +49,7 @@ const GuestAccountsList = (props: Props) => {
         <GuestListItemWrapper key={id}>
           <HeaderGuestListItem>{name}</HeaderGuestListItem>
           <HeaderGuestListItem>{email}</HeaderGuestListItem>
+
           <ToggleInput
             isActive={isActive}
             id={id}

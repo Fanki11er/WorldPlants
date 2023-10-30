@@ -11,6 +11,7 @@ import { PlantBasicInformationDto } from "../../../Interfaces/PlantBasicInformat
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import SitePlantsList from "../SitePlantsList/SitePlantsList";
 import useQueryKey from "../../../Hooks/useQueryKey";
+import GoToTop from "../GoToTop/GoToTop";
 
 const UserSitePlantsSection = () => {
   const { siteId } = useParams();
@@ -30,6 +31,7 @@ const UserSitePlantsSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {error ? (
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}

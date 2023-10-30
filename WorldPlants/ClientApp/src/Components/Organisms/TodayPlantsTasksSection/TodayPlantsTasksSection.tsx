@@ -15,6 +15,7 @@ import { PlantWithTasks } from "../../../Interfaces/PlantWithTasks";
 import PlantsWithTasksList from "../../Molecules/PlantsWithTasksList/PlantsWithTasksList";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import useQueryKey from "../../../Hooks/useQueryKey";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const TodayPlantsTasksSection = () => {
   const { getTodayTasks } = apiEndpoints;
@@ -30,6 +31,7 @@ const TodayPlantsTasksSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SectionHeaderWithIcon>
         <SectionHeaderWithIconIcon src={todayTasksIcon} />
         Dzisiejsze zadania

@@ -15,6 +15,7 @@ const PlantSideMenu = () => {
     selectedPlantMove,
     selectedPlantSettings,
     selectedPlantDelete,
+    selectedPlantNotes,
   } = paths;
   return (
     <SideMenu>
@@ -22,6 +23,9 @@ const PlantSideMenu = () => {
         Zadania
       </SideMenuLink>
       <SideMenuLink to={selectedPlantSchedule}>Harmonogram</SideMenuLink>
+      <SideMenuLink to={selectedPlantNotes} end>
+        Notatki
+      </SideMenuLink>
       <SideMenuLink to={selectedPlantTasksHistory}>Historia akcji</SideMenuLink>
       <SideMenuLink to={selectedPlantDetails}>Szczegóły</SideMenuLink>
       <SideMenuLink to={selectedPlantMove}>Przenieś</SideMenuLink>

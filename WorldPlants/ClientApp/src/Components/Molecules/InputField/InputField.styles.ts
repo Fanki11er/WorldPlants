@@ -36,6 +36,11 @@ export const Input = styled(Field)`
     ${(props: ErrorProps & AppTheme) =>
       props.iserror ? props.theme.colors.red : "transparent"};
   color: ${(props: AppTheme) => props.theme.colors.white};
+  transition: all 0.5s;
+  &:hover,
+  &:focus {
+    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
+  }
 `;
 
 export const Required = styled.sup`

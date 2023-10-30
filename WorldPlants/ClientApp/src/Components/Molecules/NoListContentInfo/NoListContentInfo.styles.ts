@@ -8,7 +8,7 @@ export const NoListContentInfoWrapper = styled.div`
   justify-items: center;
   align-content: center;
   width: fit-content;
-  min-width: 340px;
+  min-width: 320px;
   max-width: 600px;
   border-radius: 25px;
   padding: 40px;

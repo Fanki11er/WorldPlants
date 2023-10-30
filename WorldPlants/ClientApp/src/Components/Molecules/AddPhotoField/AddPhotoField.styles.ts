@@ -4,7 +4,7 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 export const AddPhotoFieldWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 0 30px;
+  padding: 0;
 `;
 
 export const AddPhotoFieldLabel = styled.label`

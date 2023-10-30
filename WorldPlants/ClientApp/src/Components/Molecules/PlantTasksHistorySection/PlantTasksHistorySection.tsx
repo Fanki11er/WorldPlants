@@ -13,7 +13,7 @@ import { TASKS_HISTORY } from "../../../Constants/Constants";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import FilterForm from "../FilterForm/FilterForm";
 import PlantTasksHistoryList from "../PlantTasksHistoryList/PlantTasksHistoryList";
-import { PlantTasksHistorySectionWrapper } from "./PlantTasksHistorySection.styles";
+import GoToTop from "../GoToTop/GoToTop";
 
 const PlantTasksHistorySection = () => {
   const { getTasksHistory } = apiEndpoints;
@@ -36,7 +36,8 @@ const PlantTasksHistorySection = () => {
   };
 
   return (
-    <PlantTasksHistorySectionWrapper>
+    <SettingsSectionWrapper>
+      <GoToTop />
       {data && data.length > 0 && (
         <FilterForm
           setterFunction={handleSetFilterValue}
@@ -56,7 +57,7 @@ const PlantTasksHistorySection = () => {
         <FormRequestError errorValues={getErrorMessages(error)} />
       ) : null}
       {isLoading && <LoadingIndicator />}
-    </PlantTasksHistorySectionWrapper>
+    </SettingsSectionWrapper>
   );
 };
 

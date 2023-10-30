@@ -16,6 +16,7 @@ import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.
 import { getErrorMessages } from "../../../Utils/Utils";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
 import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const GuestUsersAccountSettingsSection = () => {
   const { user } = useAuth();
@@ -38,6 +39,7 @@ const GuestUsersAccountSettingsSection = () => {
   }
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SettingsSectionHeader>Konta gości</SettingsSectionHeader>
       {isLoading && <LoadingIndicator />}
       {error ? (

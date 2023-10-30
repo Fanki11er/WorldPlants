@@ -6,5 +6,7 @@ export interface GuestUserPermissionsDto {
   canAddSites: boolean;
   canRemoveSites: boolean;
   canEditSites: boolean;
-  canAddCustomTasks: boolean;
+  canCreateCustomActionTypes: boolean;
+  canEditCustomActionTypes: boolean;
+  canDeleteCustomActionTypes: boolean;
 }

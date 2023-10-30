@@ -10,6 +10,7 @@ import AddPlantForm from "../../Molecules/AddPlantForm/AddPlantForm";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import usePlantDetails from "../../../Hooks/usePlantDetails";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const AddPlantSection = () => {
   const { addPlant } = apiEndpoints;
@@ -33,6 +34,7 @@ const AddPlantSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {areDetailsLoading && <LoadingIndicator />}
       {detailsError ? (
         <FormRequestError errorValues={getErrorMessages(detailsError)} />

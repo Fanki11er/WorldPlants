@@ -8,6 +8,7 @@ import {
   SettingsSectionHeader,
   SettingsSectionWrapper,
 } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const DeletePlantSection = () => {
   const { plantId } = useParams();
@@ -18,6 +19,7 @@ const DeletePlantSection = () => {
   ]);
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {data && (
         <SettingsSectionHeader>{`Usuń roślinę: ${data.name}`}</SettingsSectionHeader>
       )}

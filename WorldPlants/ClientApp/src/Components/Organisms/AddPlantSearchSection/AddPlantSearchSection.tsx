@@ -9,6 +9,7 @@ import AddPlantSearchForm from "../../Molecules/AddPlantSearchForm/AddPlantSearc
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 import AddPlantSearchOrRecognizeResults from "../../Molecules/AddPlantSearchOrRecognizeResults/AddPlantSearchOrRecognizeResults";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const AddPlantSearchSection = () => {
   const { searchForPlant } = apiEndpoints;
@@ -28,6 +29,7 @@ const AddPlantSearchSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <AddPlantSearchForm isLoading={isLoading} />
       {isLoading && <LoadingIndicator />}
       {data ? (

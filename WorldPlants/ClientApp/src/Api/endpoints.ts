@@ -108,13 +108,8 @@ export const apiEndpoints = {
   },
   //? Tasks
 
-  getStandardTask: (
-    plantId: string | undefined,
-    taskType: StandardTaskTypeEnum
-  ) => {
-    return `Tasks/Standard/${plantId ? plantId : ""}/${
-      StandardTaskTypeEnum[taskType]
-    }`;
+  getStandardTask: (plantId: string | undefined, taskId: number) => {
+    return `Tasks/Standard/${plantId ? plantId : ""}/${taskId}`;
   },
 
   setTask: "Tasks/SetTask",
@@ -157,4 +152,35 @@ export const apiEndpoints = {
   },
 
   deleteAllCodes: "QR",
+
+  //?? Notes
+  getNotes: (plantId: string | undefined) => {
+    return `Notes/${plantId ? plantId : ""}`;
+  },
+
+  addNote: (plantId: string | undefined) => {
+    return `Notes/Add/${plantId ? plantId : ""}`;
+  },
+
+  editNote: (noteId: number) => {
+    return `Notes/Edit/${noteId}`;
+  },
+
+  deleteNote: (noteId: number) => {
+    return `Notes/${noteId}`;
+  },
+
+  //?? CustomActionTypes
+
+  getCustomActionTypesInformation: "CustomTasks/Information",
+
+  addCustomActionType: "CustomTasks/Add",
+
+  editCustomActionType: (actionTypeId: number | undefined) => {
+    return `CustomTasks/Edit/${actionTypeId ? actionTypeId : ""}`;
+  },
+
+  deleteCustomActionType: (actionTypeId: number | undefined) => {
+    return `CustomTasks/Delete/${actionTypeId ? actionTypeId : ""}`;
+  },
 };

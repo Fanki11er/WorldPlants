@@ -43,6 +43,11 @@ import IncomingPlantsTasksSection from "../Components/Organisms/IncomingPlantsTa
 import QrView from "../Views/QrView/QrView";
 import QrScannerSection from "../Components/Organisms/QrScannerSection/QrScannerSection";
 import QrPrintSection from "../Components/Organisms/QrPrintSection/QrPrintSection";
+import AddCustomPlantSection from "../Components/Organisms/AddCustomPlantSection/AddCustomPlantSection";
+import PlantNotesSection from "../Components/Organisms/PlantNotesSection/PlantNotesSection";
+import EditNoteSection from "../Components/Organisms/EditNoteSection/EditNoteSection";
+import CustomActionTypesSection from "../Components/Organisms/CustomActionTypesSection/CustomActionTypesSection";
+import EditCustomActionTypeSection from "../Components/Organisms/EditCustomActionTypeSection/EditCustomActionTypeSection";
 
 const {
   rootPath,
@@ -74,6 +79,11 @@ const {
   plantTasksIncoming,
   qrCodes,
   qrPrints,
+  addCustomPlant,
+  selectedPlantNotes,
+  selectedPlanEditNote,
+  customActions,
+  customActionsEdit,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -100,6 +110,12 @@ const router = createBrowserRouter(
           <Route
             path={userSettingsRegisterGuestAccount}
             element={<RegisterGuestAccountSection />}
+          />
+          <Route path={customActions} element={<CustomActionTypesSection />} />
+
+          <Route
+            path={`${customActionsEdit}/:customActionId`}
+            element={<EditCustomActionTypeSection />}
           />
           <Route
             path={userSettingsAccount}
@@ -138,6 +154,7 @@ const router = createBrowserRouter(
           <Route index element={<AddPlantSearchSection />} />
           <Route path={addPlantRecognize} element={<RecognizePlantSection />} />
           <Route path=":detailsId" element={<AddPlantSection />} />
+          <Route path={addCustomPlant} element={<AddCustomPlantSection />} />
         </Route>
         //? Plant
         <Route
@@ -149,11 +166,15 @@ const router = createBrowserRouter(
             path={selectedPlantSchedule}
             element={<PlantScheduleSection />}
           />
+          <Route path={selectedPlantNotes} element={<PlantNotesSection />} />
+          <Route
+            path={`${selectedPlanEditNote}/:noteId`}
+            element={<EditNoteSection />}
+          />
           <Route
             path={selectedPlantDetails}
             element={<PlantDetailsSection />}
           />
-          <Route path={""} element={<div>PlantNotes</div>} />
           <Route
             path={selectedPlantTasksHistory}
             element={<PlantTasksHistorySection />}
@@ -176,20 +197,3 @@ const router = createBrowserRouter(
 );
 
 export default router;
-
-// Zrobić wskaźnik ładowania -zrobiony
-// Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section) - zrobione
-// Poprawić kontrast w napisie błędu w errorach - zrobione
-//todo Border na focus i hover dla inputa w register, login i search (input textowy) ???
-//todo AddPlantSearchOrRecognizeResultsListItemImage w AddPlantSearchOrRecognizeResults image jako tło ??
-//todo AddPlantSection plantDetails addplantform image jako tło ??
-// AddPhoto field padding i hover - zrobione
-// PlantDetailsWithIconSection wstawić ikony - zrobione
-
-// Poprawić loadery -zrobione
-//  Zrobić red button with margin - zrobione
-// Przejrzeć wszystkie style i sprawdzić kolory - zrobione
-// todo Hover focus miejsca
-
-//todo Ikona do RecognisePlantSection
-//todo Ikona do AddPlantSearchSection
