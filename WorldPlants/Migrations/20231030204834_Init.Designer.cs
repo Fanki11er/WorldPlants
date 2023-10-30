@@ -12,8 +12,8 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPlantsDbContext))]
-    [Migration("20231029173359_init")]
-    partial class init
+    [Migration("20231030204834_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -211,6 +211,10 @@ namespace WorldPlants.Migrations
 
                     b.Property<Guid>("PlantId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TaskName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaskType")
                         .IsRequired()
