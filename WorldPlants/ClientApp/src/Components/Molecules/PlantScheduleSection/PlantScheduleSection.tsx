@@ -20,7 +20,7 @@ import FormRequestError from "../FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
 import { CustomActionTypeInformation } from "../../../Interfaces/CustomActionTypeInformation";
 import useGetCustomActionTypes from "../../../Hooks/useGetCustomActionTypes";
-import customActionTypeIcon from "../../../Assets/CustomActionType.svg";
+import customActionTypeIcon from "../../../Assets/CustomActionType2.svg";
 import GoToTop from "../GoToTop/GoToTop";
 
 const PlantScheduleSection = () => {
@@ -75,7 +75,7 @@ const PlantScheduleSection = () => {
         description="Nawożenie"
         iconSrc={flowerPot}
         iconAlt={"Ikona z doniczką"}
-        taskId={StandardTaskTypeEnum.Water}
+        taskId={StandardTaskTypeEnum.Fertilize}
       />
       <PlantScheduleConcreteType
         description="Przycinanie"

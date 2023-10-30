@@ -6,6 +6,7 @@ interface MobileProps {
 }
 
 export const SideMenuWrapper = styled.div<MobileProps>`
+  top: 150px;
   display: flex;
   flex-direction: column;
   row-gap: 15px;
@@ -23,7 +24,8 @@ export const SideMenuWrapper = styled.div<MobileProps>`
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-column: 1/2;
     transform: translateX(${(props) => (!props.isOpen ? "-260px" : "0")});
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: ${(props: AppTheme) =>
+      props.theme.colors.blackTransparent};
     justify-items: flex-start;
     width: 280px;
     transition: all 0.5s;

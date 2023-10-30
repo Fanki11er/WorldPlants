@@ -132,7 +132,7 @@ const PlantTasksSection = () => {
               )}
             </PlantTasksSectionTaskIndicator>
             <PlantTasksSectionTaskHeader>
-              {translateActionType(task.actionType)}
+              {task.actionDescription}
             </PlantTasksSectionTaskHeader>
             {actionInProgress !== task.id && (
               <PantTasksSectionTaskButtonsWrapper>

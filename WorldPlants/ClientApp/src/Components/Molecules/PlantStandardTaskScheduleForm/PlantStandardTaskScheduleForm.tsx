@@ -128,7 +128,6 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
               actionTypeId: data ? data.actionTypeId : taskId,
               actionName: data ? data.actionName : StandardTaskTypeEnum[taskId],
             };
-            console.log(data);
 
             updateTask(newTask, {
               onSuccess: async () => {

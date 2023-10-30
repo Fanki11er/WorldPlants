@@ -6,10 +6,10 @@ import {
   PlantTasksHistoryListItemInformationWrapper,
   PlantTasksHistoryListWrapper,
 } from "./PlantTasksHistoryList.styles";
-import noIcon from "../../../assets/NoIcon.svg";
 import { PlantTasksHistoryItem } from "../../../Interfaces/PlantTasksHistoryItem";
-import { translateActionType } from "../../../Utils/Utils";
+
 import {
+  StandardTaskType,
   StandardTaskTypeEnum,
   StandardTaskTypeFilter,
 } from "../../../Interfaces/PlantActiveTask";
@@ -17,6 +17,10 @@ import waterIcon from "../../../Assets/WateringsThree.svg";
 import fertilizeIcon from "../../../Assets/Fertilizer.svg";
 import cutIcon from "../../../Assets/Pruning.svg";
 import { useCallback } from "react";
+import mist from "../../../Assets/Wetting2.svg";
+import replant from "../../../Assets/MovingPlants.svg";
+import noIcon from "../../../Assets/NoIcon.svg";
+import customAction from "../../../Assets/CustomActionType2.svg";
 
 interface Props {
   tasksHistory: PlantTasksHistoryItem[];
@@ -24,26 +28,28 @@ interface Props {
 }
 const PlantTasksHistoryList = (props: Props) => {
   const { tasksHistory, filter } = props;
-
-  const translateActionTypeToIcon = (actionType: StandardTaskTypeEnum) => {
-    switch (StandardTaskTypeEnum[actionType] as unknown as number) {
-      case StandardTaskTypeEnum.Water: {
+  const translateActionTypeToIcon = (actionType: StandardTaskType) => {
+    switch (actionType) {
+      case "Water": {
         return waterIcon;
       }
-      case StandardTaskTypeEnum.Fertilize: {
+      case "Fertilize": {
         return fertilizeIcon;
       }
-      case StandardTaskTypeEnum.Cut: {
+      case "Cut": {
         return cutIcon;
       }
-      case StandardTaskTypeEnum.Mist: {
-        return "";
+      case "Mist": {
+        return mist;
       }
-      case StandardTaskTypeEnum.Replant: {
-        return "";
+      case "Replant": {
+        return replant;
+      }
+      case "Custom": {
+        return customAction;
       }
       default: {
-        return "";
+        return noIcon;
       }
     }
   };
@@ -70,17 +76,14 @@ const PlantTasksHistoryList = (props: Props) => {
           <PlantTasksHistoryListItemCircle>
             <PlantInfoIcon
               src={
-                translateActionTypeToIcon(
-                  task.taskType as unknown as StandardTaskTypeEnum
-                ) || noIcon
+                translateActionTypeToIcon(task.taskType as StandardTaskType) ||
+                noIcon
               }
             />
           </PlantTasksHistoryListItemCircle>
           <PlantTasksHistoryListItemInformationWrapper>
             <PlantTasksHistoryListItemInformation>
-              {translateActionType(
-                task.taskType as unknown as StandardTaskTypeEnum
-              )}
+              {task.taskName}
             </PlantTasksHistoryListItemInformation>
             <PlantTasksHistoryListItemInformation>
               {task.userName}

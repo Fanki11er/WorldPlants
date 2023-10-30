@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { PlantNoteDto } from "../../../Interfaces/PlantNoteDto";
-import { StyledButton } from "../../Molecules/PlantTasksList/PlantTasksList.styles";
 import {
   PlantNoteListItem,
   PlantNotesItemButtonsWrapper,
@@ -15,10 +14,7 @@ import FormRequestError from "../../Molecules/FormRequestError/FormRequestError"
 import { getErrorMessages } from "../../../Utils/Utils";
 import PlantNote from "../PlantNote/PlantNote";
 import {
-  ActionButton,
   GenerateQRButton,
-  OrangeButton,
-  RedActionButton,
   RedButtonWithoutMargin,
 } from "../../Atoms/Buttons/Buttons";
 
@@ -42,7 +38,6 @@ const PlantNotesList = (props: Props) => {
     },
     onSuccess: () => {
       client.invalidateQueries(plantNotesQueryKey(plantId));
-      navigate(-1);
     },
   });
 
