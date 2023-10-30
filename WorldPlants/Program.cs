@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using NLog.Web;
 using System.Text;
 using WorldPlants;
 using WorldPlants.DbSeeders;
