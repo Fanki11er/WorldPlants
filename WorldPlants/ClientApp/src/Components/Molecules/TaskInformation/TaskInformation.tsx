@@ -1,8 +1,5 @@
 import { TaskBasicInformation } from "../../../Interfaces/TaskBasicInformation";
-import {
-  convertIndicatorText,
-  translateActionType,
-} from "../../../Utils/Utils";
+import { convertIndicatorText } from "../../../Utils/Utils";
 import {
   TaskInformationIndicator,
   TaskInformationIndicatorInnerText,
@@ -51,7 +48,7 @@ const TaskInformation = (props: Props) => {
       <TaskInformationTitle
         $status={taskInformation.daysLeft < 0 ? "Delayed" : "Future"}
       >
-        {translateActionType(taskInformation.actionType)}
+        {taskInformation.actionDescription}
       </TaskInformationTitle>
     </TaskInformationWrapper>
   );

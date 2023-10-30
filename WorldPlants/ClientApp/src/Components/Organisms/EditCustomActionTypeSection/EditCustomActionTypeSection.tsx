@@ -9,6 +9,7 @@ import useQueryKey from "../../../Hooks/useQueryKey";
 import { CustomActionTypeInformation } from "../../../Interfaces/CustomActionTypeInformation";
 import { useEffect, useState } from "react";
 import { apiEndpoints } from "../../../Api/endpoints";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const EditCustomActionTypeSection = () => {
   const { editCustomActionType } = apiEndpoints;
@@ -33,6 +34,7 @@ const EditCustomActionTypeSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SettingsSectionHeader>Edycja typu akcji</SettingsSectionHeader>
       {selectedActionType && (
         <AddEditCustomActionForm

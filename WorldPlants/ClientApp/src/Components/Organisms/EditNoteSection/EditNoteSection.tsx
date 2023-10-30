@@ -1,10 +1,8 @@
 import { useQueryClient } from "react-query";
 import PlantNoteForm from "../../Molecules/PlantNoteForm/PlantNoteForm";
-import { StyledButton } from "../../Molecules/PlantTasksList/PlantTasksList.styles";
 import {
   EditNoteSectionButtonsWrapper,
   EditNoteSectionFormWrapper,
-  EditNoteSectionWrapper,
 } from "./EditNoteSection.styles";
 import useQueryKey from "../../../Hooks/useQueryKey";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,12 +10,8 @@ import { useEffect, useState } from "react";
 import { PlantNoteDto } from "../../../Interfaces/PlantNoteDto";
 import { apiEndpoints } from "../../../Api/endpoints";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
-import {
-  ActionButton,
-  EditOrangeButton,
-  GenerateQRButton,
-  OrangeButton,
-} from "../../Atoms/Buttons/Buttons";
+import { GenerateQRButton } from "../../Atoms/Buttons/Buttons";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const EditNoteSection = () => {
   const { editNote } = apiEndpoints;
@@ -41,6 +35,7 @@ const EditNoteSection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {selectedNote && (
         <EditNoteSectionFormWrapper>
           <PlantNoteForm

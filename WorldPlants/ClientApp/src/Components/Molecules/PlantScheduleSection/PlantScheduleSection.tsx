@@ -2,12 +2,7 @@ import { useParams } from "react-router-dom";
 import { apiEndpoints } from "../../../Api/endpoints";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { PlantInfoIcon } from "../../Atoms/PlantInfoIcon/PlantInfoIcon.styles";
-import {
-  PlantScheduleConcreteTypeHeader,
-  PlantScheduleConcreteTypeHeaderWrapper,
-  PlantScheduleConcreteTypeWrapper,
-  PlantScheduleSectionWrapper,
-} from "./PlantScheduleSection.styles";
+import { PlantScheduleSectionWrapper } from "./PlantScheduleSection.styles";
 import { useQuery } from "react-query";
 import { PLANTS_SCHEDULE_TIPS } from "../../../Constants/Constants";
 import { PlantScheduleTipsDto } from "../../../Interfaces/PlantScheduleTipsDto";
@@ -19,11 +14,25 @@ import flowerPot from "../../../Assets/Fertilizer.svg";
 import scissors from "../../../Assets/Pruning.svg";
 import transplantation from "../../../Assets/Transplantation.svg";
 import mist from "../../../Assets/Wetting2.svg";
+import PlantScheduleConcreteType from "../PlantScheduleConcreteType/PlantScheduleConcreteType";
+import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
+import FormRequestError from "../FormRequestError/FormRequestError";
+import { getErrorMessages } from "../../../Utils/Utils";
+import { CustomActionTypeInformation } from "../../../Interfaces/CustomActionTypeInformation";
+import useGetCustomActionTypes from "../../../Hooks/useGetCustomActionTypes";
+import customActionTypeIcon from "../../../Assets/CustomActionType.svg";
+import GoToTop from "../GoToTop/GoToTop";
 
 const PlantScheduleSection = () => {
   const { plantId } = useParams();
   const { getPlantTipsData } = apiEndpoints;
   const axiosPrivate = useAxiosPrivate();
+  const {
+    customActionsTypes,
+    customActionTypesAreLoading,
+    customActionTypesError,
+  } = useGetCustomActionTypes();
+
   const { data: tipsData } = useQuery<PlantScheduleTipsDto>(
     [PLANTS_SCHEDULE_TIPS, plantId],
     async () => {
@@ -36,62 +45,65 @@ const PlantScheduleSection = () => {
       cacheTime: 10000 * 120,
     }
   );
+
+  const renderCustomActionTypes = (
+    customTypes: CustomActionTypeInformation[]
+  ) => {
+    return customTypes.map((customType) => {
+      return (
+        <PlantScheduleConcreteType
+          key={customType.id}
+          description={customType.description}
+          iconSrc={customActionTypeIcon}
+          iconAlt={"Ikona zadania"}
+          taskId={customType.id}
+        />
+      );
+    });
+  };
   return (
     <PlantScheduleSectionWrapper>
-      <PlantScheduleConcreteTypeWrapper>
-        <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={dropsOfWater} alt={"Ikona z kroplami wody"} />
-          <PlantScheduleConcreteTypeHeader>
-            Podlewanie
-          </PlantScheduleConcreteTypeHeader>
-        </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantScheduleTip
-          tipData={tipsData?.watering ? tipsData.watering : ""}
+      <GoToTop />
+      <PlantScheduleConcreteType
+        description="Podlewanie"
+        iconSrc={dropsOfWater}
+        iconAlt={"Ikona z kroplami wody"}
+        taskId={StandardTaskTypeEnum.Water}
+        tipData={tipsData?.watering && tipsData.watering}
+      />
+      <PlantScheduleConcreteType
+        description="Nawożenie"
+        iconSrc={flowerPot}
+        iconAlt={"Ikona z doniczką"}
+        taskId={StandardTaskTypeEnum.Water}
+      />
+      <PlantScheduleConcreteType
+        description="Przycinanie"
+        iconSrc={scissors}
+        iconAlt={"Ikona nożyczkami"}
+        taskId={StandardTaskTypeEnum.Cut}
+        tipData={tipsData?.pruning && tipsData.pruning}
+      />
+      <PlantScheduleConcreteType
+        description="Przesadzanie"
+        iconSrc={transplantation}
+        iconAlt={"Ikona z doniczką"}
+        taskId={StandardTaskTypeEnum.Replant}
+      />
+
+      <PlantScheduleConcreteType
+        description="Zraszanie"
+        iconSrc={mist}
+        iconAlt={"Ikona z doniczką"}
+        taskId={StandardTaskTypeEnum.Mist}
+      />
+      {customActionTypesAreLoading && <LoadingIndicator />}
+      {customActionTypesError ? (
+        <FormRequestError
+          errorValues={getErrorMessages(customActionTypesError)}
         />
-        <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Water} />
-      </PlantScheduleConcreteTypeWrapper>
-
-      <PlantScheduleConcreteTypeWrapper>
-        <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={flowerPot} alt={"Ikona z doniczką"} />
-          <PlantScheduleConcreteTypeHeader>
-            Nawożenie
-          </PlantScheduleConcreteTypeHeader>
-        </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm
-          taskId={StandardTaskTypeEnum.Fertilize}
-        />
-      </PlantScheduleConcreteTypeWrapper>
-
-      <PlantScheduleConcreteTypeWrapper>
-        <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={scissors} alt={"Ikona nożyczkami"} />
-          <PlantScheduleConcreteTypeHeader>
-            Przycinanie
-          </PlantScheduleConcreteTypeHeader>
-        </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantScheduleTip tipData={tipsData?.pruning ? tipsData.pruning : ""} />
-        <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Cut} />
-      </PlantScheduleConcreteTypeWrapper>
-      <PlantScheduleConcreteTypeWrapper>
-        <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={transplantation} alt={"Ikona z doniczką"} />
-          <PlantScheduleConcreteTypeHeader>
-            Przesadzanie
-          </PlantScheduleConcreteTypeHeader>
-        </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Replant} />
-      </PlantScheduleConcreteTypeWrapper>
-
-      <PlantScheduleConcreteTypeWrapper>
-        <PlantScheduleConcreteTypeHeaderWrapper>
-          <PlantInfoIcon src={mist} alt={"Ikona ze spryskiwaczem"} />
-          <PlantScheduleConcreteTypeHeader>
-            Zraszanie
-          </PlantScheduleConcreteTypeHeader>
-        </PlantScheduleConcreteTypeHeaderWrapper>
-        <PlantStandardTaskScheduleForm taskId={StandardTaskTypeEnum.Mist} />
-      </PlantScheduleConcreteTypeWrapper>
+      ) : null}
+      {customActionsTypes && renderCustomActionTypes(customActionsTypes)}
     </PlantScheduleSectionWrapper>
   );
 };

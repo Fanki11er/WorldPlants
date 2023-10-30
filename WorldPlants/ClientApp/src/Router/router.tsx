@@ -197,30 +197,3 @@ const router = createBrowserRouter(
 );
 
 export default router;
-
-// Zrobić wskaźnik ładowania -zrobiony
-// Poprawić ikony w pliku świecącym się na czerwono :) (Plant schedule section) - zrobione
-// Poprawić kontrast w napisie błędu w errorach - zrobione
-//todo Border na focus i hover dla inputa w register, login i search (input textowy) ???
-//todo AddPlantSearchOrRecognizeResultsListItemImage w AddPlantSearchOrRecognizeResults image jako tło ??
-//todo AddPlantSection plantDetails addplantform image jako tło ??
-// AddPhoto field padding i hover - zrobione
-// PlantDetailsWithIconSection wstawić ikony - zrobione
-
-// Poprawić loadery -zrobione
-//  Zrobić red button with margin - zrobione
-// Przejrzeć wszystkie style i sprawdzić kolory - zrobione
-// todo Hover focus miejsca
-
-//todo Ikona do RecognisePlantSection
-//todo Ikona do AddPlantSearchSection
-
-//!! poprawić stopkę
-//! brak błędu przy dodawaniu nazwy podczas dodawania rośliny
-//! dodać kółko przy brakach obrazków
-//AddNoteSection zmienić przycisk bez marginesu
-//! dodać walidację do dodawania notatek
-// plant note zmienić button czerwony bez marginesu
-// plant note description zmienić kolor tłą na darkpurple i kolor czcionki na zielony greensettingaction
-//! poprawić edycję notatek i usuwanie
-//! w harmonogramie poprawić inputy

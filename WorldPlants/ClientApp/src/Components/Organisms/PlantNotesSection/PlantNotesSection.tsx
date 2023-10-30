@@ -14,6 +14,7 @@ import { PlantNoteDto } from "../../../Interfaces/PlantNoteDto";
 import PlantNoteForm from "../../Molecules/PlantNoteForm/PlantNoteForm";
 import PlantNotesList from "../../Molecules/PlantNotesList/PlantNotesList";
 import { ActionButton, GenerateQRButton } from "../../Atoms/Buttons/Buttons";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const PlantNotesSection = () => {
   const { addNote, getNotes } = apiEndpoints;
@@ -33,6 +34,7 @@ const PlantNotesSection = () => {
 
   return (
     <SettingsSectionWrapper>
+       <GoToTop />
       <PlantNoteForm
         id={"AddNoteForm"}
         currentValues={null}

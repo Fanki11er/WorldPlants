@@ -13,6 +13,7 @@ import { TASKS_HISTORY } from "../../../Constants/Constants";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import FilterForm from "../FilterForm/FilterForm";
 import PlantTasksHistoryList from "../PlantTasksHistoryList/PlantTasksHistoryList";
+import GoToTop from "../GoToTop/GoToTop";
 
 const PlantTasksHistorySection = () => {
   const { getTasksHistory } = apiEndpoints;
@@ -36,6 +37,7 @@ const PlantTasksHistorySection = () => {
 
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       {data && data.length > 0 && (
         <FilterForm
           setterFunction={handleSetFilterValue}

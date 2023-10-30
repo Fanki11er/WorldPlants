@@ -8,6 +8,7 @@ import RecognizedResultsList from "../../Molecules/RecognizedResultsList/Recogni
 import RecognizerImagesForm from "../../Molecules/RecognizerImagesForm/RecognizerImagesForm";
 import { useState } from "react";
 import magnifyingGlass from "../../../Assets/MagnifyingGlass.svg";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const RecognizePlantSection = () => {
   const [recognizedResultsData, setRecognizedResultsData] = useState<
@@ -19,6 +20,7 @@ const RecognizePlantSection = () => {
   };
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <SectionHeaderWithIcon>
         <SectionHeaderWithIconIcon src={magnifyingGlass} alt="IkonaLupy" />
         Rozpoznawanie roślin

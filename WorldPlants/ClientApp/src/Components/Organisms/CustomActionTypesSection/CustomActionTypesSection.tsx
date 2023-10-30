@@ -6,6 +6,7 @@ import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/Setti
 import AddEditCustomActionForm from "../../Molecules/AddEditCustomActionForm/AddEditCustomActionForm";
 import CustomActionTypesList from "../../Molecules/CustomActionTypesList/CustomActionTypesList";
 import FormRequestError from "../../Molecules/FormRequestError/FormRequestError";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 import NoListContentInfo from "../../Molecules/NoListContentInfo/NoListContentInfo";
 
 const CustomActionTypesSection = () => {
@@ -17,6 +18,7 @@ const CustomActionTypesSection = () => {
   } = useGetCustomActionTypes();
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <AddEditCustomActionForm
         currentTaskInformation={undefined}
         submitEndpoint={addCustomActionType}

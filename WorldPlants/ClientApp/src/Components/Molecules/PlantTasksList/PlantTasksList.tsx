@@ -1,11 +1,7 @@
 import useTask from "../../../Hooks/useTask";
 import { StandardTaskTypeEnum } from "../../../Interfaces/PlantActiveTask";
 import { TaskBasicInformation } from "../../../Interfaces/TaskBasicInformation";
-import {
-  convertIndicatorText,
-  getErrorMessages,
-  translateActionType,
-} from "../../../Utils/Utils";
+import { convertIndicatorText, getErrorMessages } from "../../../Utils/Utils";
 import {
   BlueStyledButton,
   GreenStyledButton,
@@ -83,7 +79,7 @@ const PlantTasksList = (props: Props) => {
               )}
             </PlantTasksSectionTaskIndicator>
             <PlantTasksSectionTaskHeader>
-              {translateActionType(task.actionType)}
+              {task.actionDescription}
             </PlantTasksSectionTaskHeader>
             {actionInProgress !== task.id && (
               <PantTasksSectionTaskButtonsWrapper>

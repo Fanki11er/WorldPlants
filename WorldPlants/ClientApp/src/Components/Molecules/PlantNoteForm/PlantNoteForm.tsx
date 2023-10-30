@@ -1,4 +1,4 @@
-import { Formik } from "formik";
+import { Formik, FormikErrors } from "formik";
 import {
   NoteFormImagePreview,
   PlantNoteFormWrapper,
@@ -93,6 +93,24 @@ const PlantNoteForm = (props: Props) => {
           });
         });
         setSubmitting(false);
+      }}
+      validate={(values) => {
+        const errors = {} as FormikErrors<FormValues>;
+
+        if (values.title.length < 3) {
+          errors.title = "Minimalna długość to 3 znaki";
+        }
+
+        if (
+          currentValues &&
+          currentValues.title === values.title &&
+          currentValues.note === values.note
+        ) {
+          errors.title = "Nie zmieniono wartości";
+          errors.note = "Nie zmieniono wartości";
+        }
+
+        return errors;
       }}
     >
       {({ values }) => (

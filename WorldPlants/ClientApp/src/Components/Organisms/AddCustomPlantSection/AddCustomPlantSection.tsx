@@ -5,6 +5,7 @@ import { PlantRecognizeResult } from "../../../Interfaces/PlantRecognizeResult";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 import AddPlantForm from "../../Molecules/AddPlantForm/AddPlantForm";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const AddCustomPlantSection = () => {
   const { addPlant } = apiEndpoints;
@@ -19,6 +20,7 @@ const AddCustomPlantSection = () => {
   };
   return (
     <SettingsSectionWrapper>
+      <GoToTop />
       <AddPlantForm
         currentSettings={
           plantRecognizeResult

@@ -14,6 +14,7 @@ import useQueryKey from "../../../Hooks/useQueryKey";
 import { QrCodeItem } from "../../../Interfaces/QrCodeItem";
 import QrCode from "../../Molecules/QrCode/QrCode";
 import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
+import GoToTop from "../../Molecules/GoToTop/GoToTop";
 
 const QrPrintSection = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -58,6 +59,7 @@ const QrPrintSection = () => {
 
   return (
     <QrPrintSectionWrapper>
+      <GoToTop />
       {data && data.length > 0 && (
         <ButtonsWrapper>
           <ActionButton onClick={() => window.print()}>Drukuj</ActionButton>

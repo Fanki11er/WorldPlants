@@ -83,11 +83,22 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
   });
   const client = useQueryClient();
 
-  const formatDate = (date: string, divideBy: string) => {
-    const divided = date.split(divideBy);
+  const formatDate = (date: string) => {
+    const separator = detectSeparator(date);
+    const divided = date.split(separator);
     const reversed = divided.reverse();
     const result = reversed.join("-");
     return result;
+  };
+
+  const detectSeparator = (date: string) => {
+    if (date.includes("/")) {
+      return "/";
+    } else if (date.includes(".")) {
+      return ".";
+    } else {
+      return "-";
+    }
   };
 
   const handleDeleteTask = () => {
@@ -101,7 +112,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
           enableReinitialize
           initialValues={{
             interval: data.interval || 0,
-            actionDate: data.actionDate ? formatDate(data.actionDate, ".") : "",
+            actionDate: data.actionDate ? formatDate(data.actionDate) : "",
             partOfTheDay: (data && data.partOfTheDay) || "",
           }}
           onSubmit={async (values: FormValues, { setSubmitting }) => {
