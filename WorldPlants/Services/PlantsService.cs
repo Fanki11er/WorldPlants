@@ -120,7 +120,8 @@ namespace WorldPlants.Services
             var site = _dbContext.UserSites
                 .Include(i => i.Plants)
                 .AsSplitQuery()
-                .FirstOrDefault(s => s.Id == siteId) ?? throw new Exceptions.NotFoundException("Nie odnaleziono miejsca");
+                .FirstOrDefault(s => s.Id == siteId) 
+                ?? throw new Exceptions.NotFoundException("Nie odnaleziono miejsca");
 
             if (plantDto.ImageFile != null)
             {
@@ -136,6 +137,8 @@ namespace WorldPlants.Services
             plant.ImageName = fileName;
 
             plant.UserSiteId = siteId;
+
+            plant.Name = _utilities.FirstLetterToUpper(plantDto.Name);
 
             _dbContext.Plants.Add(plant);
 
