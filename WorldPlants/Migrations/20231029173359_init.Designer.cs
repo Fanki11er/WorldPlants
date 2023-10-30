@@ -12,7 +12,7 @@ using WorldPlants.Entities;
 namespace WorldPlants.Migrations
 {
     [DbContext(typeof(WorldPlantsDbContext))]
-    [Migration("20231025212549_init")]
+    [Migration("20231029173359_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -41,7 +41,7 @@ namespace WorldPlants.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("SpaceId")
+                    b.Property<Guid?>("SpaceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("StandardType")
@@ -345,7 +345,13 @@ namespace WorldPlants.Migrations
                     b.Property<bool>("CanAddSites")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("CanCreateCustomTasks")
+                    b.Property<bool>("CanCreateCustomActionTypes")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanDeleteCustomActionTypes")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanEditCustomActionTypes")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanEditPlants")
@@ -462,9 +468,7 @@ namespace WorldPlants.Migrations
                 {
                     b.HasOne("WorldPlants.Entities.Space", null)
                         .WithMany("ActionTypes")
-                        .HasForeignKey("SpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SpaceId");
                 });
 
             modelBuilder.Entity("WorldPlants.Entities.ActiveTask", b =>

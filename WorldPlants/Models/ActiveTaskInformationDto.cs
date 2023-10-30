@@ -6,6 +6,7 @@ namespace WorldPlants.Models
     {
         public string Id { get; set; }
         public string ActionType { get; set; }
+        public string ActionDescription { get; set; }
         public int DaysLeft { get; set; }
     }
 }

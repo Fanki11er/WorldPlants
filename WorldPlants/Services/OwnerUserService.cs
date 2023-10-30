@@ -52,8 +52,6 @@ namespace WorldPlants.Services
             var userId = _databaseUtils.AddUserToDatabase(dto, spaceId, accountType);
 
             _databaseUtils.AddToDatabaseUserSettings(accountType, userId, hasPhoneNumber);
-
-            _databaseUtils.AddStandardTasks(spaceId);
         }
 
         public void DeleteUserAndAppAccount()

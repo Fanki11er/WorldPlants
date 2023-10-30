@@ -340,7 +340,7 @@ namespace WorldPlants.Services
 
             PlantTaskHistory item = new()
             {
-                TaskType = task.ActionType.Name,
+                TaskType = task.ActionType.Description,
                 UserName = user.Name,
                 ExecutionDate = _utilities.GetTodayDate().ToShortDateString(),
                 PlantId = task.PlantId

@@ -154,7 +154,7 @@ namespace WorldPlants.Services
             SunExposure? sunExposure = _dbContext
                 .SunExposures
                 .FirstOrDefault(se => se.Id == dto.SunExposureId) ??
-                throw new NotFoundException("Nie znaleziono expozycji na światło");
+                throw new NotFoundException("Nie znaleziono ekspozycji na światło");
 
             UserSite newUserSite = CreateUserSite(defaultSite, dto, sunExposure);
 
@@ -308,6 +308,7 @@ namespace WorldPlants.Services
                 .AsSplitQuery()
                 .Include(i => i.Plants)
                 .ThenInclude(i => i.ActiveTasks)
+                .ThenInclude(i => i.ActionType)
                 .AsSplitQuery()
                 .FirstOrDefault(s => s.Id == siteId);
 
@@ -328,7 +329,9 @@ namespace WorldPlants.Services
 
             if (dto.Name != "")
             {
-                newUserSite.Name = dto.Name;
+                var name = _utilities.FirstLetterToUpper(dto.Name);
+
+                newUserSite.Name = name;
             }
 
             if (newUserSite.CanChangeHasRoof)

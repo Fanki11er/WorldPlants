@@ -21,6 +21,7 @@ namespace WorldPlants.Utilities
         public void CheckIfUserSiteExists(int siteId);
         public Plant FindPlantWithNotes(string plantId);
         public void DeletePlantNotesImages(string plantId);
+        public string FirstLetterToUpper(string input);
     }
 
     public class Utilities : IUtilities
@@ -215,6 +216,15 @@ namespace WorldPlants.Utilities
 
                 plantNote.ImageUrl = null;
             }
+        }
+
+        public string FirstLetterToUpper(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return string.Empty;
+            }
+            return $"{input[0].ToString().ToUpper()}{input[1..]}";
         }
 
 

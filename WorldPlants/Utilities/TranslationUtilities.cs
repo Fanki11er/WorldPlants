@@ -45,6 +45,12 @@ namespace WorldPlants.Utilities
                 {
                     "filtered shade", SunScale.Low.ToString()
                 },
+                {
+                    "shade", SunScale.Low.ToString()
+                },
+                {
+                    "full shade", SunScale.Low.ToString()
+                },
 
                 // Watering
 
@@ -118,6 +124,10 @@ namespace WorldPlants.Utilities
 
                 {
                     "epiphyte", "Kaktus"
+                },
+
+                {
+                    "orchid", "Orchidea"
                 },
                 // Watering period
 
