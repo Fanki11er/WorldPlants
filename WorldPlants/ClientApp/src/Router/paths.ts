@@ -1,12 +1,11 @@
 export const paths = {
   rootPath: "/",
-  //recognizerPath: "Recognizer",
-  //sensorPath: "Sensor",
   registration: `/Registration`,
   login: "/Login",
   authorized: "/Authorized",
   plantsTasks: "",
   plantTasksIncoming: "Incoming",
+
   //? User settings
   userSettings: "UserSettings",
   userSettingsNotifications: "",
@@ -16,19 +15,24 @@ export const paths = {
   userSettingsSecurity: "Security",
   userSettingsDeleteMainAccount: "MainAccountDelete",
   userSettingsDeleteAccount: "AccountDelete",
+
   //? User permissions
   guestUserPermissions: "Permissions",
+
   //? User sites
   userSites: "Sites",
   userSitesAddNew: "AddNew",
+
   //? User site
   userSite: "Site",
   userSiteSettings: "Settings",
   userSiteDeleteSite: "DeleteSite",
+
   //? Add plant
   addPlant: "AddPlant",
   addPlantRecognize: "Recognize",
   addCustomPlant: "AddCustomPlant",
+
   //? Selected plant
   selectedPlant: "SelectedPlant",
   selectedPlantSchedule: "PlantSchedule",
@@ -39,7 +43,12 @@ export const paths = {
   selectedPlantDelete: "DeletePlant",
   selectedPlantNotes: "Notes",
   selectedPlanEditNote: "Note",
+
   //? QR
   qrCodes: "Qr",
   qrPrints: "Prints",
+
+  //?? CustomActions
+  customActions: "CustomActions",
+  customActionsEdit: "CustomActionsEdit",
 };

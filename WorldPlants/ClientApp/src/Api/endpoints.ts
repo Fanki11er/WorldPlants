@@ -169,4 +169,18 @@ export const apiEndpoints = {
   deleteNote: (noteId: number) => {
     return `Notes/${noteId}`;
   },
+
+  //?? CustomActionTypes
+
+  getCustomActionTypesInformation: "CustomTasks/Information",
+
+  addCustomActionType: "CustomTasks/Add",
+
+  editCustomActionType: (actionTypeId: number | undefined) => {
+    return `CustomTasks/Edit/${actionTypeId ? actionTypeId : ""}`;
+  },
+
+  deleteCustomActionType: (actionTypeId: number | undefined) => {
+    return `CustomTasks/Delete/${actionTypeId ? actionTypeId : ""}`;
+  },
 };

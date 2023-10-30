@@ -46,6 +46,8 @@ import QrPrintSection from "../Components/Organisms/QrPrintSection/QrPrintSectio
 import AddCustomPlantSection from "../Components/Organisms/AddCustomPlantSection/AddCustomPlantSection";
 import PlantNotesSection from "../Components/Organisms/PlantNotesSection/PlantNotesSection";
 import EditNoteSection from "../Components/Organisms/EditNoteSection/EditNoteSection";
+import CustomActionTypesSection from "../Components/Organisms/CustomActionTypesSection/CustomActionTypesSection";
+import EditCustomActionTypeSection from "../Components/Organisms/EditCustomActionTypeSection/EditCustomActionTypeSection";
 
 const {
   rootPath,
@@ -80,6 +82,8 @@ const {
   addCustomPlant,
   selectedPlantNotes,
   selectedPlanEditNote,
+  customActions,
+  customActionsEdit,
 } = paths;
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -106,6 +110,12 @@ const router = createBrowserRouter(
           <Route
             path={userSettingsRegisterGuestAccount}
             element={<RegisterGuestAccountSection />}
+          />
+          <Route path={customActions} element={<CustomActionTypesSection />} />
+
+          <Route
+            path={`${customActionsEdit}/:customActionId`}
+            element={<EditCustomActionTypeSection />}
           />
           <Route
             path={userSettingsAccount}
@@ -165,7 +175,6 @@ const router = createBrowserRouter(
             path={selectedPlantDetails}
             element={<PlantDetailsSection />}
           />
-          <Route path={""} element={<div>PlantNotes</div>} />
           <Route
             path={selectedPlantTasksHistory}
             element={<PlantTasksHistorySection />}
