@@ -34,8 +34,7 @@ const PermissionsProvider = (props: PropsWithChildren) => {
       return result.data;
     },
     {
-      cacheTime: 0,
-      enabled: !storedValue && user !== null,
+      enabled: user !== null,
       onSuccess: (data) => {
         setValue(data);
       },
