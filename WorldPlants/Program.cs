@@ -5,7 +5,11 @@ using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
+using NLog.Web;
+using System;
 using System.Text;
 using WorldPlants;
 using WorldPlants.DbSeeders;
@@ -31,10 +35,14 @@ var authenticationSettings = new AuthenticationSettings
 
 builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
 
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
+var isProd = environment == Environments.Production;
+
+var logger = LogManager.Setup().LoadConfigurationFromFile(isProd? "nlogProd.config" : "nlog.config").GetCurrentClassLogger();
 
 // Add services to the container.
-//builder.Host.UseNLog();
+builder.Host.UseNLog();
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddSingleton(authenticationSettings);
