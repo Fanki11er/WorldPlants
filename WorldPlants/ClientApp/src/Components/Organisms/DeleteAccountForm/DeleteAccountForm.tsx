@@ -37,7 +37,7 @@ const DeleteAccountForm = (props: Props & FormikFormProps) => {
         <LoadingIndicator />
       ) : (
         <RedActionButton disabled={confirmed} type="submit">
-          Zapisz
+          Usuń
         </RedActionButton>
       )}
     </DeleteFormWrapper>

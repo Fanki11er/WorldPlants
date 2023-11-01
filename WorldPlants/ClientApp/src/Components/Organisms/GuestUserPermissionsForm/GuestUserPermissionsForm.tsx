@@ -57,8 +57,6 @@ const GuestUserPermissionsForm = (props: Props) => {
       }}
     >
       <GuestUserPermissionsFormWrapper>
-        {isSuccess ? <FormSuccess>Sukces</FormSuccess> : null}
-
         <PermissionsGroup>
           <PermissionsGroupHeder>Miejsca</PermissionsGroupHeder>
           <CheckboxInput id={"canAddSites"} label={"Dodawanie"} />
@@ -83,7 +81,7 @@ const GuestUserPermissionsForm = (props: Props) => {
           <CheckboxInput id={"canEditCustomActionTypes"} label={"Edycja"} />
           <CheckboxInput id={"canDeleteCustomActionTypes"} label={"Usuwanie"} />
         </PermissionsGroup>
-
+        {isSuccess ? <FormSuccess>Sukces</FormSuccess> : null}
         {isLoading ? (
           <LoadingIndicator />
         ) : (
