@@ -44,12 +44,21 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="nlog.debug.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="nlog.debug.config" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<Folder Include="Store\Images" />
 	</ItemGroup>
 
 	<ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="nlog.debug.config" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
