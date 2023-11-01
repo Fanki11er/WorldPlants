@@ -253,6 +253,8 @@ namespace WorldPlants.Services
                 .Include(i => i.UserSite)
                 .AsSplitQuery()
                 .Include(i => i.ActiveTasks)
+                .ThenInclude(t=> t.ActionType)
+                .AsSplitQuery()
                 .Where(p => p.UserSite.SpaceId == spaceId
                     && p.ActiveTasks.Any(at => at.ActionDate <= today
                     && at.ActionDate >= today.AddDays(-3)
