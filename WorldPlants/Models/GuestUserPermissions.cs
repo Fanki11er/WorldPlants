@@ -9,6 +9,8 @@
         public bool CanAddSites { get; set; }
         public bool CanRemoveSites { get; set; }
         public bool CanEditSites { get; set; }
-        public bool CanAddCustomTasks { get; set;}
+        public bool CanCreateCustomActionTypes { get; set; }
+        public bool CanEditCustomActionTypes { get; set; }
+        public bool CanDeleteCustomActionTypes { get; set; }
     }
 }
