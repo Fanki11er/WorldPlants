@@ -21,7 +21,7 @@ export const theme: Theme = {
     greenSettingsActive: "rgba(44, 149, 34, 1)",
     darkPurple: "rgba(40, 41, 123, 1)",
     black: "rgba(0, 0, 0, 1)",
-    blackTransparent: "rgba(0, 0, 0, 0.9)",
+    blackTransparent: "rgba(0, 0, 0, 0.8)",
     transparent: "transparent",
     greenLight: "rgba(173, 230, 212, 1)",
     greenSettings: "rgba(12, 108, 3, 1)",

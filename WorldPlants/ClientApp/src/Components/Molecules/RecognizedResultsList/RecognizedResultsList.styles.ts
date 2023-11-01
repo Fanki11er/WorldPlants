@@ -19,24 +19,16 @@ export const RecognizedResultsListWrapper = styled.ul`
 
 export const RecognizedResultsListItem = styled.li`
   display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 15px;
   padding: 30px;
   background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
   border-radius: 25px;
   transition: all 0.5s;
   border: 2px solid transparent;
-  &:hover,
-  &:focus-within {
-    border: 2px solid ${(props: AppTheme) => props.theme.colors.orange};
-  }
-`;
-
-export const RecognizedResultsListItemLink = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  row-gap: 15px;
-  outline: none;
+  transition: all 0.5s;
 `;
 
 export const RecognizedResultsListItemProbability = styled.span`
@@ -63,12 +55,21 @@ export const RecognizedResultsListItemImagesWrapper = styled.div`
   margin-top: 20px;
 `;
 
-export const RecognizedResultsListItemImage = styled.div<Props>`
-  background-image: url(${(props) => props.$imageUrl});
-  background-size: cover;
+export const RecognizedResultsListItemImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  object-fit: cover;
+`;
+
+export const RecognizedResultsListItemImageWrapper = styled.div`
+  display: grid;
+  width: 100%;
+  justify-content: center;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, 100px);
+  margin-top: 20px;
+  min-height: 100px;
 `;
 
 export const RecognizedResultsListItemButtonsWrapper = styled.div`
