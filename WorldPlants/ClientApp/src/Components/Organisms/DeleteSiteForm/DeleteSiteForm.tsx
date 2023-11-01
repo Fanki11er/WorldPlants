@@ -87,7 +87,7 @@ const DeleteSiteForm = (props: Props) => {
             <LoadingIndicator />
           ) : (
             <RedActionButton disabled={!!errors.name} type="submit">
-              Zapisz
+              Usuń
             </RedActionButton>
           )}
         </DeleteFormWrapper>

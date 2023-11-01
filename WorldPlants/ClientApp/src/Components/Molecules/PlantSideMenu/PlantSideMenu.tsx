@@ -31,7 +31,9 @@ const PlantSideMenu = () => {
       </SideMenuLink>
       <SideMenuLink to={selectedPlantTasksHistory}>Historia akcji</SideMenuLink>
       <SideMenuLink to={selectedPlantDetails}>Szczegóły</SideMenuLink>
-      <SideMenuLink to={selectedPlantMove}>Przenieś</SideMenuLink>
+      {permissions?.canMovePlants && (
+        <SideMenuLink to={selectedPlantMove}>Przenieś</SideMenuLink>
+      )}
       {permissions?.canEditPlants && (
         <SideMenuLink to={selectedPlantSettings}>Ustawienia</SideMenuLink>
       )}

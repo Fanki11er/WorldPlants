@@ -94,6 +94,7 @@ const router = createBrowserRouter(
         <Route path={registration} element={<RegistrationView />} />
       </Route>
       <Route path={authorized} element={<MainLayout />}>
+        //? Tasks
         <Route path={plantsTasks} element={<PlantsTasksView />}>
           <Route index element={<TodayPlantsTasksSection />} />
           <Route
@@ -101,6 +102,7 @@ const router = createBrowserRouter(
             element={<IncomingPlantsTasksSection />}
           />
         </Route>
+        //? Settings
         <Route path={userSettings} element={<OwnerSettingsView />}>
           <Route index element={<NotificationSettingsSection />} />
           <Route
@@ -130,10 +132,12 @@ const router = createBrowserRouter(
             element={<DeleteAccountSection />}
           />
         </Route>
+        //? Guest Permissions
         <Route
           path={`${guestUserPermissions}/:userId`}
           element={<GuestPermissionsView />}
         />
+        //? User Sites
         <Route path={userSites} element={<UserSitesView />}>
           <Route index element={<UserSitesSection />} />
           <Route path={userSitesAddNew} element={<AddUserSiteSection />} />
@@ -186,6 +190,7 @@ const router = createBrowserRouter(
           <Route path={selectedPlantMove} element={<MovePlantSection />} />
           <Route path={selectedPlantDelete} element={<DeletePlantSection />} />
         </Route>
+        //? QR
         <Route path={qrCodes} element={<QrView />}>
           <Route index element={<QrScannerSection />} />
           <Route path={qrPrints} element={<QrPrintSection />} />

@@ -50,24 +50,23 @@ const CustomActionTypesList = (props: Props) => {
               {customActionType.description}
             </CustomActionTypesListItemHeader>
             <CustomActionTypesListItemButtonsWrapper>
-              {permissions?.canEditCustomActionTypes && (
-                <ActionButton
-                  onClick={() =>
-                    navigate(
-                      `${authorized}/${userSettings}/${customActionsEdit}/${customActionType.id}`
-                    )
-                  }
-                >
-                  Edytuj
-                </ActionButton>
-              )}
-              {permissions?.canDeleteCustomActionTypes && (
-                <RedActionButton
-                  onClick={() => deleteActionType(customActionType.id)}
-                >
-                  Usuń
-                </RedActionButton>
-              )}
+              <ActionButton
+                disabled={!permissions?.canEditCustomActionTypes}
+                onClick={() =>
+                  navigate(
+                    `${authorized}/${userSettings}/${customActionsEdit}/${customActionType.id}`
+                  )
+                }
+              >
+                Edytuj
+              </ActionButton>
+
+              <RedActionButton
+                disabled={!permissions?.canDeleteCustomActionTypes}
+                onClick={() => deleteActionType(customActionType.id)}
+              >
+                Usuń
+              </RedActionButton>
             </CustomActionTypesListItemButtonsWrapper>
             {error ? (
               <FormRequestError errorValues={getErrorMessages(error)} />
