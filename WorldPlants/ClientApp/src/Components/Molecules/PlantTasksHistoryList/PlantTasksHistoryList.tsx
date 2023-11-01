@@ -53,7 +53,7 @@ const PlantTasksHistoryList = (props: Props) => {
       }
     }
   };
-
+  console.log(tasksHistory);
   const filterByTaskType = useCallback(
     (
       taskType: StandardTaskTypeFilter,

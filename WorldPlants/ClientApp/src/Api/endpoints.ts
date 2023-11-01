@@ -1,12 +1,10 @@
-import { StandardTaskTypeEnum } from "../Interfaces/PlantActiveTask";
+const mode = import.meta.env.MODE;
 
 export const apiEndpoints = {
-  //!! Development =>
-  baseURL: "https://localhost:7126/",
-  //!!
-  //!! Production =>
-  // baseURL: "https://worldplants.azurewebsites.net/",
-  //!!
+  baseURL:
+    mode == "production"
+      ? "https://worldplants.azurewebsites.net/"
+      : "https://localhost:7126/",
   registerOwnerUser: "Owner/Register",
   registerGuestAccount: "Guest/Register",
   loginUser: "Account/Login",

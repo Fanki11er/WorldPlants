@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { paths } from "../../../Router/paths";
 import SideMenu from "../SideMenu/SideMenu";
 import { SideMenuLink, ReturnButton } from "../../Atoms/Buttons/Buttons";
+import usePermissions from "../../../Hooks/usePermissions";
 
 const PlantSideMenu = () => {
   const { authorized, userSites, userSite } = paths;
@@ -17,6 +18,8 @@ const PlantSideMenu = () => {
     selectedPlantDelete,
     selectedPlantNotes,
   } = paths;
+  const { permissions } = usePermissions();
+
   return (
     <SideMenu>
       <SideMenuLink to={""} end>
@@ -29,8 +32,12 @@ const PlantSideMenu = () => {
       <SideMenuLink to={selectedPlantTasksHistory}>Historia akcji</SideMenuLink>
       <SideMenuLink to={selectedPlantDetails}>Szczegóły</SideMenuLink>
       <SideMenuLink to={selectedPlantMove}>Przenieś</SideMenuLink>
-      <SideMenuLink to={selectedPlantSettings}>Ustawienia</SideMenuLink>
-      <SideMenuLink to={selectedPlantDelete}>Usuwanie</SideMenuLink>
+      {permissions?.canEditPlants && (
+        <SideMenuLink to={selectedPlantSettings}>Ustawienia</SideMenuLink>
+      )}
+      {permissions?.canRemovePlants && (
+        <SideMenuLink to={selectedPlantDelete}>Usuwanie</SideMenuLink>
+      )}
       <ReturnButton
         onClick={() => {
           if (from) {
