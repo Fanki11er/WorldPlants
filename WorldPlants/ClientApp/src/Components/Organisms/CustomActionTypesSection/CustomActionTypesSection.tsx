@@ -1,5 +1,6 @@
 import { apiEndpoints } from "../../../Api/endpoints";
 import useGetCustomActionTypes from "../../../Hooks/useGetCustomActionTypes";
+import usePermissions from "../../../Hooks/usePermissions";
 import { getErrorMessages } from "../../../Utils/Utils";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
@@ -16,13 +17,16 @@ const CustomActionTypesSection = () => {
     customActionTypesAreLoading,
     customActionTypesError,
   } = useGetCustomActionTypes();
+  const { permissions } = usePermissions();
   return (
     <SettingsSectionWrapper>
       <GoToTop />
-      <AddEditCustomActionForm
-        currentTaskInformation={undefined}
-        submitEndpoint={addCustomActionType}
-      />
+      {permissions?.canCreateCustomActionTypes && (
+        <AddEditCustomActionForm
+          currentTaskInformation={undefined}
+          submitEndpoint={addCustomActionType}
+        />
+      )}
       {customActionTypesAreLoading && <LoadingIndicator />}
       {customActionTypesError ? (
         <FormRequestError

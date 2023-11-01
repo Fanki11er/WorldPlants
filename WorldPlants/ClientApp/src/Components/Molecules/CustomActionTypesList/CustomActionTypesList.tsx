@@ -15,6 +15,7 @@ import { apiEndpoints } from "../../../Api/endpoints";
 import FormRequestError from "../FormRequestError/FormRequestError";
 import { getErrorMessages } from "../../../Utils/Utils";
 import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
+import usePermissions from "../../../Hooks/usePermissions";
 
 interface Props {
   customActionTypes: CustomActionTypeInformation[];
@@ -37,7 +38,7 @@ const CustomActionTypesList = (props: Props) => {
     },
   });
   const navigate = useNavigate();
-
+  const { permissions } = usePermissions();
   const renderCustomActionTypes = (
     customActionTypes: CustomActionTypeInformation[]
   ) => {
@@ -49,20 +50,24 @@ const CustomActionTypesList = (props: Props) => {
               {customActionType.description}
             </CustomActionTypesListItemHeader>
             <CustomActionTypesListItemButtonsWrapper>
-              <ActionButton
-                onClick={() =>
-                  navigate(
-                    `${authorized}/${userSettings}/${customActionsEdit}/${customActionType.id}`
-                  )
-                }
-              >
-                Edytuj
-              </ActionButton>
-              <RedActionButton
-                onClick={() => deleteActionType(customActionType.id)}
-              >
-                Usuń
-              </RedActionButton>
+              {permissions?.canEditCustomActionTypes && (
+                <ActionButton
+                  onClick={() =>
+                    navigate(
+                      `${authorized}/${userSettings}/${customActionsEdit}/${customActionType.id}`
+                    )
+                  }
+                >
+                  Edytuj
+                </ActionButton>
+              )}
+              {permissions?.canDeleteCustomActionTypes && (
+                <RedActionButton
+                  onClick={() => deleteActionType(customActionType.id)}
+                >
+                  Usuń
+                </RedActionButton>
+              )}
             </CustomActionTypesListItemButtonsWrapper>
             {error ? (
               <FormRequestError errorValues={getErrorMessages(error)} />
