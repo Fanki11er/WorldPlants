@@ -169,7 +169,7 @@ const RecognizerImagesForm = (props: Props) => {
         ) : null}
         {isLoading && <LoadingIndicator />}
         {!isLoading && imageFiles[0] !== "" && (
-          <ActionButton type="submit">Roazpoznaj</ActionButton>
+          <ActionButton type="submit">Rozpoznaj</ActionButton>
         )}
       </ButtonWrapper>
     </RecognizerImagesFormWrapper>

@@ -120,7 +120,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
 
             const newTask: PlantActiveTask = {
               id: data ? data.id : "",
-              interval: values.interval,
+              interval: values.interval || 0,
               actionDate: values.actionDate,
               partOfTheDay: values.partOfTheDay,
               plantId: data ? data.plantId : plantId || "",

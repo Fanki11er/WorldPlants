@@ -24,6 +24,6 @@ export const UserName = styled.span`
   font-size: ${(props: AppTheme) => props.theme.fontSizes.small};
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
-    font-size: ${(props: AppTheme) => props.theme.fontSizes.verySmall};
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.smallX};
   }
 `;

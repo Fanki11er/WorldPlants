@@ -27,7 +27,7 @@ export const ActionButton = styled.button`
 `;
 
 export const NavigationLink = styled(NavLink)`
-  width: 110px;
+  width: 120px;
   height: 35px;
   background-color: ${(props: AppTheme) => props.theme.colors.purpleLight};
   border-radius: 25px;
@@ -58,14 +58,11 @@ export const NavigationLink = styled(NavLink)`
     pointer-events: none;
   }
 
-  @media screen and (${(props: AppTheme) => props.theme.devices.medium}) {
-  }
-
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
-    width: 60px;
-    height: 25px;
+    /* width: 60px;*/
+    height: 30px;
     border-radius: 10px;
-    font-size: ${(props: AppTheme) => props.theme.fontSizes.xSmall};
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.verySmall};
   }
 `;
 
@@ -87,10 +84,10 @@ export const OrangeButton = styled.button`
   }
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
-    width: 60px;
+    width: 80px;
     height: 25px;
     border-radius: 10px;
-    font-size: ${(props: AppTheme) => props.theme.fontSizes.xSmall};
+    font-size: ${(props: AppTheme) => props.theme.fontSizes.verySmall};
   }
 `;
 

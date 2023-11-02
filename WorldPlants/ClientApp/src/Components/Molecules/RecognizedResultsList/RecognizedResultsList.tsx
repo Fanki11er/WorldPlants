@@ -8,18 +8,19 @@ import {
   RecognizedResultsListItemHeader,
   RecognizedResultsListItemImage,
   RecognizedResultsListItemImagesWrapper,
-  RecognizedResultsListItemLink,
   RecognizedResultsListItemProbability,
   RecognizedResultsListWrapper,
 } from "./RecognizedResultsList.styles";
 import useSearchPhrase from "../../../Hooks/useSearchPhrase";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
+import { useState } from "react";
 
 interface Props {
   results: PlantRecognizeResult[];
 }
 const RecognizedResultsList = (props: Props) => {
   const { results } = props;
+  const [brokenImages, setBrokenImages] = useState<string[]>([]);
   const { authorized, addPlant, addCustomPlant } = paths;
   const { siteId } = useParams();
   const navigate = useNavigate();
@@ -27,9 +28,20 @@ const RecognizedResultsList = (props: Props) => {
     useSearchPhrase();
 
   const renderImages = (images: string[]) => {
-    return images.map((image, index) => {
-      return <RecognizedResultsListItemImage $imageUrl={image} key={index} />;
-    });
+    return images
+      .filter((image) => {
+        return !brokenImages.includes(image);
+      })
+      .map((image, index) => {
+        return (
+          <RecognizedResultsListItemImage
+            src={image}
+            key={index}
+            onError={() => setBrokenImages((prev) => [...prev, image])}
+            alt="Zdjęcie rośliny"
+          />
+        );
+      });
   };
 
   const renderResults = (results: PlantRecognizeResult[]) => {
