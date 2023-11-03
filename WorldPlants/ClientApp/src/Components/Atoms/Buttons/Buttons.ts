@@ -3,8 +3,7 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 import { NavLink } from "react-router-dom";
 
 export const ActionButton = styled.button`
-  min-width: 130px;
-  width: fit-content;
+  width: 130px;
   height: 35px;
   background-color: ${(props: AppTheme) => props.theme.colors.blue};
   border-radius: 25px;
@@ -59,7 +58,7 @@ export const NavigationLink = styled(NavLink)`
   }
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
-    /* width: 60px;*/
+    width: 100px;
     height: 30px;
     border-radius: 10px;
     font-size: ${(props: AppTheme) => props.theme.fontSizes.verySmall};

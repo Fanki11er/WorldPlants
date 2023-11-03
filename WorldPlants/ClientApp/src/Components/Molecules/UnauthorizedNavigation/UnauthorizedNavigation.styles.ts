@@ -3,15 +3,17 @@ import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const InnerNavigationWrapper = styled.div`
   display: grid;
-  grid-template-columns: 130px repeat(3, auto) 1fr;
+  grid-template-columns: 130px 1fr 1fr;
   height: 50px;
   justify-items: center;
   align-items: center;
   column-gap: 20px;
+  margin-top: 15px;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
-    grid-template-columns: 50px repeat(3, auto) 1fr;
+    grid-template-columns: 50px 1fr;
     padding-top: 4px;
+    row-gap: 10px;
   }
 `;
 
@@ -25,8 +27,10 @@ export const UnauthorizedNavigationLinksWrapper = styled.div`
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     width: 100%;
-    //   order: 3;
     justify-content: center;
+    grid-column: 1/3;
+    grid-row: 2/3;
     padding: 0 10px;
+    justify-content: flex-start;
   }
 `;

@@ -9,7 +9,7 @@ interface ImageProp {
 export const SelectedPlantHeaderSectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 95%;
   max-width: 800px;
   position: relative;
   background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};

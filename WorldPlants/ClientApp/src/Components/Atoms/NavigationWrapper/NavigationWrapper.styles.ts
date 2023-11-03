@@ -12,7 +12,7 @@ export const NavigationWrapper = styled.nav`
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     width: 100%;
-    height: 190px;
+    height: 230px;
     background-size: contain;
   }
 

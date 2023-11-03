@@ -103,20 +103,21 @@ export const yupSecuritySettingsValidationShape = {
 
 export const yupAddPlantValidationShape = {
   name: Yup.string()
+    .min(3, "Imię musi mieć minimum 3")
     .max(30, "Imię może mieć maksymalnie 30 znaków ")
     .required("Imię jest wymagane"),
   potHeight: Yup.number()
     .min(0, "Wartość pola nie może być mniejsza od 0")
-    .max(1000, "Wartośc pola musi być mniejsza od 1000"),
-
+    .max(1000, "Wartośc pola musi być mniejsza od 1000")
+    .required("Pole jest wymagane"),
   potWidth: Yup.number()
     .min(0, "Wartość pola nie może być mniejsza od 0")
-    .max(1000, "Wartość pola musi być mniejsza od 1000"),
-
+    .max(1000, "Wartość pola musi być mniejsza od 1000")
+    .required("Pole jest wymagane"),
   plantHeight: Yup.number()
     .min(0, "Wartość pola nie może być mniejsza od 0")
-    .max(5000, "Wartość pola musi być mniejsza od 1000"),
-
+    .max(5000, "Wartość pola musi być mniejsza od 1000")
+    .required("Pole jest wymagane"),
   additionalDescription: Yup.string().max(
     300,
     "Opis może mieć maksymalnie 300 znaków "

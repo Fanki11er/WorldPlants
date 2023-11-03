@@ -3,6 +3,8 @@ import { paths } from "../../../Router/paths";
 import SideMenu from "../SideMenu/SideMenu";
 import { SideMenuLink, ReturnButton } from "../../Atoms/Buttons/Buttons";
 import usePermissions from "../../../Hooks/usePermissions";
+import { SideMenuLocationIndicator } from "../../Atoms/SideMenuLocationIndicator/SideMenuLocationIndicator.styles";
+import useIsOnPath from "../../../Hooks/useIsOnPath";
 
 const PlantSideMenu = () => {
   const { authorized, userSites, userSite } = paths;
@@ -17,8 +19,10 @@ const PlantSideMenu = () => {
     selectedPlantSettings,
     selectedPlantDelete,
     selectedPlantNotes,
+    selectedPlanEditNote,
   } = paths;
   const { permissions } = usePermissions();
+  const isOnPath = useIsOnPath([selectedPlanEditNote]);
 
   return (
     <SideMenu>
@@ -29,6 +33,9 @@ const PlantSideMenu = () => {
       <SideMenuLink to={selectedPlantNotes} end>
         Notatki
       </SideMenuLink>
+      {isOnPath && (
+        <SideMenuLocationIndicator>Edycja</SideMenuLocationIndicator>
+      )}
       <SideMenuLink to={selectedPlantTasksHistory}>Historia akcji</SideMenuLink>
       <SideMenuLink to={selectedPlantDetails}>Szczegóły</SideMenuLink>
       {permissions?.canMovePlants && (

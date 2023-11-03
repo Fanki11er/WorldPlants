@@ -7,19 +7,33 @@ interface MobileProps {
 
 export const SideMenuWrapper = styled.div<MobileProps>`
   top: 150px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-auto-rows: 35px;
   row-gap: 15px;
   padding: 0 15px;
   flex-basis: 250px;
   justify-self: flex-start;
   min-height: 300px;
-  max-height: 500px;
+  max-height: 450px;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   z-index: 20;
   position: fixed;
   grid-column: 1/2;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 15px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
+    border-radius: 10px;
+    min-height: 100px;
+    border: 3px solid;
+    border: none;
+  }
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-column: 1/2;
@@ -30,6 +44,8 @@ export const SideMenuWrapper = styled.div<MobileProps>`
     width: 280px;
     transition: all 0.5s;
     padding: 15px;
+    max-height: initial;
+    overflow-y: initial;
   }
 
   @media print {

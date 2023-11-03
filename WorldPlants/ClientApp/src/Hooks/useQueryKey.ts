@@ -3,6 +3,7 @@ import {
   ALL_PLANT_TASKS,
   CUSTOM_ACTION_TYPES,
   GUEST_ACCOUNTS,
+  GUEST_USER_PERMISSIONS,
   INCOMING_TASKS,
   MOVE_PLANT_INFORMATION,
   NOTIFICATION_SETTINGS,
@@ -13,6 +14,7 @@ import {
   PLANT_QR,
   PLANT_SETTINGS,
   SAVED_QR_CODES,
+  SERVER_STATUS,
   SITE_PLANTS,
   STANDARD_PLANT_TASKS,
   TASKS_HISTORY,
@@ -81,6 +83,10 @@ const useQueryKey = () => {
 
   const customActionTypesQueryKey = () => [CUSTOM_ACTION_TYPES];
 
+  const guestUserPermissionsQueryKey = () => [GUEST_USER_PERMISSIONS];
+
+  const serverStatusQueryKey = () => [SERVER_STATUS];
+
   return {
     userSiteHeaderQueryKey,
     guestAccountsQueryKey,
@@ -102,6 +108,8 @@ const useQueryKey = () => {
     savedQrCodesQueryKey,
     plantNotesQueryKey,
     customActionTypesQueryKey,
+    guestUserPermissionsQueryKey,
+    serverStatusQueryKey,
   };
 };
 

@@ -57,11 +57,6 @@ const ChangeSiteSettingsForm = (props: Props & FormikFormProps) => {
     >
       {({ isSubmitting }) => (
         <ChangeSiteSettingsFormWrapper>
-          {isSuccess && <FormSuccess>Sukces</FormSuccess>}
-          {error ? (
-            <FormRequestError errorValues={getErrorMessages(error)} />
-          ) : null}
-
           <FormNumberFieldWrapper>
             <InputField name="name" label="Nazwa" placeholder="Nazwa" />
             <FormNumberField
@@ -101,6 +96,10 @@ const ChangeSiteSettingsForm = (props: Props & FormikFormProps) => {
           {!isSubmitting && siteId && (
             <ActionButton type="submit">Zapisz</ActionButton>
           )}
+          {isSuccess && <FormSuccess>Sukces</FormSuccess>}
+          {error ? (
+            <FormRequestError errorValues={getErrorMessages(error)} />
+          ) : null}
         </ChangeSiteSettingsFormWrapper>
       )}
     </Formik>

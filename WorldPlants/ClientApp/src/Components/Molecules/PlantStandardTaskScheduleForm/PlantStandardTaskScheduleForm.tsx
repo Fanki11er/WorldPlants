@@ -86,6 +86,10 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
   const formatDate = (date: string) => {
     const separator = detectSeparator(date);
     const divided = date.split(separator);
+    if (divided.length === 3) {
+      divided[0] = fillToTwoCharacters(divided[0]);
+      divided[1] = fillToTwoCharacters(divided[1]);
+    }
     const reversed = divided.reverse();
     const result = reversed.join("-");
     return result;
@@ -99,6 +103,13 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
     } else {
       return "-";
     }
+  };
+
+  const fillToTwoCharacters = (element: string) => {
+    if (element.length === 1) {
+      return `0${element}`;
+    }
+    return element;
   };
 
   const handleDeleteTask = () => {
@@ -209,7 +220,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
                 )}
                 {!isUpdated && isDeleted && <FormSuccess>Usunięto</FormSuccess>}
                 {(updatingInProgress || deletingInProgress) && (
-                  <ActionButton>Zapisywanie</ActionButton>
+                  <LoadingIndicator />
                 )}
               </FormRowWrapper>
             </PlantStandardTaskScheduleFormWrapper>
