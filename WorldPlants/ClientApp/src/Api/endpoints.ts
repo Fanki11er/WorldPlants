@@ -5,6 +5,7 @@ export const apiEndpoints = {
     mode == "production"
       ? "https://worldplants.azurewebsites.net/"
       : "https://localhost:7126/",
+  serverStatus: "Account/Wake",
   registerOwnerUser: "Owner/Register",
   registerGuestAccount: "Guest/Register",
   loginUser: "Account/Login",

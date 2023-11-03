@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const SettingsSectionWrapper = styled.section`
-  width: 100%;
+  width: 95%;
   max-width: 1200px;
   display: grid;
   grid-template-columns: 1fr;
