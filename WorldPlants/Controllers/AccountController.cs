@@ -83,5 +83,11 @@ namespace WorldPlants.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Wake")]
+        public ActionResult WakeServer()
+        {
+            return Ok("Serwer działa");
+        }
+
     }
 }

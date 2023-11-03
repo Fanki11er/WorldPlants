@@ -129,6 +129,16 @@ namespace WorldPlants.Utilities
                 {
                     "orchid", "Orchidea"
                 },
+
+                {
+                    "creeper", "Pnącze"
+                },
+
+                {
+                    "Flowering pot plant, vine or climber", "Roślina doniczkowa lub pnącze"
+                },
+
+                
                 // Watering period
 
                 {
