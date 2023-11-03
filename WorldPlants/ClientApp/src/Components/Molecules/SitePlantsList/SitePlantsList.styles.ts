@@ -8,7 +8,6 @@ interface ImageProp {
 
 export const SitePlantsListWrapper = styled.ul`
   width: 100%;
-  max-width: 1000px;
   list-style: none;
   padding: 0;
   display: grid;
