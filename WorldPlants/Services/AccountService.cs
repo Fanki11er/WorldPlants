@@ -164,7 +164,7 @@ namespace WorldPlants.Services
             settings.CutPlantsSmsReminder = dto.CutPlantsReminder;
             settings.ReplantPlantsSmsReminder = dto.ReplantPlantsReminder;
             settings.MistPlantsSmsReminder = dto.MistPlantsReminder;
-            settings.CustomTasksEmailReminder = dto.CustomTasksReminder;
+            settings.CustomTasksSmsReminder = dto.CustomTasksReminder;
 
             _context.Update(settings);
             int changesCounter = _context.SaveChanges();
