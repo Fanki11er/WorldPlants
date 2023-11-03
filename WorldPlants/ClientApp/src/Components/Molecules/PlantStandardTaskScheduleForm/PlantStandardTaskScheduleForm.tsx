@@ -90,8 +90,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
       divided[0] = fillToTwoCharacters(divided[0]);
       divided[1] = fillToTwoCharacters(divided[1]);
     }
-    const reversed = divided.reverse();
-    const result = reversed.join("-");
+    const result = `${divided[2]}-${divided[0]}-${divided[1]}`;
     return result;
   };
 
