@@ -17,25 +17,26 @@ namespace WorldPlants.Models.Validators
                 .WithMessage("Nazwa nie może być pusta")
                 .MaximumLength(50)
                 .WithMessage("Zbyt długa nazwa");
-                
+
 
             RuleFor(d => d.PotWidth)
                .GreaterThanOrEqualTo(0)
                .WithMessage("Szerokość doniczki nie może być mniejsza od 0")
                .LessThanOrEqualTo(1000)
-               .WithMessage("Zbyd duża szerokość doniczki");
+               .WithMessage("Zbyt duża szerokość doniczki");
+
 
             RuleFor(d => d.PotHeight)
               .GreaterThanOrEqualTo(0)
               .WithMessage("Wysokość doniczki nie może być mniejsza od 0")
                 .LessThanOrEqualTo(1000)
-               .WithMessage("Zbyd duża wysokość doniczki");
+               .WithMessage("Zbyt duża wysokość doniczki");
 
             RuleFor(d => d.PlantHeight)
                .GreaterThanOrEqualTo(0)
                .WithMessage("Wysokość rośliny nie może być mniejsza od 0")
                 .LessThanOrEqualTo(5000)
-               .WithMessage("Zbyd duża wysokość rosliny");
+               .WithMessage("Zbyt duża wysokość rosliny");
 
             RuleFor(d => d.AdditionalDescription)
               .MaximumLength(300)

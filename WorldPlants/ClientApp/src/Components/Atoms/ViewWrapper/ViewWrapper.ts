@@ -7,7 +7,7 @@ export const ViewWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 180px 0 10vw 0;
-  justify-content: center;
+  //justify-content: center;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.veryLarge}) {
     padding: 100px 0 10vw 0;

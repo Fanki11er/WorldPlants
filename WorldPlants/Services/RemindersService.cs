@@ -84,6 +84,8 @@ namespace WorldPlants.Services
         {
             var targetSpaces = GetSpacesWithSMSRemindersToSend();
 
+            var test = targetSpaces.ToList().Count();
+
             await Parallel.ForEachAsync(targetSpaces, async (space, token) =>
             {
                 var users = GetSpaceActiveUsersWithPhoneNumber(space.Id);
@@ -269,9 +271,8 @@ namespace WorldPlants.Services
             var spaces = _dbContext.Spaces
                 .AsSplitQuery()
                 .Include(i => i.Users)
-                .Where(u => u.Users.Any(u => u.LastEmailReminderSendDate < today &&
-                       u.LastEmailReminderSendDate >= today.AddDays(-3)));
-
+                .Where(u => u.Users.Any(u => u.LastEmailReminderSendDate < today));
+            //&& u.LastEmailReminderSendDate >= today.AddDays(-3)
             return spaces;
         }
 
@@ -282,8 +283,8 @@ namespace WorldPlants.Services
                 .Spaces
                 .AsSplitQuery()
                 .Include(i => i.Users)
-                .Where(u => u.Users.Any(u => u.LastEmailReminderSendDate < today &&
-                       u.LastSMSReminderSendDate >= today.AddDays(-3)));
+                .Where(u => u.Users.Any(u => u.LastSMSReminderSendDate < today ));
+            //&& u.LastSMSReminderSendDate >= today.AddDays(-3)
 
             return spaces;
         }
@@ -329,7 +330,7 @@ namespace WorldPlants.Services
                a.ActionDate <= today && a.ActionDate >= today.AddDays(-3))
                   .Select(t => new TodayTask()
                   {
-                      ActionType = t.ActionType.Name,
+                      ActionType = t.ActionType.Description,
 
                       PartOfTheDay = _translationUtilities.TranslatePartOfTheDayEnum(t.PartOfTheDay),
 
