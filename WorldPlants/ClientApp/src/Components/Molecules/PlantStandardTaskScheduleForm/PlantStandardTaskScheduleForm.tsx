@@ -26,7 +26,7 @@ import SelectFormField from "../SelectFormField/SelectFormField";
 import { RemoveButton, SetButton } from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 import { useState } from "react";
-import { string } from "yup";
+const mode = import.meta.env.MODE;
 
 interface Props {
   taskId: StandardTaskTypeEnum;
@@ -91,6 +91,10 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
   const client = useQueryClient();
 
   const formatDate = (date: string) => {
+    if (!date) {
+      return date;
+    }
+
     const separator = detectSeparator(date);
     let divided = date.split(separator);
 
@@ -104,6 +108,10 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
 
     fillToTwoCharacters(divided[1]);
     fillToTwoCharacters(divided[2]);
+
+    if (mode === "production") {
+      return `${divided[0]}-${divided[2]}-${divided[1]}`;
+    }
 
     const result = divided.join("-");
 

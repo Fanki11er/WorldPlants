@@ -51,11 +51,12 @@ export const PlantsWithTasksListItemHeader = styled(Link)`
   margin: 0;
   text-align: center;
   color: ${(props: AppTheme) => props.theme.colors.orange};
-  //text-decoration: none;
+  text-decoration-color: ${(props: AppTheme) => props.theme.colors.orange};
+  text-underline-offset: 7px;
   font-size: 26px;
   transition: all 0.5s;
   &:hover,
   &:focus {
-    color: ${(props: AppTheme) => props.theme.colors.green};
+    text-decoration-color: ${(props: AppTheme) => props.theme.colors.green};
   }
 `;
