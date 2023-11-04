@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { AppTheme } from "../../../GlobalStyles/theme";
 
 export const ChangeSiteSettingsFormWrapper = styled(Form)`
-  width: 700px;
+  width: 100%;
+  max-width: 700px;
   display: grid;
   grid-template-columns: 100%;
   grid-auto-rows: auto;

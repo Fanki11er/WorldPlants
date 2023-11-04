@@ -11,7 +11,7 @@ export const DateFormFieldWrapper = styled.div`
   grid-template-rows: auto auto;
   row-gap: 5px;
   position: relative;
-  width: fit-content;
+  width: 150px;
 `;
 
 export const DateFormFieldLabel = styled.label<AppTheme>`

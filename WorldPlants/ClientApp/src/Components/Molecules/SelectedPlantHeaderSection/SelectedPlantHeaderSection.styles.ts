@@ -18,6 +18,11 @@ export const SelectedPlantHeaderSectionWrapper = styled.section`
   align-items: center;
   row-gap: 15px;
   margin: 100px 0 20px 0;
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    width: 90%;
+    margin-left: 15px;
+  }
 `;
 
 export const SelectedPlantHeaderSectionImage = styled.div<ImageProp>`

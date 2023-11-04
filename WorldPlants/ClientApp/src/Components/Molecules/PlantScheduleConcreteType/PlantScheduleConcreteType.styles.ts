@@ -8,7 +8,7 @@ export const PlantScheduleConcreteTypeWrapper = styled.div`
   background-color: ${(props: AppTheme) => props.theme.colors.navyBlue};
   border-radius: 20px;
   min-height: 100px;
-  min-width: 340px;
+  min-width: 320px;
   padding: 25px;
 `;
 export const PlantScheduleConcreteTypeHeaderWrapper = styled.div`

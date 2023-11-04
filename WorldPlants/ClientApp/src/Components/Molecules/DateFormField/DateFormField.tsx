@@ -23,7 +23,7 @@ const DateFormField = (props: Props) => {
         name={name}
         render={(msg) => <FieldError>{msg}</FieldError>}
       />
-      <IndicatorImage src={calendarImage} alt={"Ikona kalendzarza"} />
+      <IndicatorImage src={calendarImage} alt={"Ikona kalendarza"} />
     </DateFormFieldWrapper>
   );
 };

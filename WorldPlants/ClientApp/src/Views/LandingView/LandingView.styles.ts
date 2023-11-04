@@ -9,10 +9,7 @@ export const LandingViewWrapper = styled.div`
   background-position: center;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 100vh;
-
-  @media screen and (${(props: AppTheme) => props.theme.devices.veryLarge}) {
-  }
+  min-height: 90vh;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-template-columns: 1fr;
@@ -56,6 +53,7 @@ export const HeroImageWrapper = styled.div`
     min-width: 360px;
     justify-self: center;
     order: 2;
+    background-position: top;
   }
 `;
 
