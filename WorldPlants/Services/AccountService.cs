@@ -50,12 +50,12 @@ namespace WorldPlants.Services
 
         public LoggedUserDto LoginUser(LoginUserDto dto)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == dto.Email);
+            var user = _context
+                .Users
+                .FirstOrDefault(u => u.Email == dto.Email) 
+                ?? throw new BadRequestException("Błędne imię lub hasło");
 
-            if (user is null)
-            {
-                throw new BadRequestException("Błędne imię lub hasło");
-            }
+            CheckIfAccountIsActive(user);
 
             VeryfiPassword(user, dto.Password, "Błędne imię lub hasło");
 
@@ -232,31 +232,20 @@ namespace WorldPlants.Services
 
         private User GetUser()
         {
-            var userId = _userContextService.GetUserId;
+            var userId = _userContextService.GetUserId 
+                ?? throw new ForbidException("Brak uprawnień do wykonania akcji");
 
-            if (userId is null)
-            {
-                throw new ForbidException("Brak uprawnień do wykonania akcji");
-            }
-
-            var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == userId);
-
-            if (user is null)
-            {
-                throw new ForbidException("Brak uprawnień do wykonania akcji");
-            }
+            var user = _context.Users
+                .FirstOrDefault(u => u.Id.ToString() == userId) 
+                ?? throw new ForbidException("Brak uprawnień do wykonania akcji");
 
             return user;
         }
 
         private UserSettings GetUserSettings(User user)
         {
-            var settings = _context.UserSettings.FirstOrDefault(s => s.User == user);
-
-            if (settings is null)
-            {
-                throw new NotFoundException("Nie odnaleziono ustawień dla użytkownika");
-            }
+            var settings = _context.UserSettings.FirstOrDefault(s => s.User == user) 
+                ?? throw new NotFoundException("Nie odnaleziono ustawień dla użytkownika");
 
             return settings;
         }
@@ -268,6 +257,14 @@ namespace WorldPlants.Services
             if (result == PasswordVerificationResult.Failed)
             {
                 throw new BadRequestException(errorMessage);
+            }
+        }
+
+        private void CheckIfAccountIsActive(User user)
+        {
+            if(user.IsActive == false)
+            {
+                throw new ForbidException("Konto użytkownika jest nieaktywne");
             }
         }
 
