@@ -106,16 +106,15 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
       divided = divided.reverse();
     }
 
-    fillToTwoCharacters(divided[1]);
-    fillToTwoCharacters(divided[2]);
-
     if (mode === "production") {
-      return `${divided[0]}-${divided[2]}-${divided[1]}`;
+      return `${divided[0]}-${fillToTwoCharacters(
+        divided[2]
+      )}-${fillToTwoCharacters(divided[1])}`;
     }
 
-    const result = divided.join("-");
-
-    return result;
+    return `${divided[0]}-${fillToTwoCharacters(
+      divided[1]
+    )}-${fillToTwoCharacters(divided[2])}`;
   };
 
   const detectSeparator = (date: string) => {
