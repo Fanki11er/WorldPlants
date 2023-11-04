@@ -26,6 +26,7 @@ import SelectFormField from "../SelectFormField/SelectFormField";
 import { RemoveButton, SetButton } from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 import { useState } from "react";
+import { string } from "yup";
 
 interface Props {
   taskId: StandardTaskTypeEnum;
@@ -101,6 +102,9 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
       divided = divided.reverse();
     }
 
+    fillToTwoCharacters(divided[1]);
+    fillToTwoCharacters(divided[2]);
+
     const result = divided.join("-");
 
     return result;
@@ -114,6 +118,13 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
     } else {
       return "-";
     }
+  };
+
+  const fillToTwoCharacters = (value: string) => {
+    if (value.length === 1) {
+      return `0${value}`;
+    }
+    return value;
   };
 
   const handleDeleteTask = () => {
