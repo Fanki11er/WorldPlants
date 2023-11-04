@@ -6,8 +6,9 @@ namespace WorldPlants.Utilities
     {
         public string GetHostUrl();
         public string GetClientUrl();
+        public string GetBaseUrl();
     }
-    public class PathHelper: IPathHelper
+    public class PathHelper : IPathHelper
     {
 
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -19,7 +20,7 @@ namespace WorldPlants.Utilities
         public string GetHostUrl()
         {
             string myHostUrl = $"{_httpContextAccessor.HttpContext?.Request.Scheme}://{_httpContextAccessor.HttpContext?.Request.Host}";
-            
+
             return myHostUrl;
         }
 
@@ -31,6 +32,13 @@ namespace WorldPlants.Utilities
 
             return clientUrl;
 
+        }
+
+        public string GetBaseUrl()
+        {
+            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+
+            return baseUrl;
         }
     }
 }

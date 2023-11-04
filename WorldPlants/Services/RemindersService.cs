@@ -131,7 +131,7 @@ namespace WorldPlants.Services
                     {
                         PlantName = plant.Name,
 
-                        LinkToPlantTasks = $"{_pathHelper.GetClientUrl()}/Authorized/SelectedPlant/{plant.Id}",
+                        LinkToPlantTasks = $"{_pathHelper.GetBaseUrl()}/Authorized/SelectedPlant/{plant.Id}",
 
                         TodayTasks = plantWithReminders.ToList(),
 
