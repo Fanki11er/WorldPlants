@@ -22,6 +22,7 @@ import { CustomActionTypeInformation } from "../../../Interfaces/CustomActionTyp
 import useGetCustomActionTypes from "../../../Hooks/useGetCustomActionTypes";
 import customActionTypeIcon from "../../../Assets/CustomActionType2.svg";
 import GoToTop from "../GoToTop/GoToTop";
+import { SettingsSectionWrapper } from "../../Atoms/SettingsSectionWrapper/SettingsSectionWrapper.styles";
 
 const PlantScheduleSection = () => {
   const { plantId } = useParams();
@@ -62,7 +63,7 @@ const PlantScheduleSection = () => {
     });
   };
   return (
-    <PlantScheduleSectionWrapper>
+    <SettingsSectionWrapper>
       <GoToTop />
       <PlantScheduleConcreteType
         description="Podlewanie"
@@ -104,7 +105,7 @@ const PlantScheduleSection = () => {
         />
       ) : null}
       {customActionsTypes && renderCustomActionTypes(customActionsTypes)}
-    </PlantScheduleSectionWrapper>
+    </SettingsSectionWrapper>
   );
 };
 

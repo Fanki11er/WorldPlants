@@ -2,6 +2,7 @@ import { Formik, FormikErrors } from "formik";
 
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import {
+  ButtonsWrapper,
   FormRowWrapper,
   PlantStandardTaskScheduleFormWrapper,
 } from "./PlantStandardTaskScheduleForm.styles";
@@ -22,8 +23,9 @@ import { getErrorMessages } from "../../../Utils/Utils";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
 import DateFormField from "../DateFormField/DateFormField";
 import SelectFormField from "../SelectFormField/SelectFormField";
-import { ActionButton, RedActionButton } from "../../Atoms/Buttons/Buttons";
+import { RemoveButton, SetButton } from "../../Atoms/Buttons/Buttons";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
+import { useState } from "react";
 
 interface Props {
   taskId: StandardTaskTypeEnum;
@@ -38,6 +40,8 @@ interface FormValues {
 const PlantStandardTaskScheduleForm = (props: Props) => {
   const { taskId } = props;
   const { plantId } = useParams();
+  const [successMessage, setSuccessMassage] = useState<string>("");
+  const [changes, setChanges] = useState(false);
   const { getStandardTask, setTask, deletePlantTask } = apiEndpoints;
   const axiosPrivate = useAxiosPrivate();
   const { data, isLoading, error } = useQuery<PlantActiveTask>(
@@ -54,43 +58,51 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
 
   const {
     mutate: updateTask,
-    isSuccess: isUpdated,
     error: updateError,
     isLoading: updatingInProgress,
   } = useMutation({
     mutationFn: (value: PlantActiveTask) => {
+      setSuccessMassage("");
       return axiosPrivate.post(setTask, value);
     },
     onSuccess: async () => {
       await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskId]);
       await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
+      setSuccessMassage("Zapisano zmiany");
     },
   });
 
   const {
     mutate: deleteTask,
-    isSuccess: isDeleted,
     error: deleteError,
     isLoading: deletingInProgress,
   } = useMutation({
     mutationFn: (taskId: string) => {
+      setSuccessMassage("");
       return axiosPrivate.delete(deletePlantTask(taskId));
     },
     onSuccess: async () => {
       await client.invalidateQueries([STANDARD_PLANT_TASKS, plantId, taskId]);
       await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
+      setSuccessMassage("Usunięto");
     },
   });
   const client = useQueryClient();
 
   const formatDate = (date: string) => {
     const separator = detectSeparator(date);
-    const divided = date.split(separator);
-    if (divided.length === 3) {
-      divided[0] = fillToTwoCharacters(divided[0]);
-      divided[1] = fillToTwoCharacters(divided[1]);
+    let divided = date.split(separator);
+
+    if (!divided.length) {
+      return date;
     }
-    const result = `${divided[2]}-${divided[0]}-${divided[1]}`;
+
+    if (divided[0].length !== 4) {
+      divided = divided.reverse();
+    }
+
+    const result = divided.join("-");
+
     return result;
   };
 
@@ -102,13 +114,6 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
     } else {
       return "-";
     }
-  };
-
-  const fillToTwoCharacters = (element: string) => {
-    if (element.length === 1) {
-      return `0${element}`;
-    }
-    return element;
   };
 
   const handleDeleteTask = () => {
@@ -125,9 +130,11 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
             actionDate: data.actionDate ? formatDate(data.actionDate) : "",
             partOfTheDay: (data && data.partOfTheDay) || "",
           }}
-          onSubmit={async (values: FormValues, { setSubmitting }) => {
+          onSubmit={async (
+            values: FormValues,
+            { setSubmitting, setTouched }
+          ) => {
             setSubmitting(true);
-
             const newTask: PlantActiveTask = {
               id: data ? data.id : "",
               interval: values.interval || 0,
@@ -149,6 +156,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
                 await client.invalidateQueries([ALL_PLANT_TASKS, plantId]);
               },
             });
+
             setSubmitting(false);
           }}
           validate={(values) => {
@@ -163,9 +171,19 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
             if (!values.partOfTheDay) {
               errors.partOfTheDay = "Wybierz porę dnia";
             }
+            if (
+              values.interval === data.interval &&
+              values.actionDate === formatDate(data.actionDate) &&
+              values.partOfTheDay === data.partOfTheDay
+            ) {
+              setChanges(false);
+            } else {
+              setChanges(true);
+            }
 
             return errors;
           }}
+          validateOnMount
         >
           {({ errors }) => (
             <PlantStandardTaskScheduleFormWrapper noValidate>
@@ -202,22 +220,25 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
                 />
               </FormRowWrapper>
               <FormRowWrapper>
-                {!isLoading &&
-                  !updatingInProgress &&
-                  !Object.entries(errors).length && (
-                    <ActionButton type="submit">Ustaw</ActionButton>
+                <ButtonsWrapper>
+                  {!isLoading &&
+                    !updatingInProgress &&
+                    changes &&
+                    !Object.entries(errors).length && (
+                      <SetButton type="submit">Ustaw</SetButton>
+                    )}
+                  {data.actionDate && (
+                    <RemoveButton type="button" onClick={handleDeleteTask}>
+                      Usuń
+                    </RemoveButton>
                   )}
-                {data.actionDate && (
-                  <RedActionButton type="button" onClick={handleDeleteTask}>
-                    Usuń
-                  </RedActionButton>
-                )}
+                </ButtonsWrapper>
               </FormRowWrapper>
               <FormRowWrapper>
-                {isUpdated && !isDeleted && (
-                  <FormSuccess>Zapisano zmiany</FormSuccess>
+                {successMessage && !changes && (
+                  <FormSuccess>{successMessage}</FormSuccess>
                 )}
-                {!isUpdated && isDeleted && <FormSuccess>Usunięto</FormSuccess>}
+
                 {(updatingInProgress || deletingInProgress) && (
                   <LoadingIndicator />
                 )}

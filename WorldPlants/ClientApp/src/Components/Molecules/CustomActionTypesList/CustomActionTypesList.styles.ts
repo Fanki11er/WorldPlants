@@ -8,6 +8,7 @@ export const CustomActionTypesListWrapper = styled.ul`
   list-style: none;
   grid-template-columns: repeat(auto-fit, 340px);
   justify-content: center;
+  gap: 30px;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-template-columns: repeat(auto-fit, 300px);

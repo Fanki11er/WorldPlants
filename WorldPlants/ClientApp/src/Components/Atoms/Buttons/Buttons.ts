@@ -210,3 +210,11 @@ export const ReturnButton = styled(ActionButton)`
 export const GenerateQRButton = styled(ActionButton)`
   margin: 0;
 `;
+
+export const RemoveButton = styled(RedActionButton)`
+  margin: 0;
+`;
+
+export const SetButton = styled(ActionButton)`
+  margin: 0;
+`;
