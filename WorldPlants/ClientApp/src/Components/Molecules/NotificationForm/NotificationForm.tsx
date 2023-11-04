@@ -37,6 +37,7 @@ const NotificationForm = (props: Props) => {
           cutPlantsReminder: actualValues.cutPlantsReminder,
           replantPlantsReminder: actualValues.replantPlantsReminder,
           mistPlantsReminder: actualValues.mistPlantsReminder,
+          customTasksReminder: actualValues.customTasksReminder,
         } as NotificationSettings
       }
       onSubmit={(values, { setSubmitting }) => {
@@ -49,7 +50,6 @@ const NotificationForm = (props: Props) => {
       }}
     >
       <NotificationFormWrapper>
-        {isSuccess && <FormSuccess>Zapisano zmiany</FormSuccess>}
         <HeaderNotificationEmailAndSms> {header}</HeaderNotificationEmailAndSms>
 
         <NotificationWrapper>
@@ -58,9 +58,11 @@ const NotificationForm = (props: Props) => {
           <CheckboxInput id={"cutPlantsReminder"} label="Przycinanie" />
           <CheckboxInput id={"replantPlantsReminder"} label="Przesadzanie" />
           <CheckboxInput id={"mistPlantsReminder"} label="Zraszanie" />
+          <CheckboxInput id={"customTasksReminder"} label="Własne" />
         </NotificationWrapper>
 
         <ActionButton type={"submit"}>Zapisz</ActionButton>
+        {isSuccess && <FormSuccess>Zapisano zmiany</FormSuccess>}
       </NotificationFormWrapper>
     </Formik>
   );

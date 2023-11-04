@@ -84,6 +84,7 @@ namespace WorldPlants.Controllers
         }
 
         [HttpGet("Wake")]
+        [AllowAnonymous]
         public ActionResult WakeServer()
         {
             return Ok("Serwer działa");

@@ -7,9 +7,8 @@ interface Props {
 }
 export const UserSitesListWrapper = styled.ul<AppTheme>`
   width: 100%;
-  max-width: 1000px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 350px);
+  grid-template-columns: repeat(auto-fit, 320px);
   gap: 20px;
   justify-content: center;
   align-items: flex-start;
@@ -21,7 +20,7 @@ export const UserSitesListWrapper = styled.ul<AppTheme>`
 
 export const UserSitesListItemWrapper = styled.li<AppTheme>`
   display: flex;
-  width: 350px;
+  width: 320px;
   background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
   border-radius: 25px;
   min-height: 190px;

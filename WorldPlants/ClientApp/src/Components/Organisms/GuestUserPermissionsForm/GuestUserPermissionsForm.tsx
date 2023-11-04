@@ -7,13 +7,17 @@ import {
 import CheckboxInput from "../../Molecules/CheckboxInput/CheckboxInput";
 import { GuestUserPermissionsDto } from "../../../Interfaces/GuestUserPermissionsDto";
 import { GuestUserWithPermissionsDto } from "../../../Interfaces/GuestUserWithPermissionsDto";
-import { GUEST_USER_PERMISSIONS } from "../../../Constants/Constants";
+import {
+  ACTIONS_PERMISSIONS,
+  GUEST_USER_PERMISSIONS,
+} from "../../../Constants/Constants";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { useMutation, useQueryClient } from "react-query";
 import { apiEndpoints } from "../../../Api/endpoints";
 import { FormSuccess } from "../../Atoms/FormSuccess/FormSuccess";
 import { ActionButton } from "../../Atoms/Buttons/Buttons";
 import { LoadingIndicator } from "../../Atoms/LoadingIndicator/LoadingIndicator.styles";
+import useQueryKey from "../../../Hooks/useQueryKey";
 
 interface Props {
   actualValues: GuestUserWithPermissionsDto;
@@ -24,6 +28,8 @@ const GuestUserPermissionsForm = (props: Props) => {
   const { id, guestUserPermissions } = props.actualValues;
   const axiosPrivate = useAxiosPrivate();
   const client = useQueryClient();
+  const { actionsPermissionsQueryKey, guestUserPermissionsQueryKey } =
+    useQueryKey();
 
   const { mutate, isSuccess, isLoading } = useMutation({
     mutationFn: (dto: GuestUserPermissionsDto) => {
@@ -50,7 +56,8 @@ const GuestUserPermissionsForm = (props: Props) => {
       onSubmit={(values: GuestUserPermissionsDto, { setSubmitting }) => {
         mutate(values, {
           onSuccess: () => {
-            client.invalidateQueries(GUEST_USER_PERMISSIONS);
+            client.invalidateQueries(guestUserPermissionsQueryKey());
+            client.invalidateQueries(actionsPermissionsQueryKey());
           },
         });
         setSubmitting(false);

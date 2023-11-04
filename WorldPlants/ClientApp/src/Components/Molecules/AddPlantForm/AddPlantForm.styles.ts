@@ -41,6 +41,7 @@ export const IndicatorsWrapper = styled.div`
   display: flex;
   justify-content: center;
   grid-column: 1/3;
+  margin-top: 35px;
 
   @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
     grid-column: 1/2;

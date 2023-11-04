@@ -6,18 +6,26 @@ export const CustomActionTypesListWrapper = styled.ul`
   display: grid;
   padding: 0;
   list-style: none;
-  grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-columns: repeat(auto-fit, 340px);
   justify-content: center;
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    grid-template-columns: repeat(auto-fit, 300px);
+  }
 `;
 
 export const CustomActionTypesListItem = styled.li<AppTheme>`
-  width: 300px;
+  width: 340px;
   background-image: ${(props: AppTheme) => props.theme.colors.gradientPurple};
   border-radius: 15px;
   display: flex;
   padding: 20px 0;
   flex-direction: column;
   row-gap: 20px;
+
+  @media screen and (${(props: AppTheme) => props.theme.devices.small}) {
+    width: 300px;
+  }
 `;
 
 export const CustomActionTypesListItemHeader = styled.h2<AppTheme>`

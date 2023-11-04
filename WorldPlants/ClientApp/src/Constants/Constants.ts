@@ -27,3 +27,4 @@ export const PLANT_QR = "PLANT_QR";
 export const SAVED_QR_CODES = "SAVED_QR_CODES";
 export const PLANT_NOTES = "PLANT_NOTES";
 export const CUSTOM_ACTION_TYPES = "CUSTOM_ACTION_TYPES";
+export const SERVER_STATUS = " SERVER_STATUS";

@@ -65,7 +65,7 @@ const QrScannerSection = () => {
             onError={(error) => {
               console.log(error);
             }}
-            facingMode="user"
+            facingMode="environment"
             delay={300}
             showViewFinder={false}
           />

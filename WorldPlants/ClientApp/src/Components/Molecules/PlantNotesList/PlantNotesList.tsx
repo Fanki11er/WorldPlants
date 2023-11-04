@@ -58,7 +58,7 @@ const PlantNotesList = (props: Props) => {
                 )
               }
             >
-              Edytuj
+              Edycja
             </GenerateQRButton>
             <RedButtonWithoutMargin onClick={() => deleteItem(note.id)}>
               Usuń
