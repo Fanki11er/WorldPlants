@@ -1,13 +1,9 @@
 import { useParams } from "react-router-dom";
 import { apiEndpoints } from "../../../Api/endpoints";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
-import { PlantInfoIcon } from "../../Atoms/PlantInfoIcon/PlantInfoIcon.styles";
-import { PlantScheduleSectionWrapper } from "./PlantScheduleSection.styles";
 import { useQuery } from "react-query";
 import { PLANTS_SCHEDULE_TIPS } from "../../../Constants/Constants";
 import { PlantScheduleTipsDto } from "../../../Interfaces/PlantScheduleTipsDto";
-import PlantScheduleTip from "../PlantScheduleTip/PlantScheduleTip";
-import PlantStandardTaskScheduleForm from "../PlantStandardTaskScheduleForm/PlantStandardTaskScheduleForm";
 import { StandardTaskTypeEnum } from "../../../Interfaces/PlantActiveTask";
 import dropsOfWater from "../../../Assets/WateringsThree.svg";
 import flowerPot from "../../../Assets/Fertilizer.svg";

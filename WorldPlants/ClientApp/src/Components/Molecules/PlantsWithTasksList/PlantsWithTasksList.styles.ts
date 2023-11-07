@@ -12,7 +12,8 @@ export const PlantsWithTasksListWrapper = styled.ul`
   column-gap: 40px;
   padding: 80px 0 20px 0;
   margin: 0;
-  overflow-x: scroll;
+  overflow-y: auto;
+  max-height: 90vh;
 `;
 
 export const PlantsWithTasksListItem = styled.li`

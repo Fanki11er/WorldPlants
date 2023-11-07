@@ -3,7 +3,7 @@ import { AppTheme } from "../../GlobalStyles/theme";
 
 export const RouteLayoutWrapper = styled.div`
   width: 100%;
-  min-height: calc(80vh + 150px);
+  min-height: calc(85vh + 150px);
   height: 100%;
   display: grid;
   grid-template-rows: 1fr auto;

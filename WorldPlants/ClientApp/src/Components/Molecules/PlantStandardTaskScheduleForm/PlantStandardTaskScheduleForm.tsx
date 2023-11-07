@@ -148,10 +148,7 @@ const PlantStandardTaskScheduleForm = (props: Props) => {
             actionDate: data.actionDate ? formatDate(data.actionDate) : "",
             partOfTheDay: (data && data.partOfTheDay) || "",
           }}
-          onSubmit={async (
-            values: FormValues,
-            { setSubmitting, setTouched }
-          ) => {
+          onSubmit={async (values: FormValues, { setSubmitting }) => {
             setSubmitting(true);
             const newTask: PlantActiveTask = {
               id: data ? data.id : "",
