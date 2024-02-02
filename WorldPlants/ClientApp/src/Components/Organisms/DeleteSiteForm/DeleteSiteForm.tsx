@@ -45,7 +45,7 @@ const DeleteSiteForm = (props: Props) => {
       validate={(values) => {
         const errors: FormikErrors<DeleteUserSiteConfirmation> = {};
         if (values.name !== siteName) {
-          errors.name = "Należy podać nazwę konta do usunięcia";
+          errors.name = "Należy podać nazwę miejsca do usunięcia";
         }
         return errors;
       }}
